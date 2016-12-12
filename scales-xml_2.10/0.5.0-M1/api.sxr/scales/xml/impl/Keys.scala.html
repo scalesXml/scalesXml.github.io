@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\impl\Keys.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.impl
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>QName, Attributes, emptyAttributes, emptyNamespaces<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.impl.DefaultHashes" id="9918">DefaultHashes</a> <span title="ScalaObject" class="delimiter">{</span>
+  
+  <span class="keyword">val</span> <a title="Int" id="43492">emptyAttributesHash</a> = <a href="XmlTypesDefaults.scala.html#15596" title="=&gt; scales.xml.package.Attributes">emptyAttributes</a>.<span title="()Int">hashCode</span>
+  <span class="keyword">val</span> <a title="Int" id="43494">emptyNamespacesHash</a> = <a href="XmlTypesDefaults.scala.html#15598" title="=&gt; scala.collection.immutable.Map[String,String]">emptyNamespaces</a>.<span title="()Int">hashCode</span>
+
+<span class="delimiter">}</span>
+
+<span class="keyword">import</span> <a href="#9918" title="object scales.xml.impl.DefaultHashes">DefaultHashes</a>._
+
+<span class="comment">/**
+ * Allows quick lookups without creating elements, only use via copy and then don't change it
+ */</span> 
+<span class="keyword">class</span> <a title="class ElemKey extends java.lang.Object with ScalaObject" id="9965">ElemKey</a> <a href="#9965" title="ScalaObject" class="delimiter">{</a>
+  <span class="keyword">var</span> <a title="scales.xml.QName" id="102758">name</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a> = _
+  <span class="keyword">var</span> <a title="Int" id="102761">nameHash</a> : <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span><span class="comment">// incase it can be passed in</span>
+  <span class="keyword">var</span> <a title="scales.xml.package.Attributes" id="102764">attributes</a> : <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.xml.package.Attributes">Attributes</a> = _
+  <span class="keyword">var</span> <a title="Map[String,String]" id="102767">namespaces</a> : <span title="Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span> = _
+
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, attributes: scales.xml.package.Attributes, namespaces: Map[String,String], nameHash: Int)scales.xml.impl.ElemKey" id="102769">set</a><span class="delimiter">(</span><a title="scales.xml.QName" id="102782">name</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a>, <a title="scales.xml.package.Attributes" id="102783">attributes</a> : <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.xml.package.Attributes">Attributes</a>, <a title="Map[String,String]" id="102784">namespaces</a> : <span title="Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span>, <a title="Int" id="102788">nameHash</a> : <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#9965" title="ElemKey.this.type" class="keyword">this</a>.<a href="#102758" title="(x$1: scales.xml.QName)Unit">name</a> = <a href="#102782" title="scales.xml.QName">name</a>
+    <a href="#9965" title="ElemKey.this.type" class="keyword">this</a>.<a href="#102764" title="(x$1: scales.xml.package.Attributes)Unit">attributes</a> = <a href="#102783" title="scales.xml.package.Attributes">attributes</a>
+    <a href="#9965" title="ElemKey.this.type" class="keyword">this</a>.<a href="#102767" title="(x$1: Map[String,String])Unit">namespaces</a> = <a href="#102784" title="Map[String,String]">namespaces</a>
+
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#102788" title="Int">nameHash</a> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+      <a href="#9965" title="ElemKey.this.type" class="keyword">this</a>.<a href="#102761" title="(x$1: Int)Unit">nameHash</a> = <a href="#102782" title="scales.xml.QName">name</a>.<a href="../QName.scala.html#42839" title="()Int">hashCode</a>
+    <span class="keyword">else</span>
+      <a href="#9965" title="ElemKey.this.type" class="keyword">this</a>.<a href="#102761" title="(x$1: Int)Unit">nameHash</a> = <a href="#102788" title="Int">nameHash</a>
+    
+    <a href="#102773" title="(x$1: Int)Unit">lastHash</a> = <span title="Int(0)" class="int">0</span>
+    <span class="comment">// do it now</span>
+    <a href="#102775" title="()Int">hashCode</a>
+    <a href="#9965" title="scales.xml.impl.ElemKey" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.impl.ElemKey" id="102770">copy</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.impl.ElemKey" id="102797">r</a> = <span title="scales.xml.impl.ElemKey" class="keyword">new</span> <a href="#9965" title="scales.xml.impl.ElemKey">ElemKey</a>
+    <a href="#102797" title="scales.xml.impl.ElemKey">r</a>.<a href="#102758" title="(x$1: scales.xml.QName)Unit">name</a> = <a href="#102758" title="=&gt; scales.xml.QName">name</a>
+    <a href="#102797" title="scales.xml.impl.ElemKey">r</a>.<a href="#102764" title="(x$1: scales.xml.package.Attributes)Unit">attributes</a> = <a href="#102764" title="=&gt; scales.xml.package.Attributes">attributes</a>
+    <a href="#102797" title="scales.xml.impl.ElemKey">r</a>.<a href="#102767" title="(x$1: Map[String,String])Unit">namespaces</a> = <a href="#102767" title="=&gt; Map[String,String]">namespaces</a>
+    <a href="#102797" title="scales.xml.impl.ElemKey">r</a>.<a href="#102773" title="(x$1: Int)Unit">lastHash</a> = <a href="#102773" title="=&gt; Int">lastHash</a>
+    <a href="#102797" title="scales.xml.impl.ElemKey">r</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Why are we doing eq's as well? Defaults and caching, and having to recast every time when we already know what we are..
+   */</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="102771">equals</a><span class="delimiter">(</span> <a title="Any" id="102798">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#102798" title="Any">other</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <a title="Boolean" id="102801">oq</a> : <a href="#9965" title="scales.xml.impl.ElemKey">ElemKey</a> =&gt;
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><a href="#102773" title="=&gt; Int">lastHash</a> <span title="(x: Int)Boolean">==</span> <a href="#102801" title="scales.xml.impl.ElemKey">oq</a>.<a href="#102773" title="=&gt; Int">lastHash</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span>
+	<span class="delimiter">(</span><span class="delimiter">(</span><a href="#102758" title="=&gt; scales.xml.QName">name</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#102801" title="scales.xml.impl.ElemKey">oq</a>.<a href="#102758" title="=&gt; scales.xml.QName">name</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span> <span class="delimiter">(</span><a href="#102758" title="=&gt; scales.xml.QName">name</a> <a href="../QName.scala.html#42836" title="(other: scales.xml.QName)Boolean">====</a> <a href="#102801" title="scales.xml.impl.ElemKey">oq</a>.<a href="#102758" title="=&gt; scales.xml.QName">name</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> 
+	  <span class="delimiter">(</span><span class="delimiter">(</span><a href="#102764" title="=&gt; scales.xml.package.Attributes">attributes</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#102801" title="scales.xml.impl.ElemKey">oq</a>.<a href="#102764" title="=&gt; scales.xml.package.Attributes">attributes</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span> <span class="delimiter">(</span><a href="#102764" title="=&gt; scales.xml.package.Attributes">attributes</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#102801" title="scales.xml.impl.ElemKey">oq</a>.<a href="#102764" title="=&gt; scales.xml.package.Attributes">attributes</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span>
+	  <span class="delimiter">(</span><span class="delimiter">(</span><a href="#102767" title="=&gt; Map[String,String]">namespaces</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#102801" title="scales.xml.impl.ElemKey">oq</a>.<a href="#102767" title="=&gt; Map[String,String]">namespaces</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span> <span class="delimiter">(</span><a href="#102767" title="=&gt; Map[String,String]">namespaces</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#102801" title="scales.xml.impl.ElemKey">oq</a>.<a href="#102767" title="=&gt; Map[String,String]">namespaces</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="comment">// only checks after running equals == instanceof checks ++</span>
+	<span class="delimiter">)</span>
+	<span title="Boolean(true)" class="keyword">true</span>
+      <span class="keyword">else</span>
+	<span title="Boolean(false)" class="keyword">false</span>
+    <span class="keyword">case</span> <span title="Nothing">_</span> =&gt; <a href="../../utils/package.scala.html#12574" title="object scales.utils.package">scales</a>.utils.<a href="../../utils/package.scala.html#15164" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Cannot compare an ElemKey to anything else other than a ElemKey&quot;)" class="string">&quot;Cannot compare an ElemKey to anything else other than a ElemKey&quot;</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * When non 0 it has been calculated
+   */</span> 
+  <span class="keyword">var</span> <a title="Int" id="102773">lastHash</a> : <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="102775">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="Int">Int</span> = <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#102773" title="=&gt; Int">lastHash</a> <span title="(x: Int)Boolean">!=</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span title="Nothing" class="keyword">return</span> <a href="#102773" title="=&gt; Int">lastHash</a>
+
+    <span class="keyword">var</span> <a title="Int" id="102817">hs</a> = <span title="Int(1)" class="int">1</span>
+    <a href="#102817" title="Int">hs</a> = <span class="delimiter">(</span><a href="#102817" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <a href="#102761" title="=&gt; Int">nameHash</a>
+    <a href="#102817" title="Int">hs</a> = <span class="delimiter">(</span><a href="#102817" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <span class="delimiter">(</span>
+      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="XmlTypesDefaults.scala.html#15596" title="=&gt; scales.xml.package.Attributes">emptyAttributes</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#102764" title="=&gt; scales.xml.package.Attributes">attributes</a><span class="delimiter">)</span>
+	<a href="#43492" title="=&gt; Int">emptyAttributesHash</a> <span class="comment">// don't do it more than once</span>
+      <span class="keyword">else</span>
+	<a href="#102764" title="=&gt; scales.xml.package.Attributes">attributes</a>.<span title="()Int">hashCode</span>
+      <span class="delimiter">)</span>
+    <a href="#102817" title="Int">hs</a> = <span class="delimiter">(</span><a href="#102817" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <span class="delimiter">(</span>
+      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#102767" title="=&gt; Map[String,String]">namespaces</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15598" title="=&gt; scala.collection.immutable.Map[String,String]">emptyNamespaces</a><span class="delimiter">)</span>
+	<a href="#43494" title="=&gt; Int">emptyNamespacesHash</a> <span class="comment">// don't do it more than once</span>
+      <span class="keyword">else</span>
+	<a href="#102767" title="=&gt; Map[String,String]">namespaces</a>.<span title="()Int">hashCode</span>
+      <span class="delimiter">)</span>
+
+    <a href="#102773" title="(x$1: Int)Unit">lastHash</a> = <a href="#102817" title="Int">hs</a>
+    <a href="#102817" title="Int">hs</a>    
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+
+<span class="comment">/**
+ * Provides a key that also checks ===, used in caching where you
+ * want to remove all collision possibilities.
+ *
+ * Note to reduce allocation costs its very mutable, use QName directly when
+ * possible.  Note here the allocation costs refer more to the gc hit of the
+ * extra allocations that are then directly thrown away.
+ *
+ * No QNames were hurt during the use of this class.
+ */</span>
+<span class="keyword">final</span> <span class="keyword">class</span> <a title="class FullEqualQNameKey extends java.lang.Object with ScalaObject" id="9995">FullEqualQNameKey</a><a href="#9995" title="ScalaObject" class="delimiter">(</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+  
+  <span class="comment">// Some also adds creation cost</span>
+  <span class="keyword">var</span> <a title="String" id="102854">prefix</a> : <span title="String">String</span> = _
+  <span class="keyword">var</span> <a title="String" id="102857">local</a> : <span title="String">String</span> = _
+  <span class="keyword">var</span> <a title="String" id="102860">namespace</a> : <span title="String">String</span> = _  
+
+  <span class="comment">/**
+   * Makes a copy suitable for caching.
+   */</span> 
+  @inline <span class="keyword">def</span> <a title="=&gt; scales.xml.impl.FullEqualQNameKey" id="102862">copy</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.impl.FullEqualQNameKey" id="102881">n</a> = <span title="scales.xml.impl.FullEqualQNameKey" class="keyword">new</span> <a href="#9995" title="scales.xml.impl.FullEqualQNameKey">FullEqualQNameKey</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <a href="#102881" title="scales.xml.impl.FullEqualQNameKey">n</a>.<a href="#102854" title="(x$1: String)Unit">prefix</a> = <a href="#102854" title="=&gt; String">prefix</a>
+    <a href="#102881" title="scales.xml.impl.FullEqualQNameKey">n</a>.<a href="#102857" title="(x$1: String)Unit">local</a> = <a href="#102857" title="=&gt; String">local</a>
+    <a href="#102881" title="scales.xml.impl.FullEqualQNameKey">n</a>.<a href="#102860" title="(x$1: String)Unit">namespace</a> = <a href="#102860" title="=&gt; String">namespace</a>
+    <a href="#102881" title="scales.xml.impl.FullEqualQNameKey">n</a>.<a href="#102870" title="(x$1: Int)Unit">lastHash</a> = <a href="#102870" title="=&gt; Int">lastHash</a>
+    <a href="#102881" title="scales.xml.impl.FullEqualQNameKey">n</a>
+  <span class="delimiter">}</span>
+
+  @inline <span class="keyword">def</span> <a title="(qname: scales.xml.QName)scales.xml.impl.FullEqualQNameKey" id="102863">set</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="102882">qname</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a> <span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#102854" title="(x$1: String)Unit">prefix</a> = <a href="#102882" title="scales.xml.QName">qname</a>.<a href="../QName.scala.html#42829" title="=&gt; Option[String]">prefix</a>.<span title="(default: =&gt; String)String">getOrElse</span><span class="delimiter">(</span><span title="Null(null)" class="keyword">null</span>:<span title="String">String</span><span class="delimiter">)</span>
+    <a href="#102857" title="(x$1: String)Unit">local</a> = <a href="#102882" title="scales.xml.QName">qname</a>.<a href="../QName.scala.html#42827" title="=&gt; String">local</a>
+    <a href="#102860" title="(x$1: String)Unit">namespace</a> = <a href="#102882" title="scales.xml.QName">qname</a>.<a href="../QName.scala.html#42828" title="=&gt; scales.xml.UnderlyingNamespace">namespace</a>.<a href="../Namespaces.scala.html#48029" title="=&gt; String">uri</a>
+    <a href="#102870" title="(x$1: Int)Unit">lastHash</a> = <span title="Int(0)" class="int">0</span>
+    <a href="#102872" title="()Int">hashCode</a>
+    <a href="#9995" title="scales.xml.impl.FullEqualQNameKey" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  @inline <span class="keyword">def</span> <a title="(nlocal: String)scales.xml.impl.FullEqualQNameKey" id="102864">setNoNamespaceQName</a><span class="delimiter">(</span> <a title="String" id="102891">nlocal</a> : <span title="String">String</span> <span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#102854" title="(x$1: String)Unit">prefix</a> = <span title="Null(null)" class="keyword">null</span>:<span title="String">String</span>
+    <a href="#102857" title="(x$1: String)Unit">local</a> = <a href="#102891" title="String">nlocal</a>
+    <a href="#102860" title="(x$1: String)Unit">namespace</a> = <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="comment">//Default.noNamespace</span>
+    <a href="#102870" title="(x$1: Int)Unit">lastHash</a> = <span title="Int(0)" class="int">0</span>
+    <a href="#102872" title="()Int">hashCode</a>
+    <a href="#9995" title="scales.xml.impl.FullEqualQNameKey" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  @inline <span class="keyword">def</span> <a title="(nlocal: String, nnamespace: String)scales.xml.impl.FullEqualQNameKey" id="102865">setUnprefixedQName</a><span class="delimiter">(</span> <a title="String" id="102894">nlocal</a> : <span title="String">String</span>, <a title="String" id="102895">nnamespace</a> : <span title="String">String</span> <span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#102854" title="(x$1: String)Unit">prefix</a> = <span title="Null(null)" class="keyword">null</span>:<span title="String">String</span>
+    <a href="#102857" title="(x$1: String)Unit">local</a> = <a href="#102894" title="String">nlocal</a>
+    <a href="#102860" title="(x$1: String)Unit">namespace</a> = <a href="#102895" title="String">nnamespace</a>
+    <a href="#102870" title="(x$1: Int)Unit">lastHash</a> = <span title="Int(0)" class="int">0</span>
+    <a href="#102872" title="()Int">hashCode</a>
+    <a href="#9995" title="scales.xml.impl.FullEqualQNameKey" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  @inline <span class="keyword">def</span> <a title="(nlocal: String, nnamespace: String, nprefix: String)scales.xml.impl.FullEqualQNameKey" id="102866">setPrefixedQName</a><span class="delimiter">(</span> <a title="String" id="102898">nlocal</a> : <span title="String">String</span>, <a title="String" id="102899">nnamespace</a> : <span title="String">String</span>, <a title="String" id="102900">nprefix</a> : <span title="String">String</span> <span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#102854" title="(x$1: String)Unit">prefix</a> = <a href="#102900" title="String">nprefix</a>
+    <a href="#102857" title="(x$1: String)Unit">local</a> = <a href="#102898" title="String">nlocal</a>
+    <a href="#102860" title="(x$1: String)Unit">namespace</a> = <a href="#102899" title="String">nnamespace</a>
+    <a href="#102870" title="(x$1: Int)Unit">lastHash</a> = <span title="Int(0)" class="int">0</span>
+    <a href="#102872" title="()Int">hashCode</a>
+    <a href="#9995" title="scales.xml.impl.FullEqualQNameKey" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(other: scales.xml.impl.FullEqualQNameKey)Boolean" id="102867">=:=</a><span class="delimiter">(</span> <a title="scales.xml.impl.FullEqualQNameKey" id="102903">other</a> : <a href="#9995" title="scales.xml.impl.FullEqualQNameKey">FullEqualQNameKey</a> <span class="delimiter">)</span> =
+    <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#9995" title="FullEqualQNameKey.this.type" class="keyword">this</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#102903" title="scales.xml.impl.FullEqualQNameKey">other</a><span class="delimiter">)</span> <span title="Boolean(true)" class="keyword">true</span>
+    <span class="keyword">else</span>
+    <span class="delimiter">(</span><a href="#102903" title="scales.xml.impl.FullEqualQNameKey">other</a>.<a href="#102857" title="=&gt; String">local</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#102857" title="=&gt; String">local</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#102860" title="=&gt; String">namespace</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#102903" title="scales.xml.impl.FullEqualQNameKey">other</a>.<a href="#102860" title="=&gt; String">namespace</a><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="102868">equals</a><span class="delimiter">(</span> <a title="Any" id="102916">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#102916" title="Any">other</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <a title="Boolean" id="102919">oq</a> : <a href="#9995" title="scales.xml.impl.FullEqualQNameKey">FullEqualQNameKey</a> =&gt;
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#9995" title="FullEqualQNameKey.this.type" class="keyword">this</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#102919" title="scales.xml.impl.FullEqualQNameKey">oq</a><span class="delimiter">)</span> <span title="Boolean(true)" class="keyword">true</span>
+      <span class="keyword">else</span>
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><a href="#102919" title="scales.xml.impl.FullEqualQNameKey">oq</a>.<a href="#102870" title="=&gt; Int">lastHash</a> <span title="(x: Int)Boolean">==</span> <a href="#102870" title="=&gt; Int">lastHash</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#9995" title="FullEqualQNameKey.this.type" class="keyword">this</a> <a href="#102867" title="(other: scales.xml.impl.FullEqualQNameKey)Boolean">=:=</a> <a href="#102919" title="scales.xml.impl.FullEqualQNameKey">oq</a><span class="delimiter">)</span><span class="delimiter">)</span> 
+	<span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><a href="#102919" title="scales.xml.impl.FullEqualQNameKey">oq</a>.<a href="#102854" title="=&gt; String">prefix</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#102854" title="=&gt; String">prefix</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span><span class="delimiter">)</span>
+	  <a href="#102854" title="=&gt; String">prefix</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#102919" title="scales.xml.impl.FullEqualQNameKey">oq</a>.<a href="#102854" title="=&gt; String">prefix</a>
+	<span class="keyword">else</span>
+	  <span class="delimiter">(</span><span class="delimiter">(</span><a href="#102919" title="scales.xml.impl.FullEqualQNameKey">oq</a>.<a href="#102854" title="=&gt; String">prefix</a> <span title="(x$1: AnyRef)Boolean">eq</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#102854" title="=&gt; String">prefix</a> <span title="(x$1: AnyRef)Boolean">eq</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span><span class="delimiter">)</span>
+      <span class="keyword">else</span> 
+	<span title="Boolean(false)" class="keyword">false</span>
+    <span class="keyword">case</span> <span title="Nothing">_</span> =&gt; <span title="(message: String)Nothing">error</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Cannot compare a FullEqualQNameKey to anything else other than a FullEqualQNameKey&quot;)" class="string">&quot;Cannot compare a FullEqualQNameKey to anything else other than a FullEqualQNameKey&quot;</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * If its non 0 then its the last caclulated hash since a setXX
+   */</span> 
+  <span class="keyword">var</span> <a title="Int" id="102870">lastHash</a> : <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="102872">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="Int">Int</span> = <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#102870" title="=&gt; Int">lastHash</a> <span title="(x: Int)Boolean">!=</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span title="Nothing" class="keyword">return</span> <a href="#102870" title="=&gt; Int">lastHash</a>
+
+    <span class="keyword">var</span> <a title="Int" id="102930">hs</a> = <span title="Int(1)" class="int">1</span>
+    <a href="#102930" title="Int">hs</a> = <span class="delimiter">(</span><a href="#102930" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <span class="delimiter">(</span>
+      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#102854" title="=&gt; String">prefix</a> <span title="(x$1: AnyRef)Boolean">eq</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span title="Int(1)" class="int">1</span>
+      <span class="keyword">else</span> <a href="#102854" title="=&gt; String">prefix</a>.<span title="()Int">hashCode</span>
+      <span class="delimiter">)</span>
+    <a href="#102930" title="Int">hs</a> = <span class="delimiter">(</span><a href="#102930" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <a href="#102857" title="=&gt; String">local</a>.<span title="()Int">hashCode</span>
+    <a href="#102930" title="Int">hs</a> = <span class="delimiter">(</span><a href="#102930" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <a href="#102860" title="=&gt; String">namespace</a>.<span title="()Int">hashCode</span>
+    <a href="#102870" title="(x$1: Int)Unit">lastHash</a> = <a href="#102930" title="Int">hs</a>
+    <a href="#102930" title="Int">hs</a>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+
+
+        </pre>
+    </body>
+</html>

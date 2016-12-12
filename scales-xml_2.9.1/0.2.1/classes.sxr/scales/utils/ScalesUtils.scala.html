@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\ScalesUtils.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="comment">/**</span>
+<a href="l4"></a><span id="l4"> * Allows the user to extend a user package object with the scales.utils implicits.</span>
+<a href="l5"></a><span id="l5"> */</span> </span>
+<a href="l6"></a><span id="l6"><span class="keyword">trait</span> <a title="trait ScalesUtilsImplicits extends java.lang.Object with scales.utils.DuplicateImplicits with scales.utils.PathImplicits with scales.utils.LocalisedImplicits with scales.utils.IterateeImplicits with scales.utils.IterableUtilsImplicits" id="10618">ScalesUtilsImplicits</a> <span class="keyword">extends</span> <a href="DuplicateFilter.scala.html#10307" title="scales.utils.DuplicateImplicits">DuplicateImplicits</a> </span>
+<a href="l7"></a><span id="l7">  <span class="keyword">with</span> <a href="Paths.scala.html#10510" title="scales.utils.PathImplicits">PathImplicits</a> <span class="keyword">with</span> <a href="Localisation.scala.html#10468" title="scales.utils.LocalisedImplicits">LocalisedImplicits</a> <span class="keyword">with</span> <a href="Iteratees.scala.html#10413" title="scales.utils.IterateeImplicits">IterateeImplicits</a> </span>
+<a href="l8"></a><span id="l8">  <span class="keyword">with</span> <a href="IterableUtils.scala.html#10403" title="scales.utils.IterableUtilsImplicits">IterableUtilsImplicits</a> <span class="delimiter">{</span></span>
+<a href="l9"></a><span id="l9"><span class="delimiter">}</span></span>
+<a href="l10"></a><span id="l10"></span>
+<a href="l11"></a><span id="l11"><span class="comment">/**</span>
+<a href="l12"></a><span id="l12"> * Allows importing all scales.utils implicits directly</span>
+<a href="l13"></a><span id="l13"> */</span> </span>
+<a href="l14"></a><span id="l14"><span class="keyword">object</span> <a title="object scales.utils.ScalesUtils" id="10619">ScalesUtils</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10618" title="scales.utils.ScalesUtilsImplicits">ScalesUtilsImplicits</a></span>
+<a href="l15"></a><span id="l15"></span>
+<a href="l16"></a><span id="l16">        </span>
+</pre>
+    </body>
+</html>

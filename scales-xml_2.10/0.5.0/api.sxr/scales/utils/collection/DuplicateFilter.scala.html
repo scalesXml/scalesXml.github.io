@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\collection\DuplicateFilter.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.collection
+
+<span class="keyword">import</span> scalaz._
+<span class="keyword">import</span> <span title="scalaz.Scalaz.type">Scalaz</span>._
+
+<span class="comment">/**
+ * Remove neighbouring duplicates based on a given predicate (defaults to _ eq _).
+ * 
+ * For example (1,2,2,3) would be converted to (1,2,3)
+ * 
+ * @author Chris
+ *
+ */</span>
+<span class="keyword">case class</span> <a href="#scales.utils.collection;DuplicateFilter.productElement.x$1" title="class DuplicateFilter[T] extends AnyRef with Iterable[T] with Product with Serializable" id="scales.utils.collection.DuplicateFilter.readResolve">DuplicateFilter</a><span class="delimiter">[</span><a title="" id="scales.utils.collection;DuplicateFilter;T">T</a><span class="delimiter">]</span><a href="#scales.utils.collection.DuplicateFilter.readResolve" title="Product" class="delimiter">(</a><a title="Iterable[T]" id="scales.utils.collection;DuplicateFilter.orig">orig</a>: <span title="Iterable[T]">Iterable</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span>
+  <span class="keyword">implicit</span> <a title="scalaz.Equal[T]" id="scales.utils.collection;DuplicateFilter.predicate">predicate</a>: <span title="scalaz.Equal[T]">Equal</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterable[T]">Iterable</span><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Provide iterator to the path of the children
+   */</span>
+  <span class="keyword">def</span> <a title="()Iterator[T]" id="scales.utils.collection;DuplicateFilter.iterator">iterator</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon" title="Iterator[T]{}" class="keyword">new</a> <a title="anonymous class $anon extends AnyRef with Iterator[T]" id="scales.utils.collection;DuplicateFilter.iterator;$anon">Iterator</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Iterator[T]" id="scales.utils.collection;DuplicateFilter.iterator;$anon.itr">itr</a> = <a href="#scales.utils.collection;DuplicateFilter.orig" title="=&gt; Iterable[T]">orig</a>.<span title="=&gt; Iterator[T]">iterator</span>
+    <span class="keyword">var</span> <a title="(Boolean, T)" id="scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=">nextPair</a>: <span title="(Boolean, T)" class="delimiter">(</span>Boolean, T<span class="delimiter">)</span> = <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.getNext" title="=&gt; (Boolean, T)">getNext</a>
+    <span class="keyword">var</span> <a title="Boolean" id="scales.utils.collection;DuplicateFilter.iterator;$anon.isFirst_=">isFirst</a> = <span title="Boolean(true)" class="keyword">true</span>
+    <span class="keyword">def</span> <a title="=&gt; (Boolean, T)" id="scales.utils.collection;DuplicateFilter.iterator;$anon.getNext">getNext</a>: <span title="(Boolean, T)" class="delimiter">(</span>Boolean, T<span class="delimiter">)</span> =
+      <span title="(Boolean, T)" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.itr" title="=&gt; Iterator[T]">itr</a>.<span title="=&gt; Boolean">hasNext</span><span class="delimiter">)</span>
+        <span title="(_1: Boolean, _2: T)(Boolean, T)" class="delimiter">(</span><span title="Boolean(true)" class="keyword">true</span>, <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.itr" title="=&gt; Iterator[T]">itr</a>.<span title="()T">next</span><span class="delimiter">)</span>
+      <span class="keyword">else</span>
+        <span title="Null(null)" class="keyword">null</span>: <span title="(Boolean, T)" class="delimiter">(</span>Boolean, T<span class="delimiter">)</span>
+
+    <span class="comment">/**
+     * 1, 2, 2, 3
+     * 
+     * 				nextPair	cur
+     * construct		1
+     * hasNext			1		-
+     * hasNext.getNext	2		1
+     * 	- true // pred == false
+     * hasNext			2		-
+     * hasNext.getNext	2		2
+     * 	// pred == false
+     * hasNext			2		-
+     * hasNext.getNext	3		2
+     * 	- true // pred == false
+     * hasNext			3		-
+     * hasNext.getNext	null	3
+     * 	- false // nextPair eq null
+     * 
+     */</span>
+    <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils.collection;DuplicateFilter.iterator;$anon.hasNext">hasNext</a> = <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.isFirst_=" title="=&gt; Boolean">isFirst</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">//error(&quot;oops I iz testing init&quot;)</span>
+      <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.isFirst_=" title="(x$1: Boolean)Unit">isFirst</a> = <span title="Boolean(false)" class="keyword">false</span>
+      <span class="delimiter">(</span><a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=" title="=&gt; (Boolean, T)">nextPair</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=" title="=&gt; (Boolean, T)">nextPair</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">val</span> <a title="(Boolean, T)" id="scales.utils.collection;DuplicateFilter.iterator;$anon.hasNext.cur">cur</a> = <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=" title="=&gt; (Boolean, T)">nextPair</a>
+        <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=" title="(x$1: (Boolean, T))Unit">nextPair</a> = <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.getNext" title="=&gt; (Boolean, T)">getNext</a>
+        <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=" title="=&gt; (Boolean, T)">nextPair</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+          <span class="comment">// are they different?</span>
+          <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.collection;DuplicateFilter.predicate" title="scalaz.Equal[T]">predicate</a>.<span title="(a1: T, a2: T)Boolean">equal</span><span class="delimiter">(</span><a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.hasNext.cur" title="(Boolean, T)">cur</a>.<span title="=&gt; T">_2</span>, <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=" title="=&gt; (Boolean, T)">nextPair</a>.<span title="=&gt; T">_2</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="comment">// get again, recurse</span>
+            <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.hasNext" title="=&gt; Boolean">hasNext</a>
+          <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+            <span title="Boolean(true)" class="keyword">true</span>
+          <span class="delimiter">}</span>
+        <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+          <span title="Boolean(false)" class="keyword">false</span>
+        <span class="delimiter">}</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Boolean(false)" class="keyword">false</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">def</span> <a title="()T" id="scales.utils.collection;DuplicateFilter.iterator;$anon.next">next</a><span class="delimiter">(</span><span class="delimiter">)</span>: <a href="#scales.utils.collection;DuplicateFilter;T" title="T">T</a> =
+      <span title="T" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=" title="=&gt; (Boolean, T)">nextPair</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <a href="#scales.utils.collection;DuplicateFilter.iterator;$anon.nextPair_=" title="=&gt; (Boolean, T)">nextPair</a>.<span title="=&gt; T">_2</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Nothing" class="keyword">throw</span> <span title="(x$1: String)java.util.NoSuchElementException" class="keyword">new</span> <span title="java.util.NoSuchElementException">NoSuchElementException</span><span class="delimiter">(</span><span title="String(&quot;next on empty iterator&quot;)" class="string">&quot;next on empty iterator&quot;</span><span class="delimiter">)</span>
+
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

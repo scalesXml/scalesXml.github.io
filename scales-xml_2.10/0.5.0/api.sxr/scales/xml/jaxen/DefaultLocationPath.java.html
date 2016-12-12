@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\jaxen\DefaultLocationPath.java</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+/*
+ * $Header$
+ * $Revision: 1345 $
+ * $Date: 2009-10-22 07:25:23 -0400 (Thu, 22 Oct 2009) $
+ *
+ * ====================================================================
+ *
+ * Copyright 2000-2002 bob mcwhirter &amp; James Strachan.
+ * All rights reserved.
+ *
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ * 
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ * 
+ *   * Neither the name of the Jaxen Project nor the names of its
+ *     contributors may be used to endorse or promote products derived 
+ *     from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS
+ * IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ====================================================================
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Jaxen Project and was originally
+ * created by bob mcwhirter &lt;bob@werken.com&gt; and
+ * James Strachan &lt;jstrachan@apache.org&gt;.  For more information on the
+ * Jaxen Project, please see &lt;http://www.jaxen.org/&gt;.
+ *
+ * $Id: DefaultLocationPath.java.html 621 2014-10-27 19:14:28Z chris.twiner@gmail.com $
+ */
+/*
+ * $Header$
+ * $Revision: 1345 $
+ * $Date: 2009-10-22 07:25:23 -0400 (Thu, 22 Oct 2009) $
+ *
+ * ====================================================================
+ *
+ * Copyright 2000-2002 bob mcwhirter &amp; James Strachan.
+ * All rights reserved.
+ *
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ * 
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ * 
+ *   * Neither the name of the Jaxen Project nor the names of its
+ *     contributors may be used to endorse or promote products derived 
+ *     from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS
+ * IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ====================================================================
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Jaxen Project and was originally
+ * created by bob mcwhirter &lt;bob@werken.com&gt; and
+ * James Strachan &lt;jstrachan@apache.org&gt;.  For more information on the
+ * Jaxen Project, please see &lt;http://www.jaxen.org/&gt;.
+ *
+ * $Id: DefaultLocationPath.java.html 621 2014-10-27 19:14:28Z chris.twiner@gmail.com $
+ */
+package scales.xml.jaxen;
+
+import org.jaxen.*;
+import org.jaxen.expr.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Iterator;
+
+abstract class DefaultLocationPath extends DefaultExpr implements LocationPath
+{
+    private List steps;
+    
+    /**
+     * Create a new empty location path.
+     */
+    DefaultLocationPath()
+    {
+        this.steps = new LinkedList();
+    }
+
+    public void addStep(Step step)
+    {
+        getSteps().add(step);
+    }
+
+    public List getSteps()
+    {
+        return this.steps;
+    }
+
+    public Expr simplify()
+    {
+        Iterator stepIter = getSteps().iterator();
+        Step eachStep = null;
+        while (stepIter.hasNext())
+        {
+            eachStep = (Step) stepIter.next();
+            eachStep.simplify();
+        }
+        return this;
+    }
+
+    public String getText()
+    {
+        StringBuffer buf = new StringBuffer();
+        Iterator stepIter = getSteps().iterator();
+        while (stepIter.hasNext())
+        {
+            buf.append(((Step) stepIter.next()).getText());
+            if (stepIter.hasNext())
+            {
+                buf.append(&quot;/&quot;);
+            }
+        }
+        return buf.toString();
+    }
+
+    public String toString()
+    {
+        StringBuffer buf = new StringBuffer();
+        Iterator stepIter = getSteps().iterator();
+        while (stepIter.hasNext())
+        {
+            buf.append(stepIter.next().toString());
+            if (stepIter.hasNext())
+            {
+                buf.append(&quot;/&quot;);
+            }
+        }
+        return buf.toString();
+    }
+
+    public boolean isAbsolute()
+    {
+        return false;
+    }
+
+    abstract public Object evaluate(Context context) throws JaxenException;
+
+    private boolean isReverseAxis(Step step) {
+
+        int axis = step.getAxis();
+        return axis == org.jaxen.saxpath.Axis.PRECEDING
+          || axis == org.jaxen.saxpath.Axis.PRECEDING_SIBLING
+          || axis == org.jaxen.saxpath.Axis.ANCESTOR
+          || axis == org.jaxen.saxpath.Axis.ANCESTOR_OR_SELF;
+    }
+
+}
+
+
+
+        </pre>
+    </body>
+</html>

@@ -1,0 +1,1929 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>ScalesXml - scales.xml.ScalesXml</title>
+          <meta name="description" content="ScalesXml - scales.xml.ScalesXml" />
+          <meta name="keywords" content="ScalesXml scales.xml.ScalesXml" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../index.html';
+            var hash = 'scales.xml.ScalesXml$';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../lib/object_big.png" />
+        <p id="owner"><a href="../package.html" class="extype" name="scales">scales</a>.<a href="package.html" class="extype" name="scales.xml">xml</a></p>
+        <h1>ScalesXml</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ScalesXml</span><span class="result"> extends <a href="impl/ScalesXmlImplicits.html" class="extype" name="scales.xml.impl.ScalesXmlImplicits">ScalesXmlImplicits</a></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><dl class="attributes block"> <dt>Source</dt><dd><a href="../../../api.sxr/scales/xml/ScalesXml.scala.html" target="_blank">ScalesXml.scala</a></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a href="impl/ScalesXmlImplicits.html" class="extype" name="scales.xml.impl.ScalesXmlImplicits">ScalesXmlImplicits</a>, <a href="equals/FromEqualsImplicit.html" class="extype" name="scales.xml.equals.FromEqualsImplicit">FromEqualsImplicit</a>, <a href="equals/ComparisonContextImplicits.html" class="extype" name="scales.xml.equals.ComparisonContextImplicits">ComparisonContextImplicits</a>, <a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a>, <a href="equals/TheyReallyAreIterators.html" class="extype" name="scales.xml.equals.TheyReallyAreIterators">TheyReallyAreIterators</a>, <a href="equals/DefaultXmlEquals.html" class="extype" name="scales.xml.equals.DefaultXmlEquals">DefaultXmlEquals</a>, <a href="equals/DefaultDocLikeEquals.html" class="extype" name="scales.xml.equals.DefaultDocLikeEquals">DefaultDocLikeEquals</a>, <a href="equals/DefaultQNameToken.html" class="extype" name="scales.xml.equals.DefaultQNameToken">DefaultQNameToken</a>, <a href="equals/QNameEquals.html" class="extype" name="scales.xml.equals.QNameEquals">QNameEquals</a>, <a href="equals/DefaultStreamEquals.html" class="extype" name="scales.xml.equals.DefaultStreamEquals">DefaultStreamEquals</a>, <a href="equals/StreamEquals.html" class="extype" name="scales.xml.equals.StreamEquals">StreamEquals</a>, <a href="equals/DefaultElemEquals.html" class="extype" name="scales.xml.equals.DefaultElemEquals">DefaultElemEquals</a>, <a href="equals/DefaultAttributesEquals.html" class="extype" name="scales.xml.equals.DefaultAttributesEquals">DefaultAttributesEquals</a>, <a href="equals/DefaultAttributeEquals.html" class="extype" name="scales.xml.equals.DefaultAttributeEquals">DefaultAttributeEquals</a>, <a href="equals/DefaultItemEquals.html" class="extype" name="scales.xml.equals.DefaultItemEquals">DefaultItemEquals</a>, <a href="trax/PullTypeConversionImplicits.html" class="extype" name="scales.xml.trax.PullTypeConversionImplicits">PullTypeConversionImplicits</a>, <a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a>, <a href="xpath/FunctionImplicits.html" class="extype" name="scales.xml.xpath.FunctionImplicits">FunctionImplicits</a>, <a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a>, <a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a>, <a href="serializers/XmlPrinterImplicits.html" class="extype" name="scales.xml.serializers.XmlPrinterImplicits">XmlPrinterImplicits</a>, <a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a>, <a href="trax/TraxConversionImplicits.html" class="extype" name="scales.xml.trax.TraxConversionImplicits">TraxConversionImplicits</a>, <a href="parser/strategies/OptimisingStrategiesImplicits.html" class="extype" name="scales.xml.parser.strategies.OptimisingStrategiesImplicits">OptimisingStrategiesImplicits</a>, <a href="parser/sax/XmlParserImplicits.html" class="extype" name="scales.xml.parser.sax.XmlParserImplicits">XmlParserImplicits</a>, <a href="dsl/OptionalDslBuilderImplicits.html" class="extype" name="scales.xml.dsl.OptionalDslBuilderImplicits">OptionalDslBuilderImplicits</a>, <a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a>, <a href="impl/XmlUtilsImplicits.html" class="extype" name="scales.xml.impl.XmlUtilsImplicits">XmlUtilsImplicits</a>, <a href="impl/QNameImplicits.html" class="extype" name="scales.xml.impl.QNameImplicits">QNameImplicits</a>, <a href="impl/DefaultXmlVersion.html" class="extype" name="scales.xml.impl.DefaultXmlVersion">DefaultXmlVersion</a>, <a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="scales.xml.ScalesXml"><span>ScalesXml</span></li><li class="in" name="scales.xml.impl.ScalesXmlImplicits"><span>ScalesXmlImplicits</span></li><li class="in" name="scales.xml.equals.FromEqualsImplicit"><span>FromEqualsImplicit</span></li><li class="in" name="scales.xml.equals.ComparisonContextImplicits"><span>ComparisonContextImplicits</span></li><li class="in" name="scales.xml.equals.StreamComparableImplicits"><span>StreamComparableImplicits</span></li><li class="in" name="scales.xml.equals.TheyReallyAreIterators"><span>TheyReallyAreIterators</span></li><li class="in" name="scales.xml.equals.DefaultXmlEquals"><span>DefaultXmlEquals</span></li><li class="in" name="scales.xml.equals.DefaultDocLikeEquals"><span>DefaultDocLikeEquals</span></li><li class="in" name="scales.xml.equals.DefaultQNameToken"><span>DefaultQNameToken</span></li><li class="in" name="scales.xml.equals.QNameEquals"><span>QNameEquals</span></li><li class="in" name="scales.xml.equals.DefaultStreamEquals"><span>DefaultStreamEquals</span></li><li class="in" name="scales.xml.equals.StreamEquals"><span>StreamEquals</span></li><li class="in" name="scales.xml.equals.DefaultElemEquals"><span>DefaultElemEquals</span></li><li class="in" name="scales.xml.equals.DefaultAttributesEquals"><span>DefaultAttributesEquals</span></li><li class="in" name="scales.xml.equals.DefaultAttributeEquals"><span>DefaultAttributeEquals</span></li><li class="in" name="scales.xml.equals.DefaultItemEquals"><span>DefaultItemEquals</span></li><li class="in" name="scales.xml.trax.PullTypeConversionImplicits"><span>PullTypeConversionImplicits</span></li><li class="in" name="scales.xml.xpath.XmlPathImplicits"><span>XmlPathImplicits</span></li><li class="in" name="scales.xml.xpath.FunctionImplicits"><span>FunctionImplicits</span></li><li class="in" name="scales.xml.xpath.NamesImplicits"><span>NamesImplicits</span></li><li class="in" name="scales.xml.xpath.TextImplicits"><span>TextImplicits</span></li><li class="in" name="scales.xml.serializers.XmlPrinterImplicits"><span>XmlPrinterImplicits</span></li><li class="in" name="scales.xml.serializers.SerializerImplicits"><span>SerializerImplicits</span></li><li class="in" name="scales.xml.trax.TraxConversionImplicits"><span>TraxConversionImplicits</span></li><li class="in" name="scales.xml.parser.strategies.OptimisingStrategiesImplicits"><span>OptimisingStrategiesImplicits</span></li><li class="in" name="scales.xml.parser.sax.XmlParserImplicits"><span>XmlParserImplicits</span></li><li class="in" name="scales.xml.dsl.OptionalDslBuilderImplicits"><span>OptionalDslBuilderImplicits</span></li><li class="in" name="scales.xml.dsl.DslImplicits"><span>DslImplicits</span></li><li class="in" name="scales.xml.impl.XmlUtilsImplicits"><span>XmlUtilsImplicits</span></li><li class="in" name="scales.xml.impl.QNameImplicits"><span>QNameImplicits</span></li><li class="in" name="scales.xml.impl.DefaultXmlVersion"><span>DefaultXmlVersion</span></li><li class="in" name="scales.xml.impl.XmlTypesImplicits"><span>XmlTypesImplicits</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="scales.xml.serializers.XmlPrinterImplicits.DeclarationConverter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DeclarationConverterextendsProductwithSerializable"></a>
+      <a id="DeclarationConverter:DeclarationConverter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="serializers/XmlPrinterImplicits$DeclarationConverter.html"><span class="name">DeclarationConverter</span></a><span class="params">(<span name="decl">decl: <a href="Declaration.html" class="extype" name="scales.xml.Declaration">Declaration</a></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/XmlPrinterImplicits.html" class="extype" name="scales.xml.serializers.XmlPrinterImplicits">XmlPrinterImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlUtilsImplicits.ToScales" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ToScalesextendsObject"></a>
+      <a id="ToScales:ToScales"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="impl/XmlUtilsImplicits$ToScales.html"><span class="name">ToScales</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlUtilsImplicits.html" class="extype" name="scales.xml.impl.XmlUtilsImplicits">XmlUtilsImplicits</a></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:AnyRef):Boolean"></a>
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.Any#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:AnyRef):Boolean"></a>
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.Any#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#AttributePathsToBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="AttributePathsToBoolean:scales.xml.xpath.AttributePaths[_]=&gt;Boolean"></a>
+      <a id="AttributePathsToBoolean:(xpath.AttributePaths[_])⇒Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">AttributePathsToBoolean</span><span class="result">: (<a href="xpath/AttributePaths.html" class="extype" name="scales.xml.xpath.AttributePaths">xpath.AttributePaths</a>[_]) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.ComparisonContextImplicits.BasicPathNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BasicPathNames"></a>
+      <a id="BasicPathNames:BasicPathNames"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="equals/ComparisonContextImplicits$BasicPathNames$.html"><span class="name">BasicPathNames</span></a><span class="result"> extends <a href="xpath/Names.html" class="extype" name="scales.xml.xpath.Names">Names</a>[<a href="equals/BasicPaths$.html#BasicPath=List[(scales.xml.QName,scala.collection.immutable.Map[String,Int])]" class="extmbr" name="scales.xml.equals.BasicPaths.BasicPath">BasicPath</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/ComparisonContextImplicits.html" class="extype" name="scales.xml.equals.ComparisonContextImplicits">ComparisonContextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#BooleanToBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BooleanToBoolean:Boolean=&gt;Boolean"></a>
+      <a id="BooleanToBoolean:(Boolean)⇒Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BooleanToBoolean</span><span class="result">: (<span class="extype" name="scala.Boolean">Boolean</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.ComparisonContextImplicits.ComparisonContextNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ComparisonContextNames"></a>
+      <a id="ComparisonContextNames:ComparisonContextNames"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="equals/ComparisonContextImplicits$ComparisonContextNames$.html"><span class="name">ComparisonContextNames</span></a><span class="result"> extends <a href="xpath/Names.html" class="extype" name="scales.xml.xpath.Names">Names</a>[<a href="equals/ComparisonContext.html" class="extype" name="scales.xml.equals.ComparisonContext">ComparisonContext</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/ComparisonContextImplicits.html" class="extype" name="scales.xml.equals.ComparisonContextImplicits">ComparisonContextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#IterableToBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="IterableToBoolean:Iterable[_]=&gt;Boolean"></a>
+      <a id="IterableToBoolean:(Iterable[_])⇒Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">IterableToBoolean</span><span class="result">: (<span class="extype" name="scala.collection.Iterable">Iterable</span>[_]) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#NumberToBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="NumberToBoolean:Number=&gt;Boolean"></a>
+      <a id="NumberToBoolean:(Number)⇒Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">NumberToBoolean</span><span class="result">: (<span class="extype" name="java.lang.Number">Number</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#StringToBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="StringToBoolean:String=&gt;Boolean"></a>
+      <a id="StringToBoolean:(String)⇒Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">StringToBoolean</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#XPathToBoolean" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="XPathToBoolean:scales.xml.xpath.XPath[_]=&gt;Boolean"></a>
+      <a id="XPathToBoolean:(xpath.XPath[_])⇒Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">XPathToBoolean</span><span class="result">: (<a href="xpath/XPath.html" class="extype" name="scales.xml.xpath.XPath">xpath.XPath</a>[_]) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Mimic the logic of xpath boolean() through typeclass, see AsBoolean / XmlDSL
+</p><div class="fullcomment"><div class="comment cmt"><p>Mimic the logic of xpath boolean() through typeclass, see AsBoolean / XmlDSL
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#aqnameNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="aqnameNames:scales.xml.xpath.AQNameNames.type"></a>
+      <a id="aqnameNames:AQNameNames.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aqnameNames</span><span class="result">: <a href="xpath/AQNameNames$.html" class="extype" name="scales.xml.xpath.AQNameNames">AQNameNames</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#aqpairToAttribute" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="aqpairToAttribute(pair:(scales.xml.AttributeQName,String)):scales.xml.Attribute"></a>
+      <a id="aqpairToAttribute((xml.AttributeQName,String)):Attribute"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aqpairToAttribute</span><span class="params">(<span name="pair">pair: (<a href="package.html#AttributeQName=scales.utils.EitherLike[scales.xml.PrefixedQName,scales.xml.NoNamespaceQName]" class="extmbr" name="scales.xml.AttributeQName">xml.AttributeQName</a>, <span class="extype" name="scala.Predef.String">String</span>)</span>)</span><span class="result">: <a href="Attribute.html" class="extype" name="scales.xml.Attribute">Attribute</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Converts AQN -&gt; String into an attribute
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts AQN -&gt; String into an attribute
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#attribNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="attribNames:scales.xml.xpath.AttributeNames.type"></a>
+      <a id="attribNames:AttributeNames.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">attribNames</span><span class="result">: <a href="xpath/AttributeNames$.html" class="extype" name="scales.xml.xpath.AttributeNames">AttributeNames</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#attribPathText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="attribPathText:scales.xml.xpath.AttributePathText.type"></a>
+      <a id="attribPathText:AttributePathText.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">attribPathText</span><span class="result">: <a href="xpath/AttributePathText$.html" class="extype" name="scales.xml.xpath.AttributePathText">AttributePathText</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#attribPathsNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="attribPathsNames[T&lt;:Iterable[scales.xml.XmlPath]]:scales.xml.xpath.Names[scales.xml.xpath.AttributePaths[T]]"></a>
+      <a id="attribPathsNames[T&lt;:Iterable[xml.XmlPath]]:Names[xpath.AttributePaths[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">attribPathsNames</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="scala.Iterable">Iterable</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]</span>]</span><span class="result">: <a href="xpath/Names.html" class="extype" name="scales.xml.xpath.Names">Names</a>[<a href="xpath/AttributePaths.html" class="extype" name="scales.xml.xpath.AttributePaths">xpath.AttributePaths</a>[<span class="extype" name="scales.xml.xpath.NamesImplicits.attribPathsNames.T">T</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#attribPathsText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="attribPathsText[T&lt;:Iterable[scales.xml.XmlPath]]:scales.xml.xpath.TextValue[scales.xml.xpath.AttributePaths[T]]"></a>
+      <a id="attribPathsText[T&lt;:Iterable[xml.XmlPath]]:TextValue[xpath.AttributePaths[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">attribPathsText</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="scala.Iterable">Iterable</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]</span>]</span><span class="result">: <a href="xpath/TextValue.html" class="extype" name="scales.xml.xpath.TextValue">TextValue</a>[<a href="xpath/AttributePaths.html" class="extype" name="scales.xml.xpath.AttributePaths">xpath.AttributePaths</a>[<span class="extype" name="scales.xml.xpath.TextImplicits.attribPathsText.T">T</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#attribText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="attribText:scales.xml.xpath.AttributeText.type"></a>
+      <a id="attribText:AttributeText.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">attribText</span><span class="result">: <a href="xpath/AttributeText$.html" class="extype" name="scales.xml.xpath.AttributeText">AttributeText</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#attributePathNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="attributePathNames:scales.xml.xpath.AttributePathNames.type"></a>
+      <a id="attributePathNames:AttributePathNames.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">attributePathNames</span><span class="result">: <a href="xpath/AttributePathNames$.html" class="extype" name="scales.xml.xpath.AttributePathNames">AttributePathNames</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.SerializerImplicits#builderSerializeable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="builderSerializeable:scales.xml.serializers.SerializeableXml[scales.xml.dsl.DslBuilder]"></a>
+      <a id="builderSerializeable:SerializeableXml[DslBuilder]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">builderSerializeable</span><span class="result">: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<a href="dsl/DslBuilder.html" class="extype" name="scales.xml.dsl.DslBuilder">DslBuilder</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Serializes a DslBuilder
+</p><div class="fullcomment"><div class="comment cmt"><p>Serializes a DslBuilder
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scales.xml.equals.TheyReallyAreIterators#closeablePullIsAn" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="closeablePullIsAn:scales.xml.CloseablePull=&gt;Iterator[scales.xml.PullType]"></a>
+      <a id="closeablePullIsAn:(xml.CloseablePull)⇒Iterator[xml.PullType]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">closeablePullIsAn</span><span class="result">: (<a href="package.html#CloseablePull=scales.xml.XmlPullwithjava.io.Closeablewithscales.utils.resources.IsClosed" class="extmbr" name="scales.xml.CloseablePull">xml.CloseablePull</a>) ⇒ <span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/TheyReallyAreIterators.html" class="extype" name="scales.xml.equals.TheyReallyAreIterators">TheyReallyAreIterators</a></dd></dl></div>
+    </li><li name="scales.xml.equals.StreamComparableImplicits#closeablePullWrapper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="closeablePullWrapper(implicitbodyComp:scales.xml.equals.XmlComparison[Iterator[scales.xml.PullType]]):scales.xml.equals.DocLikeWrapper[scales.xml.CloseablePull]"></a>
+      <a id="closeablePullWrapper(XmlComparison[Iterator[xml.PullType]]):DocLikeWrapper[xml.CloseablePull]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">closeablePullWrapper</span><span class="params">(<span class="implicit">implicit </span><span name="bodyComp">bodyComp: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]]</span>)</span><span class="result">: <a href="equals/DocLikeWrapper.html" class="extype" name="scales.xml.equals.DocLikeWrapper">DocLikeWrapper</a>[<a href="package.html#CloseablePull=scales.xml.XmlPullwithjava.io.Closeablewithscales.utils.resources.IsClosed" class="extmbr" name="scales.xml.CloseablePull">xml.CloseablePull</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Wrapper for CloseablePull
+</p><div class="fullcomment"><div class="comment cmt"><p>Wrapper for CloseablePull
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.DefaultAttributeEquals#defaultAttributeComparison" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultAttributeComparison(implicitqe:scalaz.Equal[scales.xml.QName],implicitqnameTokenComparison:Option[(scales.xml.equals.ComparisonContext,String,String)=&gt;Boolean]):scales.xml.equals.XmlComparison[scales.xml.Attribute]"></a>
+      <a id="defaultAttributeComparison(Equal[QName],Option[(ComparisonContext,String,String)⇒Boolean]):XmlComparison[Attribute]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultAttributeComparison</span><span class="params">(<span class="implicit">implicit </span><span name="qe">qe: <span class="extype" name="scalaz.Equal">Equal</span>[<a href="QName.html" class="extype" name="scales.xml.QName">QName</a>]</span>, <span name="qnameTokenComparison">qnameTokenComparison: <span class="extype" name="scala.Option">Option</span>[(<a href="equals/ComparisonContext.html" class="extype" name="scales.xml.equals.ComparisonContext">ComparisonContext</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span>]</span>)</span><span class="result">: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="Attribute.html" class="extype" name="scales.xml.Attribute">Attribute</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">QNames are not compared with prefix
+</p><div class="fullcomment"><div class="comment cmt"><p>QNames are not compared with prefix
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/DefaultAttributeEquals.html" class="extype" name="scales.xml.equals.DefaultAttributeEquals">DefaultAttributeEquals</a></dd></dl></div>
+    </li><li name="scales.xml.equals.DefaultAttributesEquals#defaultAttributesComparison" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultAttributesComparison(implicitac:scales.xml.equals.XmlComparison[scales.xml.Attribute]):scales.xml.equals.XmlComparison[scales.xml.Attributes]"></a>
+      <a id="defaultAttributesComparison(XmlComparison[Attribute]):XmlComparison[xml.Attributes]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultAttributesComparison</span><span class="params">(<span class="implicit">implicit </span><span name="ac">ac: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="Attribute.html" class="extype" name="scales.xml.Attribute">Attribute</a>]</span>)</span><span class="result">: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="package.html#Attributes=scales.utils.collection.ListSet[scales.xml.Attribute]" class="extmbr" name="scales.xml.Attributes">xml.Attributes</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/DefaultAttributesEquals.html" class="extype" name="scales.xml.equals.DefaultAttributesEquals">DefaultAttributesEquals</a></dd></dl></div>
+    </li><li name="scales.xml.equals.DefaultDocLikeEquals#defaultDocLikeComparison" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultDocLikeComparison[T](implicitic:scales.xml.equals.XmlComparison[scales.xml.XmlItem],implicitdocWrapper:scales.xml.equals.DocLikeWrapper[T]):scales.xml.equals.XmlComparison[T]"></a>
+      <a id="defaultDocLikeComparison[T](XmlComparison[XmlItem],DocLikeWrapper[T]):XmlComparison[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultDocLikeComparison</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="ic">ic: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="XmlItem.html" class="extype" name="scales.xml.XmlItem">XmlItem</a>]</span>, <span name="docWrapper">docWrapper: <a href="equals/DocLikeWrapper.html" class="extype" name="scales.xml.equals.DocLikeWrapper">DocLikeWrapper</a>[<span class="extype" name="scales.xml.equals.DefaultDocLikeEquals.defaultDocLikeComparison.T">T</span>]</span>)</span><span class="result">: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<span class="extype" name="scales.xml.equals.DefaultDocLikeEquals.defaultDocLikeComparison.T">T</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Provides the comparison for prolog, body and end miscs
+</p><div class="fullcomment"><div class="comment cmt"><p>Provides the comparison for prolog, body and end miscs
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/DefaultDocLikeEquals.html" class="extype" name="scales.xml.equals.DefaultDocLikeEquals">DefaultDocLikeEquals</a></dd></dl></div>
+    </li><li name="scales.xml.equals.DefaultElemEquals#defaultElemComparison" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultElemComparison(implicitae:scales.xml.equals.XmlComparison[scales.xml.Attributes],implicitqe:scalaz.Equal[scales.xml.QName]):scales.xml.equals.XmlComparison[scales.xml.Elem]"></a>
+      <a id="defaultElemComparison(XmlComparison[xml.Attributes],Equal[QName]):XmlComparison[Elem]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultElemComparison</span><span class="params">(<span class="implicit">implicit </span><span name="ae">ae: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="package.html#Attributes=scales.utils.collection.ListSet[scales.xml.Attribute]" class="extmbr" name="scales.xml.Attributes">xml.Attributes</a>]</span>, <span name="qe">qe: <span class="extype" name="scalaz.Equal">Equal</span>[<a href="QName.html" class="extype" name="scales.xml.QName">QName</a>]</span>)</span><span class="result">: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="Elem.html" class="extype" name="scales.xml.Elem">Elem</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/DefaultElemEquals.html" class="extype" name="scales.xml.equals.DefaultElemEquals">DefaultElemEquals</a></dd></dl></div>
+    </li><li name="scales.xml.equals.DefaultQNameToken#defaultQNameTokenComparison" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultQNameTokenComparison:Option[(scales.xml.equals.ComparisonContext,String,String)=&gt;Boolean]"></a>
+      <a id="defaultQNameTokenComparison:Option[(ComparisonContext,String,String)⇒Boolean]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultQNameTokenComparison</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[(<a href="equals/ComparisonContext.html" class="extype" name="scales.xml.equals.ComparisonContext">ComparisonContext</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Finally decides if a Text/CData node or Attribute value should be compared as if containing a qname (prefix:local).</p><div class="fullcomment"><div class="comment cmt"><p>Finally decides if a Text/CData node or Attribute value should be compared as if containing a qname (prefix:local).
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/DefaultQNameToken.html" class="extype" name="scales.xml.equals.DefaultQNameToken">DefaultQNameToken</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.XmlPrinterImplicits#defaultSerializerFactory" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultSerializerFactory:scales.xml.serializers.SerializerFactory"></a>
+      <a id="defaultSerializerFactory:SerializerFactory"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultSerializerFactory</span><span class="result">: <a href="serializers/SerializerFactory.html" class="extype" name="scales.xml.serializers.SerializerFactory">SerializerFactory</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Import to _ and replace with your own SerializerFactory if desired
+</p><div class="fullcomment"><div class="comment cmt"><p>Import to _ and replace with your own SerializerFactory if desired
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/XmlPrinterImplicits.html" class="extype" name="scales.xml.serializers.XmlPrinterImplicits">XmlPrinterImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.DefaultXmlVersion#defaultVersion" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultVersion:scales.xml.XmlVersion"></a>
+      <a id="defaultVersion:XmlVersion"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultVersion</span><span class="result">: <a href="XmlVersion.html" class="extype" name="scales.xml.XmlVersion">XmlVersion</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/DefaultXmlVersion.html" class="extype" name="scales.xml.impl.DefaultXmlVersion">DefaultXmlVersion</a></dd></dl></div>
+    </li><li name="scales.xml.equals.DefaultItemEquals#defaultXmlItemComparison" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="defaultXmlItemComparison(implicitqnameTokenComparison:Option[(scales.xml.equals.ComparisonContext,String,String)=&gt;Boolean]):scales.xml.equals.XmlComparison[scales.xml.XmlItem]"></a>
+      <a id="defaultXmlItemComparison(Option[(ComparisonContext,String,String)⇒Boolean]):XmlComparison[XmlItem]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultXmlItemComparison</span><span class="params">(<span class="implicit">implicit </span><span name="qnameTokenComparison">qnameTokenComparison: <span class="extype" name="scala.Option">Option</span>[(<a href="equals/ComparisonContext.html" class="extype" name="scales.xml.equals.ComparisonContext">ComparisonContext</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span>]</span>)</span><span class="result">: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="XmlItem.html" class="extype" name="scales.xml.XmlItem">XmlItem</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">creates an XmlItem comparison given a given qnameTokenComparison function (should it compare using qnames or not).</p><div class="fullcomment"><div class="comment cmt"><p>creates an XmlItem comparison given a given qnameTokenComparison function (should it compare using qnames or not).
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/DefaultItemEquals.html" class="extype" name="scales.xml.equals.DefaultItemEquals">DefaultItemEquals</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#dif" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dif:scales.xml.xpath.DIF"></a>
+      <a id="dif:DIF"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dif</span><span class="result">: <a href="xpath/DIF.html" class="extype" name="scales.xml.xpath.DIF">DIF</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.SerializerImplicits#docSerializeable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="docSerializeable:scales.xml.serializers.SerializeableXml[scales.xml.Doc]"></a>
+      <a id="docSerializeable:SerializeableXml[Doc]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">docSerializeable</span><span class="result">: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<a href="Doc.html" class="extype" name="scales.xml.Doc">Doc</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Serializes a Doc (Wrapped XmlTree)
+</p><div class="fullcomment"><div class="comment cmt"><p>Serializes a Doc (Wrapped XmlTree)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.trax.TraxConversionImplicits#docToSource" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="docToSource(doc:scales.xml.Doc)(implicitserf:scales.xml.serializers.SerializerFactory,implicitsf:scales.xml.serializers.SerializeableXml[scales.xml.Doc]):javax.xml.transform.Source"></a>
+      <a id="docToSource(Doc)(SerializerFactory,SerializeableXml[Doc]):Source"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">docToSource</span><span class="params">(<span name="doc">doc: <a href="Doc.html" class="extype" name="scales.xml.Doc">Doc</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="serf">serf: <a href="serializers/SerializerFactory.html" class="extype" name="scales.xml.serializers.SerializerFactory">SerializerFactory</a></span>, <span name="sf">sf: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<a href="Doc.html" class="extype" name="scales.xml.Doc">Doc</a>]</span>)</span><span class="result">: <span class="extype" name="javax.xml.transform.Source">Source</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="trax/TraxConversionImplicits.html" class="extype" name="scales.xml.trax.TraxConversionImplicits">TraxConversionImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#docToTree" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="docToTree(doc:scales.xml.Doc):scales.xml.XmlTree"></a>
+      <a id="docToTree(Doc):xml.XmlTree"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">docToTree</span><span class="params">(<span name="doc">doc: <a href="Doc.html" class="extype" name="scales.xml.Doc">Doc</a></span>)</span><span class="result">: <a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Provided for those who don't care about the rest
+</p><div class="fullcomment"><div class="comment cmt"><p>Provided for those who don't care about the rest
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.StreamComparableImplicits#docWrapper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="docWrapper(implicitbodyComp:scales.xml.equals.XmlComparison[scales.xml.XmlTree]):scales.xml.equals.DocLikeWrapper[scales.xml.Doc]"></a>
+      <a id="docWrapper(XmlComparison[xml.XmlTree]):DocLikeWrapper[Doc]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">docWrapper</span><span class="params">(<span class="implicit">implicit </span><span name="bodyComp">bodyComp: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a>]</span>)</span><span class="result">: <a href="equals/DocLikeWrapper.html" class="extype" name="scales.xml.equals.DocLikeWrapper">DocLikeWrapper</a>[<a href="Doc.html" class="extype" name="scales.xml.Doc">Doc</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Wrapper for Docs
+</p><div class="fullcomment"><div class="comment cmt"><p>Wrapper for Docs
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#dslNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dslNames:scales.xml.xpath.DslNames.type"></a>
+      <a id="dslNames:DslNames.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dslNames</span><span class="result">: <a href="xpath/DslNames$.html" class="extype" name="scales.xml.xpath.DslNames">DslNames</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#dslText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dslText:scales.xml.xpath.DslText.type"></a>
+      <a id="dslText:DslText.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dslText</span><span class="result">: <a href="xpath/DslText$.html" class="extype" name="scales.xml.xpath.DslText">DslText</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.trax.PullTypeConversionImplicits#dslToStream" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="dslToStream(ds:scales.xml.dsl.DslBuilder):Iterator[scales.xml.PullType]"></a>
+      <a id="dslToStream(DslBuilder):Iterator[xml.PullType]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dslToStream</span><span class="params">(<span name="ds">ds: <a href="dsl/DslBuilder.html" class="extype" name="scales.xml.dsl.DslBuilder">DslBuilder</a></span>)</span><span class="result">: <span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="trax/PullTypeConversionImplicits.html" class="extype" name="scales.xml.trax.PullTypeConversionImplicits">PullTypeConversionImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#elemNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="elemNames:scales.xml.xpath.ElemNames.type"></a>
+      <a id="elemNames:ElemNames.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">elemNames</span><span class="result">: <a href="xpath/ElemNames$.html" class="extype" name="scales.xml.xpath.ElemNames">ElemNames</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.SerializerImplicits#elemSerializable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="elemSerializable:scales.xml.serializers.SerializeableXml[scales.xml.Elem]"></a>
+      <a id="elemSerializable:SerializeableXml[Elem]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">elemSerializable</span><span class="result">: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<a href="Elem.html" class="extype" name="scales.xml.Elem">Elem</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Simple Elem serializer
+</p><div class="fullcomment"><div class="comment cmt"><p>Simple Elem serializer
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#fromAPathToAComparisoms" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromAPathToAComparisoms(path:scales.xml.xpath.AttributePath):scales.xml.xpath.AttributePathComparisoms"></a>
+      <a id="fromAPathToAComparisoms(xpath.AttributePath):AttributePathComparisoms"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromAPathToAComparisoms</span><span class="params">(<span name="path">path: <a href="xpath/AttributePath.html" class="extype" name="scales.xml.xpath.AttributePath">xpath.AttributePath</a></span>)</span><span class="result">: <a href="xpath/AttributePathComparisoms.html" class="extype" name="scales.xml.xpath.AttributePathComparisoms">AttributePathComparisoms</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#fromAttrPathToAttribute" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromAttrPathToAttribute(attrPath:scales.xml.xpath.AttributePath):scales.xml.Attribute"></a>
+      <a id="fromAttrPathToAttribute(xpath.AttributePath):Attribute"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromAttrPathToAttribute</span><span class="params">(<span name="attrPath">attrPath: <a href="xpath/AttributePath.html" class="extype" name="scales.xml.xpath.AttributePath">xpath.AttributePath</a></span>)</span><span class="result">: <a href="Attribute.html" class="extype" name="scales.xml.Attribute">Attribute</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Unpack the attribute from the tuple</p><div class="fullcomment"><div class="comment cmt"><p>Unpack the attribute from the tuple</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#fromAttributePathsToIterable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromAttributePathsToIterable[T&lt;:Iterable[scales.xml.XmlPath]](attrs:scales.xml.xpath.AttributePaths[T]):Iterable[scales.xml.xpath.AttributePath]"></a>
+      <a id="fromAttributePathsToIterable[T&lt;:Iterable[xml.XmlPath]](xpath.AttributePaths[T]):Iterable[xpath.AttributePath]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromAttributePathsToIterable</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="scala.Iterable">Iterable</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]</span>]</span><span class="params">(<span name="attrs">attrs: <a href="xpath/AttributePaths.html" class="extype" name="scales.xml.xpath.AttributePaths">xpath.AttributePaths</a>[<span class="extype" name="scales.xml.xpath.XmlPathImplicits.fromAttributePathsToIterable.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Iterable">Iterable</span>[<a href="xpath/AttributePath.html" class="extype" name="scales.xml.xpath.AttributePath">xpath.AttributePath</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Sort in document order.</p><div class="fullcomment"><div class="comment cmt"><p>Sort in document order.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.FromEqualsImplicit#fromCompToEq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromCompToEq[T](implicitcomp:scales.xml.equals.XmlComparison[T]):scalaz.Equal[T]"></a>
+      <a id="fromCompToEq[T](XmlComparison[T]):Equal[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromCompToEq</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="comp">comp: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<span class="extype" name="scales.xml.equals.FromEqualsImplicit.fromCompToEq.T">T</span>]</span>)</span><span class="result">: <span class="extype" name="scalaz.Equal">Equal</span>[<span class="extype" name="scales.xml.equals.FromEqualsImplicit.fromCompToEq.T">T</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">An implicit but its only purpose is to convert, and needs the given comparison to function, which is provided (or not) by ScalesXml.</p><div class="fullcomment"><div class="comment cmt"><p>An implicit but its only purpose is to convert, and needs the given comparison to function, which is provided (or not) by ScalesXml.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/FromEqualsImplicit.html" class="extype" name="scales.xml.equals.FromEqualsImplicit">FromEqualsImplicit</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromDslBuilderToTree" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromDslBuilderToTree(dslB:scales.xml.dsl.DslBuilder):scales.xml.XmlTree"></a>
+      <a id="fromDslBuilderToTree(DslBuilder):xml.XmlTree"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromDslBuilderToTree</span><span class="params">(<span name="dslB">dslB: <a href="dsl/DslBuilder.html" class="extype" name="scales.xml.dsl.DslBuilder">DslBuilder</a></span>)</span><span class="result">: <a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromElemToBuilder" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromElemToBuilder(elem:scales.xml.Elem):scales.xml.dsl.DslBuilder"></a>
+      <a id="fromElemToBuilder(Elem):DslBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromElemToBuilder</span><span class="params">(<span name="elem">elem: <a href="Elem.html" class="extype" name="scales.xml.Elem">Elem</a></span>)</span><span class="result">: <a href="dsl/DslBuilder.html" class="extype" name="scales.xml.dsl.DslBuilder">DslBuilder</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.OptionalDslBuilderImplicits#fromElemToOptionalBuilder" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromElemToOptionalBuilder(elem:scales.xml.Elem):scales.xml.dsl.OptionalDslBuilder"></a>
+      <a id="fromElemToOptionalBuilder(Elem):OptionalDslBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromElemToOptionalBuilder</span><span class="params">(<span name="elem">elem: <a href="Elem.html" class="extype" name="scales.xml.Elem">Elem</a></span>)</span><span class="result">: <a href="dsl/OptionalDslBuilder.html" class="extype" name="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/OptionalDslBuilderImplicits.html" class="extype" name="scales.xml.dsl.OptionalDslBuilderImplicits">OptionalDslBuilderImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromElemToTree" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromElemToTree(elem:scales.xml.Elem):scales.xml.XmlTree"></a>
+      <a id="fromElemToTree(Elem):xml.XmlTree"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromElemToTree</span><span class="params">(<span name="elem">elem: <a href="Elem.html" class="extype" name="scales.xml.Elem">Elem</a></span>)</span><span class="result">: <a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Serialisation and other dsl friends benefit from this
+</p><div class="fullcomment"><div class="comment cmt"><p>Serialisation and other dsl friends benefit from this
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromNSToNSMPimper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromNSToNSMPimper(ns:scales.xml.Namespace):scales.xml.dsl.NSMPimper"></a>
+      <a id="fromNSToNSMPimper(Namespace):NSMPimper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromNSToNSMPimper</span><span class="params">(<span name="ns">ns: <a href="Namespace.html" class="extype" name="scales.xml.Namespace">Namespace</a></span>)</span><span class="result">: <a href="dsl/NSMPimper.html" class="extype" name="scales.xml.dsl.NSMPimper">NSMPimper</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.OptionalDslBuilderImplicits#fromOptionalDslToOptionalTree" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromOptionalDslToOptionalTree(optionalDsl:scales.xml.dsl.OptionalDslBuilder):Option[scales.xml.ItemOrElem]"></a>
+      <a id="fromOptionalDslToOptionalTree(OptionalDslBuilder):Option[xml.ItemOrElem]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromOptionalDslToOptionalTree</span><span class="params">(<span name="optionalDsl">optionalDsl: <a href="dsl/OptionalDslBuilder.html" class="extype" name="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<a href="package.html#ItemOrElem=scales.utils.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.ItemOrElem">xml.ItemOrElem</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Convenience function for adding optional subtrees
+</p><div class="fullcomment"><div class="comment cmt"><p>Convenience function for adding optional subtrees
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/OptionalDslBuilderImplicits.html" class="extype" name="scales.xml.dsl.OptionalDslBuilderImplicits">OptionalDslBuilderImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.OptionalDslBuilderImplicits#fromPQNameToOptionalAttribute" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromPQNameToOptionalAttribute(name:scales.xml.AttributeQName):scales.xml.dsl.OptionalAttribute"></a>
+      <a id="fromPQNameToOptionalAttribute(xml.AttributeQName):OptionalAttribute"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromPQNameToOptionalAttribute</span><span class="params">(<span name="name">name: <a href="package.html#AttributeQName=scales.utils.EitherLike[scales.xml.PrefixedQName,scales.xml.NoNamespaceQName]" class="extmbr" name="scales.xml.AttributeQName">xml.AttributeQName</a></span>)</span><span class="result">: <a href="dsl/OptionalAttribute.html" class="extype" name="scales.xml.dsl.OptionalAttribute">OptionalAttribute</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Provides access to the ~&gt; pimps
+</p><div class="fullcomment"><div class="comment cmt"><p>Provides access to the ~&gt; pimps
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/OptionalDslBuilderImplicits.html" class="extype" name="scales.xml.dsl.OptionalDslBuilderImplicits">OptionalDslBuilderImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#fromParserDefault" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromParserDefault:scales.xml.impl.FromParser"></a>
+      <a id="fromParserDefault:FromParser"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromParserDefault</span><span class="result">: <a href="impl/FromParser.html" class="extype" name="scales.xml.impl.FromParser">FromParser</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Defaults to NotFromParser
+</p><div class="fullcomment"><div class="comment cmt"><p>Defaults to NotFromParser
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#fromPathToComparisoms" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromPathToComparisoms(path:scales.xml.XmlPath):scales.xml.xpath.XmlPathComparisoms"></a>
+      <a id="fromPathToComparisoms(xml.XmlPath):XmlPathComparisoms"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromPathToComparisoms</span><span class="params">(<span name="path">path: <a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a></span>)</span><span class="result">: <a href="xpath/XmlPathComparisoms.html" class="extype" name="scales.xml.xpath.XmlPathComparisoms">XmlPathComparisoms</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromQNamePairToAttribute" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromQNamePairToAttribute(pair:(scales.xml.PrefixedQName,String)):scales.xml.Attribute"></a>
+      <a id="fromQNamePairToAttribute((PrefixedQName,String)):Attribute"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromQNamePairToAttribute</span><span class="params">(<span name="pair">pair: (<a href="PrefixedQName.html" class="extype" name="scales.xml.PrefixedQName">PrefixedQName</a>, <span class="extype" name="scala.Predef.String">String</span>)</span>)</span><span class="result">: <a href="Attribute.html" class="extype" name="scales.xml.Attribute">Attribute</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromQNameToBuilder" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromQNameToBuilder(qname:scales.xml.QName):scales.xml.dsl.DslBuilder"></a>
+      <a id="fromQNameToBuilder(QName):DslBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromQNameToBuilder</span><span class="params">(<span name="qname">qname: <a href="QName.html" class="extype" name="scales.xml.QName">QName</a></span>)</span><span class="result">: <a href="dsl/DslBuilder.html" class="extype" name="scales.xml.dsl.DslBuilder">DslBuilder</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Only works for elems, better looking than &lt;
+</p><div class="fullcomment"><div class="comment cmt"><p>Only works for elems, better looking than &lt;
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.OptionalDslBuilderImplicits#fromQNameToOptionalBuilder" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromQNameToOptionalBuilder(qname:scales.xml.QName):scales.xml.dsl.OptionalDslBuilder"></a>
+      <a id="fromQNameToOptionalBuilder(QName):OptionalDslBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromQNameToOptionalBuilder</span><span class="params">(<span name="qname">qname: <a href="QName.html" class="extype" name="scales.xml.QName">QName</a></span>)</span><span class="result">: <a href="dsl/OptionalDslBuilder.html" class="extype" name="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Only works for elems, better looking than &lt;
+</p><div class="fullcomment"><div class="comment cmt"><p>Only works for elems, better looking than &lt;
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/OptionalDslBuilderImplicits.html" class="extype" name="scales.xml.dsl.OptionalDslBuilderImplicits">OptionalDslBuilderImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromQNameToQNamePimper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromQNameToQNamePimper(qname:scales.xml.QName):scales.xml.dsl.QNameMPimper"></a>
+      <a id="fromQNameToQNamePimper(QName):QNameMPimper"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromQNameToQNamePimper</span><span class="params">(<span name="qname">qname: <a href="QName.html" class="extype" name="scales.xml.QName">QName</a></span>)</span><span class="result">: <a href="dsl/QNameMPimper.html" class="extype" name="scales.xml.dsl.QNameMPimper">QNameMPimper</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">matches elements and attributes based on qname only
+</p><div class="fullcomment"><div class="comment cmt"><p>matches elements and attributes based on qname only
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromQNameToTree" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromQNameToTree(qname:scales.xml.QName):scales.xml.XmlTree"></a>
+      <a id="fromQNameToTree(QName):xml.XmlTree"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromQNameToTree</span><span class="params">(<span name="qname">qname: <a href="QName.html" class="extype" name="scales.xml.QName">QName</a></span>)</span><span class="result">: <a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Only works for elems, allows simpler definitions
+</p><div class="fullcomment"><div class="comment cmt"><p>Only works for elems, allows simpler definitions
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.XmlPrinterImplicits#fromSerializeableToWriteTo" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromSerializeableToWriteTo[T](it:T)(implicitevidence$1:scales.xml.serializers.SerializeableXml[T]):scales.xml.serializers.WriteTo[T]"></a>
+      <a id="fromSerializeableToWriteTo[T](T)(SerializeableXml[T]):WriteTo[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromSerializeableToWriteTo</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="it">it: <span class="extype" name="scales.xml.serializers.XmlPrinterImplicits.fromSerializeableToWriteTo.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<span class="extype" name="scales.xml.serializers.XmlPrinterImplicits.fromSerializeableToWriteTo.T">T</span>]</span>)</span><span class="result">: <a href="serializers/WriteTo.html" class="extype" name="scales.xml.serializers.WriteTo">WriteTo</a>[<span class="extype" name="scales.xml.serializers.XmlPrinterImplicits.fromSerializeableToWriteTo.T">T</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/XmlPrinterImplicits.html" class="extype" name="scales.xml.serializers.XmlPrinterImplicits">XmlPrinterImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.StreamComparableImplicits#fromStreamToStreamComparable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromStreamToStreamComparable[T](t:T)(implicitevidence$3:T=&gt;Iterator[scales.xml.PullType]):scales.xml.equals.StreamComparable[T]"></a>
+      <a id="fromStreamToStreamComparable[T](T)((T)⇒Iterator[xml.PullType]):StreamComparable[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromStreamToStreamComparable</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="t">t: <span class="extype" name="scales.xml.equals.StreamComparableImplicits.fromStreamToStreamComparable.T">T</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (<span class="extype" name="scales.xml.equals.StreamComparableImplicits.fromStreamToStreamComparable.T">T</span>) ⇒ <span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]</span>)</span><span class="result">: <a href="equals/StreamComparable.html" class="extype" name="scales.xml.equals.StreamComparable">StreamComparable</a>[<span class="extype" name="scales.xml.equals.StreamComparableImplicits.fromStreamToStreamComparable.T">T</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Converts XmlTree and DslBuilder (when used with PullTypeConversionImplicits
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts XmlTree and DslBuilder (when used with PullTypeConversionImplicits
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromStringToText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromStringToText(value:String):scales.xml.Text"></a>
+      <a id="fromStringToText(String):Text"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromStringToText</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="Text.html" class="extype" name="scales.xml.Text">Text</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Allows direct use of text where expected
+</p><div class="fullcomment"><div class="comment cmt"><p>Allows direct use of text where expected
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.DslImplicits#fromTreeToDsl" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromTreeToDsl(tree:scales.xml.XmlTree):scales.xml.dsl.DslBuilder"></a>
+      <a id="fromTreeToDsl(xml.XmlTree):DslBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromTreeToDsl</span><span class="params">(<span name="tree">tree: <a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a></span>)</span><span class="result">: <a href="dsl/DslBuilder.html" class="extype" name="scales.xml.dsl.DslBuilder">DslBuilder</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.dsl.OptionalDslBuilderImplicits#fromTreeToODsl" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromTreeToODsl(tree:scales.xml.XmlTree):scales.xml.dsl.OptionalDslBuilder"></a>
+      <a id="fromTreeToODsl(xml.XmlTree):OptionalDslBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromTreeToODsl</span><span class="params">(<span name="tree">tree: <a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a></span>)</span><span class="result">: <a href="dsl/OptionalDslBuilder.html" class="extype" name="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="dsl/OptionalDslBuilderImplicits.html" class="extype" name="scales.xml.dsl.OptionalDslBuilderImplicits">OptionalDslBuilderImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#fromXPathToIterable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromXPathToIterable(xpath:scales.xml.xpath.XPath[_]):Iterable[scales.xml.XmlPath]"></a>
+      <a id="fromXPathToIterable(xpath.XPath[_]):Iterable[xml.XmlPath]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromXPathToIterable</span><span class="params">(<span name="xpath">xpath: <a href="xpath/XPath.html" class="extype" name="scales.xml.xpath.XPath">xpath.XPath</a>[_]</span>)</span><span class="result">: <span class="extype" name="scala.Iterable">Iterable</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#fromXmlPathToXPath" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="fromXmlPathToXPath(xmlPath:scales.xml.XmlPath)(implicitcbf:scala.collection.generic.CanBuildFrom[List[scales.xml.XmlPath],scales.xml.XmlPath,List[scales.xml.XmlPath]]):scales.xml.xpath.XPath[List[scales.xml.XmlPath]]"></a>
+      <a id="fromXmlPathToXPath(xml.XmlPath)(CanBuildFrom[List[xml.XmlPath],xml.XmlPath,List[xml.XmlPath]]):xpath.XPath[List[xml.XmlPath]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromXmlPathToXPath</span><span class="params">(<span name="xmlPath">xmlPath: <a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cbf">cbf: <span class="extype" name="scala.collection.generic.CanBuildFrom">CanBuildFrom</span>[<span class="extype" name="scala.List">List</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>], <a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>, <span class="extype" name="scala.List">List</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]]</span>)</span><span class="result">: <a href="xpath/XPath.html" class="extype" name="scales.xml.xpath.XPath">xpath.XPath</a>[<span class="extype" name="scala.List">List</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">By default a List, eager/strict evaluation, is used.</p><div class="fullcomment"><div class="comment cmt"><p>By default a List, eager/strict evaluation, is used.  The user of the library can simply choose another collection to wrap the xmlPath</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#itemOrElemText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="itemOrElemText:scales.xml.xpath.ItemOrElemText.type"></a>
+      <a id="itemOrElemText:ItemOrElemText.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">itemOrElemText</span><span class="result">: <a href="xpath/ItemOrElemText$.html" class="extype" name="scales.xml.xpath.ItemOrElemText">ItemOrElemText</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#itemText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="itemText:scales.xml.xpath.XmlItemText.type"></a>
+      <a id="itemText:XmlItemText.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">itemText</span><span class="result">: <a href="xpath/XmlItemText$.html" class="extype" name="scales.xml.xpath.XmlItemText">XmlItemText</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.StreamComparableImplicits#itrDocLikeToStreamComparable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="itrDocLikeToStreamComparable[T](t:(T,scales.xml.DocLike))(implicitevidence$4:T=&gt;Iterator[scales.xml.PullType]):scales.xml.equals.StreamComparable[T]"></a>
+      <a id="itrDocLikeToStreamComparable[T]((T,DocLike))((T)⇒Iterator[xml.PullType]):StreamComparable[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">itrDocLikeToStreamComparable</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="t">t: (<span class="extype" name="scales.xml.equals.StreamComparableImplicits.itrDocLikeToStreamComparable.T">T</span>, <a href="DocLike.html" class="extype" name="scales.xml.DocLike">DocLike</a>)</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (<span class="extype" name="scales.xml.equals.StreamComparableImplicits.itrDocLikeToStreamComparable.T">T</span>) ⇒ <span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]</span>)</span><span class="result">: <a href="equals/StreamComparable.html" class="extype" name="scales.xml.equals.StreamComparable">StreamComparable</a>[<span class="extype" name="scales.xml.equals.StreamComparableImplicits.itrDocLikeToStreamComparable.T">T</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">One off for (Iterator, DocLike)
+</p><div class="fullcomment"><div class="comment cmt"><p>One off for (Iterator, DocLike)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.StreamComparableImplicits#itrDocLikeWrapper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="itrDocLikeWrapper(implicitbodyComp:scales.xml.equals.XmlComparison[Iterator[scales.xml.PullType]]):scales.xml.equals.DocLikeWrapper[(Iterator[scales.xml.PullType],scales.xml.DocLike)]"></a>
+      <a id="itrDocLikeWrapper(XmlComparison[Iterator[xml.PullType]]):DocLikeWrapper[(Iterator[xml.PullType],DocLike)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">itrDocLikeWrapper</span><span class="params">(<span class="implicit">implicit </span><span name="bodyComp">bodyComp: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]]</span>)</span><span class="result">: <a href="equals/DocLikeWrapper.html" class="extype" name="scales.xml.equals.DocLikeWrapper">DocLikeWrapper</a>[(<span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>], <a href="DocLike.html" class="extype" name="scales.xml.DocLike">DocLike</a>)]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Wrapper for (Iterator, DocLike)
+</p><div class="fullcomment"><div class="comment cmt"><p>Wrapper for (Iterator, DocLike)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.StreamComparableImplicits#itrPlusDocAsAnIterator" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="itrPlusDocAsAnIterator:((Iterator[scales.xml.PullType],scales.xml.DocLike))=&gt;Iterator[scales.xml.PullType]"></a>
+      <a id="itrPlusDocAsAnIterator:((Iterator[xml.PullType],DocLike))⇒Iterator[xml.PullType]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">itrPlusDocAsAnIterator</span><span class="result">: ((<span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>], <a href="DocLike.html" class="extype" name="scales.xml.DocLike">DocLike</a>)) ⇒ <span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.QNameImplicits#localStringToNSBuilder" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="localStringToNSBuilder(local:String)(implicitver:scales.xml.XmlVersion,implicitfromParser:scales.xml.impl.FromParser):scales.xml.impl.StringToNSBuilder"></a>
+      <a id="localStringToNSBuilder(String)(XmlVersion,FromParser):StringToNSBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">localStringToNSBuilder</span><span class="params">(<span name="local">local: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ver">ver: <a href="XmlVersion.html" class="extype" name="scales.xml.XmlVersion">XmlVersion</a></span>, <span name="fromParser">fromParser: <a href="impl/FromParser.html" class="extype" name="scales.xml.impl.FromParser">FromParser</a></span>)</span><span class="result">: <a href="impl/StringToNSBuilder.html" class="extype" name="scales.xml.impl.StringToNSBuilder">StringToNSBuilder</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/QNameImplicits.html" class="extype" name="scales.xml.impl.QNameImplicits">QNameImplicits</a></dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scales.xml.serializers.SerializerImplicits#pullAndDocSerializeable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pullAndDocSerializeable:scales.xml.serializers.SerializeableXml[(Iterator[scales.xml.PullType],scales.xml.DocLike)]"></a>
+      <a id="pullAndDocSerializeable:SerializeableXml[(Iterator[xml.PullType],DocLike)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pullAndDocSerializeable</span><span class="result">: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[(<span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>], <a href="DocLike.html" class="extype" name="scales.xml.DocLike">DocLike</a>)]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Serializes an Iterator and DocLike
+</p><div class="fullcomment"><div class="comment cmt"><p>Serializes an Iterator and DocLike
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.SerializerImplicits#pullCloseableOnlySerializeable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pullCloseableOnlySerializeable:scales.xml.serializers.SerializeableXml[scales.xml.CloseablePull]"></a>
+      <a id="pullCloseableOnlySerializeable:SerializeableXml[xml.CloseablePull]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pullCloseableOnlySerializeable</span><span class="result">: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<a href="package.html#CloseablePull=scales.xml.XmlPullwithjava.io.Closeablewithscales.utils.resources.IsClosed" class="extmbr" name="scales.xml.CloseablePull">xml.CloseablePull</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Serializes an XmlPull
+</p><div class="fullcomment"><div class="comment cmt"><p>Serializes an XmlPull
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.SerializerImplicits#pullOnlySerializeable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="pullOnlySerializeable:scales.xml.serializers.SerializeableXml[scales.xml.XmlPull]"></a>
+      <a id="pullOnlySerializeable:SerializeableXml[XmlPull]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">pullOnlySerializeable</span><span class="result">: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<a href="package.html#XmlPull=scales.xml.parser.pull.XmlPull" class="extmbr" name="scales.xml.XmlPull">XmlPull</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Serializes an XmlPull Resource
+</p><div class="fullcomment"><div class="comment cmt"><p>Serializes an XmlPull Resource
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.QNameEquals#qnameComparison" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="qnameComparison(implicitqe:scalaz.Equal[scales.xml.QName]):scales.xml.equals.XmlComparison[scales.xml.QName]"></a>
+      <a id="qnameComparison(Equal[QName]):XmlComparison[QName]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">qnameComparison</span><span class="params">(<span class="implicit">implicit </span><span name="qe">qe: <span class="extype" name="scalaz.Equal">Equal</span>[<a href="QName.html" class="extype" name="scales.xml.QName">QName</a>]</span>)</span><span class="result">: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="QName.html" class="extype" name="scales.xml.QName">QName</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/QNameEquals.html" class="extype" name="scales.xml.equals.QNameEquals">QNameEquals</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#qnameEqual" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="qnameEqual:scalaz.Equal[scales.xml.QName]"></a>
+      <a id="qnameEqual:Equal[QName]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">qnameEqual</span><span class="result">: <span class="extype" name="scalaz.Equal">Equal</span>[<a href="QName.html" class="extype" name="scales.xml.QName">QName</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#qnameEquiv" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="qnameEquiv:scales.utils.Equiv[scales.xml.QName]"></a>
+      <a id="qnameEquiv:Equiv[QName]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">qnameEquiv</span><span class="result">: <a href="../utils/Equiv.html" class="extype" name="scales.utils.Equiv">Equiv</a>[<a href="QName.html" class="extype" name="scales.xml.QName">QName</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#qnameNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="qnameNames:scales.xml.xpath.QNameNames.type"></a>
+      <a id="qnameNames:QNameNames.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">qnameNames</span><span class="result">: <a href="xpath/QNameNames$.html" class="extype" name="scales.xml.xpath.QNameNames">QNameNames</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.parser.sax.XmlParserImplicits#readerToSource" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="readerToSource(source:java.io.Reader):org.xml.sax.InputSource"></a>
+      <a id="readerToSource(Reader):InputSource"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">readerToSource</span><span class="params">(<span name="source">source: <span class="extype" name="java.io.Reader">Reader</span></span>)</span><span class="result">: <span class="extype" name="org.xml.sax.InputSource">InputSource</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="parser/sax/XmlParserImplicits.html" class="extype" name="scales.xml.parser.sax.XmlParserImplicits">XmlParserImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.XmlPathImplicits#samePath" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="samePath:(scales.xml.XmlPath,scales.xml.XmlPath)=&gt;Boolean"></a>
+      <a id="samePath:(xml.XmlPath,xml.XmlPath)⇒Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">samePath</span><span class="result">: (<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>, <a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.SerializerImplicits#streamSerializeable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="streamSerializeable:scales.xml.serializers.SerializeableXml[Iterator[scales.xml.PullType]]"></a>
+      <a id="streamSerializeable:SerializeableXml[Iterator[xml.PullType]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">streamSerializeable</span><span class="result">: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Serializes an Xml Stream
+</p><div class="fullcomment"><div class="comment cmt"><p>Serializes an Xml Stream
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.parser.sax.XmlParserImplicits#streamToSource" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="streamToSource(source:java.io.InputStream):org.xml.sax.InputSource"></a>
+      <a id="streamToSource(InputStream):InputSource"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">streamToSource</span><span class="params">(<span name="source">source: <span class="extype" name="java.io.InputStream">InputStream</span></span>)</span><span class="result">: <span class="extype" name="org.xml.sax.InputSource">InputSource</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="parser/sax/XmlParserImplicits.html" class="extype" name="scales.xml.parser.sax.XmlParserImplicits">XmlParserImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.QNameImplicits#stringToNoNamespace" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="stringToNoNamespace(localOnly:String)(implicitver:scales.xml.XmlVersion,implicitfromParser:scales.xml.impl.FromParser):scales.xml.NoNamespaceQName"></a>
+      <a id="stringToNoNamespace(String)(XmlVersion,FromParser):NoNamespaceQName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stringToNoNamespace</span><span class="params">(<span name="localOnly">localOnly: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ver">ver: <a href="XmlVersion.html" class="extype" name="scales.xml.XmlVersion">XmlVersion</a></span>, <span name="fromParser">fromParser: <a href="impl/FromParser.html" class="extype" name="scales.xml.impl.FromParser">FromParser</a></span>)</span><span class="result">: <a href="NoNamespaceQName.html" class="extype" name="scales.xml.NoNamespaceQName">NoNamespaceQName</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/QNameImplicits.html" class="extype" name="scales.xml.impl.QNameImplicits">QNameImplicits</a></dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#toAttr" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toAttr(pair:(String,String))(implicitver:scales.xml.XmlVersion,implicitfromParser:scales.xml.impl.FromParser):scales.xml.Attribute"></a>
+      <a id="toAttr((String,String))(XmlVersion,FromParser):Attribute"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toAttr</span><span class="params">(<span name="pair">pair: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>)</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ver">ver: <a href="XmlVersion.html" class="extype" name="scales.xml.XmlVersion">XmlVersion</a></span>, <span name="fromParser">fromParser: <a href="impl/FromParser.html" class="extype" name="scales.xml.impl.FromParser">FromParser</a></span>)</span><span class="result">: <a href="Attribute.html" class="extype" name="scales.xml.Attribute">Attribute</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#toAttrQNameN" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toAttrQNameN(nons:scales.xml.NoNamespaceQName):scales.xml.AttributeQName"></a>
+      <a id="toAttrQNameN(NoNamespaceQName):xml.AttributeQName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toAttrQNameN</span><span class="params">(<span name="nons">nons: <a href="NoNamespaceQName.html" class="extype" name="scales.xml.NoNamespaceQName">NoNamespaceQName</a></span>)</span><span class="result">: <a href="package.html#AttributeQName=scales.utils.EitherLike[scales.xml.PrefixedQName,scales.xml.NoNamespaceQName]" class="extmbr" name="scales.xml.AttributeQName">xml.AttributeQName</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#toAttrQNameP" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toAttrQNameP(prens:scales.xml.PrefixedQName):scales.xml.AttributeQName"></a>
+      <a id="toAttrQNameP(PrefixedQName):xml.AttributeQName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toAttrQNameP</span><span class="params">(<span name="prens">prens: <a href="PrefixedQName.html" class="extype" name="scales.xml.PrefixedQName">PrefixedQName</a></span>)</span><span class="result">: <a href="package.html#AttributeQName=scales.utils.EitherLike[scales.xml.PrefixedQName,scales.xml.NoNamespaceQName]" class="extmbr" name="scales.xml.AttributeQName">xml.AttributeQName</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#toAttrS" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toAttrS(local:String)(implicitver:scales.xml.XmlVersion):scales.xml.Attribute"></a>
+      <a id="toAttrS(String)(XmlVersion):Attribute"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toAttrS</span><span class="params">(<span name="local">local: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ver">ver: <a href="XmlVersion.html" class="extype" name="scales.xml.XmlVersion">XmlVersion</a></span>)</span><span class="result">: <a href="Attribute.html" class="extype" name="scales.xml.Attribute">Attribute</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Only used for lookups
+</p><div class="fullcomment"><div class="comment cmt"><p>Only used for lookups
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.DefaultStreamEquals#toDefaultStreamComparison" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toDefaultStreamComparison[T](implicittv:T=&gt;scales.xml.equals.StreamComparable[T],implicitic:scales.xml.equals.XmlComparison[scales.xml.XmlItem],implicitec:scales.xml.equals.XmlComparison[scales.xml.Elem],implicitqe:scalaz.Equal[scales.xml.QName],implicitqnameTokenComparison:Option[(scales.xml.equals.ComparisonContext,String,String)=&gt;Boolean]):scales.xml.equals.XmlComparison[T]"></a>
+      <a id="toDefaultStreamComparison[T]((T)⇒StreamComparable[T],XmlComparison[XmlItem],XmlComparison[Elem],Equal[QName],Option[(ComparisonContext,String,String)⇒Boolean]):XmlComparison[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toDefaultStreamComparison</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="tv">tv: (<span class="extype" name="scales.xml.equals.DefaultStreamEquals.toDefaultStreamComparison.T">T</span>) ⇒ <a href="equals/StreamComparable.html" class="extype" name="scales.xml.equals.StreamComparable">StreamComparable</a>[<span class="extype" name="scales.xml.equals.DefaultStreamEquals.toDefaultStreamComparison.T">T</span>]</span>, <span name="ic">ic: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="XmlItem.html" class="extype" name="scales.xml.XmlItem">XmlItem</a>]</span>, <span name="ec">ec: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<a href="Elem.html" class="extype" name="scales.xml.Elem">Elem</a>]</span>, <span name="qe">qe: <span class="extype" name="scalaz.Equal">Equal</span>[<a href="QName.html" class="extype" name="scales.xml.QName">QName</a>]</span>, <span name="qnameTokenComparison">qnameTokenComparison: <span class="extype" name="scala.Option">Option</span>[(<a href="equals/ComparisonContext.html" class="extype" name="scales.xml.equals.ComparisonContext">ComparisonContext</a>, <span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>) ⇒ <span class="extype" name="scala.Boolean">Boolean</span>]</span>)</span><span class="result">: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<span class="extype" name="scales.xml.equals.DefaultStreamEquals.toDefaultStreamComparison.T">T</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Conversions
+</p><div class="fullcomment"><div class="comment cmt"><p>Conversions
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/DefaultStreamEquals.html" class="extype" name="scales.xml.equals.DefaultStreamEquals">DefaultStreamEquals</a> → <a href="equals/StreamEquals.html" class="extype" name="scales.xml.equals.StreamEquals">StreamEquals</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#toQName" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toQName(attribQName:scales.xml.AttributeQName):scales.xml.QName"></a>
+      <a id="toQName(xml.AttributeQName):QName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toQName</span><span class="params">(<span name="attribQName">attribQName: <a href="package.html#AttributeQName=scales.utils.EitherLike[scales.xml.PrefixedQName,scales.xml.NoNamespaceQName]" class="extmbr" name="scales.xml.AttributeQName">xml.AttributeQName</a></span>)</span><span class="result">: <a href="QName.html" class="extype" name="scales.xml.QName">QName</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">which ever it is, is still a qname
+</p><div class="fullcomment"><div class="comment cmt"><p>which ever it is, is still a qname
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#toQNameF" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toQNameF:scales.xml.Attribute=&gt;scales.xml.QName"></a>
+      <a id="toQNameF:(Attribute)⇒QName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toQNameF</span><span class="result">: (<a href="Attribute.html" class="extype" name="scales.xml.Attribute">Attribute</a>) ⇒ <a href="QName.html" class="extype" name="scales.xml.QName">QName</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlUtilsImplicits#toScalesXml" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toScalesXml(elem:scala.xml.Elem)(implicitxmlVer:scales.xml.XmlVersion):XmlUtilsImplicits.this.ToScales"></a>
+      <a id="toScalesXml(scala.xml.Elem)(XmlVersion):ToScales"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toScalesXml</span><span class="params">(<span name="elem">elem: <span class="extype" name="scala.xml.Elem">scala.xml.Elem</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="xmlVer">xmlVer: <a href="XmlVersion.html" class="extype" name="scales.xml.XmlVersion">XmlVersion</a></span>)</span><span class="result">: <a href="#ToScalesextendsObject" class="extmbr" name="scales.xml.impl.XmlUtilsImplicits.ToScales">ToScales</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlUtilsImplicits.html" class="extype" name="scales.xml.impl.XmlUtilsImplicits">XmlUtilsImplicits</a></dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scales.xml.serializers.XmlPrinterImplicits#toWithWriter" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toWithWriter(decl:scales.xml.Declaration):XmlPrinterImplicits.this.DeclarationConverter"></a>
+      <a id="toWithWriter(Declaration):DeclarationConverter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toWithWriter</span><span class="params">(<span name="decl">decl: <a href="Declaration.html" class="extype" name="scales.xml.Declaration">Declaration</a></span>)</span><span class="result">: <a href="#DeclarationConverterextendsProductwithSerializable" class="extmbr" name="scales.xml.serializers.XmlPrinterImplicits.DeclarationConverter">DeclarationConverter</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/XmlPrinterImplicits.html" class="extype" name="scales.xml.serializers.XmlPrinterImplicits">XmlPrinterImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.serializers.SerializerImplicits#treeSerializeable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="treeSerializeable:scales.xml.serializers.SerializeableXml[scales.xml.XmlTree]"></a>
+      <a id="treeSerializeable:SerializeableXml[xml.XmlTree]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">treeSerializeable</span><span class="result">: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Serializes an XmlTree
+</p><div class="fullcomment"><div class="comment cmt"><p>Serializes an XmlTree
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.trax.TraxConversionImplicits#treeToSource" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="treeToSource(tree:scales.xml.XmlTree)(implicitserf:scales.xml.serializers.SerializerFactory,implicitsf:scales.xml.serializers.SerializeableXml[scales.xml.XmlTree]):javax.xml.transform.Source"></a>
+      <a id="treeToSource(xml.XmlTree)(SerializerFactory,SerializeableXml[xml.XmlTree]):Source"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">treeToSource</span><span class="params">(<span name="tree">tree: <a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="serf">serf: <a href="serializers/SerializerFactory.html" class="extype" name="scales.xml.serializers.SerializerFactory">SerializerFactory</a></span>, <span name="sf">sf: <a href="serializers/SerializeableXml.html" class="extype" name="scales.xml.serializers.SerializeableXml">SerializeableXml</a>[<a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a>]</span>)</span><span class="result">: <span class="extype" name="javax.xml.transform.Source">Source</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="trax/TraxConversionImplicits.html" class="extype" name="scales.xml.trax.TraxConversionImplicits">TraxConversionImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.trax.PullTypeConversionImplicits#treeToStream" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="treeToStream(tree:scales.xml.XmlTree):Iterator[scales.xml.PullType]"></a>
+      <a id="treeToStream(xml.XmlTree):Iterator[xml.PullType]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">treeToStream</span><span class="params">(<span name="tree">tree: <a href="package.html#XmlTree=scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlTree">xml.XmlTree</a></span>)</span><span class="result">: <span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="trax/PullTypeConversionImplicits.html" class="extype" name="scales.xml.trax.PullTypeConversionImplicits">PullTypeConversionImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.parser.sax.XmlParserImplicits#urlToSource" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="urlToSource(url:java.net.URL):org.xml.sax.InputSource"></a>
+      <a id="urlToSource(URL):InputSource"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">urlToSource</span><span class="params">(<span name="url">url: <span class="extype" name="java.net.URL">URL</span></span>)</span><span class="result">: <span class="extype" name="org.xml.sax.InputSource">InputSource</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">will call openStream.</p><div class="fullcomment"><div class="comment cmt"><p>will call openStream.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="parser/sax/XmlParserImplicits.html" class="extype" name="scales.xml.parser.sax.XmlParserImplicits">XmlParserImplicits</a></dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#xmlCBF" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xmlCBF:scales.xml.XmlCBF"></a>
+      <a id="xmlCBF:xml.XmlCBF"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xmlCBF</span><span class="result">: <a href="package.html#XmlCBF=scales.utils.TreeCBF[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlCBF">xml.XmlCBF</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Default cbf for xml trees
+</p><div class="fullcomment"><div class="comment cmt"><p>Default cbf for xml trees
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.StreamComparableImplicits#xmlPathToComparable" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xmlPathToComparable:scales.xml.XmlPath=&gt;scales.xml.equals.StreamComparable[scales.xml.XmlPath]"></a>
+      <a id="xmlPathToComparable:(xml.XmlPath)⇒StreamComparable[xml.XmlPath]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xmlPathToComparable</span><span class="result">: (<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>) ⇒ <a href="equals/StreamComparable.html" class="extype" name="scales.xml.equals.StreamComparable">StreamComparable</a>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Converts directly to a StreamComparable, its not generally a good idea to automagically  mix XmlPath as an Iterable with XmlPath as an Iterator, make it explicit if thats really desired.</p><div class="fullcomment"><div class="comment cmt"><p>Converts directly to a StreamComparable, its not generally a good idea to automagically  mix XmlPath as an Iterable with XmlPath as an Iterator, make it explicit if thats really desired.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.equals.TheyReallyAreIterators#xmlPullIsAn" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xmlPullIsAn:scales.xml.XmlPull=&gt;Iterator[scales.xml.PullType]"></a>
+      <a id="xmlPullIsAn:(XmlPull)⇒Iterator[xml.PullType]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xmlPullIsAn</span><span class="result">: (<a href="package.html#XmlPull=scales.xml.parser.pull.XmlPull" class="extmbr" name="scales.xml.XmlPull">XmlPull</a>) ⇒ <span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/TheyReallyAreIterators.html" class="extype" name="scales.xml.equals.TheyReallyAreIterators">TheyReallyAreIterators</a></dd></dl></div>
+    </li><li name="scales.xml.equals.StreamComparableImplicits#xmlPullWrapper" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xmlPullWrapper(implicitbodyComp:scales.xml.equals.XmlComparison[Iterator[scales.xml.PullType]]):scales.xml.equals.DocLikeWrapper[scales.xml.XmlPull]"></a>
+      <a id="xmlPullWrapper(XmlComparison[Iterator[xml.PullType]]):DocLikeWrapper[XmlPull]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xmlPullWrapper</span><span class="params">(<span class="implicit">implicit </span><span name="bodyComp">bodyComp: <a href="equals/XmlComparison.html" class="extype" name="scales.xml.equals.XmlComparison">XmlComparison</a>[<span class="extype" name="scala.Iterator">Iterator</span>[<a href="package.html#PullType=Either[scales.xml.XmlEvent,scales.xml.EndElem]" class="extmbr" name="scales.xml.PullType">xml.PullType</a>]]</span>)</span><span class="result">: <a href="equals/DocLikeWrapper.html" class="extype" name="scales.xml.equals.DocLikeWrapper">DocLikeWrapper</a>[<a href="package.html#XmlPull=scales.xml.parser.pull.XmlPull" class="extmbr" name="scales.xml.XmlPull">XmlPull</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Wrapper for XmlPull
+</p><div class="fullcomment"><div class="comment cmt"><p>Wrapper for XmlPull
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#xmlpathText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xmlpathText:scales.xml.xpath.XmlPathText.type"></a>
+      <a id="xmlpathText:XmlPathText.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xmlpathText</span><span class="result">: <a href="xpath/XmlPathText$.html" class="extype" name="scales.xml.xpath.XmlPathText">XmlPathText</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#xpathNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xpathNames:scales.xml.xpath.XmlPathNames.type"></a>
+      <a id="xpathNames:XmlPathNames.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xpathNames</span><span class="result">: <a href="xpath/XmlPathNames$.html" class="extype" name="scales.xml.xpath.XmlPathNames">XmlPathNames</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.impl.XmlTypesImplicits#xpathSortingClassManifest" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xpathSortingClassManifest:ClassManifest[(scales.utils.collection.path.Position[scales.xml.XmlItem,scales.xml.Elem,scales.xml.XCC],scales.xml.XmlPath)]"></a>
+      <a id="xpathSortingClassManifest:ClassManifest[(Position[XmlItem,Elem,xml.XCC],xml.XmlPath)]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xpathSortingClassManifest</span><span class="result">: <span class="extype" name="scala.Predef.ClassManifest">ClassManifest</span>[(<a href="../utils/collection/path/Position.html" class="extype" name="scales.utils.collection.path.Position">Position</a>[<a href="XmlItem.html" class="extype" name="scales.xml.XmlItem">XmlItem</a>, <a href="Elem.html" class="extype" name="scales.xml.Elem">Elem</a>, <a href="package.html#XCC[T]=scales.utils.collection.ImmutableArrayProxy[T]" class="extmbr" name="scales.xml.XCC">xml.XCC</a>], <a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>)]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Implicit manifest for sorting positions, big silent cpu eater otherwise, just like the builders.</p><div class="fullcomment"><div class="comment cmt"><p>Implicit manifest for sorting positions, big silent cpu eater otherwise, just like the builders.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#xpathToNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xpathToNames[T&lt;:Iterable[scales.xml.XmlPath]]:scales.xml.xpath.Names[scales.xml.xpath.XPath[T]]"></a>
+      <a id="xpathToNames[T&lt;:Iterable[xml.XmlPath]]:Names[xpath.XPath[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xpathToNames</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="scala.Iterable">Iterable</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]</span>]</span><span class="result">: <a href="xpath/Names.html" class="extype" name="scales.xml.xpath.Names">Names</a>[<a href="xpath/XPath.html" class="extype" name="scales.xml.xpath.XPath">xpath.XPath</a>[<span class="extype" name="scales.xml.xpath.NamesImplicits.xpathToNames.T">T</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#xpathToTextValue" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xpathToTextValue[T&lt;:Iterable[scales.xml.XmlPath]]:scales.xml.xpath.TextValue[scales.xml.xpath.XPath[T]]"></a>
+      <a id="xpathToTextValue[T&lt;:Iterable[xml.XmlPath]]:TextValue[xpath.XPath[T]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xpathToTextValue</span><span class="tparams">[<span name="T">T &lt;: <span class="extype" name="scala.Iterable">Iterable</span>[<a href="package.html#XmlPath=scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="extmbr" name="scales.xml.XmlPath">xml.XmlPath</a>]</span>]</span><span class="result">: <a href="xpath/TextValue.html" class="extype" name="scales.xml.xpath.TextValue">TextValue</a>[<a href="xpath/XPath.html" class="extype" name="scales.xml.xpath.XPath">xpath.XPath</a>[<span class="extype" name="scales.xml.xpath.TextImplicits.xpathToTextValue.T">T</span>]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.NamesImplicits#xtreeNames" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xtreeNames:scales.xml.xpath.XmlTreeNames.type"></a>
+      <a id="xtreeNames:XmlTreeNames.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xtreeNames</span><span class="result">: <a href="xpath/XmlTreeNames$.html" class="extype" name="scales.xml.xpath.XmlTreeNames">XmlTreeNames</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></dd></dl></div>
+    </li><li name="scales.xml.xpath.TextImplicits#xtreeText" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="xtreeText:scales.xml.xpath.XmlTreeText.type"></a>
+      <a id="xtreeText:XmlTreeText.type"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">xtreeText</span><span class="result">: <a href="xpath/XmlTreeText$.html" class="extype" name="scales.xml.xpath.XmlTreeText">XmlTreeText</a>.type</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scales.xml.impl.ScalesXmlImplicits">
+              <h3>Inherited from <a href="impl/ScalesXmlImplicits.html" class="extype" name="scales.xml.impl.ScalesXmlImplicits">ScalesXmlImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.equals.FromEqualsImplicit">
+              <h3>Inherited from <a href="equals/FromEqualsImplicit.html" class="extype" name="scales.xml.equals.FromEqualsImplicit">FromEqualsImplicit</a></h3>
+            </div><div class="parent" name="scales.xml.equals.ComparisonContextImplicits">
+              <h3>Inherited from <a href="equals/ComparisonContextImplicits.html" class="extype" name="scales.xml.equals.ComparisonContextImplicits">ComparisonContextImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.equals.StreamComparableImplicits">
+              <h3>Inherited from <a href="equals/StreamComparableImplicits.html" class="extype" name="scales.xml.equals.StreamComparableImplicits">StreamComparableImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.equals.TheyReallyAreIterators">
+              <h3>Inherited from <a href="equals/TheyReallyAreIterators.html" class="extype" name="scales.xml.equals.TheyReallyAreIterators">TheyReallyAreIterators</a></h3>
+            </div><div class="parent" name="scales.xml.equals.DefaultXmlEquals">
+              <h3>Inherited from <a href="equals/DefaultXmlEquals.html" class="extype" name="scales.xml.equals.DefaultXmlEquals">DefaultXmlEquals</a></h3>
+            </div><div class="parent" name="scales.xml.equals.DefaultDocLikeEquals">
+              <h3>Inherited from <a href="equals/DefaultDocLikeEquals.html" class="extype" name="scales.xml.equals.DefaultDocLikeEquals">DefaultDocLikeEquals</a></h3>
+            </div><div class="parent" name="scales.xml.equals.DefaultQNameToken">
+              <h3>Inherited from <a href="equals/DefaultQNameToken.html" class="extype" name="scales.xml.equals.DefaultQNameToken">DefaultQNameToken</a></h3>
+            </div><div class="parent" name="scales.xml.equals.QNameEquals">
+              <h3>Inherited from <a href="equals/QNameEquals.html" class="extype" name="scales.xml.equals.QNameEquals">QNameEquals</a></h3>
+            </div><div class="parent" name="scales.xml.equals.DefaultStreamEquals">
+              <h3>Inherited from <a href="equals/DefaultStreamEquals.html" class="extype" name="scales.xml.equals.DefaultStreamEquals">DefaultStreamEquals</a></h3>
+            </div><div class="parent" name="scales.xml.equals.StreamEquals">
+              <h3>Inherited from <a href="equals/StreamEquals.html" class="extype" name="scales.xml.equals.StreamEquals">StreamEquals</a></h3>
+            </div><div class="parent" name="scales.xml.equals.DefaultElemEquals">
+              <h3>Inherited from <a href="equals/DefaultElemEquals.html" class="extype" name="scales.xml.equals.DefaultElemEquals">DefaultElemEquals</a></h3>
+            </div><div class="parent" name="scales.xml.equals.DefaultAttributesEquals">
+              <h3>Inherited from <a href="equals/DefaultAttributesEquals.html" class="extype" name="scales.xml.equals.DefaultAttributesEquals">DefaultAttributesEquals</a></h3>
+            </div><div class="parent" name="scales.xml.equals.DefaultAttributeEquals">
+              <h3>Inherited from <a href="equals/DefaultAttributeEquals.html" class="extype" name="scales.xml.equals.DefaultAttributeEquals">DefaultAttributeEquals</a></h3>
+            </div><div class="parent" name="scales.xml.equals.DefaultItemEquals">
+              <h3>Inherited from <a href="equals/DefaultItemEquals.html" class="extype" name="scales.xml.equals.DefaultItemEquals">DefaultItemEquals</a></h3>
+            </div><div class="parent" name="scales.xml.trax.PullTypeConversionImplicits">
+              <h3>Inherited from <a href="trax/PullTypeConversionImplicits.html" class="extype" name="scales.xml.trax.PullTypeConversionImplicits">PullTypeConversionImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.xpath.XmlPathImplicits">
+              <h3>Inherited from <a href="xpath/XmlPathImplicits.html" class="extype" name="scales.xml.xpath.XmlPathImplicits">XmlPathImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.xpath.FunctionImplicits">
+              <h3>Inherited from <a href="xpath/FunctionImplicits.html" class="extype" name="scales.xml.xpath.FunctionImplicits">FunctionImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.xpath.NamesImplicits">
+              <h3>Inherited from <a href="xpath/NamesImplicits.html" class="extype" name="scales.xml.xpath.NamesImplicits">NamesImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.xpath.TextImplicits">
+              <h3>Inherited from <a href="xpath/TextImplicits.html" class="extype" name="scales.xml.xpath.TextImplicits">TextImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.serializers.XmlPrinterImplicits">
+              <h3>Inherited from <a href="serializers/XmlPrinterImplicits.html" class="extype" name="scales.xml.serializers.XmlPrinterImplicits">XmlPrinterImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.serializers.SerializerImplicits">
+              <h3>Inherited from <a href="serializers/SerializerImplicits.html" class="extype" name="scales.xml.serializers.SerializerImplicits">SerializerImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.trax.TraxConversionImplicits">
+              <h3>Inherited from <a href="trax/TraxConversionImplicits.html" class="extype" name="scales.xml.trax.TraxConversionImplicits">TraxConversionImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.parser.strategies.OptimisingStrategiesImplicits">
+              <h3>Inherited from <a href="parser/strategies/OptimisingStrategiesImplicits.html" class="extype" name="scales.xml.parser.strategies.OptimisingStrategiesImplicits">OptimisingStrategiesImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.parser.sax.XmlParserImplicits">
+              <h3>Inherited from <a href="parser/sax/XmlParserImplicits.html" class="extype" name="scales.xml.parser.sax.XmlParserImplicits">XmlParserImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.dsl.OptionalDslBuilderImplicits">
+              <h3>Inherited from <a href="dsl/OptionalDslBuilderImplicits.html" class="extype" name="scales.xml.dsl.OptionalDslBuilderImplicits">OptionalDslBuilderImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.dsl.DslImplicits">
+              <h3>Inherited from <a href="dsl/DslImplicits.html" class="extype" name="scales.xml.dsl.DslImplicits">DslImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.impl.XmlUtilsImplicits">
+              <h3>Inherited from <a href="impl/XmlUtilsImplicits.html" class="extype" name="scales.xml.impl.XmlUtilsImplicits">XmlUtilsImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.impl.QNameImplicits">
+              <h3>Inherited from <a href="impl/QNameImplicits.html" class="extype" name="scales.xml.impl.QNameImplicits">QNameImplicits</a></h3>
+            </div><div class="parent" name="scales.xml.impl.DefaultXmlVersion">
+              <h3>Inherited from <a href="impl/DefaultXmlVersion.html" class="extype" name="scales.xml.impl.DefaultXmlVersion">DefaultXmlVersion</a></h3>
+            </div><div class="parent" name="scales.xml.impl.XmlTypesImplicits">
+              <h3>Inherited from <a href="impl/XmlTypesImplicits.html" class="extype" name="scales.xml.impl.XmlTypesImplicits">XmlTypesImplicits</a></h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

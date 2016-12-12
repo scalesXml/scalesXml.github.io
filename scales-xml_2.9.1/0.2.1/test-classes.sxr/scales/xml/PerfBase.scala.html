@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\PerfBase.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.xml</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="keyword">import</span> com.google.caliper.SimpleBenchmark</span>
+<a href="l4"></a><span id="l4"></span>
+<a href="l5"></a><span id="l5"><span class="comment">// copied verbatim from Mathias' sbt caliper template</span></span>
+<a href="l6"></a><span id="l6"><span class="keyword">trait</span> <a title="trait SimpleScalaBenchmark extends com.google.caliper.SimpleBenchmark with ScalaObject" id="14115">SimpleScalaBenchmark</a> <span title="ScalaObject" class="keyword">extends</span> <span title="com.google.caliper.SimpleBenchmark">SimpleBenchmark</span> <span class="delimiter">{</span></span>
+<a href="l7"></a><span id="l7">  </span>
+<a href="l8"></a><span id="l8">  <span class="comment">// helper method to keep the actual benchmarking methods a bit cleaner</span></span>
+<a href="l9"></a><span id="l9">  <span class="comment">// your code snippet should always return a value that cannot be &quot;optimized away&quot;</span></span>
+<a href="l10"></a><span id="l10">  <span class="keyword">def</span> <a title="[A](reps: Int)(snippet: =&gt; A)A" id="94947">repeat</a><span class="delimiter">[</span>@specialized <a title="&gt;: Nothing &lt;: Any" id="94949">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="Int" id="95728">reps</a>: <span title="Int">Int</span><span class="delimiter">)</span><span class="delimiter">(</span><a title="=&gt; A" id="95729">snippet</a>: =&gt; A<span class="delimiter">)</span> = <span class="delimiter">{</span></span>
+<a href="l11"></a><span id="l11">    <span class="keyword">val</span> <a title="A" id="95732">zero</a> = <span title="Int(0)" class="int">0</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="A" class="delimiter">[</span><a href="#94949" title="A">A</a><span class="delimiter">]</span> <span class="comment">// looks wierd but does what it should: init w/ default value in a fully generic way</span></span>
+<a href="l12"></a><span id="l12">    <span class="keyword">var</span> <a title="Int" id="95733">i</a> = <span title="Int(0)" class="int">0</span></span>
+<a href="l13"></a><span id="l13">    <span class="keyword">var</span> <a title="A" id="95734">result</a> = <a href="#95732" title="A">zero</a></span>
+<a href="l14"></a><span id="l14">    <span title="Unit" class="keyword">while</span> <span class="delimiter">(</span><a href="#95733" title="Int">i</a> <span title="(x: Int)Boolean">&lt;</span> <a href="#95728" title="Int">reps</a><span class="delimiter">)</span> <a href="#95735" title="()Unit" class="delimiter">{</a></span>
+<a href="l15"></a><span id="l15">      <span class="keyword">val</span> <a title="A" id="95750">res</a> = <a href="#95729" title="=&gt; A">snippet</a> </span>
+<a href="l16"></a><span id="l16">      <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#95750" title="A">res</a> <span title="(x$1: Any)Boolean">!=</span> <a href="#95732" title="A">zero</a><span class="delimiter">)</span> <a href="#95734" title="A">result</a> = <a href="#95750" title="A">res</a> <span class="comment">// make result depend on the benchmarking snippet result </span></span>
+<a href="l17"></a><span id="l17">      <a href="#95733" title="Int">i</a> = <a href="#95733" title="Int">i</a> <span title="(x: Int)Int">+</span> <span title="Int(1)" class="int">1</span></span>
+<a href="l18"></a><span id="l18">    <span class="delimiter">}</span></span>
+<a href="l19"></a><span id="l19">    <a href="#95734" title="A">result</a></span>
+<a href="l20"></a><span id="l20">  <span class="delimiter">}</span></span>
+<a href="l21"></a><span id="l21"></span>
+<a href="l22"></a><span id="l22"><span class="delimiter">}</span></span>
+<a href="l23"></a><span id="l23"></span>
+<a href="l24"></a><span id="l24">        </span>
+</pre>
+    </body>
+</html>

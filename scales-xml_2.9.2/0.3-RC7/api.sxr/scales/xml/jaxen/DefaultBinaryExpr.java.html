@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\jaxen\DefaultBinaryExpr.java</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/*
+ * $Header$
+ * $Revision: 1345 $
+ * $Date: 2009-10-22 07:25:23 -0400 (Thu, 22 Oct 2009) $
+ *
+ * ====================================================================
+ *
+ * Copyright 2000-2002 bob mcwhirter &amp; James Strachan.
+ * All rights reserved.
+ *
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ * 
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ * 
+ *   * Neither the name of the Jaxen Project nor the names of its
+ *     contributors may be used to endorse or promote products derived 
+ *     from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS
+ * IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ====================================================================
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Jaxen Project and was originally
+ * created by bob mcwhirter &lt;bob@werken.com&gt; and
+ * James Strachan &lt;jstrachan@apache.org&gt;.  For more information on the
+ * Jaxen Project, please see &lt;http://www.jaxen.org/&gt;.
+ *
+ * $Id: DefaultLocationPath.java 1345 2009-10-22 11:25:23Z elharo $
+ */</span>
+<span class="keyword">package</span> scales.xml.jaxen;
+
+<span class="keyword">import</span> org.jaxen.expr.*;
+<span class="keyword">import</span> org.jaxen.*;
+
+<span class="keyword">abstract</span> <span class="keyword">class</span> <a title="object scales.xml.jaxen.DefaultBinaryExpr" id="15277">DefaultBinaryExpr</a> <span class="keyword">extends</span> DefaultExpr implements BinaryExpr
+<span class="delimiter">{</span>
+    <span class="keyword">private</span> Expr <a title="org.jaxen.expr.Expr" id="129402">lhs</a>;
+    <span class="keyword">private</span> Expr <a title="org.jaxen.expr.Expr" id="129403">rhs</a>;
+
+    DefaultBinaryExpr<a href="#15277" title="scales.xml.jaxen.DefaultBinaryExpr" class="delimiter">(</a>Expr <a title="org.jaxen.expr.Expr" id="129426">lhs</a>, Expr <a title="org.jaxen.expr.Expr" id="129427">rhs</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">this</span>.lhs = lhs;
+        <span class="keyword">this</span>.rhs = rhs;
+    <span class="delimiter">}</span>
+
+    public Expr <a title="()org.jaxen.expr.Expr" id="129405">getLHS</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>.lhs;
+    <span class="delimiter">}</span>
+
+    public Expr <a title="()org.jaxen.expr.Expr" id="129406">getRHS</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>.rhs;
+    <span class="delimiter">}</span>
+
+    public void <a title="(lhs: org.jaxen.expr.Expr)Unit" id="129407">setLHS</a><span class="delimiter">(</span>Expr <a title="org.jaxen.expr.Expr" id="134468">lhs</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">this</span>.lhs = lhs;
+    <span class="delimiter">}</span>
+
+    public void <a title="(rhs: org.jaxen.expr.Expr)Unit" id="129408">setRHS</a><span class="delimiter">(</span>Expr <a title="org.jaxen.expr.Expr" id="134470">rhs</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">this</span>.rhs = rhs;
+    <span class="delimiter">}</span>
+
+    public <span class="keyword">abstract</span> String <a title="()java.lang.String" id="129409">getOperator</a><span class="delimiter">(</span><span class="delimiter">)</span>;
+
+    public String <a title="()java.lang.String" id="129410">getText</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="string">&quot;(&quot;</span> + getLHS<span class="delimiter">(</span><span class="delimiter">)</span>.getText<span class="delimiter">(</span><span class="delimiter">)</span> + <span class="string">&quot; &quot;</span> + getOperator<span class="delimiter">(</span><span class="delimiter">)</span> + <span class="string">&quot; &quot;</span> + getRHS<span class="delimiter">(</span><span class="delimiter">)</span>.getText<span class="delimiter">(</span><span class="delimiter">)</span> +<span class="string">&quot;)&quot;</span>;
+    <span class="delimiter">}</span>
+
+    public String <a title="()java.lang.String" id="129411">toString</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="string">&quot;[&quot;</span> + getClass<span class="delimiter">(</span><span class="delimiter">)</span>.getName<span class="delimiter">(</span><span class="delimiter">)</span> + <span class="string">&quot;: &quot;</span> + getLHS<span class="delimiter">(</span><span class="delimiter">)</span> + <span class="string">&quot;, &quot;</span> + getRHS<span class="delimiter">(</span><span class="delimiter">)</span> + <span class="string">&quot;]&quot;</span>;
+    <span class="delimiter">}</span>
+
+    public Expr <a title="()org.jaxen.expr.Expr" id="129412">simplify</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        setLHS<span class="delimiter">(</span> getLHS<span class="delimiter">(</span><span class="delimiter">)</span>.simplify<span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">)</span>;
+        setRHS<span class="delimiter">(</span> getRHS<span class="delimiter">(</span><span class="delimiter">)</span>.simplify<span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">)</span>;
+
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

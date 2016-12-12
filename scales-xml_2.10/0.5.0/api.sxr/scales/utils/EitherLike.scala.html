@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\EitherLike.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="keyword">import</span> impl.<span class="delimiter">{</span>LeftLikeProjection, RightLikeProjection, NonLeftP, NonRightP<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Either is great, perfect for what is needed, except for the indirection and the added memory and cpu costs thereof.  If ScalesXml is meant to be used in the placesthat JAXP and friends would live it should perform the best it can.
+ *
+ * That means reducing allocations wherever possible and optimising up to the point of model damage.  I think this unfortunately crosses that line but meets the aim.
+ */</span> 
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait EitherLike[+L, +R] extends AnyRef" id="scales.utils;EitherLike">EitherLike</a><span class="delimiter">[</span>+<a title="" id="scales.utils;EitherLike;L">L</a>,+<a title="" id="scales.utils;EitherLike;R">R</a><span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils;EitherLike.isLeft">isLeft</a> : <span title="Boolean">Boolean</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils;EitherLike.isRight">isRight</a> : <span title="Boolean">Boolean</span>
+
+  <span class="keyword">def</span> <a title="[X](fl: L =&gt; X, fr: R =&gt; X)X" id="scales.utils;EitherLike.fold">fold</a><span class="delimiter">[</span><a title="" id="scales.utils;EitherLike.fold;X">X</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="L =&gt; X" id="scales.utils;EitherLike.fold.fl">fl</a> : <span class="delimiter">(</span>L<span class="delimiter">)</span> =&gt; X, <a title="R =&gt; X" id="scales.utils;EitherLike.fold.fr">fr</a> : <span class="delimiter">(</span>R<span class="delimiter">)</span> =&gt; X<span class="delimiter">)</span> : <a href="#scales.utils;EitherLike.fold;X" title="X">X</a>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.utils.impl.LeftLikeProjection[L]" id="scales.utils;EitherLike.left">left</a> : <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;LeftLikeProjection" title="scales.utils.impl.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span>
+  
+  <span class="keyword">def</span> <a title="=&gt; L" id="scales.utils;EitherLike.getLeft">getLeft</a> : <a href="#scales.utils;EitherLike;L" title="L">L</a>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.utils.impl.RightLikeProjection[R]" id="scales.utils;EitherLike.right">right</a> : <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;RightLikeProjection" title="scales.utils.impl.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span>
+
+  <span class="keyword">def</span> <a title="=&gt; R" id="scales.utils;EitherLike.getRight">getRight</a> : <a href="#scales.utils;EitherLike;R" title="R">R</a>
+<span class="delimiter">}</span>
+
+<span title="AnyRef" class="keyword">trait</span> <a title="trait LeftLike[+L, +R] extends AnyRef with scales.utils.impl.LeftLikeProjection[L] with scales.utils.EitherLike[L,R]" id="scales.utils;LeftLike">LeftLike</a><span class="delimiter">[</span>+<a title="" id="scales.utils;LeftLike;L">L</a>, +<a title="" id="scales.utils;LeftLike;R">R</a><span class="delimiter">]</span> <span title="Unit" class="keyword">extends</span> <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;LeftLikeProjection" title="scales.utils.impl.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#scales.utils;EitherLike" title="scales.utils.EitherLike[L,R]">EitherLike</a><span class="delimiter">[</span>L,R<span class="delimiter">]</span> <span class="delimiter">{</span> lefty : L =&gt;
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils;LeftLike.isLeft">isLeft</a> = <span title="Boolean(true)" class="keyword">true</span>
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils;LeftLike.isRight">isRight</a> = <span title="Boolean(false)" class="keyword">false</span>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="[X](fl: L =&gt; X, fr: R =&gt; X)X" id="scales.utils;LeftLike.fold">fold</a><span class="delimiter">[</span><a title="" id="scales.utils;LeftLike.fold;X">X</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="L =&gt; X" id="scales.utils;LeftLike.fold.fl">fl</a> : <span class="delimiter">(</span>L<span class="delimiter">)</span> =&gt; X, <a title="R =&gt; X" id="scales.utils;LeftLike.fold.fr">fr</a> : <span class="delimiter">(</span>R<span class="delimiter">)</span> =&gt; X<span class="delimiter">)</span> : <a href="#scales.utils;LeftLike.fold;X" title="X">X</a> = <a href="#scales.utils;LeftLike.fold.fl" title="(v1: L)X">fl</a><span class="delimiter">(</span><a href="#scales.utils;LeftLike" title="utils extends scales.utils.LeftLike[L,R] with L">lefty</a><span class="delimiter">)</span>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.impl.LeftLikeProjection[L]" id="scales.utils;LeftLike.left">left</a> : <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;LeftLikeProjection" title="scales.utils.impl.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span> = <a href="#scales.utils;LeftLike" title="utils extends scales.utils.LeftLike[L,R] with L" class="keyword">this</a>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.impl.RightLikeProjection[R]" id="scales.utils;LeftLike.right">right</a> : <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;RightLikeProjection" title="scales.utils.impl.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span> = <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl.NonRightP" title="scales.utils.impl.NonRightP.type">NonRightP</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.utils.impl.RightLikeProjection[R]" class="delimiter">[</span><a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;RightLikeProjection" title="scales.utils.impl.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span><span class="delimiter">]</span>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; L" id="scales.utils;LeftLike.get">get</a> : <a href="#scales.utils;LeftLike;L" title="L">L</a> = <a href="#scales.utils;LeftLike" title="utils extends scales.utils.LeftLike[L,R] with L">lefty</a>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; L" id="scales.utils;LeftLike.getLeft">getLeft</a> : <a href="#scales.utils;LeftLike;L" title="L">L</a> = <a href="#scales.utils;LeftLike" title="utils extends scales.utils.LeftLike[L,R] with L">lefty</a>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; R" id="scales.utils;LeftLike.getRight">getRight</a> : <a href="#scales.utils;LeftLike;R" title="R">R</a> = <a href="#scales.utils;LeftLike.right" title="=&gt; scales.utils.impl.RightLikeProjection[R]">right</a>.<a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;RightLikeProjection.get" title="=&gt; R">get</a>
+
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait RightLike[+L, +R] extends AnyRef with scales.utils.impl.RightLikeProjection[R] with scales.utils.EitherLike[L,R]" id="scales.utils;RightLike">RightLike</a><span class="delimiter">[</span>+<a title="" id="scales.utils;RightLike;L">L</a>, +<a title="" id="scales.utils;RightLike;R">R</a><span class="delimiter">]</span> <span title="Unit" class="keyword">extends</span> <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;RightLikeProjection" title="scales.utils.impl.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#scales.utils;EitherLike" title="scales.utils.EitherLike[L,R]">EitherLike</a><span class="delimiter">[</span>L,R<span class="delimiter">]</span> <span class="delimiter">{</span> righty : R =&gt;
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils;RightLike.isLeft">isLeft</a> = <span title="Boolean(false)" class="keyword">false</span>
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils;RightLike.isRight">isRight</a> = <span title="Boolean(true)" class="keyword">true</span>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="[X](fl: L =&gt; X, fr: R =&gt; X)X" id="scales.utils;RightLike.fold">fold</a><span class="delimiter">[</span><a title="" id="scales.utils;RightLike.fold;X">X</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="L =&gt; X" id="scales.utils;RightLike.fold.fl">fl</a> : <span class="delimiter">(</span>L<span class="delimiter">)</span> =&gt; X, <a title="R =&gt; X" id="scales.utils;RightLike.fold.fr">fr</a> : <span class="delimiter">(</span>R<span class="delimiter">)</span> =&gt; X<span class="delimiter">)</span> : <a href="#scales.utils;RightLike.fold;X" title="X">X</a> = <a href="#scales.utils;RightLike.fold.fr" title="(v1: R)X">fr</a><span class="delimiter">(</span><a href="#scales.utils;RightLike" title="utils extends scales.utils.RightLike[L,R] with R">righty</a><span class="delimiter">)</span>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.impl.LeftLikeProjection[L]" id="scales.utils;RightLike.left">left</a> : <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;LeftLikeProjection" title="scales.utils.impl.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span> = <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl.NonLeftP" title="scales.utils.impl.NonLeftP.type">NonLeftP</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.utils.impl.LeftLikeProjection[L]" class="delimiter">[</span><a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;LeftLikeProjection" title="scales.utils.impl.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span><span class="delimiter">]</span>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.impl.RightLikeProjection[R]" id="scales.utils;RightLike.right">right</a> : <a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;RightLikeProjection" title="scales.utils.impl.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span> = <a href="#scales.utils;RightLike" title="utils extends scales.utils.RightLike[L,R] with R" class="keyword">this</a> 
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; R" id="scales.utils;RightLike.get">get</a> : <a href="#scales.utils;RightLike;R" title="R">R</a> = <a href="#scales.utils;RightLike" title="utils extends scales.utils.RightLike[L,R] with R">righty</a>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; R" id="scales.utils;RightLike.getRight">getRight</a> : <a href="#scales.utils;RightLike;R" title="R">R</a> = <a href="#scales.utils;RightLike" title="utils extends scales.utils.RightLike[L,R] with R">righty</a>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; L" id="scales.utils;RightLike.getLeft">getLeft</a> : <a href="#scales.utils;RightLike;L" title="L">L</a> = <a href="#scales.utils;RightLike.left" title="=&gt; scales.utils.impl.LeftLikeProjection[L]">left</a>.<a href="impl/EitherLikeImpl.scala.html#scales.utils.impl;LeftLikeProjection.get" title="=&gt; L">get</a>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

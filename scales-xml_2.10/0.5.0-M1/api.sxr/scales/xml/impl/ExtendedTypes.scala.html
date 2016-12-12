@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\impl\ExtendedTypes.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.impl
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>AttributeQName, Attribute, XmlPath<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * exists only to provide Jaxen and JXPath with a document &quot;root&quot;
+ */</span> 
+case <span class="keyword">class</span> <a title="class DocumentRoot extends java.lang.Object with ScalaObject with Product with Serializable" id="102712">DocumentRoot</a><a href="#102712" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.package.XmlPath" id="102709">xmlPath</a> : <a href="../../utils/collection/path/Paths.scala.html#13360" title="scales.xml.package.XmlPath">XmlPath</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * exists only to provide Jaxen and JXPath with the same document root
+ */</span> 
+case <span class="keyword">class</span> <a title="class DocsUp[WHAT] extends java.lang.Object with ScalaObject with Product with Serializable" id="102723">DocsUp</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="102652">WHAT</a><span class="delimiter">]</span><a href="#102723" title="ScalaObject" class="delimiter">(</a><a title="WHAT" id="102716">what</a> : <a href="#102652" title="WHAT">WHAT</a>, <a title="scales.xml.impl.DocumentRoot" id="102717">docroot</a> : <a href="#102712" title="scales.xml.impl.DocumentRoot">DocumentRoot</a><span class="delimiter">)</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.impl.ExtraTypesImplicits" id="9987">ExtraTypesImplicits</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.package.AttributeQName =&gt; scales.xml.Attribute" id="102697">toAttrN</a> = <span class="delimiter">(</span>nons: <a href="../../utils/EitherLike.scala.html#12558" title="scales.xml.package.AttributeQName">AttributeQName</a><span class="delimiter">)</span> =&gt; <a href="../XmlTypes.scala.html#57509" title="(name: scales.xml.package.AttributeQName, value: String)scales.xml.Attribute">Attribute</a><span class="delimiter">(</span><a href="#102701" title="scales.xml.package.AttributeQName">nons</a>, <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

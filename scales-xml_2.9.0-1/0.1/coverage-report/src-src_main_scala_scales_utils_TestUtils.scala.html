@@ -1,0 +1,97 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;TestUtils.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">85 %</div>
+        <div class="greenBar" style="width:170px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_TestUtils.scala.html#Object_scales_utils_TestUtils"><img src="object.png"></img>TestUtils</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">85 %</div>
+        <div class="greenBar" style="width:170px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td><a id="Object_scales_utils_TestUtils"></a>object TestUtils {
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>  import junit.framework.Assert._
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>   * Should be an equals type class !!!!!
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>   * Provides comparisom of two different iterables with a conversion function, (both must support size being called)
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>  def compare[A, E](expectVals: Iterable[E], gotVals: Iterable[A])(convert: (A) =&gt; E) {
+</td>
+          </tr><tr>
+            <td class="yellow">11</td>
+            <td>    if (expectVals.size != gotVals.size) <span class="non">println(&quot;got &quot; + gotVals.map(convert))
+</span></td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>    assertEquals(expectVals.size, gotVals.size)
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>    val vals = expectVals.zip(gotVals.map(convert(_)))
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>    for (aval &lt;- vals) {
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>      assertTrue(aval.toString, aval._1 == aval._2)
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>  }  
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>}
+</td>
+          </tr></tbody></table>

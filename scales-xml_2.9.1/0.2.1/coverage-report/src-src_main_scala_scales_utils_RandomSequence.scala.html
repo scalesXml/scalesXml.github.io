@@ -1,0 +1,121 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;RandomSequence.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_RandomSequence.scala.html#Object_scales_utils_RandomSequence"><img src="object.png"></img>RandomSequence</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td> * Currently thread safe, java doc issue pending http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6498354
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td><a id="Object_scales_utils_RandomSequence"></a>object RandomSequence {
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>  import java.security.NoSuchAlgorithmException;
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>  import java.security.SecureRandom;
+</td>
+          </tr><tr>
+            <td class="red">9</td>
+            <td>  private var keyGen = <span class="non">SecureRandom.getInstance(&quot;SHA1PRNG&quot;);
+</span></td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>   * Gens a sequence of up to len bytes and converts to base 64
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>  def next64Sequence(len: Int): String = {
+</td>
+          </tr><tr>
+            <td class="red">15</td>
+            <td>    val bytes = <span class="non">new Array[Byte](len)
+</span></td>
+          </tr><tr>
+            <td class="red">16</td>
+            <td>    <span class="non">keyGen.nextBytes(bytes)
+</span></td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>    // turn the bytes to base64
+</td>
+          </tr><tr>
+            <td class="red">19</td>
+            <td>    <span class="non">new String(org.apache.commons.codec.binary.Base64.encodeBase64(bytes))
+</span></td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>   * Returns 16 bytes of base64 random sequence
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">25</td>
+            <td>  def next64Sequence: String = <span class="non">next64Sequence(16)
+</span></td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>}
+</td>
+          </tr></tbody></table>

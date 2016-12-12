@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\IterableUtils.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="keyword">trait</span> <a title="trait IterableUtils extends java.lang.Object with ScalaObject" id="10398">IterableUtils</a> <span title="ScalaObject" class="delimiter">{</span></span>
+<a href="l4"></a><span id="l4"></span>
+<a href="l5"></a><span id="l5">  <span class="comment">/** </span>
+<a href="l6"></a><span id="l6">   * Makes a StringBuilder from an iterable using the builder parameter.</span>
+<a href="l7"></a><span id="l7">   */</span></span>
+<a href="l8"></a><span id="l8">  <span class="keyword">def</span> <a title="[A](itr: Iterable[A], builder: java.lang.StringBuilder, separator: String)(thunk: A =&gt; String)java.lang.StringBuilder" id="12043">mkString</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="58516">A</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="Iterable[A]" id="58508">itr</a> : <span title="Iterable[A]">Iterable</span><span class="delimiter">[</span>A<span class="delimiter">]</span>, <a title="java.lang.StringBuilder" id="58514">builder</a> : java.lang.<span title="java.lang.StringBuilder">StringBuilder</span> = <span title="(x$1: Int)java.lang.StringBuilder" class="keyword">new</span> java.lang.<span title="java.lang.StringBuilder">StringBuilder</span><span class="delimiter">(</span><span title="Int(1000)" class="int">1000</span><span class="delimiter">)</span></span>
+<a href="l9"></a><span id="l9">		  , <a title="String" id="58517">separator</a> : <span title="String">String</span> = <span title="java.lang.String(&quot; &quot;)" class="string">&quot; &quot;</span><span class="delimiter">)</span><span class="delimiter">(</span> <a title="A =&gt; String" id="58511">thunk</a> : <span class="delimiter">(</span>A<span class="delimiter">)</span> =&gt; String<span class="delimiter">)</span> = <span class="delimiter">{</span></span>
+<a href="l10"></a><span id="l10">    <span class="keyword">for</span><span class="delimiter">(</span> <a title="A" id="58539">a</a> &lt;- <a href="#58508" title="(f: A =&gt; java.lang.StringBuilder)Unit">itr</a> <span class="delimiter">)</span><span class="delimiter">{</span></span>
+<a href="l11"></a><span id="l11">      <a href="#58514" title="java.lang.StringBuilder">builder</a>.<span title="(x$1: java.lang.String)java.lang.StringBuilder">append</span><span class="delimiter">(</span><a href="#58511" title="(v1: A)String">thunk</a><span class="delimiter">(</span><a href="#58539" title="A">a</a><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l12"></a><span id="l12">      <a href="#58514" title="java.lang.StringBuilder">builder</a>.<span title="(x$1: java.lang.String)java.lang.StringBuilder">append</span><span class="delimiter">(</span><a href="#58517" title="String">separator</a><span class="delimiter">)</span></span>
+<a href="l13"></a><span id="l13">    <span class="delimiter">}</span></span>
+<a href="l14"></a><span id="l14">    <span class="comment">// remove last </span></span>
+<a href="l15"></a><span id="l15">    <a href="#58514" title="java.lang.StringBuilder">builder</a>.<span title="(x$1: Int, x$2: Int)java.lang.StringBuilder">delete</span><span class="delimiter">(</span><a href="#58514" title="java.lang.StringBuilder">builder</a>.<span title="()Int">length</span><span class="delimiter">(</span><span class="delimiter">)</span> <span title="(x: Int)Int">-</span> <a href="#58517" title="String">separator</a>.<span title="()Int">length</span><span class="delimiter">(</span><span class="delimiter">)</span>, <a href="#58514" title="java.lang.StringBuilder">builder</a>.<span title="()Int">length</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l16"></a><span id="l16">  <span class="delimiter">}</span></span>
+<a href="l17"></a><span id="l17">  </span>
+<a href="l18"></a><span id="l18">  <span class="keyword">def</span> <a title="[A](orig: Iterator[A])scales.utils.CapturedIterator[A]" id="12046">capture</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="12048">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="Iterator[A]" id="59175">orig</a> : <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">)</span> = <span title="scales.utils.CapturedIterator[A]" class="keyword">new</span> <a href="#10400" title="scales.utils.CapturedIterator[A]">CapturedIterator</a><span class="delimiter">(</span><a href="#59175" title="Iterator[A]">orig</a><span class="delimiter">)</span></span>
+<a href="l19"></a><span id="l19"></span>
+<a href="l20"></a><span id="l20">  <span class="keyword">val</span> <a title="java.lang.String" id="12049">ALREADY_RESTARTED</a> = <span title="java.lang.String(&quot;Iterator has already been restarted&quot;)" class="string">&quot;Iterator has already been restarted&quot;</span></span>
+<a href="l21"></a><span id="l21"></span>
+<a href="l22"></a><span id="l22"><span class="delimiter">}</span></span>
+<a href="l23"></a><span id="l23"></span>
+<a href="l24"></a><span id="l24"><span class="keyword">import</span> scales.utils._</span>
+<a href="l25"></a><span id="l25"></span>
+<a href="l26"></a><span id="l26"><span class="comment">/**</span>
+<a href="l27"></a><span id="l27"> * Array backed buffer, restart returns the captured data and then rejoins the original iterator</span>
+<a href="l28"></a><span id="l28"> */</span> </span>
+<a href="l29"></a><span id="l29"><span class="keyword">class</span> <a title="class CapturedIterator[A] extends java.lang.Object with Iterator[A] with ScalaObject" id="10400">CapturedIterator</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10401">A</a><span class="delimiter">]</span><a href="#10400" title="ScalaObject" class="delimiter">(</a><a title="Iterator[A]" id="59187">orig</a> : <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span></span>
+<a href="l30"></a><span id="l30">  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scala.collection.mutable.ArrayBuffer[A]" id="59181">buffer</a> = <span title="()scala.collection.mutable.ArrayBuffer[A]" class="keyword">new</span> scala.collection.mutable.<span title="scala.collection.mutable.ArrayBuffer[A]">ArrayBuffer</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span></span>
+<a href="l31"></a><span id="l31">  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Boolean" id="59182">haveRestarted</a> = <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l32"></a><span id="l32">  <span class="keyword">def</span> <a title="=&gt; Iterator[A]" id="59183">restart</a> : <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> =</span>
+<a href="l33"></a><span id="l33">    <span title="Iterator[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#59182" title="Boolean">haveRestarted</a><span class="delimiter">)</span> <a href="package.scala.html#12052" title="(str: String)Nothing">error</a><span class="delimiter">(</span><a href="#12049" title="=&gt; java.lang.String">ALREADY_RESTARTED</a><span class="delimiter">)</span></span>
+<a href="l34"></a><span id="l34">    <span class="keyword">else</span> <span class="delimiter">{</span></span>
+<a href="l35"></a><span id="l35">      <a href="#59182" title="Boolean">haveRestarted</a> = <span title="Boolean(true)" class="keyword">true</span></span>
+<a href="l36"></a><span id="l36">      <a href="#59181" title="scala.collection.mutable.ArrayBuffer[A]">buffer</a>.<span title="=&gt; Iterator[A]">iterator</span> <span title="(that: =&gt; scala.collection.GenTraversableOnce[A])Iterator[A]">++</span> <a href="#59187" title="Iterator[A]">orig</a></span>
+<a href="l37"></a><span id="l37">    <span class="delimiter">}</span></span>
+<a href="l38"></a><span id="l38">  </span>
+<a href="l39"></a><span id="l39">  <span class="keyword">def</span> <a title="=&gt; Boolean" id="59184">hasNext</a> = <a href="#59187" title="Iterator[A]">orig</a>.<span title="=&gt; Boolean">hasNext</span></span>
+<a href="l40"></a><span id="l40">  <span class="keyword">def</span> <a title="()A" id="59185">next</a> = <span class="delimiter">{</span></span>
+<a href="l41"></a><span id="l41">    <span class="keyword">val</span> <a title="A" id="59589">t</a> = <a href="#59187" title="Iterator[A]">orig</a>.<span title="()A">next</span></span>
+<a href="l42"></a><span id="l42">    <a href="#59181" title="scala.collection.mutable.ArrayBuffer[A]">buffer</a> <span title="(elem: A)scala.collection.mutable.ArrayBuffer[A]">+=</span> <a href="#59589" title="A">t</a></span>
+<a href="l43"></a><span id="l43">    <a href="#59589" title="A">t</a></span>
+<a href="l44"></a><span id="l44">  <span class="delimiter">}</span></span>
+<a href="l45"></a><span id="l45"><span class="delimiter">}</span></span>
+<a href="l46"></a><span id="l46"></span>
+<a href="l47"></a><span id="l47"><span class="keyword">import</span> scalaz._</span>
+<a href="l48"></a><span id="l48"></span>
+<a href="l49"></a><span id="l49"><span class="keyword">trait</span> <a title="trait IterableUtilsImplicits extends java.lang.Object with ScalaObject" id="10403">IterableUtilsImplicits</a> <span title="ScalaObject" class="delimiter">{</span></span>
+<a href="l50"></a><span id="l50"></span>
+<a href="l51"></a><span id="l51">  <span class="comment">/**</span>
+<a href="l52"></a><span id="l52">   * Lazy appenders for scalaz.EphemeralStream</span>
+<a href="l53"></a><span id="l53">   */</span> </span>
+<a href="l54"></a><span id="l54">  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](e: scalaz.EphemeralStream[A])java.lang.Object{def append[A,B &gt;: A](a: scalaz.EphemeralStream[A],e: =&gt; scalaz.EphemeralStream[B]): scalaz.EphemeralStream[B]; def +:+[B &gt;: A](e1: =&gt; scalaz.EphemeralStream[B]): scalaz.EphemeralStream[B]}" id="59611">ephemeralAppender</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="59613">A</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="scalaz.EphemeralStream[A]" id="59616">e</a> : <span title="scalaz.EphemeralStream[A]">EphemeralStream</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">)</span> = <a href="#59619" title="java.lang.Object{def append[A,B &gt;: A](a: scalaz.EphemeralStream[A],e: =&gt; scalaz.EphemeralStream[B]): scalaz.EphemeralStream[B]; def +:+[B &gt;: A](e1: =&gt; scalaz.EphemeralStream[B]): scalaz.EphemeralStream[B]}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object" id="59619" class="delimiter">{</a> </span>
+<a href="l55"></a><span id="l55">    <span class="keyword">def</span> <a title="[A, B &gt;: A](a: scalaz.EphemeralStream[A], e: =&gt; scalaz.EphemeralStream[B])scalaz.EphemeralStream[B]" id="59621">append</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="59624">A</a>, <a title="&gt;: A &lt;: Any" id="59625">B</a> &gt;: A<span class="delimiter">]</span><span class="delimiter">(</span> <a title="scalaz.EphemeralStream[A]" id="59629">a</a> : <span title="scalaz.EphemeralStream[A]">EphemeralStream</span><span class="delimiter">[</span>A<span class="delimiter">]</span>, <a title="=&gt; scalaz.EphemeralStream[B]" id="59630">e</a> : =&gt; EphemeralStream<span class="delimiter">[</span>B<span class="delimiter">]</span> <span class="delimiter">)</span> : <span title="scalaz.EphemeralStream[B]">EphemeralStream</span><span class="delimiter">[</span>B<span class="delimiter">]</span> = </span>
+<a href="l56"></a><span id="l56">      <span title="scalaz.EphemeralStream[B]" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#59629" title="scalaz.EphemeralStream[A]">a</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <span title="object scalaz.EphemeralStream">EphemeralStream</span>.<span title="(a: =&gt; B, as: =&gt; scalaz.EphemeralStream[B])java.lang.Object with scalaz.EphemeralStream[B]">cons</span><span class="delimiter">(</span><a href="#59629" title="scalaz.EphemeralStream[A]">a</a>.<span title="()A">head</span><span class="delimiter">(</span><span class="delimiter">)</span>, <a href="#59621" title="(a: scalaz.EphemeralStream[A], e: =&gt; scalaz.EphemeralStream[B])scalaz.EphemeralStream[B]">append</a><span class="delimiter">(</span><a href="#59629" title="scalaz.EphemeralStream[A]">a</a>.<span title="()scalaz.EphemeralStream[A]">tail</span><span class="delimiter">(</span><span class="delimiter">)</span>, <a href="#59630" title="=&gt; scalaz.EphemeralStream[B]">e</a><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l57"></a><span id="l57">      <span class="keyword">else</span> <a href="#59630" title="=&gt; scalaz.EphemeralStream[B]">e</a></span>
+<a href="l58"></a><span id="l58"></span>
+<a href="l59"></a><span id="l59">    <span class="keyword">def</span> <a title="[B &gt;: A](e1: =&gt; scalaz.EphemeralStream[B])scalaz.EphemeralStream[B]" id="59626">+:+</a><span class="delimiter">[</span><a title="&gt;: A &lt;: Any" id="59628">B</a> &gt;: A<span class="delimiter">]</span><span class="delimiter">(</span> <a title="=&gt; scalaz.EphemeralStream[B]" id="59702">e1</a> : =&gt; EphemeralStream<span class="delimiter">[</span>B<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="scalaz.EphemeralStream[B]">EphemeralStream</span><span class="delimiter">[</span>B<span class="delimiter">]</span> = <a href="#59621" title="[A, B &gt;: A](a: scalaz.EphemeralStream[A], e: =&gt; scalaz.EphemeralStream[B])scalaz.EphemeralStream[B]">append</a><span title="(a: scalaz.EphemeralStream[A], e: =&gt; scalaz.EphemeralStream[B])scalaz.EphemeralStream[B]" class="delimiter">[</span><a href="#59613" title="A">A</a>, <a href="#59628" title="B">B</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#59616" title="scalaz.EphemeralStream[A]">e</a>, <a href="#59702" title="=&gt; scalaz.EphemeralStream[B]">e1</a><span class="delimiter">)</span></span>
+<a href="l60"></a><span id="l60">  <span class="delimiter">}</span></span>
+<a href="l61"></a><span id="l61"></span>
+<a href="l62"></a><span id="l62"><span class="delimiter">}</span></span>
+<a href="l63"></a><span id="l63"></span>
+<a href="l64"></a><span id="l64">        </span>
+</pre>
+    </body>
+</html>

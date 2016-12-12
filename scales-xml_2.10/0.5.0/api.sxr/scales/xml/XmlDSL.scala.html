@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\XmlDSL.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml
+
+<span class="keyword">import</span> <a href="ScalesXml.scala.html#scales.xml.ScalesXml" title="scales.xml.ScalesXml.type">ScalesXml</a>.<span class="delimiter">{</span>xmlCBF, fromParserDefault<span class="delimiter">}</span> <span class="comment">// note cannot be in parser here</span>
+
+<span class="comment">/**
+ * Creates DslBuilder instances
+ */</span>
+<span class="keyword">object</span> <a title="scales.xml.&lt;.type" id="scales.xml.<">&lt;</a> <a href="#scales.xml.<" title="scales.xml.&lt;.type" class="delimiter">{</a>
+  <span class="comment">/**
+   * Creates a DslBuilder with qname as the root Elems 
+   */</span> 
+  <span class="keyword">def</span> <a title="(qname: scales.xml.QName)scales.xml.dsl.DslBuilder" id="scales.xml.<.apply(1d9edcbb34)">apply</a><span class="delimiter">(</span><a title="scales.xml.QName" id="scales.xml.<.apply(1d9edcbb34).qname">qname</a> : <a href="QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a><span class="delimiter">)</span> = dsl.<a href="dsl/DslBuilder.scala.html#scales.xml.dsl.DslBuilder.apply(d56352f7fa)" title="(elem: scales.xml.Elem)scales.xml.dsl.DslBuilder">DslBuilder</a><span class="delimiter">(</span><a href="XmlTypes.scala.html#scales.xml.Elem.apply(298a8ae74b)" title="(namei: scales.xml.QName, attributesi: scales.xml.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.impl.FromParser)scales.xml.Elem">Elem</a><a href="impl/XmlTypesImplicits.scala.html#scales.xml.impl;XmlTypesImplicits.fromParserDefault" title="=&gt; scales.xml.impl.FromParser" class="delimiter">(</a><a href="#scales.xml.<.apply(1d9edcbb34).qname" title="scales.xml.QName">qname</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Creates a DslBuilder with the given elem as root
+   */</span> 
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)scales.xml.dsl.DslBuilder" id="scales.xml.<.apply(d56352f7fa)">apply</a><span class="delimiter">(</span><a title="scales.xml.Elem" id="scales.xml.<.apply(d56352f7fa).elem">elem</a> : <a href="XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a><span class="delimiter">)</span> = dsl.<a href="dsl/DslBuilder.scala.html#scales.xml.dsl.DslBuilder.apply(d56352f7fa)" title="(elem: scales.xml.Elem)scales.xml.dsl.DslBuilder">DslBuilder</a><span class="delimiter">(</span><a href="#scales.xml.<.apply(d56352f7fa).elem" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Creates OptionalDslBuilder instances.  If none of the end Elems contain data (either attributes or child text nodes) the result of the builder is None.
+ */</span>
+<span title="AnyRef" class="keyword">object</span> <a title="scales.xml.?&lt;.type" id="scales.xml.?<">?&lt;</a> <a href="#scales.xml.?<" title="scales.xml.?&lt;.type" class="delimiter">{</a>
+  <span class="comment">/**
+   * Creates an OptionalDslBuilder with qname as the root Elems 
+   */</span> 
+  <span class="keyword">def</span> <a title="(qname: scales.xml.QName)scales.xml.dsl.OptionalDslBuilder" id="scales.xml.?<.apply(12837f06ec)">apply</a><span class="delimiter">(</span><a title="scales.xml.QName" id="scales.xml.?<.apply(12837f06ec).qname">qname</a> : <a href="QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a><span class="delimiter">)</span> = dsl.<a href="dsl/OptionalDSLBuilder.scala.html#scales.xml.dsl.OptionalDslBuilder.apply(98ea08c1f3)" title="(elem: scales.xml.Elem)scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a><span class="delimiter">(</span><a href="XmlTypes.scala.html#scales.xml.Elem.apply(298a8ae74b)" title="(namei: scales.xml.QName, attributesi: scales.xml.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.impl.FromParser)scales.xml.Elem">Elem</a><a href="impl/XmlTypesImplicits.scala.html#scales.xml.impl;XmlTypesImplicits.fromParserDefault" title="=&gt; scales.xml.impl.FromParser" class="delimiter">(</a><a href="#scales.xml.?<.apply(12837f06ec).qname" title="scales.xml.QName">qname</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Creates a OptionalDslBuilder with the given elem as root
+   */</span> 
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)scales.xml.dsl.OptionalDslBuilder" id="scales.xml.?<.apply(98ea08c1f3)">apply</a><span class="delimiter">(</span><a title="scales.xml.Elem" id="scales.xml.?<.apply(98ea08c1f3).elem">elem</a> : <a href="XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a><span class="delimiter">)</span> = dsl.<a href="dsl/OptionalDSLBuilder.scala.html#scales.xml.dsl.OptionalDslBuilder.apply(98ea08c1f3)" title="(elem: scales.xml.Elem)scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a><span class="delimiter">(</span><a href="#scales.xml.?<.apply(98ea08c1f3).elem" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

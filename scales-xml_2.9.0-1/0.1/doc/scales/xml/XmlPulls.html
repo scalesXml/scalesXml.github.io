@@ -1,0 +1,506 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>scales.xml.XmlPulls</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../lib/template.css" />
+      <script type="text/javascript" src="../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img src="../../lib/trait_big.png" />
+        <p id="owner"><a name="scales" class="extype" href="../package.html">scales</a>.<a name="scales.xml" class="extype" href="package.html">xml</a></p>
+        <h1>XmlPulls</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <span class="name">XmlPulls</span>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Wraps the stax cursor inteface (iterator just adds weight here).</p><p>scala.xml.pull uses a thread based on stax approach to push/pull events.</p><p>This code uses stax only, extra iteratee goodness will appear curtousy of scalaz....</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="../../../classes.sxr/scales/xml/XmlPull.scala.html">XmlPull.scala</a></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent">AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+        </div><div class="toggleContainer block">
+          <span class="toggle">Known Subclasses</span>
+          <div class="subClasses hiddenContent"><a name="scales.xml.package" class="extype" href="package$.html">package</a></div>
+        </div></div>
+        
+
+      <div id="template">
+
+        <div id="mbrsel">
+          <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+          <div id="order">
+                <span class="filtertype">Ordering</span>
+                <ol><li class="alpha in"><span>Alphabetic</span></li><li class="inherit out"><span>By inheritance</span></li></ol>
+              </div>
+          <div id="ancestors">
+                <span class="filtertype">Inherited</span>
+                <ol><li class="hideall out"><span>Hide All</span></li>
+                <li class="showall in"><span>Show all</span></li></ol>
+                <ol id="linearization"><li name="scales.xml.XmlPulls" class="in"><span>XmlPulls</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+              </div>
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="scales.xml.XmlPulls#PeekMatch" data-isabs="false">
+      <a id="PeekMatch:PeekMatch"></a>
+      <h4 class="signature">
+      <span class="kind">type</span>
+      <span class="symbol"> 
+        <span class="name">PeekMatch</span>
+        
+        <span class="result"> = <span name="scala.Option" class="extype">Option</span>[XmlPath]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.XmlPulls#PullType" data-isabs="false">
+      <a id="PullType:PullType"></a>
+      <h4 class="signature">
+      <span class="kind">type</span>
+      <span class="symbol"> 
+        <span class="name">PullType</span>
+        
+        <span class="result"> = <span name="scala.Either" class="extype">Either</span>[<a name="scales.xml.XmlEvent" class="extype" href="XmlEvent.html">XmlEvent</a>, <a name="scales.xml.EndElem" class="extype" href="EndElem.html">EndElem</a>]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.XmlPulls#QNamesMatch" data-isabs="false">
+      <a id="QNamesMatch:()"></a>
+      <h4 class="signature">
+      <span class="kind">type</span>
+      <span class="symbol"> 
+        <span class="name">QNamesMatch</span>
+        
+        <span class="result"> = (List[<a name="scales.xml.QName" class="extype" href="QName.html">QName</a>], <span name="scala.Option" class="extype">Option</span>[XmlPath])</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+        
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">!=</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#!=" data-isabs="false">
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">!=</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef###" data-isabs="false">
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">##</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#==" data-isabs="false">
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">==</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#==" data-isabs="false">
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">==</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">asInstanceOf</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">clone</span>
+        
+        <span class="params">()</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">eq</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#equals" data-isabs="false">
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">equals</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">finalize</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
+      <a id="getClass():java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">getClass</span>
+        
+        <span class="params">()</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#hashCode" data-isabs="false">
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">hashCode</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">isInstanceOf</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#iterate" data-isabs="false">
+      <a id="iterate(List[QName],Iterator[PullType]):Iterable[XmlPath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">iterate</span>
+        
+        <span class="params">(<span name="path">path: List[<a name="scales.xml.QName" class="extype" href="QName.html">QName</a>]</span>, <span name="xml">xml: Iterator[PullType]</span>)</span><span class="result">: Iterable[XmlPath]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">A wrapping around withIter(onDone(List(onQNames(path))))(enumXml(xml, _))
+it unwraps the data providing an Iterator[XPath]
+</p>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#iterate" data-isabs="false">
+      <a id="iterate(List[QName],XmlPull):Iterable[XmlPath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">iterate</span>
+        
+        <span class="params">(<span name="path">path: List[<a name="scales.xml.QName" class="extype" href="QName.html">QName</a>]</span>, <span name="xml">xml: <a name="scales.xml.XmlPull" class="extype" href="XmlPull.html">XmlPull</a></span>)</span><span class="result">: Iterable[XmlPath]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Wraps XmlPull
+</p>
+    </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">ne</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">notify</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notifyAll" data-isabs="false">
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">notifyAll</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#onQNames" data-isabs="false">
+      <a id="onQNames(List[QName]):ResumableIter[PullType, ()]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">onQNames</span>
+        
+        <span class="params">(<span name="qnames">qnames: List[<a name="scales.xml.QName" class="extype" href="QName.html">QName</a>]</span>)</span><span class="result">: ResumableIter[PullType, ()]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Collects all data belonging to an element that matches
+the list.</p><div class="fullcomment"><div class="comment cmt"><p>Collects all data belonging to an element that matches
+the list. &lt;top&gt;&lt;middle&gt;&lt;ofInterest&gt; content &lt;/ofInterest&gt;&lt;ofInterest....
+onQNames(List(&quot;top&quot;l, &quot;middle&quot;l, &quot;ofInterest&quot;l))
+would return an iteratee that returned every &lt;ofInterest&gt; content &lt;/ofInterest&gt;
+as a path (each parent node containing only one child node).
+</p></div></div>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#pullXml" data-isabs="false">
+      <a id="pullXml[RToken&lt;:OptimisationToken](InputSource,MemoryOptimisationStrategy[RToken],Pool[XMLInputFactory],Boolean):XmlPull with Closeable with IsClosed"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">pullXml</span>
+        <span class="tparams">[<span name="RToken">RToken &lt;: <a name="scales.xml.OptimisationToken" class="extype" href="OptimisationToken.html">OptimisationToken</a></span>]</span>
+        <span class="params">(<span name="source">source: <span name="org.xml.sax.InputSource" class="extype">InputSource</span></span>, <span name="optimisationStrategy">optimisationStrategy: <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a>[RToken]</span>, <span name="parserFactoryPool">parserFactoryPool: <a name="scales.utils.Pool" class="extype" href="../utils/Pool.html">Pool</a>[<span name="javax.xml.stream.XMLInputFactory" class="extype">XMLInputFactory</span>]</span>, <span name="closeAfterUse">closeAfterUse: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="scales.xml.XmlPull" class="extype" href="XmlPull.html">XmlPull</a> with <span name="java.io.Closeable" class="extype">Closeable</span> with <a name="scales.utils.IsClosed" class="extype" href="../utils/IsClosed.html">IsClosed</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Creates a new XmlPull based on source.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new XmlPull based on source.  By default it will close the stream after use.
+</p></div></div>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#pullXmlCompletely" data-isabs="false">
+      <a id="pullXmlCompletely[RToken&lt;:OptimisationToken](InputSource,PathOptimisationStrategy[RToken],Pool[XMLInputFactory],Boolean):Doc"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">pullXmlCompletely</span>
+        <span class="tparams">[<span name="RToken">RToken &lt;: <a name="scales.xml.OptimisationToken" class="extype" href="OptimisationToken.html">OptimisationToken</a></span>]</span>
+        <span class="params">(<span name="source">source: <span name="org.xml.sax.InputSource" class="extype">InputSource</span></span>, <span name="strategy">strategy: <a name="scales.xml.PathOptimisationStrategy" class="extype" href="PathOptimisationStrategy.html">PathOptimisationStrategy</a>[RToken]</span>, <span name="parserFactoryPool">parserFactoryPool: <a name="scales.utils.Pool" class="extype" href="../utils/Pool.html">Pool</a>[<span name="javax.xml.stream.XMLInputFactory" class="extype">XMLInputFactory</span>]</span>, <span name="closeAfterUse">closeAfterUse: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="scales.xml.Doc" class="extype" href="Doc.html">Doc</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Load xml via pull parsing
+</p>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#pullXmlReader" data-isabs="false">
+      <a id="pullXmlReader[RToken&lt;:OptimisationToken](XMLStreamReader,MemoryOptimisationStrategy[RToken]):XmlPull"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">pullXmlReader</span>
+        <span class="tparams">[<span name="RToken">RToken &lt;: <a name="scales.xml.OptimisationToken" class="extype" href="OptimisationToken.html">OptimisationToken</a></span>]</span>
+        <span class="params">(<span name="reader">reader: <span name="javax.xml.stream.XMLStreamReader" class="extype">XMLStreamReader</span></span>, <span name="defaultOptimisationStrategy">defaultOptimisationStrategy: <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a>[RToken]</span>)</span><span class="result">: <a name="scales.xml.XmlPull" class="extype" href="XmlPull.html">XmlPull</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Allows plugging in other feeds, non source based, as such not closeable
+</p>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#pullXmlResource" data-isabs="false">
+      <a id="pullXmlResource[RToken&lt;:OptimisationToken](InputSource,MemoryOptimisationStrategy[RToken],Pool[XMLInputFactory]):(CloseOnNeed, XmlPull)"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">pullXmlResource</span>
+        <span class="tparams">[<span name="RToken">RToken &lt;: <a name="scales.xml.OptimisationToken" class="extype" href="OptimisationToken.html">OptimisationToken</a></span>]</span>
+        <span class="params">(<span name="source">source: <span name="org.xml.sax.InputSource" class="extype">InputSource</span></span>, <span name="optimisationStrategy">optimisationStrategy: <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a>[RToken]</span>, <span name="parserFactoryPool">parserFactoryPool: <a name="scales.utils.Pool" class="extype" href="../utils/Pool.html">Pool</a>[<span name="javax.xml.stream.XMLInputFactory" class="extype">XMLInputFactory</span>]</span>)</span><span class="result">: (<a name="scales.utils.CloseOnNeed" class="extype" href="../utils/CloseOnNeed.html">CloseOnNeed</a>, <a name="scales.xml.XmlPull" class="extype" href="XmlPull.html">XmlPull</a>)</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Creates a new XmlPull based on source for direct handling of the stream.</p><div class="fullcomment"><div class="comment cmt"><p>Creates a new XmlPull based on source for direct handling of the stream.  Note to close the stream you must bracket.
+The individual XmlPull will be closed after the document end but the stream will remain open
+</p></div></div>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#skip" data-isabs="false">
+      <a id="skip(⇒ List[Int]):IterV[PullType, PeekMatch]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">skip</span>
+        
+        <span class="params">(<span name="downTo">downTo: ⇒ List[<span name="scala.Int" class="extype">Int</span>]</span>)</span><span class="result">: <span name="scalaz.IterV" class="extype">IterV</span>[PullType, PeekMatch]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Skips all events until the indexes match downTo, can be seen as
+\*\*[b]\*[c] skipping until c with skip(List(b,c)).</p><div class="fullcomment"><div class="comment cmt"><p>Skips all events until the indexes match downTo, can be seen as
+\*\*[b]\*[c] skipping until c with skip(List(b,c)).
+This can be used, for example, to identify qnames within a message and combined with capture to allow replaying.
+Identifying a soap doc-lit request would be skip(List(2,1)).
+It returns the XmlPath to the skipped position, for soap /Envelope/Body/Request but does not collect the contents of that node.
+An empty list will simply return the first Element found.
+</p></div></div>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#skipv" data-isabs="false">
+      <a id="skipv(Int*):IterV[PullType, PeekMatch]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">skipv</span>
+        
+        <span class="params">(<span name="downTo">downTo: <span name="scala.Int" class="extype">Int</span>*</span>)</span><span class="result">: <span name="scalaz.IterV" class="extype">IterV</span>[PullType, PeekMatch]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
+      <a id="synchronized[T0](⇒ T0):T0"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">synchronized</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="params">(<span name="arg0">arg0: ⇒ T0</span>)</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#toLeft" data-isabs="false">
+      <a id="toLeft(XmlEvent):Left[XmlEvent, Nothing]"></a>
+      <h4 class="signature">
+      <span class="kind">implicit def</span>
+      <span class="symbol"> 
+        <span class="name">toLeft</span>
+        
+        <span class="params">(<span name="ev">ev: <a name="scales.xml.XmlEvent" class="extype" href="XmlEvent.html">XmlEvent</a></span>)</span><span class="result">: <span name="scala.Left" class="extype">Left</span>[<a name="scales.xml.XmlEvent" class="extype" href="XmlEvent.html">XmlEvent</a>, <span name="scala.Nothing" class="extype">Nothing</span>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>implicit </dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPulls#toRight" data-isabs="false">
+      <a id="toRight(EndElem):Right[Nothing, EndElem]"></a>
+      <h4 class="signature">
+      <span class="kind">implicit def</span>
+      <span class="symbol"> 
+        <span class="name">toRight</span>
+        
+        <span class="params">(<span name="ev">ev: <a name="scales.xml.EndElem" class="extype" href="EndElem.html">EndElem</a></span>)</span><span class="result">: <span name="scala.Right" class="extype">Right</span>[<span name="scala.Nothing" class="extype">Nothing</span>, <a name="scales.xml.EndElem" class="extype" href="EndElem.html">EndElem</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>implicit </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#toString" data-isabs="false">
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">toString</span>
+        
+        <span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div name="scala.AnyRef" class="parent">
+              <h3>Inherited from AnyRef</h3>
+            </div><div name="scala.Any" class="parent">
+              <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>
+            </div>
+
+      </div>
+      
+      <div id="tooltip"></div>
+      
+    </body>
+      </html>

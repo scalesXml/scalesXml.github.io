@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\RandomSequence.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="comment">/**</span>
+<a href="l4"></a><span id="l4"> * Currently thread safe, java doc issue pending http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6498354</span>
+<a href="l5"></a><span id="l5"> */</span></span>
+<a href="l6"></a><span id="l6"><span class="keyword">object</span> <a title="object scales.utils.RandomSequence" id="9151">RandomSequence</a> <span title="ScalaObject" class="delimiter">{</span></span>
+<a href="l7"></a><span id="l7">  <span class="keyword">import</span> java.security.NoSuchAlgorithmException;</span>
+<a href="l8"></a><span id="l8">  <span class="keyword">import</span> java.security.SecureRandom;</span>
+<a href="l9"></a><span id="l9">  <span class="keyword">private</span> <span class="keyword">var</span> <a title="java.security.SecureRandom" id="84105">keyGen</a> = <span title="object java.security.SecureRandom">SecureRandom</span>.<span title="(x$1: java.lang.String)java.security.SecureRandom">getInstance</span><span class="delimiter">(</span><span title="java.lang.String(&quot;SHA1PRNG&quot;)" class="string">&quot;SHA1PRNG&quot;</span><span class="delimiter">)</span>;</span>
+<a href="l10"></a><span id="l10"></span>
+<a href="l11"></a><span id="l11">  <span class="comment">/**</span>
+<a href="l12"></a><span id="l12">   * Gens a sequence of up to len bytes and converts to base 64</span>
+<a href="l13"></a><span id="l13">   */</span></span>
+<a href="l14"></a><span id="l14">  <span class="keyword">def</span> <a title="(len: Int)String" id="84107">next64Sequence</a><span class="delimiter">(</span><a title="Int" id="84455">len</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="String">String</span> = <span class="delimiter">{</span></span>
+<a href="l15"></a><span id="l15">    <span class="keyword">val</span> <a title="Array[Byte]" id="84457">bytes</a> = <span title="Array[Byte]" class="keyword">new</span> <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span><span class="delimiter">(</span><a href="#84455" title="Int">len</a><span class="delimiter">)</span></span>
+<a href="l16"></a><span id="l16">    <a href="#84105" title="=&gt; java.security.SecureRandom">keyGen</a>.<span title="(x$1: Array[Byte])Unit">nextBytes</span><span class="delimiter">(</span><a href="#84457" title="Array[Byte]">bytes</a><span class="delimiter">)</span></span>
+<a href="l17"></a><span id="l17"></span>
+<a href="l18"></a><span id="l18">    <span class="comment">// turn the bytes to base64</span></span>
+<a href="l19"></a><span id="l19">    <span title="(x$1: Array[Byte])java.lang.String" class="keyword">new</span> <span title="java.lang.String">String</span><span class="delimiter">(</span>org.apache.commons.codec.binary.<span title="object org.apache.commons.codec.binary.Base64">Base64</span>.<span title="(x$1: Array[Byte])Array[Byte]">encodeBase64</span><span class="delimiter">(</span><a href="#84457" title="Array[Byte]">bytes</a><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l20"></a><span id="l20">  <span class="delimiter">}</span></span>
+<a href="l21"></a><span id="l21"></span>
+<a href="l22"></a><span id="l22">  <span class="comment">/**</span>
+<a href="l23"></a><span id="l23">   * Returns 16 bytes of base64 random sequence</span>
+<a href="l24"></a><span id="l24">   */</span></span>
+<a href="l25"></a><span id="l25">  <span class="keyword">def</span> <a title="=&gt; String" id="84108">next64Sequence</a>: <span title="String">String</span> = <a href="#84107" title="(len: Int)String">next64Sequence</a><span class="delimiter">(</span><span title="Int(16)" class="int">16</span><span class="delimiter">)</span></span>
+<a href="l26"></a><span id="l26"><span class="delimiter">}</span></span>
+<a href="l27"></a><span id="l27"></span>
+<a href="l28"></a><span id="l28">        </span>
+</pre>
+    </body>
+</html>

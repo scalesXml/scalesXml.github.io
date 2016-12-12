@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\serializers\Exceptions.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.serializers
+
+<span class="comment">/**
+ * Base exception marker for serialization
+ */</span>
+<span class="keyword">class</span> <a title="class SerializationException extends java.lang.RuntimeException with ScalaObject" id="14533">SerializationException</a><a href="#14533" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="String" id="119209">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="java.lang.RuntimeException">RuntimeException</span><span class="delimiter">(</span><a href="#119209" title="String">what</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="comment">//  override def fillInStackTrace() = this</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">class</span> <a title="class CannotBeEncoded extends scales.xml.serializers.SerializationException with ScalaObject" id="14335">CannotBeEncoded</a><a href="#14335" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="119221">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14533" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><a href="#119221" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * The serialization encoding cannot support the characters in a given markup (attribute name or element name. ächtung in UTF-8 works but not in US-ASCII.
+ */</span>
+case <span class="keyword">class</span> <a title="class InvalidCharacterInMarkup extends scales.xml.serializers.SerializationException with ScalaObject with Product with Serializable" id="119541">InvalidCharacterInMarkup</a><a href="#119541" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="119538">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14533" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><a href="#119538" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * The CData content must be split due to encoding issues, which isn't supported (due to bad CData handling on Sun JRE and differences with Xalan.
+ *
+ * NOTE The Xalan behaviour follows the DOMConfiguration behaviour but will split on encoding issues, which breaks the point of using CData, so if you need that, don't use it, let your sax / pull parser handle proper serilization and escaping for you in a normal text field.
+ */</span>
+case <span class="keyword">class</span> <a title="class CDataCannotBeEncoded extends scales.xml.serializers.CannotBeEncoded with ScalaObject with Product with Serializable" id="119562">CDataCannotBeEncoded</a><a href="#119562" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="119559">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14335" title="scales.xml.serializers.CannotBeEncoded">CannotBeEncoded</a><span class="delimiter">(</span><a href="#119559" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * Comments don't support &amp; recognition, which means you can't escape the encoding, either they encode or they do not
+ */</span>
+case <span class="keyword">class</span> <a title="class CommentCannotBeEncoded extends scales.xml.serializers.CannotBeEncoded with ScalaObject with Product with Serializable" id="119555">CommentCannotBeEncoded</a><a href="#119555" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="119552">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14335" title="scales.xml.serializers.CannotBeEncoded">CannotBeEncoded</a><span class="delimiter">(</span><a href="#119552" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * PIs also suffer a bad specification
+ */</span>
+case <span class="keyword">class</span> <a title="class PICannotBeEncoded extends scales.xml.serializers.CannotBeEncoded with ScalaObject with Product with Serializable" id="119534">PICannotBeEncoded</a><a href="#119534" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="119531">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14335" title="scales.xml.serializers.CannotBeEncoded">CannotBeEncoded</a><span class="delimiter">(</span><a href="#119531" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * For a given content it could not be serialized in the document.
+ */</span>
+case <span class="keyword">class</span> <a title="class CannotSerialize extends scales.xml.serializers.SerializationException with ScalaObject with Product with Serializable" id="119569">CannotSerialize</a><a href="#119569" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="119566">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14533" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><a href="#119566" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * Result of trying to serialize a 1.1 ncname into a 1.0 document
+ */</span>
+case <span class="keyword">class</span> <a title="class IncompatibleQNameVersions extends scales.xml.serializers.SerializationException with ScalaObject with Product with Serializable" id="119548">IncompatibleQNameVersions</a><a href="#119548" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="119545">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14533" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><a href="#119545" title="String">what</a><span class="delimiter">)</span>
+
+        </pre>
+    </body>
+</html>

@@ -1,0 +1,490 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>scales.xml.MemoryAndSpeedierStrategy</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../lib/template.css" />
+      <script type="text/javascript" src="../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../lib/object_big.png" />
+        <p id="owner"><a name="scales" class="extype" href="../package.html">scales</a>.<a name="scales.xml" class="extype" href="package.html">xml</a></p>
+        <h1>MemoryAndSpeedierStrategy</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <span class="name">MemoryAndSpeedierStrategy</span>
+        
+        <span class="result"> extends <a name="scales.xml.MutableVectorLikeStrategy" class="extype" href="MutableVectorLikeStrategy.html">MutableVectorLikeStrategy</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>] with <a name="scales.xml.FullMemoryOptimisationT" class="extype" href="FullMemoryOptimisationT.html">FullMemoryOptimisationT</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>] with <a name="scales.xml.ElemTokenF" class="extype" href="ElemTokenF.html">ElemTokenF</a></span>
+      </span>
+      </h4>
+      
+          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>Reduces memory consumption at a 5-10% perfromance hit over the default QNameAndSpeedierStrategy
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="../../../classes.sxr/scales/xml/OptimisingStrategies.scala.html">OptimisingStrategies.scala</a></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a name="scales.xml.ElemTokenF" class="extype" href="ElemTokenF.html">ElemTokenF</a>, <a name="scales.xml.FullMemoryOptimisationT" class="extype" href="FullMemoryOptimisationT.html">FullMemoryOptimisationT</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>], <a name="scales.xml.ElemQNameOptimisationT" class="extype" href="ElemQNameOptimisationT.html">ElemQNameOptimisationT</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>], <a name="scales.xml.QNameOptimisationT" class="extype" href="QNameOptimisationT.html">QNameOptimisationT</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>], <a name="scales.xml.MutableVectorLikeStrategy" class="extype" href="MutableVectorLikeStrategy.html">MutableVectorLikeStrategy</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>], <a name="scales.xml.PathOptimisationStrategy" class="extype" href="PathOptimisationStrategy.html">PathOptimisationStrategy</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>], <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>], AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+        </div></div>
+        
+
+      <div id="template">
+
+        <div id="mbrsel">
+          <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+          <div id="order">
+                <span class="filtertype">Ordering</span>
+                <ol><li class="alpha in"><span>Alphabetic</span></li><li class="inherit out"><span>By inheritance</span></li></ol>
+              </div>
+          <div id="ancestors">
+                <span class="filtertype">Inherited</span>
+                <ol><li class="hideall out"><span>Hide All</span></li>
+                <li class="showall in"><span>Show all</span></li></ol>
+                <ol id="linearization"><li name="scales.xml.MemoryAndSpeedierStrategy" class="in"><span>MemoryAndSpeedierStrategy</span></li><li name="scales.xml.ElemTokenF" class="in"><span>ElemTokenF</span></li><li name="scales.xml.FullMemoryOptimisationT" class="in"><span>FullMemoryOptimisationT</span></li><li name="scales.xml.ElemQNameOptimisationT" class="in"><span>ElemQNameOptimisationT</span></li><li name="scales.xml.QNameOptimisationT" class="in"><span>QNameOptimisationT</span></li><li name="scales.xml.MutableVectorLikeStrategy" class="in"><span>MutableVectorLikeStrategy</span></li><li name="scales.xml.PathOptimisationStrategy" class="in"><span>PathOptimisationStrategy</span></li><li name="scales.xml.MemoryOptimisationStrategy" class="in"><span>MemoryOptimisationStrategy</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+              </div>
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+
+        
+
+        
+        
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">!=</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#!=" data-isabs="false">
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">!=</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef###" data-isabs="false">
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">##</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#==" data-isabs="false">
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">==</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#==" data-isabs="false">
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">==</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">asInstanceOf</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.MemoryOptimisationStrategy#attribute" data-isabs="false">
+      <a id="attribute(AttributeQName,String,ElemToken):Attribute"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">attribute</span>
+        
+        <span class="params">(<span name="qname">qname: AttributeQName</span>, <span name="value">value: String</span>, <span name="token">token: <a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a></span>)</span><span class="result">: <a name="scales.xml.Attribute" class="extype" href="Attribute.html">Attribute</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">It is expected that certain attributes have fixed values, ie.</p><div class="fullcomment"><div class="comment cmt"><p>It is expected that certain attributes have fixed values, ie. booleans or based on schema enums etc, this function allows such optimisations.</p><p>The qname will have been obtained via qName, so any optimisations provided by it can be leveraged.</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.MutableVectorLikeStrategy#beginSubTree" data-isabs="false">
+      <a id="beginSubTree(TreeProxies,Elem,ElemToken):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">beginSubTree</span>
+        
+        <span class="params">(<span name="proxies">proxies: <a name="scales.xml.TreeProxies" class="extype" href="TreeProxies.html">TreeProxies</a></span>, <span name="elem">elem: <a name="scales.xml.Elem" class="extype" href="Elem.html">Elem</a></span>, <span name="token">token: <a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Start a new tree, substitutes a MutableVectorLike instead of an immutable
+</p><div class="fullcomment"><div class="comment cmt"><p>Start a new tree, substitutes a MutableVectorLike instead of an immutable
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.MutableVectorLikeStrategy" class="extype" href="MutableVectorLikeStrategy.html">MutableVectorLikeStrategy</a> → <a name="scales.xml.PathOptimisationStrategy" class="extype" href="PathOptimisationStrategy.html">PathOptimisationStrategy</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.FullMemoryOptimisationT#cacheAll" data-isabs="false">
+      <a id="cacheAll:Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">cacheAll</span>
+        
+        <span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.FullMemoryOptimisationT" class="extype" href="FullMemoryOptimisationT.html">FullMemoryOptimisationT</a> → <a name="scales.xml.ElemQNameOptimisationT" class="extype" href="ElemQNameOptimisationT.html">ElemQNameOptimisationT</a></dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">clone</span>
+        
+        <span class="params">()</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.ElemTokenF#createToken" data-isabs="false">
+      <a id="createToken(XmlVersion,FromParser):ElemToken"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">createToken</span>
+        
+        <span class="params">(<span class="implicit">implicit </span><span name="ver">ver: <a name="scales.xml.XmlVersion" class="extype" href="XmlVersion.html">XmlVersion</a></span>, <span name="fromParser">fromParser: <a name="scales.xml.FromParser" class="extype" href="FromParser.html">FromParser</a></span>)</span><span class="result">: <a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.ElemTokenF" class="extype" href="ElemTokenF.html">ElemTokenF</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.ElemQNameOptimisationT#ecache" data-isabs="false">
+      <a id="ecache:ConcurrentHashMap[ElemKey, Elem]"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">ecache</span>
+        
+        <span class="result">: <span name="java.util.concurrent.ConcurrentHashMap" class="extype">ConcurrentHashMap</span>[<a name="scales.xml.ElemKey" class="extype" href="ElemKey.html">ElemKey</a>, <a name="scales.xml.Elem" class="extype" href="Elem.html">Elem</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.ElemQNameOptimisationT" class="extype" href="ElemQNameOptimisationT.html">ElemQNameOptimisationT</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.ElemQNameOptimisationT#elem" data-isabs="false">
+      <a id="elem(QName,Attributes,Map[String, String],ElemToken):Elem"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">elem</span>
+        
+        <span class="params">(<span name="name">name: <a name="scales.xml.QName" class="extype" href="QName.html">QName</a></span>, <span name="attributes">attributes: Attributes</span>, <span name="namespaces">namespaces: Map[String, String]</span>, <span name="token">token: <a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a></span>)</span><span class="result">: <a name="scales.xml.Elem" class="extype" href="Elem.html">Elem</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">For files without large (and varied) attribute counts per repeated element it may represent significant space savings to optimise against the entire Elem itself.</p><div class="fullcomment"><div class="comment cmt"><p>For files without large (and varied) attribute counts per repeated element it may represent significant space savings to optimise against the entire Elem itself.</p><p>The Elements QName is garaunteed to be the last QName evaluated via the QName functions (i.e. Attributes are done first then the Elems QName)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.ElemQNameOptimisationT" class="extype" href="ElemQNameOptimisationT.html">ElemQNameOptimisationT</a> → <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.ElemQNameOptimisationT#elemValue" data-isabs="false">
+      <a id="elemValue(ElemKey)((ElemKey) ⇒ Elem):Elem"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">elemValue</span>
+        
+        <span class="params">(<span name="key">key: <a name="scales.xml.ElemKey" class="extype" href="ElemKey.html">ElemKey</a></span>)</span><span class="params">(<span name="newT">newT: (<a name="scales.xml.ElemKey" class="extype" href="ElemKey.html">ElemKey</a>) ⇒ <a name="scales.xml.Elem" class="extype" href="Elem.html">Elem</a></span>)</span><span class="result">: <a name="scales.xml.Elem" class="extype" href="Elem.html">Elem</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.ElemQNameOptimisationT" class="extype" href="ElemQNameOptimisationT.html">ElemQNameOptimisationT</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.MutableVectorLikeStrategy#elementEnd" data-isabs="false">
+      <a id="elementEnd(TreeProxies,ElemToken):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">elementEnd</span>
+        
+        <span class="params">(<span name="proxies">proxies: <a name="scales.xml.TreeProxies" class="extype" href="TreeProxies.html">TreeProxies</a></span>, <span name="token">token: <a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Reproduced zipUp
+</p><div class="fullcomment"><div class="comment cmt"><p>Reproduced zipUp
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.MutableVectorLikeStrategy" class="extype" href="MutableVectorLikeStrategy.html">MutableVectorLikeStrategy</a> → <a name="scales.xml.PathOptimisationStrategy" class="extype" href="PathOptimisationStrategy.html">PathOptimisationStrategy</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">eq</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#equals" data-isabs="false">
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">equals</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">finalize</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
+      <a id="getClass():java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">getClass</span>
+        
+        <span class="params">()</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#hashCode" data-isabs="false">
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">hashCode</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">isInstanceOf</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">ne</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.QNameOptimisationT#noNamespaceQName" data-isabs="false">
+      <a id="noNamespaceQName(String,ElemToken):NoNamespaceQName"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">noNamespaceQName</span>
+        
+        <span class="params">(<span name="local">local: String</span>, <span name="token">token: <a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a></span>)</span><span class="result">: <a name="scales.xml.NoNamespaceQName" class="extype" href="NoNamespaceQName.html">NoNamespaceQName</a></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">The creation costs can also be reduced
+</p><div class="fullcomment"><div class="comment cmt"><p>The creation costs can also be reduced
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.QNameOptimisationT" class="extype" href="QNameOptimisationT.html">QNameOptimisationT</a> → <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">notify</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notifyAll" data-isabs="false">
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">notifyAll</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.QNameOptimisationT#prefixedQName" data-isabs="false">
+      <a id="prefixedQName(String,String,String,ElemToken):PrefixedQName"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">prefixedQName</span>
+        
+        <span class="params">(<span name="local">local: String</span>, <span name="uri">uri: String</span>, <span name="prefix">prefix: String</span>, <span name="token">token: <a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a></span>)</span><span class="result">: <a name="scales.xml.PrefixedQName" class="extype" href="PrefixedQName.html">PrefixedQName</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.QNameOptimisationT" class="extype" href="QNameOptimisationT.html">QNameOptimisationT</a> → <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.QNameOptimisationT#qNameCache" data-isabs="false">
+      <a id="qNameCache:ConcurrentHashMap[FullEqualQNameKey, QName]"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">qNameCache</span>
+        
+        <span class="result">: <span name="java.util.concurrent.ConcurrentHashMap" class="extype">ConcurrentHashMap</span>[<a name="scales.xml.FullEqualQNameKey" class="extype" href="FullEqualQNameKey.html">FullEqualQNameKey</a>, <a name="scales.xml.QName" class="extype" href="QName.html">QName</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.QNameOptimisationT" class="extype" href="QNameOptimisationT.html">QNameOptimisationT</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
+      <a id="synchronized[T0](⇒ T0):T0"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">synchronized</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="params">(<span name="arg0">arg0: ⇒ T0</span>)</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#toString" data-isabs="false">
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">toString</span>
+        
+        <span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.QNameOptimisationT#unprefixedQName" data-isabs="false">
+      <a id="unprefixedQName(String,String,ElemToken):UnprefixedQName"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">unprefixedQName</span>
+        
+        <span class="params">(<span name="local">local: String</span>, <span name="uri">uri: String</span>, <span name="token">token: <a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a></span>)</span><span class="result">: <a name="scales.xml.UnprefixedQName" class="extype" href="UnprefixedQName.html">UnprefixedQName</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.QNameOptimisationT" class="extype" href="QNameOptimisationT.html">QNameOptimisationT</a> → <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.QNameOptimisationT#value" data-isabs="false">
+      <a id="value[T&lt;:QName](FullEqualQNameKey)((FullEqualQNameKey) ⇒ T):T"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">value</span>
+        <span class="tparams">[<span name="T">T &lt;: <a name="scales.xml.QName" class="extype" href="QName.html">QName</a></span>]</span>
+        <span class="params">(<span name="key">key: <a name="scales.xml.FullEqualQNameKey" class="extype" href="FullEqualQNameKey.html">FullEqualQNameKey</a></span>)</span><span class="params">(<span name="newT">newT: (<a name="scales.xml.FullEqualQNameKey" class="extype" href="FullEqualQNameKey.html">FullEqualQNameKey</a>) ⇒ T</span>)</span><span class="result">: T</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.QNameOptimisationT" class="extype" href="QNameOptimisationT.html">QNameOptimisationT</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div name="scales.xml.ElemTokenF" class="parent">
+              <h3>Inherited from <a name="scales.xml.ElemTokenF" class="extype" href="ElemTokenF.html">ElemTokenF</a></h3>
+            </div><div name="scales.xml.FullMemoryOptimisationT" class="parent">
+              <h3>Inherited from <a name="scales.xml.FullMemoryOptimisationT" class="extype" href="FullMemoryOptimisationT.html">FullMemoryOptimisationT</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>]</h3>
+            </div><div name="scales.xml.ElemQNameOptimisationT" class="parent">
+              <h3>Inherited from <a name="scales.xml.ElemQNameOptimisationT" class="extype" href="ElemQNameOptimisationT.html">ElemQNameOptimisationT</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>]</h3>
+            </div><div name="scales.xml.QNameOptimisationT" class="parent">
+              <h3>Inherited from <a name="scales.xml.QNameOptimisationT" class="extype" href="QNameOptimisationT.html">QNameOptimisationT</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>]</h3>
+            </div><div name="scales.xml.MutableVectorLikeStrategy" class="parent">
+              <h3>Inherited from <a name="scales.xml.MutableVectorLikeStrategy" class="extype" href="MutableVectorLikeStrategy.html">MutableVectorLikeStrategy</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>]</h3>
+            </div><div name="scales.xml.PathOptimisationStrategy" class="parent">
+              <h3>Inherited from <a name="scales.xml.PathOptimisationStrategy" class="extype" href="PathOptimisationStrategy.html">PathOptimisationStrategy</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>]</h3>
+            </div><div name="scales.xml.MemoryOptimisationStrategy" class="parent">
+              <h3>Inherited from <a name="scales.xml.MemoryOptimisationStrategy" class="extype" href="MemoryOptimisationStrategy.html">MemoryOptimisationStrategy</a>[<a name="scales.xml.ElemToken" class="extype" href="ElemToken.html">ElemToken</a>]</h3>
+            </div><div name="scala.AnyRef" class="parent">
+              <h3>Inherited from AnyRef</h3>
+            </div><div name="scala.Any" class="parent">
+              <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>
+            </div>
+
+      </div>
+      
+      <div id="tooltip"></div>
+      
+    </body>
+      </html>

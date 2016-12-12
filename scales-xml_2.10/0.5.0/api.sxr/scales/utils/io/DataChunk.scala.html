@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\io\DataChunk.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.io
+
+<span class="comment">/**
+ * Represents a chunk of data to feed into an async parser.
+ * The instance is deemed &quot;owned&quot; by the asnyc parser until it requires more input. 
+ */</span> 
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait DataChunk extends AnyRef" id="scales.utils.io;DataChunk">DataChunk</a> <span title="Unit" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Array[Byte]" id="scales.utils.io;DataChunk.array">array</a>: <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="scales.utils.io;DataChunk.offset">offset</a>: <span title="Int">Int</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="scales.utils.io;DataChunk.length">length</a>: <span title="Int">Int</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils.io;DataChunk.isEOF">isEOF</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils.io;DataChunk.isEmpty">isEmpty</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Represents the end of a stream, no more Bytes are available
+ */</span> 
+<span title="AnyRef" class="keyword">object</span> <a title="scales.utils.io.EOFData.type" id="scales.utils.io.EOFData">EOFData</a> <a href="#scales.utils.io.EOFData" title="scales.utils.io.EOFData.type" class="keyword">extends</a> <a href="#scales.utils.io;DataChunk" title="scales.utils.io.DataChunk">DataChunk</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="Array[Byte]" id="scales.utils.io.EOFData.array">array</a> = <span title="Array.type">Array</span>.<span title="[T](implicit evidence$1: scala.reflect.ClassTag[T])Array[T]">empty</span><span title="(implicit evidence$1: scala.reflect.ClassTag[Byte])Array[Byte]" class="delimiter">[</span><span title="Byte">Byte</span><span class="delimiter">]</span>
+  <span class="keyword">val</span> <a title="Int" id="scales.utils.io.EOFData.offset">offset</a> = <span title="Int(0)" class="int">0</span>
+  <span class="keyword">val</span> <a title="Int" id="scales.utils.io.EOFData.length">length</a> = -<span title="Int(-1)" class="int">1</span>
+
+  <span class="keyword">override</span> <span class="keyword">val</span> <a title="Boolean" id="scales.utils.io.EOFData.isEOF">isEOF</a> = <span title="Boolean(true)" class="keyword">true</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Represents a data stream with no immediate data to return.
+ */</span> 
+<span class="keyword">object</span> <a title="scales.utils.io.EmptyData.type" id="scales.utils.io.EmptyData">EmptyData</a> <a href="#scales.utils.io.EmptyData" title="scales.utils.io.EmptyData.type" class="keyword">extends</a> <a href="#scales.utils.io;DataChunk" title="scales.utils.io.DataChunk">DataChunk</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="Array[Byte]" id="scales.utils.io.EmptyData.array">array</a> = <span title="Array.type">Array</span>.<span title="[T](implicit evidence$1: scala.reflect.ClassTag[T])Array[T]">empty</span><span title="(implicit evidence$1: scala.reflect.ClassTag[Byte])Array[Byte]" class="delimiter">[</span><span title="Byte">Byte</span><span class="delimiter">]</span>
+  <span class="keyword">val</span> <a title="Int" id="scales.utils.io.EmptyData.offset">offset</a> = <span title="Int(0)" class="int">0</span>
+  <span class="keyword">val</span> <a title="Int" id="scales.utils.io.EmptyData.length">length</a> = <span title="Int(0)" class="int">0</span>
+
+  <span class="keyword">override</span> <span class="keyword">val</span> <a title="Boolean" id="scales.utils.io.EmptyData.isEmpty">isEmpty</a> = <span title="Boolean(true)" class="keyword">true</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Represents the full array
+ */</span> 
+<span class="keyword">final</span> <span class="keyword">case class</span> <a title="class FullChunk extends AnyRef with scales.utils.io.DataChunk with Product with Serializable" id="scales.utils.io.FullChunk.readResolve">FullChunk</a><a href="#scales.utils.io.FullChunk.readResolve" title="Product" class="delimiter">(</a> <a title="Array[Byte]" id="scales.utils.io;FullChunk.array">array</a>: <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.utils.io;DataChunk" title="scales.utils.io.DataChunk">DataChunk</a> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="scales.utils.io;FullChunk.offset">offset</a> = <span title="Int(0)" class="int">0</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="scales.utils.io;FullChunk.length">length</a> = <a href="#scales.utils.io;FullChunk.array" title="=&gt; Array[Byte]">array</a>.<span title="=&gt; Int">length</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * A section of a Byte array
+ */</span> 
+<span class="keyword">final</span> <span class="keyword">case class</span> <a title="class Chunk extends AnyRef with scales.utils.io.DataChunk with Product with Serializable" id="scales.utils.io.Chunk.readResolve">Chunk</a><a href="#scales.utils.io.Chunk.readResolve" title="Product" class="delimiter">(</a> <a title="Array[Byte]" id="scales.utils.io;Chunk.array">array</a>: <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span>, <a title="Int" id="scales.utils.io;Chunk.offset">offset</a>: <span title="Int">Int</span>, <a title="Int" id="scales.utils.io;Chunk.length">length</a>: <span title="Int">Int</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.utils.io;DataChunk" title="scales.utils.io.DataChunk">DataChunk</a>
+
+
+        </pre>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\impl\EitherLikeImpl.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.impl
+
+
+<span class="keyword">trait</span> <a title="trait LeftLikeProjection[+L] extends java.lang.Object" id="14167">LeftLikeProjection</a><span class="delimiter">[</span>+<a title="&gt;: Nothing &lt;: Any" id="14188">L</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; L" id="45574">get</a> : <a href="#14188" title="L">L</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait RightLikeProjection[+R] extends java.lang.Object" id="14182">RightLikeProjection</a><span class="delimiter">[</span>+<a title="&gt;: Nothing &lt;: Any" id="14189">R</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; R" id="45617">get</a> : <a href="#14189" title="R">R</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.utils.impl.NonLeftP" id="14174">NonLeftP</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14167" title="scales.utils.impl.LeftLikeProjection[Nothing]">LeftLikeProjection</a><span class="delimiter">[</span>Nothing<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Nothing" id="59977">get</a> : <span title="Nothing">Nothing</span> = <span title="(message: String)Nothing">error</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Cannot get a left from a RightLike.&quot;)" class="string">&quot;Cannot get a left from a RightLike.&quot;</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.utils.impl.NonRightP" id="14180">NonRightP</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14182" title="scales.utils.impl.RightLikeProjection[Nothing]">RightLikeProjection</a><span class="delimiter">[</span>Nothing<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Nothing" id="59946">get</a> : <span title="Nothing">Nothing</span> = <span title="(message: String)Nothing">error</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Cannot get a right from a LeftLike.&quot;)" class="string">&quot;Cannot get a right from a LeftLike.&quot;</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+
+        </pre>
+    </body>
+</html>

@@ -1,0 +1,529 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;Localisation.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">67 %</div>
+        <div class="greenBar" style="width:134px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Localisation.scala.html#Class_scales_utils_Localised"><img src="class.png"></img>Localised</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Localisation.scala.html#Trait_scales_utils_LocalisedFunctions"><img src="trait.png"></img>LocalisedFunctions</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">50 %</div>
+        <div class="greenBar" style="width:100px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Localisation.scala.html#Trait_scales_utils_LocalisedImplicits"><img src="trait.png"></img>LocalisedImplicits</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">75 %</div>
+        <div class="greenBar" style="width:150px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Localisation.scala.html#Class_scales_utils_Resource"><img src="class.png"></img>Resource</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">89 %</div>
+        <div class="greenBar" style="width:178px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import java.util.{ Locale, ResourceBundle, Calendar, Date }
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td> * Based on the approach taken by Muse and others giving paramaterized messages using XXX as a token to replace.
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">8</td>
+            <td><a id="Class_scales_utils_Resource"></a>case class Resource(locale: () =&gt; Locale = () =&gt; Locale.getDefault)(file: (Class[_], Option[String])) {
+</td>
+          </tr><tr>
+            <td class="green">9</td>
+            <td>  protected val PLACE_HOLDER = &quot;XXX&quot;
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  protected val classLoader = file._1.getClassLoader
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  protected val resourceName = if (file._2.isEmpty) file._1.getName
+</td>
+          </tr><tr>
+            <td class="red">13</td>
+            <td>  else <span class="non">file._1.getPackage.getName + &quot;.&quot; + file._2.get
+</span></td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>  //
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>  // Used for requests that don't have any placeholders
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>  //
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>  protected val _EMPTY = new Array[Any](0)
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>  // TODO figure out how / if these should handle updated language packs at runtime??
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>  protected val localeToBundle = new java.util.concurrent.ConcurrentHashMap[Locale, ResourceBundle]
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>  protected def getResourceBundle() = {
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>    val ilocale = locale()
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>    //val ilocale = if (tlocale == null) Locale.getDefault else tlocale
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>    val bundle = localeToBundle.get(ilocale)
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>    if (bundle eq null) {
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>      val nbundle = ResourceBundle.getBundle(resourceName, ilocale, classLoader)
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>      val res = localeToBundle.putIfAbsent(ilocale, nbundle)
+</td>
+          </tr><tr>
+            <td class="yellow">30</td>
+            <td>      if (res eq null) nbundle else <span class="non">res
+</span></td>
+          </tr><tr>
+            <td class="green">31</td>
+            <td>    } else bundle
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>  def apply(id: String): String = iget(id)(false)
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">36</td>
+            <td>  def apply(id: String, fillers: Any*): String = iget(id, fillers: _*)(false)
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">38</td>
+            <td>  def apply(showId: Boolean, id: String, fillers: Any*): String = iget(id, fillers: _*)(showId)
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">40</td>
+            <td>  def get(id: String): String = <span class="non">iget(id)(false)
+</span></td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">42</td>
+            <td>  def get(id: String, fillers: Any*): String = iget(id, fillers: _*)(false)
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">44</td>
+            <td>  def get(showId: Boolean, id: String, fillers: Any*): String = <span class="non">iget(id, fillers: _*)(showId)
+</span></td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>  def getWithId(id: String, fillers: Any*): String = iget(id, fillers: _*)(true)
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>  protected def iget(id: String, fillers: Any*)(showId: Boolean): String = {
+</td>
+          </tr><tr>
+            <td class="green">49</td>
+            <td>    val orig = getResourceBundle getString id
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>    val origid = if (showId) &quot;[&quot; + id + &quot;] &quot; + orig
+</td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>    else orig
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">53</td>
+            <td>    val bits = origid.split(PLACE_HOLDER)
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>    if (bits.length == 1) origid // no holders so no need to split
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>    else {
+</td>
+          </tr><tr>
+            <td class="green">56</td>
+            <td>      val str = new StringBuilder
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>      // max up the fillers to match the number of bits
+</td>
+          </tr><tr>
+            <td class="green">59</td>
+            <td>      val gfillers: Seq[Any] = if (fillers.size &lt; bits.size)
+</td>
+          </tr><tr>
+            <td class="green">60</td>
+            <td>        fillers ++ (Array.fill[Any](bits.size - fillers.size)(&quot;XXX&quot;))
+</td>
+          </tr><tr>
+            <td class="green">61</td>
+            <td>      else fillers
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>      // for each of the chunks replace with the filler
+</td>
+          </tr><tr>
+            <td class="green">64</td>
+            <td>      for { pair &lt;- bits zip gfillers }
+</td>
+          </tr><tr>
+            <td class="green">65</td>
+            <td>        str.append(pair._1).append(pair._2)
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">67</td>
+            <td>      str.toString
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>import java.text.{ NumberFormat, DateFormat }
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">74</td>
+            <td><a id="Class_scales_utils_Localised"></a>class Localised<span class="non">(locale: Locale) {
+</span></td>
+          </tr><tr>
+            <td class="red">75</td>
+            <td>  def currency() = <span class="non">NumberFormat.getCurrencyInstance(locale)
+</span></td>
+          </tr><tr>
+            <td class="red">76</td>
+            <td>  def number() = <span class="non">NumberFormat.getInstance(locale)
+</span></td>
+          </tr><tr>
+            <td class="red">77</td>
+            <td>  def integer() = <span class="non">NumberFormat.getIntegerInstance(locale)
+</span></td>
+          </tr><tr>
+            <td class="red">78</td>
+            <td>  def percent() = <span class="non">NumberFormat.getPercentInstance(locale)
+</span></td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">80</td>
+            <td>  def calender() = <span class="non">Calendar.getInstance(locale)
+</span></td>
+          </tr><tr>
+            <td class="red">81</td>
+            <td>  def dateFormat(style: Int) = <span class="non">DateFormat.getDateInstance(style, locale)
+</span></td>
+          </tr><tr>
+            <td class="red">82</td>
+            <td>  def timeFormat(style: Int) = <span class="non">DateFormat.getTimeInstance(style, locale)
+</span></td>
+          </tr><tr>
+            <td class="red">83</td>
+            <td>  def dateTimeformat(dateStyle: Int, timeStyle: Int) = <span class="non">DateFormat.getDateTimeInstance(dateStyle, timeStyle, locale)
+</span></td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">86</td>
+            <td><a id="Trait_scales_utils_LocalisedFunctions"></a>trait LocalisedFunctions {
+</td>
+          </tr><tr>
+            <td class="red">87</td>
+            <td>  def localised(implicit locale: () =&gt; Locale) = <span class="non">new Localised(locale())
+</span></td>
+          </tr><tr>
+            <td class="red">88</td>
+            <td>  def $(implicit locale: () =&gt; Locale) = <span class="non">localised(locale).currency()
+</span></td>
+          </tr><tr>
+            <td class="red">89</td>
+            <td>  def %(implicit locale: () =&gt; Locale) = <span class="non">localised(locale).percent()
+</span></td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">91</td>
+            <td>  def localisedTexts(texts: Iterable[(String, Seq[Any])])(implicit resource: Resource) =
+</td>
+          </tr><tr>
+            <td class="red">92</td>
+            <td>    <span class="non">texts.map { p =&gt; resource(p._1, p._2) }
+</span></td>
+          </tr><tr>
+            <td class="black">93</td>
+            <td>  def localisedITexts(texts: Iterable[(String, Seq[Any])])(implicit resource: Resource) =
+</td>
+          </tr><tr>
+            <td class="red">94</td>
+            <td>    <span class="non">texts.map { p =&gt; resource(true, p._1, p._2) }
+</span></td>
+          </tr><tr>
+            <td class="black">95</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>  import java.nio.charset.Charset
+</td>
+          </tr><tr>
+            <td class="black">97</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">98</td>
+            <td>  val UTF_8 = Charset.forName(&quot;UTF-8&quot;)
+</td>
+          </tr><tr>
+            <td class="green">99</td>
+            <td>  val UTF_16 = Charset.forName(&quot;UTF-16&quot;)
+</td>
+          </tr><tr>
+            <td class="green">100</td>
+            <td>  val UTF_32 = Charset.forName(&quot;UTF-32&quot;)
+</td>
+          </tr><tr>
+            <td class="green">101</td>
+            <td>  val US_ASCII = Charset.forName(&quot;US-ASCII&quot;)
+</td>
+          </tr><tr>
+            <td class="green">102</td>
+            <td>  val LATIN = Charset.forName(&quot;ISO-8859-1&quot;)
+</td>
+          </tr><tr>
+            <td class="black">103</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">105</td>
+            <td>   * A usable default of UTF8 NOT the vm's Charset.defaultCharset based on its locale, use vmDefaultCharset for that
+</td>
+          </tr><tr>
+            <td class="black">106</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">107</td>
+            <td>  val defaultCharset = UTF_8
+</td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">109</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>   * The jvm's default charset, based on system/machine/locale
+</td>
+          </tr><tr>
+            <td class="black">111</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">112</td>
+            <td>  val vmDefaultCharset = Charset.defaultCharset()
+</td>
+          </tr><tr>
+            <td class="black">113</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">114</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">115</td>
+            <td><a id="Trait_scales_utils_LocalisedImplicits"></a>trait LocalisedImplicits {
+</td>
+          </tr><tr>
+            <td class="black">116</td>
+            <td>  implicit def dateToString(date: Date)(implicit locale: () =&gt; Locale) =
+</td>
+          </tr><tr>
+            <td class="red">117</td>
+            <td>    <span class="non">localised(locale).dateTimeformat(DateFormat.FULL, DateFormat.FULL).format(date)
+</span></td>
+          </tr><tr>
+            <td class="black">118</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">119</td>
+            <td>  implicit def justClass(clazz: Class[_]): (Class[_], Option[String]) = (clazz, None)
+</td>
+          </tr><tr>
+            <td class="green">120</td>
+            <td>  implicit def toClass(obj: AnyRef): (Class[_], Option[String]) = (obj.getClass(), None)
+</td>
+          </tr><tr>
+            <td class="green">121</td>
+            <td>  implicit def symbolToStr(sym: Symbol) = sym.name
+</td>
+          </tr><tr>
+            <td class="black">122</td>
+            <td>}
+</td>
+          </tr></tbody></table>

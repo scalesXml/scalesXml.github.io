@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\serializers\Serializers.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.serializers
+
+<span class="keyword">import</span> scales.utils._
+
+<span class="keyword">import</span> scales.xml._
+
+<span class="keyword">import</span> java.io.Writer
+
+<span class="keyword">import</span> java.nio.charset.Charset
+
+<span class="comment">/**
+ * Interface used for serializing the XML events, same for both stream and tree.
+ *
+ * The default implementation validates the output via LSSerializer against a given encoding.
+ *
+ * An alternative FastSerializer simply outputs strings and is in no way correct but at least faster then going to StreamWriter for incorrectness.
+ *
+ * Serializers should use qName.ncName for serialization purposes of both attributes and elements, the QName is provided to allow for validation of ouput.
+ *
+ * If a function returns Some it should signal the termination of the serializing.  Implementations are expected to respect this approach, its for the benefit of all developers.
+ *
+ * List[QName] is provided to help if path relevant information is needed for serialization.  For example if a use case requires that a particular path is filtered out.  Purely for performance reasons the list is in reverse order with the current QName at the top and root at the bottom.
+ *
+ */</span>
+<span class="keyword">trait</span> <a title="trait Serializer extends AnyRef" id="scales.xml.serializers;Serializer">Serializer</a> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(item: scales.xml.XmlItem, path: List[scales.xml.QName])Option[Throwable]" id="scales.xml.serializers;Serializer.item">item</a><span class="delimiter">(</span><a title="scales.xml.XmlItem" id="scales.xml.serializers;Serializer.item.item">item</a>: <a href="../XmlTypes.scala.html#scales.xml;XmlItem" title="scales.xml.XmlItem">XmlItem</a>, <a title="List[scales.xml.QName]" id="scales.xml.serializers;Serializer.item.path">path</a>: <span title="List[scales.xml.QName]">List</span><span class="delimiter">[</span>QName<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Option[Throwable]">Option</span><span class="delimiter">[</span>Throwable<span class="delimiter">]</span>
+
+  <span class="keyword">def</span> <a title="(qName: scales.xml.QName, attributes: Traversable[scales.xml.Attribute], namespaces: Map[String,String], declareDefaultNS: Option[String], path: List[scales.xml.QName])Option[Throwable]" id="scales.xml.serializers;Serializer.emptyElement">emptyElement</a><span class="delimiter">(</span><a title="scales.xml.QName" id="scales.xml.serializers;Serializer.emptyElement.qName">qName</a>: <a href="../QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a>, <a title="Traversable[scales.xml.Attribute]" id="scales.xml.serializers;Serializer.emptyElement.attributes">attributes</a>: <span title="Traversable[scales.xml.Attribute]">Traversable</span><span class="delimiter">[</span>Attribute<span class="delimiter">]</span>, <a title="Map[String,String]" id="scales.xml.serializers;Serializer.emptyElement.namespaces">namespaces</a>: <span title="Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span>, <a title="Option[String]" id="scales.xml.serializers;Serializer.emptyElement.declareDefaultNS">declareDefaultNS</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span>, <a title="List[scales.xml.QName]" id="scales.xml.serializers;Serializer.emptyElement.path">path</a>: <span title="List[scales.xml.QName]">List</span><span class="delimiter">[</span>QName<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Option[Throwable]">Option</span><span class="delimiter">[</span>Throwable<span class="delimiter">]</span>
+  <span class="keyword">def</span> <a title="(qName: scales.xml.QName, attributes: Traversable[scales.xml.Attribute], namespaces: Map[String,String], declareDefaultNS: Option[String], path: List[scales.xml.QName])Option[Throwable]" id="scales.xml.serializers;Serializer.startElement">startElement</a><span class="delimiter">(</span><a title="scales.xml.QName" id="scales.xml.serializers;Serializer.startElement.qName">qName</a>: <a href="../QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a>, <a title="Traversable[scales.xml.Attribute]" id="scales.xml.serializers;Serializer.startElement.attributes">attributes</a>: <span title="Traversable[scales.xml.Attribute]">Traversable</span><span class="delimiter">[</span>Attribute<span class="delimiter">]</span>, <a title="Map[String,String]" id="scales.xml.serializers;Serializer.startElement.namespaces">namespaces</a>: <span title="Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span>, <a title="Option[String]" id="scales.xml.serializers;Serializer.startElement.declareDefaultNS">declareDefaultNS</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span>, <a title="List[scales.xml.QName]" id="scales.xml.serializers;Serializer.startElement.path">path</a>: <span title="List[scales.xml.QName]">List</span><span class="delimiter">[</span>QName<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Option[Throwable]">Option</span><span class="delimiter">[</span>Throwable<span class="delimiter">]</span>
+  <span class="keyword">def</span> <a title="(qName: scales.xml.QName, path: List[scales.xml.QName])Option[Throwable]" id="scales.xml.serializers;Serializer.endElement">endElement</a><span class="delimiter">(</span><a title="scales.xml.QName" id="scales.xml.serializers;Serializer.endElement.qName">qName</a>: <a href="../QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a>, <a title="List[scales.xml.QName]" id="scales.xml.serializers;Serializer.endElement.path">path</a>: <span title="List[scales.xml.QName]">List</span><span class="delimiter">[</span>QName<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Option[Throwable]">Option</span><span class="delimiter">[</span>Throwable<span class="delimiter">]</span>
+
+  <span class="keyword">def</span> <a title="(encoding: java.nio.charset.Charset, version: scales.xml.XmlVersion)Option[Throwable]" id="scales.xml.serializers;Serializer.xmlDeclaration">xmlDeclaration</a><span class="delimiter">(</span><a title="java.nio.charset.Charset" id="scales.xml.serializers;Serializer.xmlDeclaration.encoding">encoding</a>: <span title="java.nio.charset.Charset">Charset</span>, <a title="scales.xml.XmlVersion" id="scales.xml.serializers;Serializer.xmlDeclaration.version">version</a>: <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span>: <span title="Option[Throwable]">Option</span><span class="delimiter">[</span>Throwable<span class="delimiter">]</span>
+
+<span class="delimiter">}</span>
+
+<span title="AnyRef" class="keyword">case class</span> <a title="class SerializerData extends AnyRef with Product with Serializable" id="scales.xml.serializers.SerializerData.readResolve">SerializerData</a><a href="#scales.xml.serializers.SerializerData.readResolve" title="Product" class="delimiter">(</a><a title="java.io.Writer" id="scales.xml.serializers;SerializerData.out">out</a>: <span title="java.io.Writer">Writer</span>, <a title="scales.xml.XmlVersion" id="scales.xml.serializers.SerializerData.apply$default$2">version</a>: <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a> = <a href="../ScalesXml.scala.html#scales.xml.ScalesXml" title="scales.xml.ScalesXml.type">ScalesXml</a>.<a href="../impl/NamespaceExtras.scala.html#scales.xml.impl;DefaultXmlVersion.defaultVersion" title="=&gt; scales.xml.XmlVersion">defaultVersion</a>, <a title="java.nio.charset.Charset" id="scales.xml.serializers.SerializerData.apply$default$3">encoding</a>: <span title="java.nio.charset.Charset">Charset</span> = <a href="../../utils/package.scala.html#scales.utils.package.defaultCharset" title="=&gt; java.nio.charset.Charset">defaultCharset</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * Serializer factories are responsible for the life cycle of serializers and
+ * their resources.
+ *
+ */</span>
+<span class="keyword">trait</span> <a title="trait SerializerFactory extends AnyRef" id="scales.xml.serializers;SerializerFactory">SerializerFactory</a> <span class="delimiter">{</span>
+  <span class="keyword">type</span> <a title=" &lt;: scales.xml.serializers.Serializer" id="scales.xml.serializers;SerializerFactory;ExactSerializer">ExactSerializer</a> &lt;: Serializer
+  
+  <span class="keyword">def</span> <a title="[R](thunk: scales.xml.serializers.Serializer =&gt; R)(data: scales.xml.serializers.SerializerData)R" id="scales.xml.serializers;SerializerFactory.apply">apply</a><span class="delimiter">[</span><a title="" id="scales.xml.serializers;SerializerFactory.apply;R">R</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="scales.xml.serializers.Serializer =&gt; R" id="scales.xml.serializers;SerializerFactory.apply.thunk">thunk</a>: Serializer =&gt; R<span class="delimiter">)</span><span class="delimiter">(</span><a title="scales.xml.serializers.SerializerData" id="scales.xml.serializers;SerializerFactory.apply.data">data</a>: <a href="#scales.xml.serializers.SerializerData.readResolve" title="scales.xml.serializers.SerializerData">SerializerData</a><span class="delimiter">)</span>: <a href="#scales.xml.serializers;SerializerFactory.apply;R" title="R">R</a>
+  <span class="keyword">def</span> <a title="(data: scales.xml.serializers.SerializerData)SerializerFactory.this.ExactSerializer" id="scales.xml.serializers;SerializerFactory.borrow">borrow</a><span class="delimiter">(</span><a title="scales.xml.serializers.SerializerData" id="scales.xml.serializers;SerializerFactory.borrow.data">data</a> : <a href="#scales.xml.serializers.SerializerData.readResolve" title="scales.xml.serializers.SerializerData">SerializerData</a><span class="delimiter">)</span> : <a href="#scales.xml.serializers;SerializerFactory;ExactSerializer" title="SerializerFactory.this.ExactSerializer">ExactSerializer</a>
+  <span class="keyword">def</span> <a title="(serializer: SerializerFactory.this.ExactSerializer)Unit" id="scales.xml.serializers;SerializerFactory.giveBack">giveBack</a><span class="delimiter">(</span><a title="SerializerFactory.this.ExactSerializer" id="scales.xml.serializers;SerializerFactory.giveBack.serializer">serializer</a> : <a href="#scales.xml.serializers;SerializerFactory;ExactSerializer" title="SerializerFactory.this.ExactSerializer">ExactSerializer</a><span class="delimiter">)</span> : <span title="Unit">Unit</span>
+<span class="delimiter">}</span>
+
+<span title="AnyRef" class="keyword">object</span> <a title="scales.xml.serializers.SerializerHelpers.type" id="scales.xml.serializers.SerializerHelpers">SerializerHelpers</a> <a href="#scales.xml.serializers.SerializerHelpers" title="scales.xml.serializers.SerializerHelpers.type" class="delimiter">{</a>
+  <span class="comment">/**
+   * Outputs the xml document declaration
+   */</span>
+  <span class="keyword">def</span> <a title="(out: java.io.Writer, encoding: java.nio.charset.Charset, version: scales.xml.XmlVersion)Option[Throwable]" id="scales.xml.serializers.SerializerHelpers.xmlDecl">xmlDecl</a><span class="delimiter">(</span><a title="java.io.Writer" id="scales.xml.serializers.SerializerHelpers.xmlDecl.out">out</a>: <span title="java.io.Writer">Writer</span>, <a title="java.nio.charset.Charset" id="scales.xml.serializers.SerializerHelpers.xmlDecl.encoding">encoding</a>: java.nio.charset.<span title="java.nio.charset.Charset">Charset</span>, <a title="scales.xml.XmlVersion" id="scales.xml.serializers.SerializerHelpers.xmlDecl.version">version</a>: <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span>: <span title="Option[Throwable]">Option</span><span class="delimiter">[</span>Throwable<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <a href="#scales.xml.serializers.SerializerHelpers.xmlDecl.out" title="java.io.Writer">out</a>.<span title="(x$1: CharSequence)java.io.Writer">append</span><span class="delimiter">(</span><span title="String(&quot;&lt;?xml version=\&quot;&quot;)" class="string">&quot;&lt;?xml version=\&quot;&quot;</span> <span title="(x$1: Any)String">+</span> <a href="#scales.xml.serializers.SerializerHelpers.xmlDecl.version" title="scales.xml.XmlVersion">version</a>.<a href="../Namespaces.scala.html#scales.xml;XmlVersion.version" title="=&gt; String">version</a> <span title="(x$1: Any)String">+</span> <span title="String(&quot;\&quot; encoding=\&quot;&quot;)" class="string">&quot;\&quot; encoding=\&quot;&quot;</span> <span title="(x$1: Any)String">+</span> <a href="#scales.xml.serializers.SerializerHelpers.xmlDecl.encoding" title="java.nio.charset.Charset">encoding</a>.<span title="()String">displayName</span> <span title="(x$1: Any)String">+</span> <span title="String(&quot;\&quot;?&gt;&quot;)" class="string">&quot;\&quot;?&gt;&quot;</span><span class="delimiter">)</span>
+    <span title="None.type">None</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Default serializer for items, usefull for when the contents aren't correct but you want to see them anyway
+   */</span>
+  <span class="keyword">def</span> <a title="(out: java.io.Writer, item: scales.xml.XmlItem, path: List[scales.xml.QName])Option[Throwable]" id="scales.xml.serializers.SerializerHelpers.item">item</a><span class="delimiter">(</span><a title="java.io.Writer" id="scales.xml.serializers.SerializerHelpers.item.out">out</a>: <span title="java.io.Writer">Writer</span>, <a title="scales.xml.XmlItem" id="scales.xml.serializers.SerializerHelpers.item.item">item</a>: <a href="../XmlTypes.scala.html#scales.xml;XmlItem" title="scales.xml.XmlItem">XmlItem</a>, <a title="List[scales.xml.QName]" id="scales.xml.serializers.SerializerHelpers.item.path">path</a>: <span title="List[scales.xml.QName]">List</span><span class="delimiter">[</span>QName<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Option[Throwable]">Option</span><span class="delimiter">[</span>Throwable<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="String" id="scales.xml.serializers.SerializerHelpers.item.res">res</a> = <a href="#scales.xml.serializers.SerializerHelpers.item.item" title="scales.xml.XmlItem">item</a> <span title="String" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> Text<span class="delimiter">(</span><span title="String">value</span><span class="delimiter">)</span> =&gt; <span title="String">value</span>
+      <span class="keyword">case</span> <a href="../XmlTypes.scala.html#scales.xml.CData.unapply" title="(cmt: scales.xml.CData)Some[String]">CData</a><span class="delimiter">(</span><span title="String">value</span><span class="delimiter">)</span> =&gt; <span title="String(&quot;&lt;![CDATA[&quot;)" class="string">&quot;&lt;![CDATA[&quot;</span> <span title="(x$1: Any)String">+</span> <span title="String">value</span> <span title="(x$1: Any)String">+</span> <span title="String(&quot;]]&gt;&quot;)" class="string">&quot;]]&gt;&quot;</span>
+      <span class="keyword">case</span> <a href="../XmlTypes.scala.html#scales.xml.Comment.unapply" title="(cmt: scales.xml.Comment)Some[String]">Comment</a><span class="delimiter">(</span><span title="String">value</span><span class="delimiter">)</span> =&gt; <span title="String(&quot;&lt;!--&quot;)" class="string">&quot;&lt;!--&quot;</span> <span title="(x$1: Any)String">+</span> <span title="String">value</span> <span title="(x$1: Any)String">+</span> <span title="String(&quot;--&gt;&quot;)" class="string">&quot;--&gt;&quot;</span>
+      <span class="keyword">case</span> <a href="../XmlTypes.scala.html#scales.xml.PI.unapply" title="(pi: scales.xml.PI)Some[(String, String)]">PI</a><span class="delimiter">(</span><a title="String" id="scales.xml.serializers.SerializerHelpers.item.res.target">target</a>, <span title="String">value</span><span class="delimiter">)</span> =&gt; <span title="String(&quot;&lt;?&quot;)" class="string">&quot;&lt;?&quot;</span> <span title="(x$1: Any)String">+</span> <a href="#scales.xml.serializers.SerializerHelpers.item.res.target" title="String">target</a> <span title="(x$1: Any)String">+</span> <span title="String(&quot; &quot;)" class="string">&quot; &quot;</span> <span title="(x$1: Any)String">+</span> <span title="String">value</span> <span title="(x$1: Any)String">+</span> <span title="String(&quot;?&gt;&quot;)" class="string">&quot;?&gt;&quot;</span>
+    <span class="delimiter">}</span>
+    <a href="#scales.xml.serializers.SerializerHelpers.item.out" title="java.io.Writer">out</a>.<span title="(x$1: CharSequence)java.io.Writer">append</span><span class="delimiter">(</span><a href="#scales.xml.serializers.SerializerHelpers.item.res" title="String">res</a><span class="delimiter">)</span>
+    <span title="None.type">None</span>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+
+        </pre>
+    </body>
+</html>

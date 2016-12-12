@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\AsBoolean.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="comment">/**</span>
+<a href="l4"></a><span id="l4"> * Provides the conversion type class AsBoolean, and simple matchers (extractor builders) to</span>
+<a href="l5"></a><span id="l5"> * use them.  Used by the xpath boolean function and xmltree matching</span>
+<a href="l6"></a><span id="l6"> */</span> </span>
+<a href="l7"></a><span id="l7"><span class="keyword">trait</span> <a title="trait AsBooleanTrait extends java.lang.Object with ScalaObject" id="8853">AsBooleanTrait</a> <span title="ScalaObject" class="delimiter">{</span></span>
+<a href="l8"></a><span id="l8">  <span class="keyword">type</span> <a title="[T](T) =&gt; Boolean" id="10634">AsBoolean</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10635">T</a><span class="delimiter">]</span> = <span title="(T) =&gt; Boolean">Function1</span><span class="delimiter">[</span>T, Boolean<span class="delimiter">]</span></span>
+<a href="l9"></a><span id="l9">  <span class="keyword">def</span> <a title="[T](it: T)(implicit evidence$1: (T) =&gt; Boolean)Boolean" id="11219">boolean</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10638">T</a> : AsBoolean<span class="delimiter">]</span><span class="delimiter">(</span> <a title="T" id="11218">it</a> : <a href="#10638" title="T">T</a> <span class="delimiter">)</span> : <span title="Boolean">Boolean</span> = <span title="[T](implicit e: T)T">implicitly</span><a href="#11219" title="(implicit e: (T) =&gt; Boolean)(T) =&gt; Boolean" class="delimiter">[</a><span title="(T) =&gt; Boolean">AsBoolean</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span>.<span title="(v1: T)Boolean">apply</span><span class="delimiter">(</span><a href="#11218" title="T">it</a><span class="delimiter">)</span></span>
+<a href="l10"></a><span id="l10">  </span>
+<a href="l11"></a><span id="l11">  <span class="keyword">class</span> <a title="class BooleanMatcher[X, T] extends java.lang.Object with ScalaObject" id="10639">BooleanMatcher</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10640">X</a>, <a title="&gt;: Nothing &lt;: Any" id="10641">T</a> : AsBoolean<span class="delimiter">]</span><span class="delimiter">(</span><a title="(X) =&gt; T" id="37592">eval</a>  : <span class="delimiter">(</span>X<span class="delimiter">)</span> =&gt; T<span class="delimiter">)</span> <span class="delimiter">{</span></span>
+<a href="l12"></a><span id="l12">    <span class="keyword">def</span> <a title="(x: X)Option[T]" id="37588">unapply</a><span class="delimiter">(</span> <a title="X" id="37620">x</a> : <a href="#10640" title="X">X</a> <span class="delimiter">)</span> : <span title="Option[T]">Option</span><span class="delimiter">[</span>T<span class="delimiter">]</span> = <span class="delimiter">{</span></span>
+<a href="l13"></a><span id="l13">      <span class="keyword">val</span> <a title="T" id="37689">res</a> = <a href="#37592" title="(v1: X)T">eval</a><span class="delimiter">(</span><a href="#37620" title="X">x</a><span class="delimiter">)</span></span>
+<a href="l14"></a><span id="l14">      <span title="Option[T]" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><span title="[T](implicit e: T)T">implicitly</span><a href="#37586" title="(implicit e: (T) =&gt; Boolean)(T) =&gt; Boolean" class="delimiter">[</a><span title="(T) =&gt; Boolean">AsBoolean</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span>.<span title="(v1: T)Boolean">apply</span><span class="delimiter">(</span><a href="#37689" title="T">res</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="object None">None</span></span>
+<a href="l15"></a><span id="l15">      <span class="keyword">else</span> <span title="(x: T)Some[T]">Some</span><span class="delimiter">(</span><a href="#37689" title="T">res</a><span class="delimiter">)</span></span>
+<a href="l16"></a><span id="l16">    <span class="delimiter">}</span></span>
+<a href="l17"></a><span id="l17">  <span class="delimiter">}</span></span>
+<a href="l18"></a><span id="l18"></span>
+<a href="l19"></a><span id="l19">  <span class="keyword">class</span> <a title="class BooleanAndTMatcher[X, T] extends java.lang.Object with ScalaObject" id="10642">BooleanAndTMatcher</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10643">X</a>, <a title="&gt;: Nothing &lt;: Any" id="10644">T</a> : AsBoolean<span class="delimiter">]</span><span class="delimiter">(</span><a title="(X) =&gt; T" id="37775">eval</a> : <span class="delimiter">(</span>X<span class="delimiter">)</span> =&gt; T<span class="delimiter">)</span> <span class="delimiter">{</span></span>
+<a href="l20"></a><span id="l20">    <span class="keyword">def</span> <a title="(x: X)Option[(T, X)]" id="37771">unapply</a><span class="delimiter">(</span> <a title="X" id="37778">x</a> : <a href="#10643" title="X">X</a> <span class="delimiter">)</span> : <span title="Option[(T, X)]">Option</span><span class="delimiter">[</span><span class="delimiter">(</span>T, X<span class="delimiter">)</span><span class="delimiter">]</span> = <span class="delimiter">{</span></span>
+<a href="l21"></a><span id="l21">      <span class="keyword">val</span> <a title="T" id="37780">res</a> = <a href="#37775" title="(v1: X)T">eval</a><span class="delimiter">(</span><a href="#37778" title="X">x</a><span class="delimiter">)</span></span>
+<a href="l22"></a><span id="l22">      <span title="Option[(T, X)]" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><span title="[T](implicit e: T)T">implicitly</span><a href="#37769" title="(implicit e: (T) =&gt; Boolean)(T) =&gt; Boolean" class="delimiter">[</a><span title="(T) =&gt; Boolean">AsBoolean</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span>.<span title="(v1: T)Boolean">apply</span><span class="delimiter">(</span><a href="#37780" title="T">res</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="object None">None</span></span>
+<a href="l23"></a><span id="l23">      <span class="keyword">else</span> <span title="(x: (T, X))Some[(T, X)]">Some</span><span class="delimiter">(</span><span title="(_1: T, _2: X)(T, X)" class="delimiter">(</span><a href="#37780" title="T">res</a>, <a href="#37778" title="X">x</a><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l24"></a><span id="l24">    <span class="delimiter">}</span></span>
+<a href="l25"></a><span id="l25">  <span class="delimiter">}</span></span>
+<a href="l26"></a><span id="l26">  <span class="comment">/**</span>
+<a href="l27"></a><span id="l27">   * Calls eval to return a T t'.  This T is then evaluated with the AsBoolean type class.</span>
+<a href="l28"></a><span id="l28">   *</span>
+<a href="l29"></a><span id="l29">   * When evaluated to true t' is returned.</span>
+<a href="l30"></a><span id="l30">   * val Matcher = booleanMatcher( (x) =&gt; T ); val Matcher(t) = x</span>
+<a href="l31"></a><span id="l31">   */</span> </span>
+<a href="l32"></a><span id="l32">  <span class="keyword">def</span> <a title="[X, T](eval: (X) =&gt; T)(implicit evidence$4: (T) =&gt; Boolean)AsBooleanTrait.this.BooleanMatcher[X,T]" id="37803">booleanMatcher</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10648">X</a>, <a title="&gt;: Nothing &lt;: Any" id="10649">T</a> : AsBoolean<span class="delimiter">]</span><span class="delimiter">(</span> <a title="(X) =&gt; T" id="37802">eval</a> : <span class="delimiter">(</span>X<span class="delimiter">)</span> =&gt; T <span class="delimiter">)</span> = <a href="#37803" title="AsBooleanTrait.this.BooleanMatcher[X,T]" class="keyword">new</a> <a href="#10639" title="AsBooleanTrait.this.BooleanMatcher[X,T]">BooleanMatcher</a><span class="delimiter">[</span>X, T<span class="delimiter">]</span><span class="delimiter">(</span><a href="#37802" title="(X) =&gt; T">eval</a><span class="delimiter">)</span></span>
+<a href="l33"></a><span id="l33"></span>
+<a href="l34"></a><span id="l34">  <span class="comment">/**</span>
+<a href="l35"></a><span id="l35">   * Calls eval to return a T t'.  This T is then evaluated with the AsBoolean type class.</span>
+<a href="l36"></a><span id="l36">   *</span>
+<a href="l37"></a><span id="l37">   * When evaluated to true (t',x) is returned.</span>
+<a href="l38"></a><span id="l38">   * val Matcher = booleanMatcher( (x) =&gt; T ); val Matcher(t,x) = x</span>
+<a href="l39"></a><span id="l39">   */</span></span>
+<a href="l40"></a><span id="l40">  <span class="keyword">def</span> <a title="[X, T](eval: (X) =&gt; T)(implicit evidence$5: (T) =&gt; Boolean)AsBooleanTrait.this.BooleanAndTMatcher[X,T]" id="37817">booleanAndTMatcher</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="10653">X</a>, <a title="&gt;: Nothing &lt;: Any" id="10654">T</a> : AsBoolean<span class="delimiter">]</span><span class="delimiter">(</span> <a title="(X) =&gt; T" id="37816">eval</a> : <span class="delimiter">(</span>X<span class="delimiter">)</span> =&gt; T <span class="delimiter">)</span> = <a href="#37817" title="AsBooleanTrait.this.BooleanAndTMatcher[X,T]" class="keyword">new</a> <a href="#10642" title="AsBooleanTrait.this.BooleanAndTMatcher[X,T]">BooleanAndTMatcher</a><span class="delimiter">[</span>X, T<span class="delimiter">]</span><span class="delimiter">(</span><a href="#37816" title="(X) =&gt; T">eval</a><span class="delimiter">)</span></span>
+<a href="l41"></a><span id="l41"><span class="delimiter">}</span></span>
+<a href="l42"></a><span id="l42"></span>
+<a href="l43"></a><span id="l43">        </span>
+</pre>
+    </body>
+</html>

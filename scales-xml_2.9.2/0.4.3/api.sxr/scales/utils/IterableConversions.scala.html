@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\IterableConversions.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="comment">/**
+ * Alot of this has since been included in the Scala standard lib, as such its pretty much unused, included incase.
+ * 
+ * General Java Iterable converters, allowing for comprehensions.
+ * 
+ * Based on suggestions from Jamie Webb (http://scala.sygneca.com/)
+ * will be removed in 0.5
+ * @deprecated
+ */</span>
+<span class="keyword">object</span> <a title="object scales.utils.IterableConversions" id="10585">IterableConversions</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  case <span class="keyword">class</span> <a title="class JavaIteratorIterator[A] extends java.lang.Object with Iterator[A] with ScalaObject with Product with Serializable" id="63221">JavaIteratorIterator</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="62909">A</a><span class="delimiter">]</span><a href="#63221" title="ScalaObject" class="delimiter">(</a><a title="java.util.Iterator[A]" id="62971">itr</a>: <span title="java.util.Iterator[A]">java</span>.util.Iterator<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="=&gt; Boolean" id="62875">hasNext</a> = <a href="#62971" title="=&gt; java.util.Iterator[A]">itr</a>.<span title="()Boolean">hasNext</span>
+    <span class="keyword">def</span> <a title="()A" id="62876">next</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#62971" title="=&gt; java.util.Iterator[A]">itr</a>.<span title="()A">next</span>
+  <span class="delimiter">}</span>
+
+  case <span class="keyword">class</span> <a title="class JavaIteratableIterable[A] extends java.lang.Object with Iterable[A] with ScalaObject with Product with Serializable" id="63216">JavaIteratableIterable</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="62994">A</a><span class="delimiter">]</span><a href="#63216" title="ScalaObject" class="delimiter">(</a><a title="java.lang.Iterable[A]" id="63031">iterable</a>: <span title="java.lang.Iterable[A]">java</span>.lang.Iterable<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterable[A]">Iterable</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="=&gt; scales.utils.IterableConversions.JavaIteratorIterator[A]" id="62949">iterator</a> = <a href="#63221" title="(itr: java.util.Iterator[A])scales.utils.IterableConversions.JavaIteratorIterator[A]">JavaIteratorIterator</a><span class="delimiter">(</span><a href="#63031" title="=&gt; java.lang.Iterable[A]">iterable</a>.<span title="()java.util.Iterator[A]">iterator</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](iterable: java.lang.Iterable[A])Iterable[A]" id="62856">implicitJavaIterableToScalaIterable</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="62858">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="java.lang.Iterable[A]" id="63028">iterable</a>: <span title="java.lang.Iterable[A]">java</span>.lang.Iterable<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Iterable[A]">Iterable</span><span class="delimiter">[</span>A<span class="delimiter">]</span> =
+    <a href="#63216" title="(iterable: java.lang.Iterable[A])scales.utils.IterableConversions.JavaIteratableIterable[A]">JavaIteratableIterable</a><span class="delimiter">(</span><a href="#63028" title="java.lang.Iterable[A]">iterable</a><span class="delimiter">)</span>
+
+  case <span class="keyword">class</span> <a title="class JavaEnumerationIterator[A] extends java.lang.Object with Iterator[A] with ScalaObject with Product with Serializable" id="63211">JavaEnumerationIterator</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="63074">A</a><span class="delimiter">]</span><a href="#63211" title="ScalaObject" class="delimiter">(</a><a title="java.util.Enumeration[A]" id="63136">itr</a>: <span title="java.util.Enumeration[A]">java</span>.util.Enumeration<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="=&gt; Boolean" id="63041">hasNext</a> = <a href="#63136" title="=&gt; java.util.Enumeration[A]">itr</a>.<span title="()Boolean">hasMoreElements</span>
+    <span class="keyword">def</span> <a title="()A" id="63042">next</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#63136" title="=&gt; java.util.Enumeration[A]">itr</a>.<span title="()A">nextElement</span>
+  <span class="delimiter">}</span>
+
+  case <span class="keyword">class</span> <a title="class JavaEnumerationIterable[A] extends java.lang.Object with Iterable[A] with ScalaObject with Product with Serializable" id="63206">JavaEnumerationIterable</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="63159">A</a><span class="delimiter">]</span><a href="#63206" title="ScalaObject" class="delimiter">(</a><a title="java.util.Enumeration[A]" id="63196">iterable</a>: <span title="java.util.Enumeration[A]">java</span>.util.Enumeration<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterable[A]">Iterable</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="=&gt; scales.utils.IterableConversions.JavaEnumerationIterator[A]" id="63114">iterator</a> = <a href="#63211" title="(itr: java.util.Enumeration[A])scales.utils.IterableConversions.JavaEnumerationIterator[A]">JavaEnumerationIterator</a><span class="delimiter">(</span><a href="#63196" title="=&gt; java.util.Enumeration[A]">iterable</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](iterable: java.util.Enumeration[A])Iterable[A]" id="62867">implicitJavaEnumerationToScalaIterable</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="62869">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="java.util.Enumeration[A]" id="63193">iterable</a>: <span title="java.util.Enumeration[A]">java</span>.util.Enumeration<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Iterable[A]">Iterable</span><span class="delimiter">[</span>A<span class="delimiter">]</span> =
+    <a href="#63206" title="(iterable: java.util.Enumeration[A])scales.utils.IterableConversions.JavaEnumerationIterable[A]">JavaEnumerationIterable</a><span class="delimiter">(</span><a href="#63193" title="java.util.Enumeration[A]">iterable</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * See normal Scala lib, its got alot more in nowadays...
+ */</span>
+<span class="keyword">object</span> <a title="object scales.utils.JavaEnumerationConversions" id="10912">JavaEnumerationConversions</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](iterator: java.util.Iterator[A])java.util.Enumeration[A]" id="63223">toEnumeration</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="63225">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="java.util.Iterator[A]" id="63227">iterator</a>: <span title="java.util.Iterator[A]">java</span>.util.Iterator<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="java.util.Enumeration[A]">java</span>.util.Enumeration<span class="delimiter">[</span>A<span class="delimiter">]</span> =
+    <a href="#63230" title="java.lang.Object with java.util.Enumeration[A]" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with java.util.Enumeration[A]" id="63230">java</a>.util.Enumeration<span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span>
+      <span class="keyword">def</span> <a title="()Boolean" id="63234">hasMoreElements</a> = <a href="#63227" title="java.util.Iterator[A]">iterator</a>.<span title="()Boolean">hasNext</span>
+      <span class="keyword">def</span> <a title="()A" id="63235">nextElement</a> = <a href="#63227" title="java.util.Iterator[A]">iterator</a>.<span title="()A">next</span>
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * General Scala to Iterable converters, allowing for java use.
+ * 
+ */</span>
+<span class="keyword">object</span> <a title="object scales.utils.JavaIterableConversions" id="10924">JavaIterableConversions</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">class</span> <a title="class JavaIterator[T] extends java.lang.Object with java.util.Iterator[T] with ScalaObject" id="63245">JavaIterator</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="63246">T</a><span class="delimiter">]</span><a href="#63245" title="ScalaObject" class="delimiter">(</a><a title="Iterator[T]" id="63261">itr</a>: <span title="Iterator[T]">Iterator</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="java.util.Iterator[T]">java</span>.util.Iterator<span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="()Boolean" id="63256">hasNext</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#63261" title="Iterator[T]">itr</a>.<span title="=&gt; Boolean">hasNext</span>
+    <span class="keyword">def</span> <a title="()T" id="63257">next</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#63261" title="Iterator[T]">itr</a>.<span title="()T">next</span>
+    <span class="keyword">def</span> <a title="()Nothing" id="63258">remove</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.lang.UnsupportedOperationException" class="keyword">new</span> java.lang.<span title="java.lang.UnsupportedOperationException">UnsupportedOperationException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Remove is not implemented in JavaIterableConversions:JavaIterator&quot;)" class="string">&quot;Remove is not implemented in JavaIterableConversions:JavaIterator&quot;</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">class</span> <a title="class JavaIterable[T] extends java.lang.Object with java.lang.Iterable[T] with ScalaObject" id="63247">JavaIterable</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="63248">T</a><span class="delimiter">]</span><a href="#63247" title="ScalaObject" class="delimiter">(</a><a title="Iterable[T]" id="63287">iterable</a>: <span title="Iterable[T]">Iterable</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="java.lang.Iterable[T]">java</span>.lang.Iterable<span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="()scales.utils.JavaIterableConversions.JavaIterator[T]" id="63284">iterator</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span title="scales.utils.JavaIterableConversions.JavaIterator[T]" class="keyword">new</span> <a href="#63245" title="scales.utils.JavaIterableConversions.JavaIterator[T]">JavaIterator</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><a href="#63287" title="Iterable[T]">iterable</a>.<span title="=&gt; Iterator[T]">iterator</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T](iterable: Iterable[T])java.lang.Iterable[T]" id="63249">implicitScalaIterableToJavaIterable</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="63251">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="Iterable[T]" id="63291">iterable</a>: <span title="Iterable[T]">Iterable</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="java.lang.Iterable[T]">java</span>.lang.Iterable<span class="delimiter">[</span>T<span class="delimiter">]</span> =
+    <span title="scales.utils.JavaIterableConversions.JavaIterable[T]" class="keyword">new</span> <a href="#63247" title="scales.utils.JavaIterableConversions.JavaIterable[T]">JavaIterable</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><a href="#63291" title="Iterable[T]">iterable</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

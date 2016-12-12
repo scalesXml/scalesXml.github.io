@@ -1,0 +1,109 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;package.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_package.scala.html#Package_scales_utils_"><img src="package.png"></img></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td><a id="Package_scales_utils_"></a>package object utils extends IterableUtils 
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>  with AsBooleanTrait
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>  with StackUtils
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>  with Iteratees
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>  with Trees
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>  with Paths
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>  with ConcurrentMapUtils
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>  with LocalisedFunctions
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>{
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  def error(str : String) = Predef.error(str)
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>// https://issues.scala-lang.org/browse/SI-4767 forces them to be here if we want them inlining
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>  import scala.collection.IndexedSeqLike
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>  import scala.collection.generic.CanBuildFrom
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td>  @inline final def item[Item &lt;: LeftLike[Item, Tree[Item, Section, CC]], Section, CC[X] &lt;: IndexedSeqLike[X, CC[X]]](item: Item): ItemOrTree[Item, Section, CC] = item//Left[Item, Tree[Item, Section, CC]](item)
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>  @inline final def subtree[Item &lt;: LeftLike[Item, Tree[Item, Section, CC]], Section, CC[A] &lt;: IndexedSeqLike[A, CC[A]]](section: Section, children: CC[ItemOrTree[Item, Section, CC]])(implicit cbf : TreeCBF[Item, Section, CC]): ItemOrTree[Item, Section, CC] = Tree[Item, Section, CC](section, children)//Right[Item, Tree[Item, Section, CC]](Tree[Item, Section, CC](section, children))
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>}
+</td>
+          </tr></tbody></table>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\dsl\Matchers.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.dsl
+
+<span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>AsBoolean, booleanMatcher, booleanAndTMatcher<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>
+  NoNamespaceQName, PrefixedQName, AttributeQName, 
+  Attribute, XmlTree, Doc, XmlVersion, XmlCBF, 
+  XmlPath, Elem, XCC, XmlItem, QName, 
+  ScalesXml, Text, Namespace, &lt;<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Matches a given QName against either an Attribute or Elem with the namespace and localname only (QName.=:=)
+ */</span> 
+<span class="keyword">class</span> <a title="class QNameMatcher extends java.lang.Object with ScalaObject" id="9893">QNameMatcher</a><a href="#9893" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.QName" id="95642">qname</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">import</span> <a href="../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>._
+  <span class="comment">/**
+   * Returns Some(elem) when the QName matches namespace and localname, None otherwise
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)Option[scales.xml.Elem]" id="95638">unapply</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="95643">elem</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> : <span title="Option[scales.xml.Elem]">Option</span><span class="delimiter">[</span>Elem<span class="delimiter">]</span> = <span title="Option[scales.xml.Elem]" class="keyword">if</span> <span class="delimiter">(</span><a href="#95643" title="scales.xml.Elem">elem</a>.<a href="../XmlTypes.scala.html#45650" title="=&gt; scales.xml.QName">name</a> <a href="../QName.scala.html#42837" title="(other: scales.xml.QName)Boolean">=:=</a> <a href="#95642" title="scales.xml.QName">qname</a><span class="delimiter">)</span> <span title="(x: scales.xml.Elem)Some[scales.xml.Elem]">Some</span><span class="delimiter">(</span><a href="#95643" title="scales.xml.Elem">elem</a><span class="delimiter">)</span> <span class="keyword">else</span> <span title="object None">None</span>
+  <span class="comment">/**
+   * Returns Some(attrib) when the QName matches namespace and localname, None otherwise
+   */</span>
+  <span class="keyword">def</span> <a title="(attrib: scales.xml.Attribute)Option[scales.xml.Attribute]" id="95639">unapply</a><span class="delimiter">(</span> <a title="scales.xml.Attribute" id="95648">attrib</a> : <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a> <span class="delimiter">)</span> : <span title="Option[scales.xml.Attribute]">Option</span><span class="delimiter">[</span>Attribute<span class="delimiter">]</span> = <span title="Option[scales.xml.Attribute]" class="keyword">if</span> <span class="delimiter">(</span><a href="../impl/XmlTypesImplicits.scala.html#42881" title="implicit scales.xml.impl.XmlTypesImplicits.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">toQName</a><span class="delimiter">(</span><a href="#95648" title="scales.xml.Attribute">attrib</a>.<a href="../XmlTypes.scala.html#47990" title="=&gt; scales.xml.package.AttributeQName">name</a><span class="delimiter">)</span> <a href="../QName.scala.html#42837" title="(other: scales.xml.QName)Boolean">=:=</a> <a href="#95642" title="scales.xml.QName">qname</a><span class="delimiter">)</span> <span title="(x: scales.xml.Attribute)Some[scales.xml.Attribute]">Some</span><span class="delimiter">(</span><a href="#95648" title="scales.xml.Attribute">attrib</a><span class="delimiter">)</span> <span class="keyword">else</span> <span title="object None">None</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Leveraged via implicit fromQNameToQNamePimper, adds m/matcher to create a QNameMatcher
+ */</span>
+<span class="keyword">class</span> <a title="class QNameMPimper extends java.lang.Object with ScalaObject" id="9896">QNameMPimper</a><a href="#9896" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.QName" id="57977">qname</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.dsl.QNameMatcher" id="57975">m</a> = <span title="scales.xml.dsl.QNameMatcher" class="keyword">new</span> <a href="#9893" title="scales.xml.dsl.QNameMatcher">QNameMatcher</a><span class="delimiter">(</span><a href="#57977" title="scales.xml.QName">qname</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.dsl.QNameMatcher" id="57976">matcher</a> = <a href="#57975" title="=&gt; scales.xml.dsl.QNameMatcher">m</a>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Matches a given Namespace against either an Attribute or Elem with the namespace only
+ */</span> 
+<span class="keyword">class</span> <a title="class NamespaceMatcher extends java.lang.Object with ScalaObject" id="9848">NamespaceMatcher</a><a href="#9848" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.Namespace" id="95669">ns</a> : <a href="../Namespaces.scala.html#9576" title="scales.xml.Namespace">Namespace</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">import</span> <a href="../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>._
+  <span class="comment">/**
+   *Returns Some(elem) when the QName's namespace matches, None otherwise
+   */</span> 
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)Option[scales.xml.Elem]" id="95665">unapply</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="95670">elem</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> : <span title="Option[scales.xml.Elem]">Option</span><span class="delimiter">[</span>Elem<span class="delimiter">]</span> = 
+    <span title="Option[scales.xml.Elem]" class="keyword">if</span> <span class="delimiter">(</span><a href="#95670" title="scales.xml.Elem">elem</a>.<a href="../XmlTypes.scala.html#45650" title="=&gt; scales.xml.QName">name</a>.<a href="../QName.scala.html#42828" title="=&gt; scales.xml.UnderlyingNamespace">namespace</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#95669" title="scales.xml.Namespace">ns</a><span class="delimiter">)</span> <span title="(x: scales.xml.Elem)Some[scales.xml.Elem]">Some</span><span class="delimiter">(</span><a href="#95670" title="scales.xml.Elem">elem</a><span class="delimiter">)</span> <span class="keyword">else</span> <span title="object None">None</span>
+  <span class="comment">/**
+   * Returns Some(attrib) when the QName's namespace matches, None otherwise
+   */</span>
+  <span class="keyword">def</span> <a title="(attrib: scales.xml.Attribute)Option[scales.xml.Attribute]" id="95666">unapply</a><span class="delimiter">(</span> <a title="scales.xml.Attribute" id="95680">attrib</a> : <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a> <span class="delimiter">)</span> : <span title="Option[scales.xml.Attribute]">Option</span><span class="delimiter">[</span>Attribute<span class="delimiter">]</span> = 
+    <span title="Option[scales.xml.Attribute]" class="keyword">if</span> <span class="delimiter">(</span><a href="../impl/XmlTypesImplicits.scala.html#42881" title="implicit scales.xml.impl.XmlTypesImplicits.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">toQName</a><span class="delimiter">(</span><a href="#95680" title="scales.xml.Attribute">attrib</a>.<a href="../XmlTypes.scala.html#47990" title="=&gt; scales.xml.package.AttributeQName">name</a><span class="delimiter">)</span>.<a href="../QName.scala.html#42828" title="=&gt; scales.xml.UnderlyingNamespace">namespace</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#95669" title="scales.xml.Namespace">ns</a><span class="delimiter">)</span> <span title="(x: scales.xml.Attribute)Some[scales.xml.Attribute]">Some</span><span class="delimiter">(</span><a href="#95680" title="scales.xml.Attribute">attrib</a><span class="delimiter">)</span> <span class="keyword">else</span> <span title="object None">None</span>
+<span class="delimiter">}</span>
+
+
+<span class="comment">/**
+ * Leveraged via implicit fromNSToNSMPimper, adds m/matcher to create a NamespaceMatcher
+ */</span>
+<span class="keyword">class</span> <a title="class NSMPimper extends java.lang.Object with ScalaObject" id="9851">NSMPimper</a><a href="#9851" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.Namespace" id="57932">ns</a> : <a href="../Namespaces.scala.html#9576" title="scales.xml.Namespace">Namespace</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.dsl.NamespaceMatcher" id="57930">m</a> = <span title="scales.xml.dsl.NamespaceMatcher" class="keyword">new</span> <a href="#9848" title="scales.xml.dsl.NamespaceMatcher">NamespaceMatcher</a><span class="delimiter">(</span><a href="#57932" title="scales.xml.Namespace">ns</a><span class="delimiter">)</span>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.dsl.NamespaceMatcher" id="57931">matcher</a> = <a href="#57930" title="=&gt; scales.xml.dsl.NamespaceMatcher">m</a>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * PathMatching functions over booleans
+ */</span> 
+<span class="keyword">trait</span> <a title="trait XPathMatcher extends java.lang.Object with ScalaObject" id="9899">XPathMatcher</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Creates a booleanMatcher against a Tree based on the @pathEval function.
+   *
+   * For XPath evaluations on the tree this typically gives the paths back when the xpath evaluates to a non-empty result.  TODO ADD CODE
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](pathEval: scales.xml.package.XmlTree =&gt; T)(implicit evidence$1: T =&gt; Boolean)scales.utils.package.BooleanMatcher[scales.xml.package.XmlTree,T]" id="95701">pathMatcher</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15562">T</a> : AsBoolean<span class="delimiter">]</span><span class="delimiter">(</span> <a title="scales.xml.package.XmlTree =&gt; T" id="95700">pathEval</a> : <span class="delimiter">(</span>XmlTree<span class="delimiter">)</span> =&gt; T <span class="delimiter">)</span> = <a href="../../utils/AsBoolean.scala.html#15205" title="[X, T](eval: X =&gt; T)(implicit evidence$4: T =&gt; Boolean)scales.utils.package.BooleanMatcher[X,T]">booleanMatcher</a><span title="(eval: scales.xml.package.XmlTree =&gt; T)(implicit evidence$4: T =&gt; Boolean)scales.utils.package.BooleanMatcher[scales.xml.package.XmlTree,T]" class="delimiter">[</span><a href="../../utils/collection/Trees.scala.html#12744" title="scales.xml.package.XmlTree">XmlTree</a>, <a href="#15562" title="T">T</a><span class="delimiter">]</span><a href="#95701" title="T =&gt; Boolean" class="delimiter">(</a><a href="#95700" title="scales.xml.package.XmlTree =&gt; T">pathEval</a><span class="delimiter">)</span>
+
+  
+  <span class="comment">/**
+   * Similar to pathMatcher but also gives the tree back into the pattern match.
+   */</span>
+  <span class="keyword">def</span> <a title="[T](pathEval: scales.xml.package.XmlTree =&gt; T)(implicit evidence$2: T =&gt; Boolean)scales.utils.package.BooleanAndTMatcher[scales.xml.package.XmlTree,T]" id="95714">pathAndTreeMatcher</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15565">T</a> : AsBoolean<span class="delimiter">]</span><span class="delimiter">(</span> <a title="scales.xml.package.XmlTree =&gt; T" id="95713">pathEval</a> : <span class="delimiter">(</span>XmlTree<span class="delimiter">)</span> =&gt; T <span class="delimiter">)</span> = <a href="../../utils/AsBoolean.scala.html#15210" title="[X, T](eval: X =&gt; T)(implicit evidence$5: T =&gt; Boolean)scales.utils.package.BooleanAndTMatcher[X,T]">booleanAndTMatcher</a><span title="(eval: scales.xml.package.XmlTree =&gt; T)(implicit evidence$5: T =&gt; Boolean)scales.utils.package.BooleanAndTMatcher[scales.xml.package.XmlTree,T]" class="delimiter">[</span><a href="../../utils/collection/Trees.scala.html#12744" title="scales.xml.package.XmlTree">XmlTree</a>, <a href="#15565" title="T">T</a><span class="delimiter">]</span><a href="#95714" title="T =&gt; Boolean" class="delimiter">(</a><a href="#95713" title="scales.xml.package.XmlTree =&gt; T">pathEval</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

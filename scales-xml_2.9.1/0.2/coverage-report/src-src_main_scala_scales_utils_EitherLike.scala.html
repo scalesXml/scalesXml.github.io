@@ -1,0 +1,357 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;EitherLike.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">61 %</div>
+        <div class="greenBar" style="width:122px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_EitherLike.scala.html#Trait_scales_utils_EitherLike"><img src="trait.png"></img>EitherLike</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_EitherLike.scala.html#Trait_scales_utils_LeftLike"><img src="trait.png"></img>LeftLike</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">62 %</div>
+        <div class="greenBar" style="width:124px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_EitherLike.scala.html#Trait_scales_utils_LeftLikeProjection"><img src="trait.png"></img>LeftLikeProjection</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_EitherLike.scala.html#Object_scales_utils_NonLeftP"><img src="object.png"></img>NonLeftP</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_EitherLike.scala.html#Object_scales_utils_NonRightP"><img src="object.png"></img>NonRightP</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_EitherLike.scala.html#Trait_scales_utils_RightLike"><img src="trait.png"></img>RightLike</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">75 %</div>
+        <div class="greenBar" style="width:150px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_EitherLike.scala.html#Trait_scales_utils_RightLikeProjection"><img src="trait.png"></img>RightLikeProjection</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td><a id="Trait_scales_utils_LeftLikeProjection"></a>trait LeftLikeProjection[+L] {
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>  def get : L
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td><a id="Trait_scales_utils_RightLikeProjection"></a>trait RightLikeProjection[+R] {
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>  def get : R
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td><a id="Object_scales_utils_NonLeftP"></a>object NonLeftP extends LeftLikeProjection[Nothing] {
+</td>
+          </tr><tr>
+            <td class="red">12</td>
+            <td>  def get : Nothing = <span class="non">error(&quot;Cannot get a left from a RightLike.&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td><a id="Object_scales_utils_NonRightP"></a>object NonRightP extends RightLikeProjection[Nothing] {
+</td>
+          </tr><tr>
+            <td class="red">16</td>
+            <td>  def get : Nothing = <span class="non">error(&quot;Cannot get a right from a LeftLike.&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td> * Either is great, perfect for what is needed, except for the indirection and the added memory and cpu costs thereof.  If ScalesXml is meant to be used in the placesthat JAXP and friends would live it should perform the best it can.
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td> * That means reducing allocations wherever possible and optimising up to the point of model damage.  I think this unfortunately crosses that line but meets the aim.
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td><a id="Trait_scales_utils_EitherLike"></a>sealed trait EitherLike[+L,+R] {
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>  def isLeft : Boolean
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>  def isRight : Boolean
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>  def fold[X]( fl : (L) =&gt; X, fr : (R) =&gt; X) : X
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>  def left : LeftLikeProjection[L]
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>  def getLeft : L
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>  def right : RightLikeProjection[R]
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>  def getRight : R
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td><a id="Trait_scales_utils_LeftLike"></a>trait LeftLike[+L, +R] extends LeftLikeProjection[L] with EitherLike[L,R] { lefty : L =&gt;
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>  @inline final def isLeft = true
+</td>
+          </tr><tr>
+            <td class="red">42</td>
+            <td>  @inline final def isRight = <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>  @inline final def fold[X]( fl : (L) =&gt; X, fr : (R) =&gt; X) : X = fl(lefty)
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>  @inline final def left : LeftLikeProjection[L] = this
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">48</td>
+            <td>  @inline final def right : RightLikeProjection[R] = <span class="non">NonRightP.asInstanceOf[RightLikeProjection[R]]
+</span></td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>  @inline final def get : L = lefty
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>  @inline final def getLeft : L = lefty
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">54</td>
+            <td>  @inline final def getRight : R = <span class="non">right.get
+</span></td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td><a id="Trait_scales_utils_RightLike"></a>trait RightLike[+L, +R] extends RightLikeProjection[R] with EitherLike[L,R] { righty : R =&gt;
+</td>
+          </tr><tr>
+            <td class="green">59</td>
+            <td>  @inline final def isLeft = false
+</td>
+          </tr><tr>
+            <td class="green">60</td>
+            <td>  @inline final def isRight = true
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">62</td>
+            <td>  @inline final def fold[X]( fl : (L) =&gt; X, fr : (R) =&gt; X) : X = fr(righty)
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">64</td>
+            <td>  @inline final def left : LeftLikeProjection[L] = <span class="non">NonLeftP.asInstanceOf[LeftLikeProjection[L]]
+</span></td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">66</td>
+            <td>  @inline final def right : RightLikeProjection[R] = this 
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">68</td>
+            <td>  @inline final def get : R = righty
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">70</td>
+            <td>  @inline final def getRight : R = righty
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">72</td>
+            <td>  @inline final def getLeft : L = <span class="non">left.get
+</span></td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>}
+</td>
+          </tr></tbody></table>

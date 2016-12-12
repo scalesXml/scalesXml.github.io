@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\org\apache\xerces\util\XMLChar.java</title>
+        <script type="text/javascript" src="../../../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */</span>
+
+<span class="keyword">package</span> scales.org.apache.xerces.util;
+
+<span class="keyword">import</span> java.util.Arrays;
+
+<span class="comment">/**
+ * This class defines the basic XML character properties. The data
+ * in this class can be used to verify that a character is a valid
+ * XML character or if the character is a space, name start, or name
+ * character.
+ * &lt;p&gt;
+ * A series of convenience methods are supplied to ease the burden
+ * of the developer. Because inlining the checks can improve per
+ * character performance, the tables of character properties are
+ * public. Using the character as an index into the &lt;code&gt;CHARS&lt;/code&gt;
+ * array and applying the appropriate mask flag (e.g.
+ * &lt;code&gt;MASK_VALID&lt;/code&gt;), yields the same results as calling the
+ * convenience methods. There is one exception: check the comments
+ * for the &lt;code&gt;isValid&lt;/code&gt; method for details.
+ *
+ * @author Glenn Marcy, IBM
+ * @author Andy Clark, IBM
+ * @author Eric Ye, IBM
+ * @author Arnaud  Le Hors, IBM
+ * @author Michael Glavassevich, IBM
+ * @author Rahul Srivastava, Sun Microsystems Inc.
+ *
+ * @version $Id: XMLChar.java 406 2011-04-18 19:56:39Z chris.twiner $
+ */</span>
+public <span class="keyword">class</span> <a title="object scales.org.apache.xerces.util.XMLChar" id="9936">XMLChar</a> <span class="delimiter">{</span>
+
+    <span class="comment">//</span>
+    <span class="comment">// Constants</span>
+    <span class="comment">//</span>
+
+    <span class="comment">/** Character flags. */</span>
+    <span class="keyword">private</span> static <span class="keyword">final</span> byte<span class="delimiter">[</span><span title="Array" class="delimiter">]</span> <a title="Array[Byte]" id="90119">CHARS</a> = <span class="keyword">new</span> byte<span class="delimiter">[</span><span class="int">1</span> &lt;&lt; <span class="int">16</span><span class="delimiter">]</span>;
+
+    <span class="comment">/** Valid character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="90120">MASK_VALID</a> = <span class="int">0x01</span>;
+
+    <span class="comment">/** Space character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="90121">MASK_SPACE</a> = <span class="int">0x02</span>;
+
+    <span class="comment">/** Name start character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="90122">MASK_NAME_START</a> = <span class="int">0x04</span>;
+
+    <span class="comment">/** Name character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="90123">MASK_NAME</a> = <span class="int">0x08</span>;
+
+    <span class="comment">/** Pubid character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="90124">MASK_PUBID</a> = <span class="int">0x10</span>;
+    
+    <span class="comment">/** 
+     * Content character mask. Special characters are those that can
+     * be considered the start of markup, such as '&amp;lt;' and '&amp;amp;'. 
+     * The various newline characters are considered special as well.
+     * All other valid XML characters can be considered content.
+     * &lt;p&gt;
+     * This is an optimization for the inner loop of character scanning.
+     */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="90125">MASK_CONTENT</a> = <span class="int">0x20</span>;
+
+    <span class="comment">/** NCName start character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="90126">MASK_NCNAME_START</a> = <span class="int">0x40</span>;
+
+    <span class="comment">/** NCName character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="90127">MASK_NCNAME</a> = <span class="int">0x80</span>;
+
+    <span class="comment">//</span>
+    <span class="comment">// Static initialization</span>
+    <span class="comment">//</span>
+
+    static <span class="delimiter">{</span>
+        
+        <span class="comment">// Initializing the Character Flag Array</span>
+        <span class="comment">// Code generated by: XMLCharGenerator.</span>
+        
+        CHARS<span class="delimiter">[</span><span class="int">9</span><span class="delimiter">]</span> = <span class="int">35</span>;
+        CHARS<span class="delimiter">[</span><span class="int">10</span><span class="delimiter">]</span> = <span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">13</span><span class="delimiter">]</span> = <span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">32</span><span class="delimiter">]</span> = <span class="int">51</span>;
+        CHARS<span class="delimiter">[</span><span class="int">33</span><span class="delimiter">]</span> = <span class="int">49</span>;
+        CHARS<span class="delimiter">[</span><span class="int">34</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">35</span>, <span class="int">38</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">49</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 49</span>
+        CHARS<span class="delimiter">[</span><span class="int">38</span><span class="delimiter">]</span> = <span class="int">1</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">39</span>, <span class="int">45</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">49</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) 49</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">45</span>, <span class="int">47</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">71</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -71</span>
+        CHARS<span class="delimiter">[</span><span class="int">47</span><span class="delimiter">]</span> = <span class="int">49</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">48</span>, <span class="int">58</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">71</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -71</span>
+        CHARS<span class="delimiter">[</span><span class="int">58</span><span class="delimiter">]</span> = <span class="int">61</span>;
+        CHARS<span class="delimiter">[</span><span class="int">59</span><span class="delimiter">]</span> = <span class="int">49</span>;
+        CHARS<span class="delimiter">[</span><span class="int">60</span><span class="delimiter">]</span> = <span class="int">1</span>;
+        CHARS<span class="delimiter">[</span><span class="int">61</span><span class="delimiter">]</span> = <span class="int">49</span>;
+        CHARS<span class="delimiter">[</span><span class="int">62</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">63</span>, <span class="int">65</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">49</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 49</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">65</span>, <span class="int">91</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">3</span> <span class="delimiter">)</span>; <span class="comment">// Fill 26 of value (byte) -3</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">91</span>, <span class="int">93</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">93</span><span class="delimiter">]</span> = <span class="int">1</span>;
+        CHARS<span class="delimiter">[</span><span class="int">94</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">95</span><span class="delimiter">]</span> = -<span class="int">3</span>;
+        CHARS<span class="delimiter">[</span><span class="int">96</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">97</span>, <span class="int">123</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">3</span> <span class="delimiter">)</span>; <span class="comment">// Fill 26 of value (byte) -3</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">123</span>, <span class="int">183</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 60 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">183</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">184</span>, <span class="int">192</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">192</span>, <span class="int">215</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 23 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">215</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">216</span>, <span class="int">247</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 31 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">247</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">248</span>, <span class="int">306</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 58 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">306</span>, <span class="int">308</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">308</span>, <span class="int">319</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 11 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">319</span>, <span class="int">321</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">321</span>, <span class="int">329</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">329</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">330</span>, <span class="int">383</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 53 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">383</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">384</span>, <span class="int">452</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 68 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">452</span>, <span class="int">461</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">461</span>, <span class="int">497</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 36 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">497</span>, <span class="int">500</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">500</span>, <span class="int">502</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">502</span>, <span class="int">506</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">506</span>, <span class="int">536</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 30 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">536</span>, <span class="int">592</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 56 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">592</span>, <span class="int">681</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 89 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">681</span>, <span class="int">699</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 18 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">699</span>, <span class="int">706</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">706</span>, <span class="int">720</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 14 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">720</span>, <span class="int">722</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">722</span>, <span class="int">768</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 46 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">768</span>, <span class="int">838</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 70 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">838</span>, <span class="int">864</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 26 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">864</span>, <span class="int">866</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">866</span>, <span class="int">902</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 36 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">902</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">903</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">904</span>, <span class="int">907</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">907</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">908</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">909</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">910</span>, <span class="int">930</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 20 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">930</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">931</span>, <span class="int">975</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 44 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">975</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">976</span>, <span class="int">983</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">983</span>, <span class="int">986</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">986</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">987</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">988</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">989</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">990</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">991</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">992</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">993</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">994</span>, <span class="int">1012</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 18 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1012</span>, <span class="int">1025</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 13 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1025</span>, <span class="int">1037</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 12 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">1037</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1038</span>, <span class="int">1104</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 66 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">1104</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1105</span>, <span class="int">1117</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 12 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">1117</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1118</span>, <span class="int">1154</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 36 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">1154</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1155</span>, <span class="int">1159</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1159</span>, <span class="int">1168</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1168</span>, <span class="int">1221</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 53 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1221</span>, <span class="int">1223</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1223</span>, <span class="int">1225</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1225</span>, <span class="int">1227</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1227</span>, <span class="int">1229</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1229</span>, <span class="int">1232</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1232</span>, <span class="int">1260</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 28 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1260</span>, <span class="int">1262</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1262</span>, <span class="int">1270</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1270</span>, <span class="int">1272</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1272</span>, <span class="int">1274</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1274</span>, <span class="int">1329</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 55 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1329</span>, <span class="int">1367</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 38 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1367</span>, <span class="int">1369</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">1369</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1370</span>, <span class="int">1377</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1377</span>, <span class="int">1415</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 38 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1415</span>, <span class="int">1425</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1425</span>, <span class="int">1442</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 17 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">1442</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1443</span>, <span class="int">1466</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 23 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">1466</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1467</span>, <span class="int">1470</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">1470</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">1471</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">1472</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1473</span>, <span class="int">1475</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">1475</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">1476</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1477</span>, <span class="int">1488</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 11 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1488</span>, <span class="int">1515</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 27 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1515</span>, <span class="int">1520</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1520</span>, <span class="int">1523</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1523</span>, <span class="int">1569</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 46 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1569</span>, <span class="int">1595</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 26 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1595</span>, <span class="int">1600</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">1600</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1601</span>, <span class="int">1611</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1611</span>, <span class="int">1619</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1619</span>, <span class="int">1632</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 13 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1632</span>, <span class="int">1642</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1642</span>, <span class="int">1648</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">1648</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1649</span>, <span class="int">1720</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 71 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1720</span>, <span class="int">1722</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1722</span>, <span class="int">1727</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">1727</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1728</span>, <span class="int">1743</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 15 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">1743</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1744</span>, <span class="int">1748</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">1748</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">1749</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1750</span>, <span class="int">1765</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 15 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1765</span>, <span class="int">1767</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1767</span>, <span class="int">1769</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">1769</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1770</span>, <span class="int">1774</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1774</span>, <span class="int">1776</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1776</span>, <span class="int">1786</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">1786</span>, <span class="int">2305</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 519 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2305</span>, <span class="int">2308</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">2308</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2309</span>, <span class="int">2362</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 53 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2362</span>, <span class="int">2364</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">2364</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2365</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2366</span>, <span class="int">2382</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 16 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2382</span>, <span class="int">2385</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2385</span>, <span class="int">2389</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2389</span>, <span class="int">2392</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2392</span>, <span class="int">2402</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2402</span>, <span class="int">2404</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2404</span>, <span class="int">2406</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2406</span>, <span class="int">2416</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2416</span>, <span class="int">2433</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 17 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2433</span>, <span class="int">2436</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">2436</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2437</span>, <span class="int">2445</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2445</span>, <span class="int">2447</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2447</span>, <span class="int">2449</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2449</span>, <span class="int">2451</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2451</span>, <span class="int">2473</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 22 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2473</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2474</span>, <span class="int">2481</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2481</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2482</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2483</span>, <span class="int">2486</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2486</span>, <span class="int">2490</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2490</span>, <span class="int">2492</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">2492</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2493</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2494</span>, <span class="int">2501</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2501</span>, <span class="int">2503</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2503</span>, <span class="int">2505</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2505</span>, <span class="int">2507</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2507</span>, <span class="int">2510</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2510</span>, <span class="int">2519</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">2519</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2520</span>, <span class="int">2524</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2524</span>, <span class="int">2526</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2526</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2527</span>, <span class="int">2530</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2530</span>, <span class="int">2532</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2532</span>, <span class="int">2534</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2534</span>, <span class="int">2544</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2544</span>, <span class="int">2546</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2546</span>, <span class="int">2562</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 16 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">2562</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2563</span>, <span class="int">2565</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2565</span>, <span class="int">2571</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2571</span>, <span class="int">2575</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2575</span>, <span class="int">2577</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2577</span>, <span class="int">2579</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2579</span>, <span class="int">2601</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 22 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2601</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2602</span>, <span class="int">2609</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2609</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2610</span>, <span class="int">2612</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2612</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2613</span>, <span class="int">2615</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2615</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2616</span>, <span class="int">2618</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2618</span>, <span class="int">2620</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">2620</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2621</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2622</span>, <span class="int">2627</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2627</span>, <span class="int">2631</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2631</span>, <span class="int">2633</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2633</span>, <span class="int">2635</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2635</span>, <span class="int">2638</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2638</span>, <span class="int">2649</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 11 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2649</span>, <span class="int">2653</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2653</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2654</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2655</span>, <span class="int">2662</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2662</span>, <span class="int">2674</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 12 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2674</span>, <span class="int">2677</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2677</span>, <span class="int">2689</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 12 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2689</span>, <span class="int">2692</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">2692</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2693</span>, <span class="int">2700</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2700</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2701</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2702</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2703</span>, <span class="int">2706</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2706</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2707</span>, <span class="int">2729</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 22 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2729</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2730</span>, <span class="int">2737</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2737</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2738</span>, <span class="int">2740</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2740</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2741</span>, <span class="int">2746</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2746</span>, <span class="int">2748</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">2748</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2749</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2750</span>, <span class="int">2758</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">2758</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2759</span>, <span class="int">2762</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">2762</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2763</span>, <span class="int">2766</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2766</span>, <span class="int">2784</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 18 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">2784</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2785</span>, <span class="int">2790</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2790</span>, <span class="int">2800</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2800</span>, <span class="int">2817</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 17 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2817</span>, <span class="int">2820</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">2820</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2821</span>, <span class="int">2829</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2829</span>, <span class="int">2831</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2831</span>, <span class="int">2833</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2833</span>, <span class="int">2835</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2835</span>, <span class="int">2857</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 22 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2857</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2858</span>, <span class="int">2865</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2865</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2866</span>, <span class="int">2868</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2868</span>, <span class="int">2870</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2870</span>, <span class="int">2874</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2874</span>, <span class="int">2876</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">2876</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2877</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2878</span>, <span class="int">2884</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2884</span>, <span class="int">2887</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2887</span>, <span class="int">2889</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2889</span>, <span class="int">2891</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2891</span>, <span class="int">2894</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2894</span>, <span class="int">2902</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2902</span>, <span class="int">2904</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2904</span>, <span class="int">2908</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2908</span>, <span class="int">2910</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2910</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2911</span>, <span class="int">2914</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2914</span>, <span class="int">2918</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2918</span>, <span class="int">2928</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2928</span>, <span class="int">2946</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 18 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2946</span>, <span class="int">2948</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">2948</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2949</span>, <span class="int">2955</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2955</span>, <span class="int">2958</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2958</span>, <span class="int">2961</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2961</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2962</span>, <span class="int">2966</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2966</span>, <span class="int">2969</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2969</span>, <span class="int">2971</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2971</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2972</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">2973</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2974</span>, <span class="int">2976</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2976</span>, <span class="int">2979</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2979</span>, <span class="int">2981</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2981</span>, <span class="int">2984</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2984</span>, <span class="int">2987</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2987</span>, <span class="int">2990</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2990</span>, <span class="int">2998</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">2998</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">2999</span>, <span class="int">3002</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3002</span>, <span class="int">3006</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3006</span>, <span class="int">3011</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3011</span>, <span class="int">3014</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3014</span>, <span class="int">3017</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3017</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3018</span>, <span class="int">3022</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3022</span>, <span class="int">3031</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">3031</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3032</span>, <span class="int">3047</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 15 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3047</span>, <span class="int">3056</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3056</span>, <span class="int">3073</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 17 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3073</span>, <span class="int">3076</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3076</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3077</span>, <span class="int">3085</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3085</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3086</span>, <span class="int">3089</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3089</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3090</span>, <span class="int">3113</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 23 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3113</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3114</span>, <span class="int">3124</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3124</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3125</span>, <span class="int">3130</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3130</span>, <span class="int">3134</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3134</span>, <span class="int">3141</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3141</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3142</span>, <span class="int">3145</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3145</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3146</span>, <span class="int">3150</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3150</span>, <span class="int">3157</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3157</span>, <span class="int">3159</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3159</span>, <span class="int">3168</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3168</span>, <span class="int">3170</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3170</span>, <span class="int">3174</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3174</span>, <span class="int">3184</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3184</span>, <span class="int">3202</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 18 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3202</span>, <span class="int">3204</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3204</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3205</span>, <span class="int">3213</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3213</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3214</span>, <span class="int">3217</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3217</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3218</span>, <span class="int">3241</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 23 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3241</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3242</span>, <span class="int">3252</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3252</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3253</span>, <span class="int">3258</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3258</span>, <span class="int">3262</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3262</span>, <span class="int">3269</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3269</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3270</span>, <span class="int">3273</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3273</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3274</span>, <span class="int">3278</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3278</span>, <span class="int">3285</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3285</span>, <span class="int">3287</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3287</span>, <span class="int">3294</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">3294</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3295</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3296</span>, <span class="int">3298</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3298</span>, <span class="int">3302</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3302</span>, <span class="int">3312</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3312</span>, <span class="int">3330</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 18 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3330</span>, <span class="int">3332</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3332</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3333</span>, <span class="int">3341</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3341</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3342</span>, <span class="int">3345</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3345</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3346</span>, <span class="int">3369</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 23 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3369</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3370</span>, <span class="int">3386</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 16 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3386</span>, <span class="int">3390</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3390</span>, <span class="int">3396</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3396</span>, <span class="int">3398</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3398</span>, <span class="int">3401</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3401</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3402</span>, <span class="int">3406</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3406</span>, <span class="int">3415</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">3415</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3416</span>, <span class="int">3424</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3424</span>, <span class="int">3426</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3426</span>, <span class="int">3430</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3430</span>, <span class="int">3440</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3440</span>, <span class="int">3585</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 145 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3585</span>, <span class="int">3631</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 46 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3631</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3632</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3633</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3634</span>, <span class="int">3636</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3636</span>, <span class="int">3643</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3643</span>, <span class="int">3648</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3648</span>, <span class="int">3654</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3654</span>, <span class="int">3663</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3663</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3664</span>, <span class="int">3674</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3674</span>, <span class="int">3713</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 39 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3713</span>, <span class="int">3715</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3715</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3716</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3717</span>, <span class="int">3719</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3719</span>, <span class="int">3721</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3721</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3722</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3723</span>, <span class="int">3725</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">3725</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3726</span>, <span class="int">3732</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3732</span>, <span class="int">3736</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3736</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3737</span>, <span class="int">3744</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3744</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3745</span>, <span class="int">3748</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3748</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3749</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3750</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3751</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3752</span>, <span class="int">3754</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3754</span>, <span class="int">3756</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3756</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3757</span>, <span class="int">3759</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3759</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3760</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3761</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3762</span>, <span class="int">3764</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3764</span>, <span class="int">3770</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3770</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3771</span>, <span class="int">3773</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3773</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3774</span>, <span class="int">3776</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3776</span>, <span class="int">3781</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3781</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3782</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3783</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3784</span>, <span class="int">3790</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3790</span>, <span class="int">3792</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3792</span>, <span class="int">3802</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3802</span>, <span class="int">3864</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 62 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3864</span>, <span class="int">3866</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3866</span>, <span class="int">3872</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3872</span>, <span class="int">3882</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3882</span>, <span class="int">3893</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 11 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">3893</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3894</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3895</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3896</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3897</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3898</span>, <span class="int">3902</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3902</span>, <span class="int">3904</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3904</span>, <span class="int">3912</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">3912</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3913</span>, <span class="int">3946</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 33 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3946</span>, <span class="int">3953</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3953</span>, <span class="int">3973</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 20 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3973</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3974</span>, <span class="int">3980</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3980</span>, <span class="int">3984</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3984</span>, <span class="int">3990</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">3990</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3991</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">3992</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">3993</span>, <span class="int">4014</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 21 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4014</span>, <span class="int">4017</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4017</span>, <span class="int">4024</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">4024</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4025</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4026</span>, <span class="int">4256</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 230 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4256</span>, <span class="int">4294</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 38 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4294</span>, <span class="int">4304</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4304</span>, <span class="int">4343</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 39 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4343</span>, <span class="int">4352</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4352</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4353</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4354</span>, <span class="int">4356</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">4356</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4357</span>, <span class="int">4360</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">4360</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4361</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4362</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4363</span>, <span class="int">4365</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">4365</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4366</span>, <span class="int">4371</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4371</span>, <span class="int">4412</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 41 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4412</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4413</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4414</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4415</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4416</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4417</span>, <span class="int">4428</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 11 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4428</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4429</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4430</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4431</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4432</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4433</span>, <span class="int">4436</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4436</span>, <span class="int">4438</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4438</span>, <span class="int">4441</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4441</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4442</span>, <span class="int">4447</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4447</span>, <span class="int">4450</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">4450</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4451</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4452</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4453</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4454</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4455</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4456</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4457</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4458</span>, <span class="int">4461</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4461</span>, <span class="int">4463</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4463</span>, <span class="int">4466</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4466</span>, <span class="int">4468</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">4468</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4469</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4470</span>, <span class="int">4510</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 40 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4510</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4511</span>, <span class="int">4520</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4520</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4521</span>, <span class="int">4523</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4523</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4524</span>, <span class="int">4526</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4526</span>, <span class="int">4528</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4528</span>, <span class="int">4535</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4535</span>, <span class="int">4537</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">4537</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4538</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">4539</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4540</span>, <span class="int">4547</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4547</span>, <span class="int">4587</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 40 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4587</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4588</span>, <span class="int">4592</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4592</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4593</span>, <span class="int">4601</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">4601</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">4602</span>, <span class="int">7680</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3078 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7680</span>, <span class="int">7836</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 156 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7836</span>, <span class="int">7840</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7840</span>, <span class="int">7930</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 90 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7930</span>, <span class="int">7936</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7936</span>, <span class="int">7958</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 22 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7958</span>, <span class="int">7960</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7960</span>, <span class="int">7966</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7966</span>, <span class="int">7968</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">7968</span>, <span class="int">8006</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 38 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8006</span>, <span class="int">8008</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8008</span>, <span class="int">8014</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8014</span>, <span class="int">8016</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8016</span>, <span class="int">8024</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">8024</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">8025</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">8026</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">8027</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">8028</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">8029</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        CHARS<span class="delimiter">[</span><span class="int">8030</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8031</span>, <span class="int">8062</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 31 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8062</span>, <span class="int">8064</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8064</span>, <span class="int">8117</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 53 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">8117</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8118</span>, <span class="int">8125</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">8125</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">8126</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8127</span>, <span class="int">8130</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8130</span>, <span class="int">8133</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">8133</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8134</span>, <span class="int">8141</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8141</span>, <span class="int">8144</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8144</span>, <span class="int">8148</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8148</span>, <span class="int">8150</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8150</span>, <span class="int">8156</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8156</span>, <span class="int">8160</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8160</span>, <span class="int">8173</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 13 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8173</span>, <span class="int">8178</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8178</span>, <span class="int">8181</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">8181</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8182</span>, <span class="int">8189</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8189</span>, <span class="int">8400</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 211 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8400</span>, <span class="int">8413</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 13 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8413</span>, <span class="int">8417</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">8417</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8418</span>, <span class="int">8486</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 68 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">8486</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8487</span>, <span class="int">8490</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8490</span>, <span class="int">8492</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8492</span>, <span class="int">8494</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">8494</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8495</span>, <span class="int">8576</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 81 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8576</span>, <span class="int">8579</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">8579</span>, <span class="int">12293</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3714 of value (byte) 33</span>
+        CHARS<span class="delimiter">[</span><span class="int">12293</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        CHARS<span class="delimiter">[</span><span class="int">12294</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        CHARS<span class="delimiter">[</span><span class="int">12295</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12296</span>, <span class="int">12321</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 25 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12321</span>, <span class="int">12330</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 9 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12330</span>, <span class="int">12336</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) -87</span>
+        CHARS<span class="delimiter">[</span><span class="int">12336</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12337</span>, <span class="int">12342</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12342</span>, <span class="int">12353</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 11 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12353</span>, <span class="int">12437</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 84 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12437</span>, <span class="int">12441</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12441</span>, <span class="int">12443</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12443</span>, <span class="int">12445</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12445</span>, <span class="int">12447</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12447</span>, <span class="int">12449</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12449</span>, <span class="int">12539</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 90 of value (byte) -19</span>
+        CHARS<span class="delimiter">[</span><span class="int">12539</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12540</span>, <span class="int">12543</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12543</span>, <span class="int">12549</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12549</span>, <span class="int">12589</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 40 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">12589</span>, <span class="int">19968</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7379 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">19968</span>, <span class="int">40870</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 20902 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">40870</span>, <span class="int">44032</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 3162 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">44032</span>, <span class="int">55204</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 11172 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">55204</span>, <span class="int">55296</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 92 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>CHARS, <span class="int">57344</span>, <span class="int">65534</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8190 of value (byte) 33</span>
+
+    <span class="delimiter">}</span> <span class="comment">// &lt;clinit&gt;()</span>
+
+    <span class="comment">//</span>
+    <span class="comment">// Public static methods</span>
+    <span class="comment">//</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a supplemental character.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90128">isSupplemental</a><span class="delimiter">(</span>int <a title="Int" id="131814">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &gt;= <span class="int">0x10000</span> &amp;&amp; c &lt;= <span class="int">0x10FFFF</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/**
+     * Returns true the supplemental character corresponding to the given
+     * surrogates.
+     *
+     * @param h The high surrogate.
+     * @param l The low surrogate.
+     */</span>
+    public static int <a title="(h: Char, l: Char)Int" id="90129">supplemental</a><span class="delimiter">(</span>char <a title="Char" id="131816">h</a>, char <a title="Char" id="131817">l</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>h - <span class="int">0xD800</span><span class="delimiter">)</span> * <span class="int">0x400</span> + <span class="delimiter">(</span>l - <span class="int">0xDC00</span><span class="delimiter">)</span> + <span class="int">0x10000</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/**
+     * Returns the high surrogate of a supplemental character
+     *
+     * @param c The supplemental character to &quot;split&quot;.
+     */</span>
+    public static char <a title="(c: Int)Char" id="90130">highSurrogate</a><span class="delimiter">(</span>int <a title="Int" id="131819">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>char<span class="delimiter">)</span> <span class="delimiter">(</span><span class="delimiter">(</span><span class="delimiter">(</span>c - <span class="int">0x00010000</span><span class="delimiter">)</span> &gt;&gt; <span class="int">10</span><span class="delimiter">)</span> + <span class="int">0xD800</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/**
+     * Returns the low surrogate of a supplemental character
+     *
+     * @param c The supplemental character to &quot;split&quot;.
+     */</span>
+    public static char <a title="(c: Int)Char" id="90131">lowSurrogate</a><span class="delimiter">(</span>int <a title="Int" id="131821">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>char<span class="delimiter">)</span> <span class="delimiter">(</span><span class="delimiter">(</span><span class="delimiter">(</span>c - <span class="int">0x00010000</span><span class="delimiter">)</span> &amp; <span class="int">0x3FF</span><span class="delimiter">)</span> + <span class="int">0xDC00</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/**
+     * Returns whether the given character is a high surrogate
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90132">isHighSurrogate</a><span class="delimiter">(</span>int <a title="Int" id="131823">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span><span class="int">0xD800</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0xDBFF</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/**
+     * Returns whether the given character is a low surrogate
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90133">isLowSurrogate</a><span class="delimiter">(</span>int <a title="Int" id="131825">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span><span class="int">0xDC00</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0xDFFF</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+
+    <span class="comment">/**
+     * Returns true if the specified character is valid. This method
+     * also checks the surrogate character range from 0x10000 to 0x10FFFF.
+     * &lt;p&gt;
+     * If the program chooses to apply the mask directly to the
+     * &lt;code&gt;CHARS&lt;/code&gt; array, then they are responsible for checking
+     * the surrogate character range.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90134">isValid</a><span class="delimiter">(</span>int <a title="Int" id="131827">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_VALID<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span> ||
+               <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0x10FFFF</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isValid(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is invalid.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90135">isInvalid</a><span class="delimiter">(</span>int <a title="Int" id="131829">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> !isValid<span class="delimiter">(</span>c<span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isInvalid(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character can be considered content.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90136">isContent</a><span class="delimiter">(</span>int <a title="Int" id="131831">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_CONTENT<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span> ||
+               <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0x10FFFF</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isContent(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character can be considered markup.
+     * Markup characters include '&amp;lt;', '&amp;amp;', and '%'.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90137">isMarkup</a><span class="delimiter">(</span>int <a title="Int" id="131833">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> c == <span class="char">'&lt;'</span> || c == <span class="char">'&amp;'</span> || c == <span class="char">'%'</span>;
+    <span class="delimiter">}</span> <span class="comment">// isMarkup(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a space character
+     * as defined by production [3] in the XML 1.0 specification.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90138">isSpace</a><span class="delimiter">(</span>int <a title="Int" id="131835">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> c &lt;= <span class="int">0x20</span> &amp;&amp; <span class="delimiter">(</span>CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_SPACE<span class="delimiter">)</span> != <span class="int">0</span>;
+    <span class="delimiter">}</span> <span class="comment">// isSpace(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid name start
+     * character as defined by production [5] in the XML 1.0
+     * specification.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90139">isNameStart</a><span class="delimiter">(</span>int <a title="Int" id="131837">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_NAME_START<span class="delimiter">)</span> != <span class="int">0</span>;
+    <span class="delimiter">}</span> <span class="comment">// isNameStart(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid name
+     * character as defined by production [4] in the XML 1.0
+     * specification.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90140">isName</a><span class="delimiter">(</span>int <a title="Int" id="131839">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_NAME<span class="delimiter">)</span> != <span class="int">0</span>;
+    <span class="delimiter">}</span> <span class="comment">// isName(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid NCName start
+     * character as defined by production [4] in Namespaces in XML
+     * recommendation.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90141">isNCNameStart</a><span class="delimiter">(</span>int <a title="Int" id="131841">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_NCNAME_START<span class="delimiter">)</span> != <span class="int">0</span>;
+    <span class="delimiter">}</span> <span class="comment">// isNCNameStart(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid NCName
+     * character as defined by production [5] in Namespaces in XML
+     * recommendation.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90142">isNCName</a><span class="delimiter">(</span>int <a title="Int" id="131843">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_NCNAME<span class="delimiter">)</span> != <span class="int">0</span>;
+    <span class="delimiter">}</span> <span class="comment">// isNCName(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid Pubid
+     * character as defined by production [13] in the XML 1.0
+     * specification.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="90143">isPubid</a><span class="delimiter">(</span>int <a title="Int" id="131845">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_PUBID<span class="delimiter">)</span> != <span class="int">0</span>;
+    <span class="delimiter">}</span> <span class="comment">// isPubid(int):boolean</span>
+
+    <span class="comment">/*
+     * [5] Name ::= (Letter | '_' | ':') (NameChar)*
+     */</span>
+    <span class="comment">/**
+     * Check to see if a string is a valid Name according to [5]
+     * in the XML 1.0 Recommendation
+     *
+     * @param name string to check
+     * @return true if name is a valid Name
+     */</span>
+    public static boolean <a title="(name: java.lang.String)Boolean" id="90144">isValidName</a><span class="delimiter">(</span>String <a title="java.lang.String" id="90150">name</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">final</span> int length = name.length<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>length == <span class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="delimiter">}</span>
+        char ch = name.charAt<span class="delimiter">(</span><span class="int">0</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>!isNameStart<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">for</span> <span class="delimiter">(</span>int i = <span class="int">1</span>; i &lt; length; ++i<span class="delimiter">)</span> <span class="delimiter">{</span>
+            ch = name.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>!isName<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="delimiter">}</span> <span class="comment">// isValidName(String):boolean</span>
+    
+    <span class="comment">/*
+     * from the namespace rec
+     * [4] NCName ::= (Letter | '_') (NCNameChar)*
+     */</span>
+    <span class="comment">/**
+     * Check to see if a string is a valid NCName according to [4]
+     * from the XML Namespaces 1.0 Recommendation
+     *
+     * @param ncName string to check
+     * @return true if name is a valid NCName
+     */</span>
+    public static boolean <a title="(ncName: java.lang.String)Boolean" id="90145">isValidNCName</a><span class="delimiter">(</span>String <a title="java.lang.String" id="131847">ncName</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">final</span> int length = ncName.length<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>length == <span class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="delimiter">}</span>
+        char ch = ncName.charAt<span class="delimiter">(</span><span class="int">0</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>!isNCNameStart<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">for</span> <span class="delimiter">(</span>int i = <span class="int">1</span>; i &lt; length; ++i<span class="delimiter">)</span> <span class="delimiter">{</span>
+            ch = ncName.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>!isNCName<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="delimiter">}</span> <span class="comment">// isValidNCName(String):boolean</span>
+
+    <span class="comment">/*
+     * [7] Nmtoken ::= (NameChar)+
+     */</span>
+    <span class="comment">/**
+     * Check to see if a string is a valid Nmtoken according to [7]
+     * in the XML 1.0 Recommendation
+     *
+     * @param nmtoken string to check
+     * @return true if nmtoken is a valid Nmtoken 
+     */</span>
+    public static boolean <a title="(nmtoken: java.lang.String)Boolean" id="90146">isValidNmtoken</a><span class="delimiter">(</span>String <a title="java.lang.String" id="131849">nmtoken</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">final</span> int length = nmtoken.length<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>length == <span class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">for</span> <span class="delimiter">(</span>int i = <span class="int">0</span>; i &lt; length; ++i<span class="delimiter">)</span> <span class="delimiter">{</span>
+            char ch = nmtoken.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>!isName<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="delimiter">}</span> <span class="comment">// isValidName(String):boolean</span>
+
+
+
+
+
+    <span class="comment">// encodings</span>
+
+    <span class="comment">/**
+     * Returns true if the encoding name is a valid IANA encoding.
+     * This method does not verify that there is a decoder available
+     * for this encoding, only that the characters are valid for an
+     * IANA encoding name.
+     *
+     * @param ianaEncoding The IANA encoding name.
+     */</span>
+    public static boolean <a title="(ianaEncoding: java.lang.String)Boolean" id="90147">isValidIANAEncoding</a><span class="delimiter">(</span>String <a title="java.lang.String" id="131851">ianaEncoding</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span>ianaEncoding != <span class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            int length = ianaEncoding.length<span class="delimiter">(</span><span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>length &gt; <span class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                char c = ianaEncoding.charAt<span class="delimiter">(</span><span class="int">0</span><span class="delimiter">)</span>;
+                <span class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span>c &gt;= <span class="char">'A'</span> &amp;&amp; c &lt;= <span class="char">'Z'</span><span class="delimiter">)</span> || <span class="delimiter">(</span>c &gt;= <span class="char">'a'</span> &amp;&amp; c &lt;= <span class="char">'z'</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                    <span class="keyword">for</span> <span class="delimiter">(</span>int i = <span class="int">1</span>; i &lt; length; i++<span class="delimiter">)</span> <span class="delimiter">{</span>
+                        c = ianaEncoding.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+                        <span class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span>c &lt; <span class="char">'A'</span> || c &gt; <span class="char">'Z'</span><span class="delimiter">)</span> &amp;&amp; <span class="delimiter">(</span>c &lt; <span class="char">'a'</span> || c &gt; <span class="char">'z'</span><span class="delimiter">)</span> &amp;&amp;
+                            <span class="delimiter">(</span>c &lt; <span class="char">'0'</span> || c &gt; <span class="char">'9'</span><span class="delimiter">)</span> &amp;&amp; c != <span class="char">'.'</span> &amp;&amp; c != <span class="char">'_'</span> &amp;&amp;
+                            c != <span class="char">'-'</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                            <span class="keyword">return</span> <span class="keyword">false</span>;
+                        <span class="delimiter">}</span>
+                    <span class="delimiter">}</span>
+                    <span class="keyword">return</span> <span class="keyword">true</span>;
+                <span class="delimiter">}</span>
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="delimiter">}</span> <span class="comment">// isValidIANAEncoding(String):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the encoding name is a valid Java encoding.
+     * This method does not verify that there is a decoder available
+     * for this encoding, only that the characters are valid for an
+     * Java encoding name.
+     *
+     * @param javaEncoding The Java encoding name.
+     */</span>
+    public static boolean <a title="(javaEncoding: java.lang.String)Boolean" id="90148">isValidJavaEncoding</a><span class="delimiter">(</span>String <a title="java.lang.String" id="131853">javaEncoding</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span>javaEncoding != <span class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            int length = javaEncoding.length<span class="delimiter">(</span><span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>length &gt; <span class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="keyword">for</span> <span class="delimiter">(</span>int i = <span class="int">1</span>; i &lt; length; i++<span class="delimiter">)</span> <span class="delimiter">{</span>
+                    char c = javaEncoding.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+                    <span class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span>c &lt; <span class="char">'A'</span> || c &gt; <span class="char">'Z'</span><span class="delimiter">)</span> &amp;&amp; <span class="delimiter">(</span>c &lt; <span class="char">'a'</span> || c &gt; <span class="char">'z'</span><span class="delimiter">)</span> &amp;&amp;
+                        <span class="delimiter">(</span>c &lt; <span class="char">'0'</span> || c &gt; <span class="char">'9'</span><span class="delimiter">)</span> &amp;&amp; c != <span class="char">'.'</span> &amp;&amp; c != <span class="char">'_'</span> &amp;&amp;
+                        c != <span class="char">'-'</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                        <span class="keyword">return</span> <span class="keyword">false</span>;
+                    <span class="delimiter">}</span>
+                <span class="delimiter">}</span>
+                <span class="keyword">return</span> <span class="keyword">true</span>;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="delimiter">}</span> <span class="comment">// isValidIANAEncoding(String):boolean</span>
+    
+    <span class="comment">// other methods</span>
+    
+    <span class="comment">/**
+     * Trims space characters as defined by production [3] in 
+     * the XML 1.0 specification from both ends of the given string.
+     * 
+     * @param value the string to be trimmed
+     * @return the given string with the space characters trimmed
+     * from both ends
+     */</span>
+    public static String <a title="(value: java.lang.String)java.lang.String" id="90149">trim</a><span class="delimiter">(</span>String <a title="java.lang.String" id="131855">value</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        int start;
+        int end;
+        <span class="keyword">final</span> int lengthMinusOne = value.length<span class="delimiter">(</span><span class="delimiter">)</span> - <span class="int">1</span>;
+        <span class="keyword">for</span> <span class="delimiter">(</span>start = <span class="int">0</span>; start &lt;= lengthMinusOne; ++start<span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">if</span> <span class="delimiter">(</span>!isSpace<span class="delimiter">(</span>value.charAt<span class="delimiter">(</span>start<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                break;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">for</span> <span class="delimiter">(</span>end = lengthMinusOne; end &gt;= start; --end<span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">if</span> <span class="delimiter">(</span>!isSpace<span class="delimiter">(</span>value.charAt<span class="delimiter">(</span>end<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                break;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span>start == <span class="int">0</span> &amp;&amp; end == lengthMinusOne<span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> value;
+        <span class="delimiter">}</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span>start &gt; lengthMinusOne<span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> value.substring<span class="delimiter">(</span>start, end + <span class="int">1</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// trim(String):String</span>
+
+<span class="delimiter">}</span> <span class="comment">// class XMLChar</span>
+
+        </pre>
+    </body>
+</html>

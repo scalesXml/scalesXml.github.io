@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\package.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales
+
+<span class="keyword">package</span> <a title="object scales.xml.package" id="12538" class="keyword">object</a> xml <span title="ScalaObject" class="keyword">extends</span> <a href="XmlTypesDefaults.scala.html#13113" title="scales.xml.XmlTypes">XmlTypes</a> 
+  <span class="keyword">with</span> <a href="XmlParser.scala.html#12936" title="scales.xml.XmlParser">XmlParser</a> 
+  <span class="keyword">with</span> <a href="XmlPaths.scala.html#12996" title="scales.xml.XmlPaths">XmlPaths</a>
+  <span class="keyword">with</span> <a href="XmlDSL.scala.html#13161" title="scales.xml.XPathMatcher">XPathMatcher</a> 
+  <span class="keyword">with</span> <a href="XmlPrinter.scala.html#13044" title="scales.xml.XmlPrinter">XmlPrinter</a> 
+  <span class="keyword">with</span> <a href="XmlUtils.scala.html#12858" title="scales.xml.Whitespace">Whitespace</a> 
+  <span class="keyword">with</span> <a href="XmlPull.scala.html#13092" title="scales.xml.XmlPulls">XmlPulls</a> 
+  <span class="keyword">with</span> <a href="XmlFactories.scala.html#12906" title="scales.xml.XmlFactories">XmlFactories</a> 
+  <span class="keyword">with</span> <a href="TraxSupport.scala.html#12816" title="scales.xml.TraxSourceConversions">TraxSourceConversions</a>
+  <span class="keyword">with</span> <a href="XmlUtils.scala.html#13134" title="scales.xml.XmlUtils">XmlUtils</a>
+  <span class="keyword">with</span> <a href="PullIteratees.scala.html#12714" title="scales.xml.PullIteratees">PullIteratees</a> <span class="delimiter">{</span>
+
+  <span class="keyword">import</span> strategies.ElemToken
+
+  <span class="keyword">val</span> <a title="scales.xml.PathOptimisationStrategy[scales.xml.QNameToken]" id="15234">defaultPathOptimisation</a> : <a href="OptimisingStrategies.scala.html#12543" title="scales.xml.PathOptimisationStrategy[scales.xml.QNameToken]">PathOptimisationStrategy</a><span class="delimiter">[</span>QNameToken<span class="delimiter">]</span> = <a href="OptimisingStrategies.scala.html#12739" title="object scales.xml.QNameMemoryOptimisation">QNameMemoryOptimisation</a>
+  <span class="keyword">val</span> <a title="scales.xml.MemoryOptimisationStrategy[scales.xml.QNameToken]" id="15236">defaultOptimisation</a> : <a href="OptimisingStrategies.scala.html#12495" title="scales.xml.MemoryOptimisationStrategy[scales.xml.QNameToken]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>QNameToken<span class="delimiter">]</span> = <a href="OptimisingStrategies.scala.html#12739" title="object scales.xml.QNameMemoryOptimisation">QNameMemoryOptimisation</a>
+
+  <span class="keyword">val</span> <a title="scales.xml.xpath.Functions.type" id="15238">Functions</a> = xpath.<a href="xpath/Functions.scala.html#14444" title="object scales.xml.xpath.Functions">Functions</a>
+
+  <span class="comment">// work around my own version of SI-5031</span>
+  @deprecated<span class="delimiter">(</span>message=<span class="string">&quot;Please import Functions._ instead - since 0.3&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">val</span> <a title="scales.xml.xpath.Attributes.type" id="15240">Attributes</a> = xpath.<a href="xpath/OldFunctions.scala.html#14300" title="object scales.xml.xpath.Attributes">Attributes</a>
+  @deprecated<span class="delimiter">(</span>message=<span class="string">&quot;Please import Functions._ instead - since 0.3&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">val</span> <a title="scales.xml.xpath.Elements.type" id="15242">Elements</a> = xpath.<a href="xpath/OldFunctions.scala.html#14393" title="object scales.xml.xpath.Elements">Elements</a>
+  @deprecated<span class="delimiter">(</span>message=<span class="string">&quot;Please import Functions._ instead - since 0.3&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">val</span> <a title="scales.xml.xpath.OldTextFunctions.type" id="15244">TextFunctions</a> = xpath.<a href="xpath/OldFunctions.scala.html#14495" title="object scales.xml.xpath.OldTextFunctions">OldTextFunctions</a>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

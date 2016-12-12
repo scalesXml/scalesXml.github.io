@@ -1,0 +1,841 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;ListSet.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">72 %</div>
+        <div class="greenBar" style="width:144px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_ListSet.scala.html#Class_scales_utils_Equiv"><img src="class.png"></img>Equiv</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_ListSet.scala.html#Class_scales_utils_ListSet"><img src="class.png"></img>ListSet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">62 %</div>
+        <div class="greenBar" style="width:124px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_ListSet.scala.html#Object_scales_utils_ListSet"><img src="object.png"></img>ListSet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">50 %</div>
+        <div class="greenBar" style="width:100px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_ListSet.scala.html#Class_scales_utils_ListSet_Node"><img src="class.png"></img>ListSet.Node</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">80 %</div>
+        <div class="greenBar" style="width:160px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import annotation.tailrec
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import scalaz._
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import Scalaz._
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>//TODO also integrate the non quadratic add/apply from PaulPs fixes, tough as we can't use hashCode or == directly we can't re-use hashset....
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td><a id="Object_scales_utils_ListSet"></a>object ListSet {
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  def empty[A : Equal] = new ListSet[A]
+</td>
+          </tr><tr>
+            <td class="red">12</td>
+            <td>  def apply[A : Equal]( a : A*) = <span class="non">empty[A] ++ (a)
+</span></td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td> * @author Derek Williams
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td><a id="Class_scales_utils_Equiv"></a>class Equiv[A : Equal] {
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td>  def apply[ B &lt;% A, C &lt;% A]( b : B , c : C) : Boolean = implicitly[Equal[A]].equal(b:A, c:A)
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>/** 
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td> *  Based on Scala ListSet, users provide the
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td> *  comparisom operator and comparisom type for lookups.
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td> *  Because the equality is defined outside of the object + always acts as add/replace
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td> *  
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td> *  @tparam A    the type of the elements contained in this list set.
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td> *  
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td> *  @author Originally Matthias Zenger
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td> *  @author &lt;- corrupted by Chris Twiner with a number of PaulPs fixes
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td> *  @version 1.0, 30/12/2010
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>@serializable
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td><a id="Class_scales_utils_ListSet"></a>class ListSet[A : Equal](val plusFast : Boolean = false) extends Iterable[A]{ self =&gt;
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">37</td>
+            <td>  val equal = implicitly[Equal[A]]
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">39</td>
+            <td>  def ++( other : Traversable[A] ) = other.foldLeft(this)(_ + _)
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">41</td>
+            <td>  def --( other : Traversable[A] ) = <span class="non">other.foldLeft(this)(_ - _)
+</span></td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>  def --[B,C]( other : Traversable[B] )(implicit equiv: Equiv[C], viewA: A =&gt; C, viewB: B =&gt; C) = other.foldLeft(this)(_ - _)
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>  /** Returns the number of elements in this set.
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>   *  @return number of set elements.
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">49</td>
+            <td>  override def size: Int = 0
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>  override def isEmpty: Boolean = true;
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>  /** Checks if this set contains element &lt;code&gt;elem&lt;/code&gt;.
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>   *  @param  elem    the element to check for membership.
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>   *  @return true, iff &lt;code&gt;elem&lt;/code&gt; is contained in this set.
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">57</td>
+            <td>  def contains(elem: A): Boolean = <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>   * The default empty doesn't really work for us as we can't hide away the equality, so doing it here
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="red">62</td>
+            <td>  def empty = <span class="non">new ListSet[A]
+</span></td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>   * With another level of indirection, the caller decides what Equal to use.
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="green">67</td>
+            <td>  def contains[B,C]( b : B )(implicit equiv: Equiv[C], viewA: A =&gt; C, viewB: B =&gt; C) = false
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>   * Access the set like a map with an alternate equals and conversion function
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="red">72</td>
+            <td>  def apply[B,C]( b : B )(implicit equiv: Equiv[C], viewA: A =&gt; C, viewB: B =&gt; C) : Option[A] = <span class="non">None
+</span></td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>  /** This method creates a new set with an additional element.
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>  def + (elem: A): ListSet[A] = new Node(elem)
+</td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>   * Does not remove any existing As first, hence not safe.
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="green">81</td>
+            <td>  def unsafePlus(e: A): ListSet[A] = new Node(e)
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>  /** &lt;code&gt;-&lt;/code&gt; can be used to remove a single element from
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>   *  a set.
+</td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">86</td>
+            <td>  def - (elem: A): ListSet[A] = <span class="non">this
+</span></td>
+          </tr><tr>
+            <td class="black">87</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">88</td>
+            <td>  def -[B,C]( b : B )(implicit equiv: Equiv[C], viewA: A =&gt; C, viewB: B =&gt; C) : ListSet[A] = this
+</td>
+          </tr><tr>
+            <td class="black">89</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>  private[ListSet] def unchecked_outer: ListSet[A] =
+</td>
+          </tr><tr>
+            <td class="red">91</td>
+            <td>    <span class="non">throw new NoSuchElementException(&quot;Empty ListSet has no outer pointer&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">92</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">93</td>
+            <td>  /** Creates a new iterator over all elements contained in this set.
+</td>
+          </tr><tr>
+            <td class="black">94</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">95</td>
+            <td>   *  @throws Predef.NoSuchElementException
+</td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>   *  @return the new iterator
+</td>
+          </tr><tr>
+            <td class="black">97</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">98</td>
+            <td>  def iterator: Iterator[A] = new Iterator[A] {
+</td>
+          </tr><tr>
+            <td class="green">99</td>
+            <td>    var that: ListSet[A] = self;
+</td>
+          </tr><tr>
+            <td class="black">100</td>
+            <td>    def hasNext = !that.isEmpty;
+</td>
+          </tr><tr>
+            <td class="black">101</td>
+            <td>    def next: A =
+</td>
+          </tr><tr>
+            <td class="black">102</td>
+            <td>      if (!hasNext) throw new NoSuchElementException(&quot;next on empty iterator&quot;)
+</td>
+          </tr><tr>
+            <td class="black">103</td>
+            <td>      else { val res = that.elem; that = that.next; res }
+</td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">105</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">106</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">107</td>
+            <td>   *  @throws Predef.NoSuchElementException
+</td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">109</td>
+            <td>  protected def elem: A = <span class="non">throw new NoSuchElementException(&quot;Set has no elements&quot;);
+</span></td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">111</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">112</td>
+            <td>   *  @throws Predef.NoSuchElementException
+</td>
+          </tr><tr>
+            <td class="black">113</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">114</td>
+            <td>  protected def next: ListSet[A] = <span class="non">throw new NoSuchElementException(&quot;Next of an empty set&quot;);
+</span></td>
+          </tr><tr>
+            <td class="black">115</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">116</td>
+            <td>  protected def newThis(a : A) = new Node(a)
+</td>
+          </tr><tr>
+            <td class="black">117</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">118</td>
+            <td>  /** Represents an entry in the `ListSet`.
+</td>
+          </tr><tr>
+            <td class="black">119</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">120</td>
+            <td>  @serializable
+</td>
+          </tr><tr>
+            <td class="green">121</td>
+            <td><a id="Class_scales_utils_ListSet_Node"></a>  protected class Node(override protected val elem: A) extends ListSet[A] {
+</td>
+          </tr><tr>
+            <td class="black">122</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">123</td>
+            <td>    override private[ListSet] def unchecked_outer = self
+</td>
+          </tr><tr>
+            <td class="black">124</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">125</td>
+            <td>    /** Returns the number of elements in this set.
+</td>
+          </tr><tr>
+            <td class="black">126</td>
+            <td>     *
+</td>
+          </tr><tr>
+            <td class="black">127</td>
+            <td>     *  @return number of set elements.
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="black">129</td>
+            <td>    override def size = {
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>      @tailrec def sizeInternal(n: ListSet[A], acc: Int): Int =
+</td>
+          </tr><tr>
+            <td class="green">131</td>
+            <td>  if (n.isEmpty) acc
+</td>
+          </tr><tr>
+            <td class="green">132</td>
+            <td>  else sizeInternal(n.unchecked_outer, acc + 1)
+</td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>      
+</td>
+          </tr><tr>
+            <td class="green">134</td>
+            <td>      sizeInternal(this, 0)
+</td>
+          </tr><tr>
+            <td class="black">135</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>    /** Checks if this set is empty.
+</td>
+          </tr><tr>
+            <td class="black">137</td>
+            <td>     *
+</td>
+          </tr><tr>
+            <td class="black">138</td>
+            <td>     *  @return true, iff there is no element in the set.
+</td>
+          </tr><tr>
+            <td class="black">139</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="green">140</td>
+            <td>    override def isEmpty: Boolean = false
+</td>
+          </tr><tr>
+            <td class="black">141</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">142</td>
+            <td>    /** Checks if this set contains element &lt;code&gt;elem&lt;/code&gt;.
+</td>
+          </tr><tr>
+            <td class="black">143</td>
+            <td>     *
+</td>
+          </tr><tr>
+            <td class="black">144</td>
+            <td>     *  @param  elem    the element to check for membership.
+</td>
+          </tr><tr>
+            <td class="black">145</td>
+            <td>     *  @return true, iff &lt;code&gt;elem&lt;/code&gt; is contained in this set.
+</td>
+          </tr><tr>
+            <td class="black">146</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="black">147</td>
+            <td>    override def contains(e: A) = { 
+</td>
+          </tr><tr>
+            <td class="black">148</td>
+            <td>      @tailrec def containsInternal(n: ListSet[A], e: A): Boolean = 
+</td>
+          </tr><tr>
+            <td class="green">149</td>
+            <td>  !n.isEmpty &amp;&amp; (equal.equal(e, n.elem) || containsInternal(n.unchecked_outer, e))
+</td>
+          </tr><tr>
+            <td class="black">150</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">151</td>
+            <td>      containsInternal(this, e)
+</td>
+          </tr><tr>
+            <td class="black">152</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">153</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">154</td>
+            <td>    override def contains[B,C]( e : B )(implicit equiv: Equiv[C], viewA: A =&gt; C, viewB: B =&gt; C) = {
+</td>
+          </tr><tr>
+            <td class="black">155</td>
+            <td>      @tailrec def containsInternal(n: ListSet[A], e: B): Boolean = 
+</td>
+          </tr><tr>
+            <td class="green">156</td>
+            <td>  !n.isEmpty &amp;&amp; (
+</td>
+          </tr><tr>
+            <td class="black">157</td>
+            <td>    equiv(e, n.elem)
+</td>
+          </tr><tr>
+            <td class="black">158</td>
+            <td>    || containsInternal(n.unchecked_outer, e) )
+</td>
+          </tr><tr>
+            <td class="black">159</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">160</td>
+            <td>      containsInternal(this, e)
+</td>
+          </tr><tr>
+            <td class="black">161</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">162</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">163</td>
+            <td>    override def apply[B,C]( e : B )(implicit equiv: Equiv[C], viewA: A =&gt; C, viewB: B =&gt; C) : Option[A] = {
+</td>
+          </tr><tr>
+            <td class="black">164</td>
+            <td>      @tailrec def applyInternal(n : ListSet[A], e : B) : Option[A] =
+</td>
+          </tr><tr>
+            <td class="green">165</td>
+            <td>  if (n.isEmpty)
+</td>
+          </tr><tr>
+            <td class="red">166</td>
+            <td>    <span class="non">None
+</span></td>
+          </tr><tr>
+            <td class="black">167</td>
+            <td>        else
+</td>
+          </tr><tr>
+            <td class="green">168</td>
+            <td>    if (equiv(e, n.elem))
+</td>
+          </tr><tr>
+            <td class="green">169</td>
+            <td>      Some(n.elem)
+</td>
+          </tr><tr>
+            <td class="black">170</td>
+            <td>    else
+</td>
+          </tr><tr>
+            <td class="red">171</td>
+            <td>      <span class="non">applyInternal(n.unchecked_outer, e)
+</span></td>
+          </tr><tr>
+            <td class="black">172</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">173</td>
+            <td>      applyInternal(this, e)
+</td>
+          </tr><tr>
+            <td class="black">174</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">175</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">176</td>
+            <td>    /** This method creates a new set with an additional element.
+</td>
+          </tr><tr>
+            <td class="black">177</td>
+            <td>     * Note if plusFast is true then the 
+</td>
+          </tr><tr>
+            <td class="black">178</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="green">179</td>
+            <td>    override def +(e: A): ListSet[A] = if (contains(e)) this.-(e).newThis(e) else new Node(e)
+</td>
+          </tr><tr>
+            <td class="black">180</td>
+            <td>        
+</td>
+          </tr><tr>
+            <td class="green">181</td>
+            <td>    override def unsafePlus(e: A): ListSet[A] = new Node(e)
+</td>
+          </tr><tr>
+            <td class="black">182</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">183</td>
+            <td>    /** &lt;code&gt;-&lt;/code&gt; can be used to remove a single element from
+</td>
+          </tr><tr>
+            <td class="black">184</td>
+            <td>     *  a set.
+</td>
+          </tr><tr>
+            <td class="black">185</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="green">186</td>
+            <td>    override def -(e: A): ListSet[A] = if (equal.equal(e, elem)) self else {
+</td>
+          </tr><tr>
+            <td class="green">187</td>
+            <td>      val tail = self - e; new tail.Node(elem)
+</td>
+          </tr><tr>
+            <td class="black">188</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">189</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">190</td>
+            <td>    override def -[B,C]( e : B )(implicit equiv: Equiv[C], viewA: A =&gt; C, viewB: B =&gt; C) : ListSet[A] = 
+</td>
+          </tr><tr>
+            <td class="red">191</td>
+            <td>      if (<span class="non">equiv(e, elem)) self else {
+</span></td>
+          </tr><tr>
+            <td class="red">192</td>
+            <td>  val tail = <span class="non">self - e; new tail.Node(elem)
+</span></td>
+          </tr><tr>
+            <td class="black">193</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">194</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">195</td>
+            <td>    override protected def newThis(a : A) = new Node(a)
+</td>
+          </tr><tr>
+            <td class="black">196</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">197</td>
+            <td>    override protected def next: ListSet[A] = self
+</td>
+          </tr><tr>
+            <td class="black">198</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="black">199</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">200</td>
+            <td>}
+</td>
+          </tr></tbody></table>

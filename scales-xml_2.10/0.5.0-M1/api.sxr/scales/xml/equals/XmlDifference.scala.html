@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\equals\XmlDifference.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.equals
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>PullType, QName, Elem, Attribs, Attributes, Attribute, XmlItem, XmlPath, EndElem, XCC, Misc, Miscs<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.xml.serializers.NamespaceContext
+
+<span class="keyword">import</span> scala.collection.immutable.<span class="delimiter">{</span> Stack, Map <span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Why did equality fail, pattern match fun
+ */</span> 
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait XmlDifference[X] extends java.lang.Object" id="11369">XmlDifference</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14523">X</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="=&gt; X" id="91110">left</a> : <a href="#14523" title="X">X</a>
+  <span class="keyword">val</span> <a title="=&gt; X" id="91111">right</a> : <a href="#14523" title="X">X</a>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Magik object for when we aren't attempting to calculate whats wrong 
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.xml.equals.SomeDifference" id="11298">SomeDifference</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[AnyRef]">XmlDifference</a><span class="delimiter">[</span>AnyRef<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="Null" id="97455">left</a> = <span title="Null(null)" class="keyword">null</span>
+  <span class="keyword">val</span> <a title="Null" id="97457">right</a> = <span title="Null(null)" class="keyword">null</span>
+
+  <span class="keyword">def</span> <a title="(a: scales.xml.equals.XmlDifference[AnyRef])Option[(AnyRef, AnyRef)]" id="97459">unapply</a><span class="delimiter">(</span><a title="scales.xml.equals.XmlDifference[AnyRef]" id="100286">a</a> : <a href="#11369" title="scales.xml.equals.XmlDifference[AnyRef]">XmlDifference</a><span class="delimiter">[</span>AnyRef<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="Option[(AnyRef, AnyRef)]">Option</span><span class="delimiter">[</span><span class="delimiter">(</span>AnyRef, AnyRef<span class="delimiter">)</span><span class="delimiter">]</span> = <span title="(x: (Null, Null))Some[(Null, Null)]">Some</span><span class="delimiter">(</span><span title="(_1: Null, _2: Null)(Null, Null)" class="delimiter">(</span><a href="#97455" title="=&gt; Null">left</a>,<a href="#97457" title="=&gt; Null">right</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="keyword">val</span> <a title="Option[(scales.xml.equals.XmlDifference[_], scales.xml.equals.ComparisonContext)]" id="97460">noCalculation</a> : <span title="Option[(scales.xml.equals.XmlDifference[_], scales.xml.equals.ComparisonContext)]">Option</span><span class="delimiter">[</span><span class="delimiter">(</span>XmlDifference<span class="delimiter">[</span>_<span class="delimiter">]</span>, ComparisonContext<span class="delimiter">)</span><span class="delimiter">]</span> = <span title="(x: (scales.xml.equals.SomeDifference.type, scales.xml.equals.ComparisonContext))Some[(scales.xml.equals.SomeDifference.type, scales.xml.equals.ComparisonContext)]">Some</span><span class="delimiter">(</span><span title="(_1: scales.xml.equals.SomeDifference.type, _2: scales.xml.equals.ComparisonContext)(scales.xml.equals.SomeDifference.type, scales.xml.equals.ComparisonContext)" class="delimiter">(</span><span class="keyword">this</span>, <a href="ComparisonContext.scala.html#96331" title="()scales.xml.equals.ComparisonContext">ComparisonContext</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * When types are different, or an end element vs XmlEvent
+ */</span> 
+case <span class="keyword">class</span> <a title="class DifferentTypes extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.package.PullType] with ScalaObject with Product with Serializable" id="101320">DifferentTypes</a><a href="#101320" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.package.PullType" id="98324">left</a> : <span title="scales.xml.package.PullType">PullType</span>, <a title="scales.xml.package.PullType" id="98325">right</a> : <span title="scales.xml.package.PullType">PullType</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.package.PullType]">XmlDifference</a><span class="delimiter">[</span>PullType<span class="delimiter">]</span>
+
+case <span class="keyword">class</span> <a title="class QNameDifference extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.QName] with ScalaObject with Product with Serializable" id="101280">QNameDifference</a><a href="#101280" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.QName" id="99659">left</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a>, <a title="scales.xml.QName" id="99660">right</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a> <span class="delimiter">)</span> <span class="keyword">extends</span>  <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.QName]">XmlDifference</a><span class="delimiter">[</span>QName<span class="delimiter">]</span>
+
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait AttributeDifference extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.Attribute]" id="10955">AttributeDifference</a> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.Attribute]">XmlDifference</a><span class="delimiter">[</span>Attribute<span class="delimiter">]</span>
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait ElemDifference extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.Elem]" id="11159">ElemDifference</a> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.Elem]">XmlDifference</a><span class="delimiter">[</span>Elem<span class="delimiter">]</span>
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait AttributesDifference extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.package.Attributes]" id="10985">AttributesDifference</a> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.package.Attributes]">XmlDifference</a><span class="delimiter">[</span>Attributes<span class="delimiter">]</span>
+
+case <span class="keyword">class</span> <a title="class AttributeNameDifference extends java.lang.Object with scales.xml.equals.AttributeDifference with ScalaObject with Product with Serializable" id="101336">AttributeNameDifference</a><a href="#101336" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.Attribute" id="99913">left</a> : <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a>, <a title="scales.xml.Attribute" id="99914">right</a> : <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10955" title="scales.xml.equals.AttributeDifference">AttributeDifference</a>
+case <span class="keyword">class</span> <a title="class AttributeValueDifference extends java.lang.Object with scales.xml.equals.AttributeDifference with ScalaObject with Product with Serializable" id="101332">AttributeValueDifference</a><a href="#101332" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.Attribute" id="99948">left</a> : <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a>, <a title="scales.xml.Attribute" id="99949">right</a> : <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10955" title="scales.xml.equals.AttributeDifference">AttributeDifference</a>
+
+<span class="comment">/**
+ * Their size is different
+ */</span> 
+case <span class="keyword">class</span> <a title="class DifferentNumberOfAttributes extends java.lang.Object with scales.xml.equals.AttributesDifference with ScalaObject with Product with Serializable" id="101328">DifferentNumberOfAttributes</a><a href="#101328" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.package.Attributes" id="100028">left</a> : <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.xml.package.Attributes">Attributes</a>, <a title="scales.xml.package.Attributes" id="100029">right</a> : <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.xml.package.Attributes">Attributes</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10985" title="scales.xml.equals.AttributesDifference">AttributesDifference</a>
+
+<span class="comment">/**
+ * Re-packs the AttributeValueDifference, but will only occur when the attributes QName is present
+ */</span>
+case <span class="keyword">class</span> <a title="class DifferentValueAttributes extends java.lang.Object with scales.xml.equals.AttributesDifference with ScalaObject with Product with Serializable" id="101316">DifferentValueAttributes</a><a href="#101316" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.package.Attributes" id="100210">left</a> : <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.xml.package.Attributes">Attributes</a>, <a title="scales.xml.package.Attributes" id="100211">right</a> : <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.xml.package.Attributes">Attributes</a>, <a title="scales.xml.Attribute" id="100212">differentValue</a> : <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10985" title="scales.xml.equals.AttributesDifference">AttributesDifference</a>
+
+<span class="comment">/**
+ * The size is the same but one of lefts qnames is not present in right
+ */</span> 
+case <span class="keyword">class</span> <a title="class MissingAttributes extends java.lang.Object with scales.xml.equals.AttributesDifference with ScalaObject with Product with Serializable" id="101284">MissingAttributes</a><a href="#101284" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.package.Attributes" id="100251">left</a> : <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.xml.package.Attributes">Attributes</a>, <a title="scales.xml.package.Attributes" id="100252">right</a> : <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.xml.package.Attributes">Attributes</a>, <a title="scales.xml.Attribute" id="100253">missing</a> : <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10985" title="scales.xml.equals.AttributesDifference">AttributesDifference</a>
+
+case <span class="keyword">class</span> <a title="class ItemDifference extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.XmlItem] with ScalaObject with Product with Serializable" id="101296">ItemDifference</a><a href="#101296" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.XmlItem" id="99743">left</a> : <a href="../XmlTypes.scala.html#9699" title="scales.xml.XmlItem">XmlItem</a>, <a title="scales.xml.XmlItem" id="99744">right</a> : <a href="../XmlTypes.scala.html#9699" title="scales.xml.XmlItem">XmlItem</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.XmlItem]">XmlDifference</a><span class="delimiter">[</span>XmlItem<span class="delimiter">]</span>
+
+case <span class="keyword">class</span> <a title="class ElemNameDifference extends java.lang.Object with scales.xml.equals.ElemDifference with ScalaObject with Product with Serializable" id="101308">ElemNameDifference</a><a href="#101308" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.Elem" id="97602">left</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a>, <a title="scales.xml.Elem" id="97603">right</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11159" title="scales.xml.equals.ElemDifference">ElemDifference</a>
+
+<span class="comment">/**
+ * If the difference is due to an attribute thats included as well
+ */</span> 
+case <span class="keyword">class</span> <a title="class ElemAttributeDifference extends java.lang.Object with scales.xml.equals.ElemDifference with ScalaObject with Product with Serializable" id="101312">ElemAttributeDifference</a><a href="#101312" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.Elem" id="97717">left</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a>, <a title="scales.xml.Elem" id="97718">right</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a>, <a title="scales.xml.equals.AttributesDifference" id="97719">attributesDifference</a> : <a href="#10985" title="scales.xml.equals.AttributesDifference">AttributesDifference</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11159" title="scales.xml.equals.ElemDifference">ElemDifference</a>
+
+<span class="comment">/**
+ * This can only be returned when an ElemComparisom has been suplied with a custom namespaces implementation.
+ */</span> 
+case <span class="keyword">class</span> <a title="class ElemNamespacesDifference extends java.lang.Object with scales.xml.equals.ElemDifference with ScalaObject with Product with Serializable" id="101304">ElemNamespacesDifference</a><a href="#101304" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.Elem" id="97758">left</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a>, <a title="scales.xml.Elem" id="97759">right</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11159" title="scales.xml.equals.ElemDifference">ElemDifference</a>
+
+case <span class="keyword">class</span> <a title="class EndElemNameDifference extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.EndElem] with ScalaObject with Product with Serializable" id="101300">EndElemNameDifference</a><a href="#101300" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.EndElem" id="98285">left</a> : <a href="../XmlTypes.scala.html#9555" title="scales.xml.EndElem">EndElem</a>, <a title="scales.xml.EndElem" id="98286">right</a> : <a href="../XmlTypes.scala.html#9555" title="scales.xml.EndElem">EndElem</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.EndElem]">XmlDifference</a><span class="delimiter">[</span>EndElem<span class="delimiter">]</span>
+
+case <span class="keyword">class</span> <a title="class MiscDifference extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.package.Misc] with ScalaObject with Product with Serializable" id="101292">MiscDifference</a><a href="#101292" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.package.Misc" id="99298">left</a> : <span title="scales.xml.package.Misc">Misc</span>, <a title="scales.xml.package.Misc" id="99299">right</a> : <span title="scales.xml.package.Misc">Misc</span>, <a title="Boolean" id="99300">isProlog</a> : <span title="Boolean">Boolean</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.package.Misc]">XmlDifference</a><span class="delimiter">[</span>Misc<span class="delimiter">]</span>
+
+case <span class="keyword">class</span> <a title="class MiscDifferentTypes extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.package.Misc] with ScalaObject with Product with Serializable" id="101288">MiscDifferentTypes</a><a href="#101288" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.package.Misc" id="99361">left</a> : <span title="scales.xml.package.Misc">Misc</span>, <a title="scales.xml.package.Misc" id="99362">right</a> : <span title="scales.xml.package.Misc">Misc</span>, <a title="Boolean" id="99363">isProlog</a> : <span title="Boolean">Boolean</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.package.Misc]">XmlDifference</a><span class="delimiter">[</span>Misc<span class="delimiter">]</span>
+
+case <span class="keyword">class</span> <a title="class DifferentNumberOfMiscs extends java.lang.Object with scales.xml.equals.XmlDifference[scales.xml.package.Miscs] with ScalaObject with Product with Serializable" id="101324">DifferentNumberOfMiscs</a><a href="#101324" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.package.Miscs" id="99049">left</a> : <span title="scales.xml.package.Miscs">Miscs</span>, <a title="scales.xml.package.Miscs" id="99050">right</a> : <span title="scales.xml.package.Miscs">Miscs</span>, <a title="Boolean" id="99051">isProlog</a> : <span title="Boolean">Boolean</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#11369" title="scales.xml.equals.XmlDifference[scales.xml.package.Miscs]">XmlDifference</a><span class="delimiter">[</span>Miscs<span class="delimiter">]</span>
+
+        </pre>
+    </body>
+</html>

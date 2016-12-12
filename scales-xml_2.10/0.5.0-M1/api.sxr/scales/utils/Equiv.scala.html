@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\Equiv.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="keyword">import</span> scalaz.Equal
+
+<span class="comment">/**
+ * Provides evidence that two instances of two disctinct types are equivalent after a conversion.
+ * Requires an instance of Equal for the common convertable type.
+ * 
+ * @author Derek Williams
+ */</span> 
+<span class="keyword">class</span> <a title="class Equiv[A] extends java.lang.Object with ScalaObject" id="12561">Equiv</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13952">A</a> : Equal<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="[B, C](b: B, c: C)(implicit evidence$2: B =&gt; A, implicit evidence$3: C =&gt; A)Boolean" id="59995">apply</a><span class="delimiter">[</span> <a title="&gt;: Nothing &lt;: Any" id="48007">B</a> &lt;% A, <a title="&gt;: Nothing &lt;: Any" id="48008">C</a> &lt;% A<span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="59992">b</a> : <a href="#48007" title="B">B</a> , <a title="C" id="59993">c</a> : <a href="#48008" title="C">C</a><span class="delimiter">)</span> : <span title="Boolean">Boolean</span> = <span title="[T](implicit e: T)T">implicitly</span><a href="#48002" title="(implicit e: scalaz.Equal[A])scalaz.Equal[A]" class="delimiter">[</a><span title="scalaz.Equal[A]">Equal</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span>.<span title="(a1: A, a2: A)Boolean">equal</span><span class="delimiter">(</span><a href="#59995" title="(v1: B)A">b</a>:<a href="#13952" title="A">A</a>, <a href="#59995" title="(v1: C)A">c</a>:<a href="#13952" title="A">A</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait EquivFunctions extends java.lang.Object with ScalaObject" id="12564">EquivFunctions</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Are these two parameters (convertable to a C) equal for a given Equiv[C] instance
+   */</span> 
+  <span class="keyword">def</span> <a title="[A, B, C](a: A, b: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: A =&gt; C, implicit viewB: B =&gt; C)Boolean" id="15333">equivalent</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15337">A</a>, <a title="&gt;: Nothing &lt;: Any" id="15338">B</a>, <a title="&gt;: Nothing &lt;: Any" id="15339">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="A" id="60167">a</a> : <a href="#15337" title="A">A</a>, <a title="B" id="60168">b</a> : <a href="#15338" title="B">B</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="60169">equiv</a>: <a href="#12561" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="A =&gt; C" id="60170">viewA</a>: A =&gt; C, <a title="B =&gt; C" id="60171">viewB</a>: B =&gt; C<span class="delimiter">)</span> = <a href="#59995" title="(b: A, c: B)(implicit evidence$2: A =&gt; C, implicit evidence$3: B =&gt; C)Boolean">equiv</a><a href="#60170" title="A =&gt; C" class="delimiter">(</a><a href="#60167" title="A">a</a>, <a href="#60168" title="B">b</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

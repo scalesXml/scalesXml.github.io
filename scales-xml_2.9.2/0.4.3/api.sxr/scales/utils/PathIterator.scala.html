@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\PathIterator.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="keyword">import</span> scala.collection.IndexedSeqLike
+
+<span class="comment">/**
+ * Provides an Iterator from a given initial path that traverses the entire tree, allows both forwards and backwards iteration.
+ *
+ * It specifically provides an up event, allowing consumers to &quot;pop&quot; the element stack
+ */</span> 
+<span class="keyword">trait</span> <a title="trait AbstractPathIterator[Item &lt;: scales.utils.LeftLike[Item,scales.utils.Tree[Item,Section,CC]], Section, CC[X] &lt;: scala.collection.IndexedSeqLike[X,CC[X]], T] extends java.lang.Object with Iterator[T] with ScalaObject" id="10326">AbstractPathIterator</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.utils.LeftLike[Item,scales.utils.Tree[Item,Section,CC]]" id="11951">Item</a> &lt;: LeftLike<span class="delimiter">[</span>Item, Tree<span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span><span class="delimiter">]</span>, <a title="&gt;: Nothing &lt;: Any" id="11952">Section</a>, <a title="[X]&gt;: Nothing &lt;: scala.collection.IndexedSeqLike[X,CC[X]]" id="11953">CC</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="86567">X</a><span class="delimiter">]</span> &lt;: IndexedSeqLike<span class="delimiter">[</span>X, CC<span class="delimiter">[</span>X<span class="delimiter">]</span><span class="delimiter">]</span>, <a title="&gt;: Nothing &lt;: Any" id="11954">T</a><span class="delimiter">]</span> <span title="ScalaObject" class="keyword">extends</span> <span title="Iterator[T]">Iterator</span><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.utils.Path[Item,Section,CC]" id="86542">initialPath</a> : <a href="Paths.scala.html#11076" title="scales.utils.Path[Item,Section,CC]">Path</a><span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span>
+
+  <span class="keyword">var</span> <a title="scales.utils.Path[Item,Section,CC]" id="86544">path</a> = <a href="#86542" title="=&gt; scales.utils.Path[Item,Section,CC]">initialPath</a>
+
+  <span class="keyword">val</span> <a title="Boolean" id="86546">isForward</a> = <span title="Boolean(true)" class="keyword">true</span>
+
+  <span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait State extends java.lang.Object with ScalaObject" id="86548">State</a> <span title="ScalaObject" class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="=&gt; Boolean" id="86573">hasNext</a> : <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span>
+    <span class="keyword">def</span> <a title="=&gt; (AbstractPathIterator.this.State, T)" id="86574">next</a> : <span title="(AbstractPathIterator.this.State, T)" class="delimiter">(</span>State, T<span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  
+  case <span class="keyword">object</span> <a href="#86646" title="object AbstractPathIterator.this.StartElem" id="86649">StartElem</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#86548" title="AbstractPathIterator.this.State">State</a> <span class="delimiter">{</span>
+    <span class="comment">// always has the start</span>
+    <span class="keyword">def</span> <a title="=&gt; (AbstractPathIterator.this.State, T)" id="86584">next</a> = <span class="delimiter">{</span>
+<span class="comment">//println(&quot;doing StartElem from &quot;+ (if (!path.isItem) scales.xml.elem(path.asInstanceOf[scales.xml.XmlPath]).name.pqName else &quot;&quot; ))	</span>
+      <span class="keyword">val</span> <a title="T" id="86589">ev</a> = <a href="#86560" title="=&gt; T">event</a>
+      <span class="comment">// turn to firstChild map getOrElse  </span>
+      <span title="(AbstractPathIterator.this.State, T)" class="keyword">if</span> <span class="delimiter">(</span><a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44031" title="=&gt; Boolean">hasChildren</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+<span class="comment">//println(&quot;doing StartElem hasChildren from &quot;+ (if (!path.isItem) scales.xml.elem(path.asInstanceOf[scales.xml.XmlPath]).name.pqName else &quot;&quot; ))	</span>
+	<span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#86546" title="=&gt; Boolean">isForward</a><span class="delimiter">)</span>
+	  <a href="#86544" title="(x$1: scales.utils.Path[Item,Section,CC])Unit">path</a> = <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44043" title="()Option[scales.utils.Path[Item,Section,CC]]">firstChild</a>.<span title="=&gt; scales.utils.Path[Item,Section,CC]">get</span>
+	<span class="keyword">else</span> <span class="delimiter">{</span>
+	  <a href="#86544" title="(x$1: scales.utils.Path[Item,Section,CC])Unit">path</a> = <a href="PathFunctions.scala.html#15700" title="(path: scales.utils.Path[Item,Section,CC])scales.utils.Path[Item,Section,CC]">deepestLast</a><span class="delimiter">(</span><a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a><span class="delimiter">)</span>
+	<span class="delimiter">}</span>
+<span class="comment">//println(&quot;doing StartElem now &quot;+ (if (!path.isItem) scales.xml.elem(path.asInstanceOf[scales.xml.XmlPath]).name.pqName else &quot;&quot; ))	</span>
+
+	<span title="(AbstractPathIterator.this.State, T)" class="keyword">if</span> <span class="delimiter">(</span><a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44030" title="=&gt; Boolean">isItem</a><span class="delimiter">)</span>
+	  <span title="(_1: AbstractPathIterator.this.OnItem.type, _2: T)(AbstractPathIterator.this.OnItem.type, T)" class="delimiter">(</span><a href="#86675" title="object AbstractPathIterator.this.OnItem">OnItem</a>, <a href="#86589" title="T">ev</a><span class="delimiter">)</span>
+	<span class="keyword">else</span>
+	  <span title="(_1: AbstractPathIterator.this.StartElem.type, _2: T)(AbstractPathIterator.this.StartElem.type, T)" class="delimiter">(</span><a href="#86649" title="object AbstractPathIterator.this.StartElem">StartElem</a>, <a href="#86589" title="T">ev</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span>
+	<span title="(_1: AbstractPathIterator.this.EndElemS.type, _2: T)(AbstractPathIterator.this.EndElemS.type, T)" class="delimiter">(</span><a href="#86724" title="object AbstractPathIterator.this.EndElemS">EndElemS</a>, <a href="#86589" title="T">ev</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="86551">canDoNext</a> = 
+    <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#86546" title="=&gt; Boolean">isForward</a><span class="delimiter">)</span>
+      <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44029" title="=&gt; Boolean">hasNextSibling</a>
+    <span class="keyword">else</span>
+      <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44028" title="=&gt; Boolean">hasPreviousSibling</a>
+
+  case <span class="keyword">object</span> <a href="#86672" title="object AbstractPathIterator.this.OnItem" id="86675">OnItem</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#86548" title="AbstractPathIterator.this.State">State</a> <span class="delimiter">{</span>
+    <span class="comment">// always either nextSibling or EndElem</span>
+    <span class="keyword">def</span> <a title="=&gt; (AbstractPathIterator.this.State, T)" id="86624">next</a> = <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="T" id="86658">ev</a> = <a href="#86560" title="=&gt; T">event</a>
+
+      <span title="(AbstractPathIterator.this.State, T)" class="keyword">if</span> <span class="delimiter">(</span><a href="#86551" title="=&gt; Boolean">canDoNext</a><span class="delimiter">)</span>
+	<a href="#86559" title="(ev: T)(AbstractPathIterator.this.State, T)">doNext</a><span class="delimiter">(</span><a href="#86658" title="T">ev</a><span class="delimiter">)</span>
+      <span class="keyword">else</span> <span class="delimiter">{</span>
+	<span class="comment">// direct zip Up</span>
+	<a href="#86544" title="(x$1: scales.utils.Path[Item,Section,CC])Unit">path</a> = <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44020" title="=&gt; scales.utils.EitherLike[scales.utils.Top[Item,Section,CC],scales.utils.Path[Item,Section,CC]]">top</a>.<a href="EitherLike.scala.html#44070" title="=&gt; scales.utils.RightLikeProjection[scales.utils.Path[Item,Section,CC]]">right</a>.<a href="EitherLike.scala.html#44050" title="=&gt; scales.utils.Path[Item,Section,CC]">get</a>
+	<span title="(_1: AbstractPathIterator.this.EndElemS.type, _2: T)(AbstractPathIterator.this.EndElemS.type, T)" class="delimiter">(</span><a href="#86724" title="object AbstractPathIterator.this.EndElemS">EndElemS</a>, <a href="#86658" title="T">ev</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  case <span class="keyword">object</span> <a href="#86692" title="object AbstractPathIterator.this.End" id="86695">End</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#86548" title="AbstractPathIterator.this.State">State</a> <span class="delimiter">{</span>
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="86678">hasNext</a> = <span title="Boolean(false)" class="keyword">false</span>
+    <span class="keyword">def</span> <a title="=&gt; Nothing" id="86679">next</a> = <a href="package.scala.html#15392" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Can\'t go past the root&quot;)" class="string">&quot;Can't go past the root&quot;</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; T" id="86556">end</a> : <a href="#11954" title="T">T</a>
+
+  case <span class="keyword">object</span> <a href="#86721" title="object AbstractPathIterator.this.EndElemS" id="86724">EndElemS</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#86548" title="AbstractPathIterator.this.State">State</a> <span class="delimiter">{</span>
+    <span class="comment">// we will always have at least one last EndElemS before End</span>
+    <span class="keyword">def</span> <a title="=&gt; (AbstractPathIterator.this.State, T)" id="86638">next</a> = <span class="delimiter">{</span>
+<span class="comment">//println(&quot;doing EndElemS next from &quot;+ (if (!path.isItem) scales.xml.elem(path.asInstanceOf[scales.xml.XmlPath]).name.pqName else &quot;&quot; ))</span>
+      <span class="keyword">val</span> <a title="T" id="86703">ev</a> = <a href="#86556" title="=&gt; T">end</a>
+      <span title="(AbstractPathIterator.this.State, T)" class="keyword">if</span> <span class="delimiter">(</span><a href="#86551" title="=&gt; Boolean">canDoNext</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+<span class="comment">//println(&quot;doing EndElemS says we can do next from &quot;+ (if (!path.isItem) scales.xml.elem(path.asInstanceOf[scales.xml.XmlPath]).name.pqName else &quot;&quot; ))	</span>
+	<span class="comment">// element without children</span>
+	<a href="#86559" title="(ev: T)(AbstractPathIterator.this.State, T)">doNext</a><span class="delimiter">(</span><a href="#86703" title="T">ev</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+	<span title="(AbstractPathIterator.this.State, T)" class="keyword">if</span> <span class="delimiter">(</span><a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44020" title="=&gt; scales.utils.EitherLike[scales.utils.Top[Item,Section,CC],scales.utils.Path[Item,Section,CC]]">top</a>.<a href="EitherLike.scala.html#44063" title="=&gt; Boolean">isLeft</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	  <span title="(_1: AbstractPathIterator.this.End.type, _2: T)(AbstractPathIterator.this.End.type, T)" class="delimiter">(</span><a href="#86695" title="object AbstractPathIterator.this.End">End</a>, <a href="#86703" title="T">ev</a><span class="delimiter">)</span> <span class="comment">// last event</span>
+	<span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+	  <span class="comment">// direct zip Up</span>
+	  <a href="#86544" title="(x$1: scales.utils.Path[Item,Section,CC])Unit">path</a> = <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44020" title="=&gt; scales.utils.EitherLike[scales.utils.Top[Item,Section,CC],scales.utils.Path[Item,Section,CC]]">top</a>.<a href="EitherLike.scala.html#44070" title="=&gt; scales.utils.RightLikeProjection[scales.utils.Path[Item,Section,CC]]">right</a>.<a href="EitherLike.scala.html#44050" title="=&gt; scales.utils.Path[Item,Section,CC]">get</a>
+	  <span title="(_1: AbstractPathIterator.this.EndElemS.type, _2: T)(AbstractPathIterator.this.EndElemS.type, T)" class="delimiter">(</span><a href="#86724" title="object AbstractPathIterator.this.EndElemS">EndElemS</a>, <a href="#86703" title="T">ev</a><span class="delimiter">)</span>	  
+	<span class="delimiter">}</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(ev: T)(AbstractPathIterator.this.State, T)" id="86559">doNext</a><span class="delimiter">(</span><a title="T" id="86659">ev</a> : <a href="#11954" title="T">T</a><span class="delimiter">)</span> : <span title="(AbstractPathIterator.this.State, T)" class="delimiter">(</span>State, T<span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#86544" title="(x$1: scales.utils.Path[Item,Section,CC])Unit">path</a> = 
+      <span title="scales.utils.Path[Item,Section,CC]" class="keyword">if</span> <span class="delimiter">(</span><a href="#86546" title="=&gt; Boolean">isForward</a><span class="delimiter">)</span>
+	<a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44037" title="=&gt; scales.utils.Path[Item,Section,CC]">nextSibling</a>
+      <span class="keyword">else</span> <span class="delimiter">{</span>
+<span class="comment">//	println(&quot;doing doNext before from &quot;+ (if (!path.isItem) scales.xml.elem(path.asInstanceOf[scales.xml.XmlPath]).name.pqName else &quot;&quot; ))</span>
+	<span class="keyword">val</span> <a title="scales.utils.Path[Item,Section,CC]" id="86726">t</a> = <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44036" title="=&gt; scales.utils.Path[Item,Section,CC]">previousSibling</a>
+	<span title="scales.utils.Path[Item,Section,CC]" class="keyword">if</span> <span class="delimiter">(</span><a href="#86726" title="scales.utils.Path[Item,Section,CC]">t</a>.<a href="Paths.scala.html#44030" title="=&gt; Boolean">isItem</a><span class="delimiter">)</span>
+	  <a href="#86726" title="scales.utils.Path[Item,Section,CC]">t</a>
+	<span class="keyword">else</span>
+	  <a href="PathFunctions.scala.html#15700" title="(path: scales.utils.Path[Item,Section,CC])scales.utils.Path[Item,Section,CC]">deepestLast</a><span class="delimiter">(</span><a href="#86726" title="scales.utils.Path[Item,Section,CC]">t</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+<span class="comment">//    println(&quot;doing doNext after from &quot;+ (if (!path.isItem) scales.xml.elem(path.asInstanceOf[scales.xml.XmlPath]).name.pqName else &quot;&quot; ))</span>
+
+    <span title="(AbstractPathIterator.this.State, T)" class="keyword">if</span> <span class="delimiter">(</span> <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>.<a href="Paths.scala.html#44030" title="=&gt; Boolean">isItem</a> <span class="delimiter">)</span> 
+      <span title="(_1: AbstractPathIterator.this.OnItem.type, _2: T)(AbstractPathIterator.this.OnItem.type, T)" class="delimiter">(</span><a href="#86675" title="object AbstractPathIterator.this.OnItem">OnItem</a>, <a href="#86659" title="T">ev</a><span class="delimiter">)</span>
+    <span class="keyword">else</span>
+      <span title="(_1: AbstractPathIterator.this.StartElem.type, _2: T)(AbstractPathIterator.this.StartElem.type, T)" class="delimiter">(</span><a href="#86649" title="object AbstractPathIterator.this.StartElem">StartElem</a>, <a href="#86659" title="T">ev</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; T" id="86560">event</a> : <a href="#11954" title="T">T</a>
+
+  <span class="comment">// start it off depending on what path points to</span>
+  <span class="keyword">var</span> <a title="AbstractPathIterator.this.State" id="86562">nextState</a> : <a href="#86548" title="AbstractPathIterator.this.State">State</a> = <a href="#86542" title="=&gt; scales.utils.Path[Item,Section,CC]">initialPath</a>.<a href="Paths.scala.html#44022" title="=&gt; scales.utils.Node[Item,Section,CC]">node</a>.<a href="Paths.scala.html#82788" title="=&gt; scales.utils.package.ItemOrTree[Item,Section,CC]">focus</a>.<a href="EitherLike.scala.html#44065" title="(fl: Item =&gt; Product with Serializable with AbstractPathIterator.this.State, fr: scales.utils.Tree[Item,Section,CC] =&gt; Product with Serializable with AbstractPathIterator.this.State)Product with Serializable with AbstractPathIterator.this.State">fold</a><span class="delimiter">(</span><a title="Item" id="86764">_</a> =&gt; <a href="#86675" title="object AbstractPathIterator.this.OnItem">OnItem</a>, <a title="scales.utils.Tree[Item,Section,CC]" id="86766">_</a> =&gt; <a href="#86649" title="object AbstractPathIterator.this.StartElem">StartElem</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * called after nextState.next, allows filtering to prepare for the next event
+   */</span> 
+  <span class="keyword">def</span> <a title="=&gt; Unit" id="86564">prepareNext</a> <span title="Unit" class="delimiter">{</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="86565">hasNext</a> = <a href="#86562" title="=&gt; AbstractPathIterator.this.State">nextState</a>.<a href="#86573" title="=&gt; Boolean">hasNext</a>
+  <span class="keyword">def</span> <a title="()T" id="86566">next</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a href="#86788" title="(AbstractPathIterator.this.State, T)" class="delimiter">(</a><a href="#86787" title="AbstractPathIterator.this.State" id="86788">ns</a>, <a href="#86787" title="T" id="86789">ev</a><span class="delimiter">)</span> = <a href="#86562" title="=&gt; AbstractPathIterator.this.State">nextState</a>.<a href="#86574" title="=&gt; (AbstractPathIterator.this.State, T)">next</a>
+    <a href="#86562" title="(x$1: AbstractPathIterator.this.State)Unit">nextState</a> = <a href="#86788" title="AbstractPathIterator.this.State">ns</a>
+    <a href="#86564" title="=&gt; Unit">prepareNext</a>
+    <a href="#86789" title="T">ev</a>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Iterates over paths using the document order it skips over EndElemS events when going forward and StartElem when reversing, returning just the path.
+ * Developers should call preceding or following before entering this iterator.
+ */</span>
+<span class="keyword">class</span> <a title="class DirectionIterator[Item &lt;: scales.utils.LeftLike[Item,scales.utils.Tree[Item,Section,CC]], Section, CC[X] &lt;: scala.collection.IndexedSeqLike[X,CC[X]]] extends java.lang.Object with scales.utils.AbstractPathIterator[Item,Section,CC,scales.utils.Path[Item,Section,CC]] with ScalaObject" id="10420">DirectionIterator</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.utils.LeftLike[Item,scales.utils.Tree[Item,Section,CC]]" id="86821">Item</a> &lt;: LeftLike<span class="delimiter">[</span>Item, Tree<span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span><span class="delimiter">]</span>, <a title="&gt;: Nothing &lt;: Any" id="86822">Section</a>, <a title="[X]&gt;: Nothing &lt;: scala.collection.IndexedSeqLike[X,CC[X]]" id="86823">CC</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="86836">X</a><span class="delimiter">]</span> &lt;: IndexedSeqLike<span class="delimiter">[</span>X, CC<span class="delimiter">[</span>X<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">]</span><a href="#10420" title="ScalaObject" class="delimiter">(</a> <span class="keyword">val</span> <a title="scales.utils.Path[Item,Section,CC]" id="86814">initialPath</a> : <a href="Paths.scala.html#11076" title="scales.utils.Path[Item,Section,CC]">Path</a><span class="delimiter">[</span>Item,Section,CC<span class="delimiter">]</span>, <span class="keyword">override</span> <span class="keyword">val</span> <a title="Boolean" id="86817">isForward</a> : <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10326" title="scales.utils.AbstractPathIterator[Item,Section,CC,scales.utils.Path[Item,Section,CC]]">AbstractPathIterator</a><span class="delimiter">[</span>Item, Section, CC, Path<span class="delimiter">[</span>Item,Section,CC<span class="delimiter">]</span><span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; scales.utils.Path[Item,Section,CC]" id="86807">event</a> = <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>
+  <span class="keyword">def</span> <a title="=&gt; scales.utils.Path[Item,Section,CC]" id="86808">end</a> = <a href="#86544" title="=&gt; scales.utils.Path[Item,Section,CC]">path</a>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="86809">prepareNext</a> <span class="delimiter">{</span>
+    <span class="comment">// the end element is actually the interesting one for us and we</span>
+    <span class="comment">// skip the StartElem</span>
+    
+    <span class="keyword">val</span> <a title="Boolean" id="86832">donext</a> = 
+      <span class="delimiter">(</span><a href="#86817" title="=&gt; Boolean">isForward</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#86562" title="=&gt; DirectionIterator.this.State">nextState</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#86724" title="object DirectionIterator.this.EndElemS">EndElemS</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span>
+      <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#86817" title="=&gt; Boolean">isForward</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#86562" title="=&gt; DirectionIterator.this.State">nextState</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#86649" title="object DirectionIterator.this.StartElem">StartElem</a><span class="delimiter">)</span><span class="delimiter">)</span>
+    
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#86832" title="Boolean">donext</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">//println(&quot;doing next from &quot;+ (if (!path.isItem) elem(path).name.pqName else &quot;&quot; ))</span>
+      <a href="#86566" title="()scales.utils.Path[Item,Section,CC]">next</a>
+    <span class="delimiter">}</span>
+    
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

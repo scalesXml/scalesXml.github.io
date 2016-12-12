@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\equals\FromEqual.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.equals
+
+<span class="keyword">import</span> scalaz.Equal
+<span class="keyword">import</span> <span title="scalaz.Equal.type">Equal</span>._
+
+<span class="keyword">trait</span> <a title="trait FromEqualsImplicit extends AnyRef" id="scales.xml.equals;FromEqualsImplicit">FromEqualsImplicit</a> <span title="Unit" class="delimiter">{</span>
+  <span class="comment">/**
+   * An implicit but its only purpose is to convert, and needs the given comparison to function, which is provided (or not) by ScalesXml.
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T](implicit comp: scales.xml.equals.XmlComparison[T])scalaz.Equal[T]" id="scales.xml.equals;FromEqualsImplicit.fromCompToEq">fromCompToEq</a><span class="delimiter">[</span><a title="" id="scales.xml.equals;FromEqualsImplicit.fromCompToEq;T">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.equals.XmlComparison[T]" id="scales.xml.equals;FromEqualsImplicit.fromCompToEq.comp">comp</a> : <a href="XmlComparisons.scala.html#scales.xml.equals;XmlComparison" title="scales.xml.equals.XmlComparison[T]">XmlComparison</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="scalaz.Equal[T]">Equal</span><span class="delimiter">[</span>T<span class="delimiter">]</span> = 
+    scalaz.<span title="scalaz.Scalaz.type">Scalaz</span>.<span title="(f: (T, T) =&gt; Boolean)scalaz.Equal[T]">equal</span> <span class="delimiter">{</span>
+      <span class="delimiter">(</span> a : <a href="#scales.xml.equals;FromEqualsImplicit.fromCompToEq;T" title="T">T</a>, b : <a href="#scales.xml.equals;FromEqualsImplicit.fromCompToEq;T" title="T">T</a><span class="delimiter">)</span> =&gt;
+	<a href="#scales.xml.equals;FromEqualsImplicit.fromCompToEq.comp" title="scales.xml.equals.XmlComparison[T]">comp</a>.<a href="XmlComparisons.scala.html#scales.xml.equals;XmlComparison.compare" title="(calculate: Boolean, context: scales.xml.equals.ComparisonContext, left: T, right: T)Option[(scales.xml.equals.XmlDifference[_], scales.xml.equals.ComparisonContext)]">compare</a><span class="delimiter">(</span><span title="Boolean(false)" class="keyword">false</span>, <a href="ComparisonContext.scala.html#scales.xml.equals.ComparisonContext" title="scales.xml.equals.ComparisonContext.type">ComparisonContext</a>.<a href="ComparisonContext.scala.html#scales.xml.equals.ComparisonContext.empty" title="=&gt; scales.xml.equals.ComparisonContext">empty</a>, <a href="#scales.xml.equals;FromEqualsImplicit.fromCompToEq.$anonfun.a" title="T">a</a>, <a href="#scales.xml.equals;FromEqualsImplicit.fromCompToEq.$anonfun.b" title="T">b</a><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span>
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

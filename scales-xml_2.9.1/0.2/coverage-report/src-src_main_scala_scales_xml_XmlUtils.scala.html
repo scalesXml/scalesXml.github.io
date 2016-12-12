@@ -1,0 +1,309 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;xml/<span class="header">&#x200B;XmlUtils.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">93 %</div>
+        <div class="greenBar" style="width:186px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_xml_XmlUtils.scala.html#Trait_scales_xml_Whitespace"><img src="trait.png"></img>Whitespace</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">88 %</div>
+        <div class="greenBar" style="width:176px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_xml_XmlUtils.scala.html#Trait_scales_xml_XmlUtils"><img src="trait.png"></img>XmlUtils</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_xml_XmlUtils.scala.html#Trait_scales_xml_XmlUtilsImplicits"><img src="trait.png"></img>XmlUtilsImplicits</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_xml_XmlUtils.scala.html#Class_scales_xml_XmlUtilsImplicits_ToScales"><img src="class.png"></img>XmlUtilsImplicits.ToScales</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.xml
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import ScalesXml.xmlCBF
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td> * A collection of whitespace related functions
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td><a id="Trait_scales_xml_Whitespace"></a>trait Whitespace {
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>  import scales.utils._
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>//  import scala.collection.generic.CanBuildFrom
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>   * XPath normalize-space function, replaces all consecutive whitespace with &quot; &quot; and trims.
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>  def normalizeSpaceS(str: String) = str.replaceAll(&quot;\\s{2,}&quot;, &quot; &quot;).trim
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>   * Joins adjacent text nodes for immediate children
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>  val mergeAdjacentText
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>    : ((Option[XmlItem], XmlChildren), ItemOrElem) =&gt; (Option[XmlItem], XmlChildren)
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>    = (pair: (Option[XmlItem], XmlChildren), item: ItemOrElem) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>    if (item.isLeft &amp;&amp; item.left.get.isInstanceOf[Text])
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>      // its an item
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>      // do we have a current text node?
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>      if (pair._1.isDefined) {
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>        val text = Text(pair._1.get.value + item.left.get.value)
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>        // replace the last
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>        (Some(text), (pair._2.dropRight(1) :+ (text)) : XmlChildren)//Left(
+</td>
+          </tr><tr>
+            <td class="green">31</td>
+            <td>      } else (Some(item.left.get), (pair._2 :+ (item)) : XmlChildren)
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>    else
+</td>
+          </tr><tr>
+            <td class="green">33</td>
+            <td>      (None, (pair._2 :+ (item)) : XmlChildren)
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>   * Joins adjacent text nodes for the immediate children only (make a tree more XPath friendly) 
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>  def joinTextNodes(tree: XmlTree) : XmlTree =
+</td>
+          </tr><tr>
+            <td class="red">39</td>
+            <td>    <span class="non">Tree(tree.section, joinTextNodes(tree.children))
+</span></td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>  def joinTextNodes(children : XmlChildren) : XmlChildren =
+</td>
+          </tr><tr>
+            <td class="green">42</td>
+            <td>    children.foldLeft((None: Option[XmlItem], emptyChildren ))(mergeAdjacentText)._2
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td><a id="Trait_scales_xml_XmlUtils"></a>trait XmlUtils {
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>   * Conversion from Scala XML into Scales XML
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>  def convertFromScalaXml[Token &lt;: OptimisationToken]( elem : scala.xml.Elem, optimisationStrategy : PathOptimisationStrategy[Token] = defaultPathOptimisation, encoding : String = &quot;UTF-8&quot; )(implicit xmlVer : XmlVersion)  : Doc = {
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>    // simple stream conversion.., for &quot;large docs&quot; a conversion in place might be better, but for now its isolated....
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>    var out = new java.io.StringWriter()
+</td>
+          </tr><tr>
+            <td class="green">55</td>
+            <td>    scala.xml.XML.write(out, elem, encoding, true, null)
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>    import ScalesXml.readerToSource
+</td>
+          </tr><tr>
+            <td class="green">57</td>
+            <td>    loadXml[Token](new java.io.StringReader(out.toString), strategy = optimisationStrategy)
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td><a id="Trait_scales_xml_XmlUtilsImplicits"></a>trait XmlUtilsImplicits {
+</td>
+          </tr><tr>
+            <td class="green">62</td>
+            <td><a id="Class_scales_xml_XmlUtilsImplicits_ToScales"></a>  class ToScales( elem : scala.xml.Elem)(implicit xmlVer : XmlVersion) {
+</td>
+          </tr><tr>
+            <td class="green">63</td>
+            <td>    def asScales() = convertFromScalaXml(elem)
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">66</td>
+            <td>  implicit def toScalesXml( elem : scala.xml.Elem)(implicit xmlVer : XmlVersion) = new ToScales(elem)
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>}
+</td>
+          </tr></tbody></table>

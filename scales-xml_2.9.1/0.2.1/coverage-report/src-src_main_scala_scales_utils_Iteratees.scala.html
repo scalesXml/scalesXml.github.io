@@ -1,0 +1,1325 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;Iteratees.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">69 %</div>
+        <div class="greenBar" style="width:138px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Iteratees.scala.html#Trait_scales_utils_Eval"><img src="trait.png"></img>Eval</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Iteratees.scala.html#Class_scales_utils_IterateeImplicits"><img src="class.png"></img>IterateeImplicits</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Iteratees.scala.html#Trait_scales_utils_IterateeImplicits"><img src="trait.png"></img>IterateeImplicits</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Iteratees.scala.html#Trait_scales_utils_Iteratees"><img src="trait.png"></img>Iteratees</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">65 %</div>
+        <div class="greenBar" style="width:130px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Iteratees.scala.html#Class_scales_utils_Iteratees_ResumableIterIterator"><img src="class.png"></img>Iteratees.ResumableIterIterator</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import scalaz._
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import scalaz.IterV._
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import Scalaz._
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> * Evals once, the developer must check its Done, equivalent to a .run but
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td> * doesn't lose the continuation - no &quot;Diverging Iteratee&quot;
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td><a id="Trait_scales_utils_Eval"></a>trait Eval[WHAT,RETURN] {
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>  val orig : IterV[WHAT, RETURN]
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>  def eval : IterV[WHAT, RETURN] = {
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>    orig.fold(done = (x, y) =&gt; Done(x,y),
+</td>
+          </tr><tr>
+            <td class="green">17</td>
+            <td>   cont = k =&gt; k(EOF[WHAT]))
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td><a id="Trait_scales_utils_IterateeImplicits"></a>trait IterateeImplicits {
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td><a id="Class_scales_utils_IterateeImplicits"></a>  implicit def toEval[WHAT, RETURN]( i : IterV[WHAT, RETURN] ) = new Eval[WHAT, RETURN] {
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>    lazy val orig = i
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>   * Taken from huynhjl's answer on StackOverflow, just abstracting the type to allow for better implicit inference
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>  implicit val iteratorEnumerator = new Enumerator[Iterator] {
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>    @annotation.tailrec
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>    def apply[E,A](iter: Iterator[E], i: IterV[E,A]): IterV[E,A] = i match {
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>      case _ if iter.isEmpty =&gt; i
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>      case Done(acc, input) =&gt; i
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>      case Cont(k) =&gt;
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>  val x : E = iter.next//.asInstanceOf[E]
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>      apply(iter, k(El(x)))
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td> * Collection of iterateees
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td><a id="Trait_scales_utils_Iteratees"></a>trait Iteratees {
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td> 
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>  /** drop while iteratee */
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>  def dropWhile[E](f: (E) =&gt; Boolean) : IterV[E, Option[E]] = {
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>    def step(s: Input[E]): IterV[E, Option[E]] =
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>      s(el = e =&gt; {
+</td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>  if (f(e)) 
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>    Cont(step)
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>  else
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>    Done(Some(e), IterV.Empty[E])
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>  },
+</td>
+          </tr><tr>
+            <td class="red">56</td>
+            <td>        empty = <span class="non">Cont(step),
+</span></td>
+          </tr><tr>
+            <td class="green">57</td>
+            <td>        eof = Done(None, EOF[E]))
+</td>
+          </tr><tr>
+            <td class="green">58</td>
+            <td>    Cont(step)
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>  /** &quot;find&quot; iteratee, finds Some(first) or None */
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>  def find[E](f: (E) =&gt; Boolean) : IterV[E, Option[E]] = 
+</td>
+          </tr><tr>
+            <td class="green">63</td>
+            <td>    dropWhile(!f(_))
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>  /** filter iteratee, greedily taking all content until eof */
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>  def filter[E](f: (E) =&gt; Boolean) : IterV[E, Iterable[E]] = {
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>    def step(l : List[E])(s: Input[E]): IterV[E, Iterable[E]] =
+</td>
+          </tr><tr>
+            <td class="red">68</td>
+            <td>      <span class="non">s(el = e =&gt; {
+</span></td>
+          </tr><tr>
+            <td class="red">69</td>
+            <td>  if (<span class="non">f(e)) 
+</span></td>
+          </tr><tr>
+            <td class="red">70</td>
+            <td>    <span class="non">Cont(step(l :+ e))
+</span></td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>  else
+</td>
+          </tr><tr>
+            <td class="red">72</td>
+            <td>    <span class="non">Cont(step(l))
+</span></td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>  },
+</td>
+          </tr><tr>
+            <td class="red">74</td>
+            <td>        empty = <span class="non">Cont(step(l)),
+</span></td>
+          </tr><tr>
+            <td class="red">75</td>
+            <td>        eof = <span class="non">Done(l, EOF[E]))
+</span></td>
+          </tr><tr>
+            <td class="red">76</td>
+            <td>    <span class="non">Cont(step(List()))
+</span></td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>  type ResumableIterList[E,A] = IterV[E, (Iterable[A],IterV[E,_])]
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>  type ResumableIter[E,A] = IterV[E, (A, IterV[E,_])]
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>   * Extract the continuation from a Done
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>  def extractCont[E,A]( iter : ResumableIter[E, A] ) = 
+</td>
+          </tr><tr>
+            <td class="green">86</td>
+            <td>    iter.fold[ResumableIter[E,A]](
+</td>
+          </tr><tr>
+            <td class="black">87</td>
+            <td>      done = (x, i) =&gt; 
+</td>
+          </tr><tr>
+            <td class="green">88</td>
+            <td>  x._2.asInstanceOf[ResumableIter[E,A]],
+</td>
+          </tr><tr>
+            <td class="red">89</td>
+            <td>      cont = f =&gt; <span class="non">error(&quot;Was not done&quot;) )
+</span></td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">91</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">92</td>
+            <td>   * Extract the Some(value) from a Done or None if it was not Done.
+</td>
+          </tr><tr>
+            <td class="black">93</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">94</td>
+            <td>  def extract[E,A]( iter : ResumableIter[E, A] ) = 
+</td>
+          </tr><tr>
+            <td class="green">95</td>
+            <td>    iter.fold[Option[A]](
+</td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>      done = (x, i) =&gt; 
+</td>
+          </tr><tr>
+            <td class="green">97</td>
+            <td>  Some(x._1),
+</td>
+          </tr><tr>
+            <td class="red">98</td>
+            <td>      cont = f =&gt; <span class="non">None )
+</span></td>
+          </tr><tr>
+            <td class="black">99</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">100</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">101</td>
+            <td>   * Helper to identify dones
+</td>
+          </tr><tr>
+            <td class="black">102</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">103</td>
+            <td>  def isDone[E,A]( iter : IterV[E, A] ) = 
+</td>
+          </tr><tr>
+            <td class="green">104</td>
+            <td>    iter.fold[Boolean](
+</td>
+          </tr><tr>
+            <td class="red">105</td>
+            <td>      done = (a, i) =&gt; <span class="non">true,
+</span></td>
+          </tr><tr>
+            <td class="red">106</td>
+            <td>      cont = f =&gt; <span class="non">false )
+</span></td>
+          </tr><tr>
+            <td class="black">107</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">109</td>
+            <td>   * Helper for done and empty
+</td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">111</td>
+            <td>  def isEmpty[E,A]( iter : IterV[E,A] ) =
+</td>
+          </tr><tr>
+            <td class="green">112</td>
+            <td>    iter.fold[Boolean](
+</td>
+          </tr><tr>
+            <td class="green">113</td>
+            <td>      done = (a, i) =&gt; IterV.Empty.unapply[E](i),
+</td>
+          </tr><tr>
+            <td class="red">114</td>
+            <td>      cont = f =&gt; <span class="non">error(&quot;Iteratee is not Done&quot;) )
+</span></td>
+          </tr><tr>
+            <td class="black">115</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">116</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">117</td>
+            <td>   * Helper for done and eof
+</td>
+          </tr><tr>
+            <td class="black">118</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">119</td>
+            <td>  def isEOF[E,A]( iter : IterV[E,A] ) =
+</td>
+          </tr><tr>
+            <td class="green">120</td>
+            <td>    iter.fold[Boolean](
+</td>
+          </tr><tr>
+            <td class="green">121</td>
+            <td>      done = (a, i) =&gt; EOF.unapply[E](i),
+</td>
+          </tr><tr>
+            <td class="red">122</td>
+            <td>      cont = f =&gt; <span class="non">error(&quot;Iteratee is not Done&quot;) )
+</span></td>
+          </tr><tr>
+            <td class="black">123</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">124</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">125</td>
+            <td>   * Converts a normal IterV[E,A] to a ResumableIter.
+</td>
+          </tr><tr>
+            <td class="black">126</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">127</td>
+            <td>   * Does so by folding over the iter once for an input
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>   * and when its Done starting again
+</td>
+          </tr><tr>
+            <td class="black">129</td>
+            <td>   * with the original iter.  This is close to restarting the iter on
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>   * a new &quot;stream&quot;, otherwise all attempts to keep the Cont will be made.
+</td>
+          </tr><tr>
+            <td class="black">131</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">132</td>
+            <td>  implicit def toResumableIter[E,A]( oiter : IterV[E,A]) : ResumableIter[E,A] = {
+</td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>    def step(iter : IterV[E,A])( s : Input[E]) : ResumableIter[E, A] = {
+</td>
+          </tr><tr>
+            <td class="green">134</td>
+            <td>      val next = iter match {// need to evaluate s in the case of done....
+</td>
+          </tr><tr>
+            <td class="red">135</td>
+            <td>    case Done(x, y) =&gt; <span class="non">Done((x, Cont(step(oiter))),y)
+</span></td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>    case Cont(k) =&gt; 
+</td>
+          </tr><tr>
+            <td class="black">137</td>
+            <td>      {
+</td>
+          </tr><tr>
+            <td class="green">138</td>
+            <td>        k(s) match {
+</td>
+          </tr><tr>
+            <td class="green">139</td>
+            <td>    case i@Done(x, y) =&gt; Done((x, Cont(step(oiter))),y)
+</td>
+          </tr><tr>
+            <td class="green">140</td>
+            <td>    case i@Cont(_) =&gt; Cont(step(i))
+</td>
+          </tr><tr>
+            <td class="black">141</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">142</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">143</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="green">144</td>
+            <td>      next.asInstanceOf[ResumableIter[E,A]]
+</td>
+          </tr><tr>
+            <td class="black">145</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">146</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">147</td>
+            <td>    Cont(step(oiter))
+</td>
+          </tr><tr>
+            <td class="black">148</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">149</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">150</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">151</td>
+            <td>   * Stepwise fold, each element is evaluated but each one is returned as a result+resumable iter.
+</td>
+          </tr><tr>
+            <td class="black">152</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">153</td>
+            <td>  def foldI[E,A]( f : (E,A) =&gt; A )( init : A ) : ResumableIter[E,A] = {
+</td>
+          </tr><tr>
+            <td class="black">154</td>
+            <td>    def step( current : A )( s : Input[E] ) : ResumableIter[E,A] =
+</td>
+          </tr><tr>
+            <td class="green">155</td>
+            <td>      s(el = {e =&gt;
+</td>
+          </tr><tr>
+            <td class="green">156</td>
+            <td>  val next = f(e,current)
+</td>
+          </tr><tr>
+            <td class="green">157</td>
+            <td>  Done((next, Cont(step(next))), IterV.Empty[E])},
+</td>
+          </tr><tr>
+            <td class="red">158</td>
+            <td>        empty = <span class="non">Cont(step(current)),
+</span></td>
+          </tr><tr>
+            <td class="yellow">159</td>
+            <td>        eof = Done((current, Cont(<span class="non">step(init))),IterV.EOF[E]))
+</span></td>
+          </tr><tr>
+            <td class="green">160</td>
+            <td>    Cont(step(init))
+</td>
+          </tr><tr>
+            <td class="black">161</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">162</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">163</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">164</td>
+            <td>   * Folds over the Iteratee with Cont or Done and Empty, returning with Done and EOF.
+</td>
+          </tr><tr>
+            <td class="black">165</td>
+            <td>   * If there is a ping pong on enumerator -&gt; Cont -&gt; enumerator then we'll of course get an infinite loop.
+</td>
+          </tr><tr>
+            <td class="black">166</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">167</td>
+            <td>   * foldI returns a ResumableIter that performs a fold until a done, this folds over the enumerator to return a value.
+</td>
+          </tr><tr>
+            <td class="black">168</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">169</td>
+            <td>   * combine with onDone to get through chunks of data.
+</td>
+          </tr><tr>
+            <td class="black">170</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">171</td>
+            <td>  def foldOnDone[E,A, ACC, F[_]]( it : F[E] )( initAcc : ACC, initResumable : ResumableIter[E,A] )( f : (ACC, A) =&gt; ACC )(implicit e : Enumerator[F] ) : ACC = {
+</td>
+          </tr><tr>
+            <td class="black">172</td>
+            <td>    import ScalesUtils._
+</td>
+          </tr><tr>
+            <td class="black">173</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">174</td>
+            <td>    var currentI = initResumable(it).eval
+</td>
+          </tr><tr>
+            <td class="green">175</td>
+            <td>    var isdone = isDone(currentI)
+</td>
+          </tr><tr>
+            <td class="green">176</td>
+            <td>    var currentA = initAcc
+</td>
+          </tr><tr>
+            <td class="green">177</td>
+            <td>    while( !isdone || (isdone &amp;&amp; !isEOF(currentI)) ) {
+</td>
+          </tr><tr>
+            <td class="black">178</td>
+            <td>      
+</td>
+          </tr><tr>
+            <td class="green">179</td>
+            <td>      if (isdone) {
+</td>
+          </tr><tr>
+            <td class="green">180</td>
+            <td>  val a = extract(currentI)
+</td>
+          </tr><tr>
+            <td class="green">181</td>
+            <td>  if (!a.isDefined) 
+</td>
+          </tr><tr>
+            <td class="red">182</td>
+            <td>    <span class="non">return currentA
+</span></td>
+          </tr><tr>
+            <td class="black">183</td>
+            <td>        else {
+</td>
+          </tr><tr>
+            <td class="green">184</td>
+            <td>    currentA = f(currentA, a.get)
+</td>
+          </tr><tr>
+            <td class="green">185</td>
+            <td>    currentI = extractCont(currentI)
+</td>
+          </tr><tr>
+            <td class="black">186</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">187</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">188</td>
+            <td>      
+</td>
+          </tr><tr>
+            <td class="green">189</td>
+            <td>      currentI = currentI(it).eval
+</td>
+          </tr><tr>
+            <td class="green">190</td>
+            <td>      isdone = isDone(currentI)          
+</td>
+          </tr><tr>
+            <td class="black">191</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">192</td>
+            <td>    currentA
+</td>
+          </tr><tr>
+            <td class="black">193</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">194</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">195</td>
+            <td><a id="Class_scales_utils_Iteratees_ResumableIterIterator"></a>  class ResumableIterIterator[E,A,F[_]]( it : F[E])(init : ResumableIter[E,A])(implicit e : Enumerator[F]) extends Iterator[A] {
+</td>
+          </tr><tr>
+            <td class="black">196</td>
+            <td>    import ScalesUtils._
+</td>
+          </tr><tr>
+            <td class="black">197</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="green">198</td>
+            <td>    var cur = init(it).eval
+</td>
+          </tr><tr>
+            <td class="green">199</td>
+            <td>    var isdone = isDone(cur)
+</td>
+          </tr><tr>
+            <td class="green">200</td>
+            <td>    var r = extract(cur)
+</td>
+          </tr><tr>
+            <td class="black">201</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">202</td>
+            <td>    def next = {
+</td>
+          </tr><tr>
+            <td class="green">203</td>
+            <td>      val t = r
+</td>
+          </tr><tr>
+            <td class="green">204</td>
+            <td>      cur = extractCont(cur)(it).eval
+</td>
+          </tr><tr>
+            <td class="green">205</td>
+            <td>      isdone = isDone(cur)
+</td>
+          </tr><tr>
+            <td class="green">206</td>
+            <td>      r = extract(cur)
+</td>
+          </tr><tr>
+            <td class="green">207</td>
+            <td>      t.get // note we check for defined in hasNext
+</td>
+          </tr><tr>
+            <td class="black">208</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">209</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">210</td>
+            <td>    def hasNext = isdone &amp;&amp; !isEOF(cur) &amp;&amp; r.isDefined
+</td>
+          </tr><tr>
+            <td class="black">211</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">212</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">213</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">214</td>
+            <td>   * Converts the iteratee/enumerator/source triple into a Iterator
+</td>
+          </tr><tr>
+            <td class="black">215</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="green">216</td>
+            <td>  def withIter[E,A,F[_]]( it : F[E])(initResumable : ResumableIter[E,A])(implicit e : Enumerator[F]) = new ResumableIterIterator[E,A,F](it)(initResumable)
+</td>
+          </tr><tr>
+            <td class="black">217</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">218</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">219</td>
+            <td>   * onDone, iterates over the list of iteratees applying
+</td>
+          </tr><tr>
+            <td class="black">220</td>
+            <td>   * the element, when the resulting list contains a Done
+</td>
+          </tr><tr>
+            <td class="black">221</td>
+            <td>   * then the list of Dones is returned.
+</td>
+          </tr><tr>
+            <td class="black">222</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">223</td>
+            <td>   * One can use tuples or pattern matching to discern which
+</td>
+          </tr><tr>
+            <td class="black">224</td>
+            <td>   * of the original lists iteratees have matched.
+</td>
+          </tr><tr>
+            <td class="black">225</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">226</td>
+            <td>   * Due to the return type of this iteratee all items
+</td>
+          </tr><tr>
+            <td class="black">227</td>
+            <td>   * in the list must return the same type and must return
+</td>
+          </tr><tr>
+            <td class="black">228</td>
+            <td>   * both an A and an IterV with the same interface to continue
+</td>
+          </tr><tr>
+            <td class="black">229</td>
+            <td>   * with the next and maintain state.
+</td>
+          </tr><tr>
+            <td class="black">230</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">231</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">232</td>
+            <td>   * In the case of EOF, an empty list is returned
+</td>
+          </tr><tr>
+            <td class="black">233</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">234</td>
+            <td>  def onDone[E,A](originalList : List[ResumableIter[E,A]]) : ResumableIterList[E,A] = {
+</td>
+          </tr><tr>
+            <td class="black">235</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">236</td>
+            <td>    def step(l : List[ResumableIter[E,A]])(s: Input[E]): ResumableIterList[E,A] =
+</td>
+          </tr><tr>
+            <td class="green">237</td>
+            <td>      s(el = e =&gt; {
+</td>
+          </tr><tr>
+            <td class="green">238</td>
+            <td>  var res : List[A] = Nil
+</td>
+          </tr><tr>
+            <td class="green">239</td>
+            <td>  var newl : List[ ResumableIter[E,A] ] = Nil
+</td>
+          </tr><tr>
+            <td class="black">240</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">241</td>
+            <td>  @inline def add( k : (scalaz.Input[E]) =&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]) { 
+</td>
+          </tr><tr>
+            <td class="green">242</td>
+            <td>    val d = k(El(e))
+</td>
+          </tr><tr>
+            <td class="green">243</td>
+            <td>    newl = d :: newl
+</td>
+          </tr><tr>
+            <td class="green">244</td>
+            <td>    d match {
+</td>
+          </tr><tr>
+            <td class="green">245</td>
+            <td>      case Done(x, _) =&gt; res = x._1 :: res
+</td>
+          </tr><tr>
+            <td class="black">246</td>
+            <td>      case _ =&gt; ()
+</td>
+          </tr><tr>
+            <td class="black">247</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">248</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">249</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">250</td>
+            <td>  val i = l.iterator
+</td>
+          </tr><tr>
+            <td class="green">251</td>
+            <td>  while(i.hasNext) {
+</td>
+          </tr><tr>
+            <td class="green">252</td>
+            <td>    i.next match {
+</td>
+          </tr><tr>
+            <td class="black">253</td>
+            <td>    // safety first
+</td>
+          </tr><tr>
+            <td class="black">254</td>
+            <td>    case iter@Done(e1, _) =&gt; 
+</td>
+          </tr><tr>
+            <td class="black">255</td>
+            <td>      // are we EOF, in which case remove
+</td>
+          </tr><tr>
+            <td class="yellow">256</td>
+            <td>      if (isEOF(iter)) <span class="non">Nil
+</span></td>
+          </tr><tr>
+            <td class="black">257</td>
+            <td>      else {
+</td>
+          </tr><tr>
+            <td class="green">258</td>
+            <td>        if (isEmpty(iter))
+</td>
+          </tr><tr>
+            <td class="black">259</td>
+            <td>    // feed back the continuation
+</td>
+          </tr><tr>
+            <td class="black">260</td>
+            <td>    // this is where we hope that the users don't 
+</td>
+          </tr><tr>
+            <td class="black">261</td>
+            <td>    // break on purpose :-()
+</td>
+          </tr><tr>
+            <td class="green">262</td>
+            <td>    e1._2 match {
+</td>
+          </tr><tr>
+            <td class="green">263</td>
+            <td>      case i @ Cont(k) =&gt; add(k.asInstanceOf[(scalaz.Input[E]) =&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]])
+</td>
+          </tr><tr>
+            <td class="red">264</td>
+            <td>      case _ =&gt; <span class="non">error(&quot;Continuation can only be a Cont&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">265</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="red">266</td>
+            <td>        else <span class="non">error(&quot;Can only handle EOF or Empty for Done&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">267</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="black">268</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="green">269</td>
+            <td>    case iter@Cont(k) =&gt; add(k)
+</td>
+          </tr><tr>
+            <td class="black">270</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">271</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">272</td>
+            <td>        
+</td>
+          </tr><tr>
+            <td class="green">273</td>
+            <td>  if (res.isEmpty) 
+</td>
+          </tr><tr>
+            <td class="green">274</td>
+            <td>    Cont(step(newl))
+</td>
+          </tr><tr>
+            <td class="black">275</td>
+            <td>  else
+</td>
+          </tr><tr>
+            <td class="green">276</td>
+            <td>    Done((res, Cont(step(newl))), IterV.Empty[E])
+</td>
+          </tr><tr>
+            <td class="black">277</td>
+            <td>  },
+</td>
+          </tr><tr>
+            <td class="red">278</td>
+            <td>        empty = <span class="non">Cont(step(l)),
+</span></td>
+          </tr><tr>
+            <td class="yellow">279</td>
+            <td>        eof = Done((Nil, Cont(<span class="non">step(l))), EOF[E]))
+</span></td>
+          </tr><tr>
+            <td class="green">280</td>
+            <td>    Cont(step(originalList))
+</td>
+          </tr><tr>
+            <td class="black">281</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">282</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">283</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">284</td>
+            <td>   * keeps a running count of each element, probably not of much use
+</td>
+          </tr><tr>
+            <td class="black">285</td>
+            <td>   * unless combined but acts as a good poc for ResumableIter 
+</td>
+          </tr><tr>
+            <td class="black">286</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="green">287</td>
+            <td>  def runningCount[E] = foldI[E,Long]((e :E, count : Long) =&gt; count + 1 )(0)
+</td>
+          </tr><tr>
+            <td class="black">288</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">289</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">290</td>
+            <td>   * Append to an appendable, always returns Done for a line, cont for
+</td>
+          </tr><tr>
+            <td class="black">291</td>
+            <td>   * everything else
+</td>
+          </tr><tr>
+            <td class="black">292</td>
+            <td>   * TODO - should it be a pair including the appendable? 
+</td>
+          </tr><tr>
+            <td class="black">293</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">294</td>
+            <td>  def appendTo( to : Appendable ) : IterV[CharSequence, CharSequence] = {
+</td>
+          </tr><tr>
+            <td class="black">295</td>
+            <td>    def step(s: Input[CharSequence]): IterV[CharSequence, CharSequence] =
+</td>
+          </tr><tr>
+            <td class="red">296</td>
+            <td>      <span class="non">s(el = {e =&gt;
+</span></td>
+          </tr><tr>
+            <td class="red">297</td>
+            <td>  <span class="non">to.append(e)
+</span></td>
+          </tr><tr>
+            <td class="red">298</td>
+            <td>  <span class="non">Done(e, IterV.Empty[CharSequence])},
+</span></td>
+          </tr><tr>
+            <td class="red">299</td>
+            <td>        empty = <span class="non">Cont(step),
+</span></td>
+          </tr><tr>
+            <td class="red">300</td>
+            <td>        eof = <span class="non">Done(&quot;&quot;,IterV.EOF[CharSequence]))
+</span></td>
+          </tr><tr>
+            <td class="red">301</td>
+            <td>    <span class="non">Cont(step)
+</span></td>
+          </tr><tr>
+            <td class="black">302</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">303</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">304</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">305</td>
+            <td>   * Calls the function param with the fed data and returns its
+</td>
+          </tr><tr>
+            <td class="black">306</td>
+            <td>   * result
+</td>
+          </tr><tr>
+            <td class="black">307</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">308</td>
+            <td>  def evalWith[FROM,TO]( f : (FROM) =&gt; TO ) : IterV[FROM, TO] = {
+</td>
+          </tr><tr>
+            <td class="black">309</td>
+            <td>    def step(s: Input[FROM]): IterV[FROM, TO] =
+</td>
+          </tr><tr>
+            <td class="green">310</td>
+            <td>      s(el = e =&gt; {
+</td>
+          </tr><tr>
+            <td class="green">311</td>
+            <td>  val to = f(e)
+</td>
+          </tr><tr>
+            <td class="green">312</td>
+            <td>  Done(to, IterV.Empty[FROM])
+</td>
+          </tr><tr>
+            <td class="black">313</td>
+            <td>  },
+</td>
+          </tr><tr>
+            <td class="red">314</td>
+            <td>        empty = <span class="non">Cont(step),
+</span></td>
+          </tr><tr>
+            <td class="yellow">315</td>
+            <td>        eof = Cont(<span class="non">step))
+</span></td>
+          </tr><tr>
+            <td class="green">316</td>
+            <td>    Cont(step)
+</td>
+          </tr><tr>
+            <td class="black">317</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">318</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">319</td>
+            <td>}
+</td>
+          </tr></tbody></table>

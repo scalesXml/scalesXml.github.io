@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\dsl\DslImplicits.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.dsl
+
+<span class="keyword">import</span> scales.utils.collection.path._
+<span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>AsBoolean, subtree, foldPositions, booleanMatcher, booleanAndTMatcher, top, item<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>
+  NoNamespaceQName, PrefixedQName, AttributeQName, 
+  Attribute, XmlTree, Doc, XmlVersion, XmlCBF, 
+  XmlPath, Elem, XCC, XmlItem, QName, ItemOrElem,
+  ScalesXml, Text, Namespace, &lt;, ?&lt;<span class="delimiter">}</span>
+
+<span class="keyword">import</span> <a href="../ScalesXml.scala.html#scales.xml.ScalesXml" title="scales.xml.ScalesXml.type">ScalesXml</a>.xmlCBF
+
+<span class="keyword">import</span> <a href="../ScalesXml.scala.html#scales.xml.ScalesXml" title="scales.xml.ScalesXml.type">ScalesXml</a>.fromParserDefault <span class="comment">// note cannot be in parser here</span>
+
+
+<span class="keyword">trait</span> <a title="trait DslImplicits extends AnyRef" id="scales.xml.dsl;DslImplicits">DslImplicits</a> <span title="Unit" class="delimiter">{</span>
+  <span class="keyword">import</span> <a href="../ScalesXml.scala.html#scales.xml.ScalesXml" title="scales.xml.ScalesXml.type">ScalesXml</a>._
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromElemToBuilder : (elem: scales.xml.Elem)scales.xml.dsl.DslBuilder" id="scales.xml.dsl;DslImplicits.fromElemToBuilder">fromElemToBuilder</a><span class="delimiter">(</span><a title="scales.xml.Elem" id="scales.xml.dsl;DslImplicits.fromElemToBuilder.elem">elem</a> : <a href="../XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a><span class="delimiter">)</span> = <a href="../XmlDSL.scala.html#scales.xml.<.apply(d56352f7fa)" title="(elem: scales.xml.Elem)scales.xml.dsl.DslBuilder">&lt;</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromElemToBuilder.elem" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromQNamePairToAttribute : (pair: (scales.xml.PrefixedQName, String))scales.xml.Attribute" id="scales.xml.dsl;DslImplicits.fromQNamePairToAttribute">fromQNamePairToAttribute</a><span class="delimiter">(</span><a title="(scales.xml.PrefixedQName, String)" id="scales.xml.dsl;DslImplicits.fromQNamePairToAttribute.pair">pair</a> : <span title="(scales.xml.PrefixedQName, String)" class="delimiter">(</span>PrefixedQName, String<span class="delimiter">)</span><span class="delimiter">)</span> = <a href="../XmlTypes.scala.html#scales.xml;Attribute" title="(name: scales.xml.AttributeQName, value: String)scales.xml.Attribute">Attribute</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromQNamePairToAttribute.pair" title="(scales.xml.PrefixedQName, String)">pair</a>.<span title="=&gt; scales.xml.PrefixedQName">_1</span>, <a href="#scales.xml.dsl;DslImplicits.fromQNamePairToAttribute.pair" title="(scales.xml.PrefixedQName, String)">pair</a>.<span title="=&gt; String">_2</span><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromDslBuilderToTree : (dslB: scales.xml.dsl.DslBuilder)scales.xml.XmlTree" id="scales.xml.dsl;DslImplicits.fromDslBuilderToTree">fromDslBuilderToTree</a><span class="delimiter">(</span><a title="scales.xml.dsl.DslBuilder" id="scales.xml.dsl;DslImplicits.fromDslBuilderToTree.dslB">dslB</a> : <a href="DslBuilder.scala.html#scales.xml.dsl;DslBuilder" title="scales.xml.dsl.DslBuilder">DslBuilder</a><span class="delimiter">)</span> = <a href="#scales.xml.dsl;DslImplicits.fromDslBuilderToTree.dslB" title="scales.xml.dsl.DslBuilder">dslB</a>.<a href="DslBuilder.scala.html#scales.xml.dsl;DslBuilder.toTree" title="=&gt; scales.xml.XmlTree">toTree</a>
+  
+  <span class="comment">/**
+   * Only works for elems, allows simpler definitions
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromQNameToTree : (qname: scales.xml.QName)scales.xml.XmlTree" id="scales.xml.dsl;DslImplicits.fromQNameToTree">fromQNameToTree</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="scales.xml.dsl;DslImplicits.fromQNameToTree.qname">qname</a> : <a href="../QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a><span class="delimiter">)</span> = <a href="DslBuilder.scala.html#scales.xml.dsl.DslBuilder" title="scales.xml.dsl.DslBuilder.type">DslBuilder</a>.<a href="DslBuilder.scala.html#scales.xml.dsl.DslBuilder.q2tree" title="(qname: scales.xml.QName)scales.xml.XmlTree">q2tree</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromQNameToTree.qname" title="scales.xml.QName">qname</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Serialisation and other dsl friends benefit from this
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromElemToTree : (elem: scales.xml.Elem)scales.xml.XmlTree" id="scales.xml.dsl;DslImplicits.fromElemToTree">fromElemToTree</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="scales.xml.dsl;DslImplicits.fromElemToTree.elem">elem</a> : <a href="../XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> : <a href="../../utils/collection/Trees.scala.html#scales.utils.collection;Tree" title="scales.xml.XmlTree">XmlTree</a> = <a href="DslBuilder.scala.html#scales.xml.dsl.DslBuilder" title="scales.xml.dsl.DslBuilder.type">DslBuilder</a>.<a href="DslBuilder.scala.html#scales.xml.dsl.DslBuilder.elem2tree" title="(elem: scales.xml.Elem)scales.xml.XmlTree">elem2tree</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromElemToTree.elem" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Allows direct use of text where expected
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromStringToText : (value: String)scales.xml.Text" id="scales.xml.dsl;DslImplicits.fromStringToText">fromStringToText</a><span class="delimiter">(</span> <a title="String" id="scales.xml.dsl;DslImplicits.fromStringToText.value">value</a> : <span title="String">String</span> <span class="delimiter">)</span>: <a href="../XmlTypes.scala.html#scales.xml;Text" title="scales.xml.Text">Text</a> = <a href="../XmlTypes.scala.html#scales.xml;Text" title="(value: String)scales.xml.Text">Text</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromStringToText.value" title="String">value</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Only works for elems, better looking than &lt;
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromQNameToBuilder : (qname: scales.xml.QName)scales.xml.dsl.DslBuilder" id="scales.xml.dsl;DslImplicits.fromQNameToBuilder">fromQNameToBuilder</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="scales.xml.dsl;DslImplicits.fromQNameToBuilder.qname">qname</a> : <a href="../QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a><span class="delimiter">)</span> = <a href="../XmlDSL.scala.html#scales.xml.<.apply(1d9edcbb34)" title="(qname: scales.xml.QName)scales.xml.dsl.DslBuilder">&lt;</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromQNameToBuilder.qname" title="scales.xml.QName">qname</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * matches elements and attributes based on qname only
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromQNameToQNamePimper : (qname: scales.xml.QName)scales.xml.dsl.QNameMPimper" id="scales.xml.dsl;DslImplicits.fromQNameToQNamePimper">fromQNameToQNamePimper</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="scales.xml.dsl;DslImplicits.fromQNameToQNamePimper.qname">qname</a> : <a href="../QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a><span class="delimiter">)</span> = <span title="scales.xml.dsl.QNameMPimper" class="keyword">new</span> <a href="Matchers.scala.html#scales.xml.dsl;QNameMPimper" title="scales.xml.dsl.QNameMPimper">QNameMPimper</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromQNameToQNamePimper.qname" title="scales.xml.QName">qname</a><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.XmlTree)scales.xml.dsl.DslBuilder" id="scales.xml.dsl;DslImplicits.fromTreeToDsl">fromTreeToDsl</a><span class="delimiter">(</span> <a title="scales.xml.XmlTree" id="scales.xml.dsl;DslImplicits.fromTreeToDsl.tree">tree</a>: <a href="../../utils/collection/Trees.scala.html#scales.utils.collection;Tree" title="scales.xml.XmlTree">XmlTree</a> <span class="delimiter">)</span> = <a href="DslBuilder.scala.html#scales.xml.dsl.DslBuilder.apply(9bef5230ab)" title="(tree: scales.xml.XmlTree)scales.xml.dsl.DslBuilder">DslBuilder</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromTreeToDsl.tree" title="scales.xml.XmlTree">tree</a><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.DslImplicits.fromNSToNSMPimper : (ns: scales.xml.Namespace)scales.xml.dsl.NSMPimper" id="scales.xml.dsl;DslImplicits.fromNSToNSMPimper">fromNSToNSMPimper</a><span class="delimiter">(</span> <a title="scales.xml.Namespace" id="scales.xml.dsl;DslImplicits.fromNSToNSMPimper.ns">ns</a> : <a href="../Namespaces.scala.html#scales.xml;Namespace" title="scales.xml.Namespace">Namespace</a> <span class="delimiter">)</span> = <span title="scales.xml.dsl.NSMPimper" class="keyword">new</span> <a href="Matchers.scala.html#scales.xml.dsl;NSMPimper" title="scales.xml.dsl.NSMPimper">NSMPimper</a><span class="delimiter">(</span><a href="#scales.xml.dsl;DslImplicits.fromNSToNSMPimper.ns" title="scales.xml.Namespace">ns</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Add ?-&gt; to an attributeqname
+ */</span> 
+<span title="AnyRef" class="keyword">final</span> <span class="keyword">class</span> <a title="class OptionalAttribute extends AnyRef" id="scales.xml.dsl;OptionalAttribute">OptionalAttribute</a><a href="#scales.xml.dsl;OptionalAttribute" title="scales.xml.dsl.OptionalAttribute" class="delimiter">(</a><span class="keyword">val</span> <a title="scales.xml.AttributeQName" id="scales.xml.dsl;OptionalAttribute.name">name</a>: <a href="../../utils/EitherLike.scala.html#scales.utils;EitherLike" title="scales.xml.AttributeQName">AttributeQName</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(value: String)Option[scales.xml.Attribute]" id="scales.xml.dsl;OptionalAttribute.?->(eebd3e3ce2)">?-&gt;</a><span class="delimiter">(</span><a title="String" id="scales.xml.dsl;OptionalAttribute.?->(eebd3e3ce2).value">value</a>: <span title="String">String</span><span class="delimiter">)</span>: <span title="Option[scales.xml.Attribute]">Option</span><span class="delimiter">[</span>Attribute<span class="delimiter">]</span> =
+    <span title="(x: scales.xml.Attribute)Some[scales.xml.Attribute]">Some</span><span class="delimiter">(</span><a href="../XmlTypes.scala.html#scales.xml;Attribute" title="(name: scales.xml.AttributeQName, value: String)scales.xml.Attribute">Attribute</a><span class="delimiter">(</span><a href="#scales.xml.dsl;OptionalAttribute.name" title="=&gt; scales.xml.AttributeQName">name</a>, <a href="#scales.xml.dsl;OptionalAttribute.?->(eebd3e3ce2).value" title="String">value</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(value: Option[String])Option[scales.xml.Attribute]" id="scales.xml.dsl;OptionalAttribute.?->(3cd86af7de)">?-&gt;</a><span class="delimiter">(</span><a title="Option[String]" id="scales.xml.dsl;OptionalAttribute.?->(3cd86af7de).value">value</a>: <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Option[scales.xml.Attribute]">Option</span><span class="delimiter">[</span>Attribute<span class="delimiter">]</span> =
+    <a href="#scales.xml.dsl;OptionalAttribute.?->(3cd86af7de).value" title="Option[String]">value</a>.<span title="(f: String =&gt; scales.xml.Attribute)Option[scales.xml.Attribute]">map</span><span class="delimiter">(</span><a href="../XmlTypes.scala.html#scales.xml;Attribute" title="(name: scales.xml.AttributeQName, value: String)scales.xml.Attribute">Attribute</a><span class="delimiter">(</span><a href="#scales.xml.dsl;OptionalAttribute.name" title="=&gt; scales.xml.AttributeQName">name</a>, <a href="#scales.xml.dsl;OptionalAttribute.?->(3cd86af7de).$anonfun.x$1" title="String">_</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * DslImplicits centered on the OptionalDslBuilder only
+ */</span> 
+<span title="AnyRef" class="keyword">trait</span> <a title="trait OptionalDslBuilderImplicits extends AnyRef" id="scales.xml.dsl;OptionalDslBuilderImplicits">OptionalDslBuilderImplicits</a> <span title="Unit" class="delimiter">{</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.OptionalDslBuilderImplicits.fromElemToOptionalBuilder : (elem: scales.xml.Elem)scales.xml.dsl.OptionalDslBuilder" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromElemToOptionalBuilder">fromElemToOptionalBuilder</a><span class="delimiter">(</span><a title="scales.xml.Elem" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromElemToOptionalBuilder.elem">elem</a> : <a href="../XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a><span class="delimiter">)</span> = <a href="../XmlDSL.scala.html#scales.xml.?<.apply(98ea08c1f3)" title="(elem: scales.xml.Elem)scales.xml.dsl.OptionalDslBuilder">?&lt;</a><span class="delimiter">(</span><a href="#scales.xml.dsl;OptionalDslBuilderImplicits.fromElemToOptionalBuilder.elem" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Only works for elems, better looking than &lt;
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.OptionalDslBuilderImplicits.fromQNameToOptionalBuilder : (qname: scales.xml.QName)scales.xml.dsl.OptionalDslBuilder" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromQNameToOptionalBuilder">fromQNameToOptionalBuilder</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromQNameToOptionalBuilder.qname">qname</a> : <a href="../QName.scala.html#scales.xml;QName" title="scales.xml.QName">QName</a><span class="delimiter">)</span> = <a href="../XmlDSL.scala.html#scales.xml.?<.apply(12837f06ec)" title="(qname: scales.xml.QName)scales.xml.dsl.OptionalDslBuilder">?&lt;</a><span class="delimiter">(</span><a href="#scales.xml.dsl;OptionalDslBuilderImplicits.fromQNameToOptionalBuilder.qname" title="scales.xml.QName">qname</a><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.OptionalDslBuilderImplicits.fromTreeToODsl : (tree: scales.xml.XmlTree)scales.xml.dsl.OptionalDslBuilder" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromTreeToODsl">fromTreeToODsl</a><span class="delimiter">(</span> <a title="scales.xml.XmlTree" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromTreeToODsl.tree">tree</a>: <a href="../../utils/collection/Trees.scala.html#scales.utils.collection;Tree" title="scales.xml.XmlTree">XmlTree</a> <span class="delimiter">)</span> = <a href="OptionalDSLBuilder.scala.html#scales.xml.dsl.OptionalDslBuilder.apply(bc9911a9ac)" title="(tree: scales.xml.XmlTree)scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a><span class="delimiter">(</span><a href="#scales.xml.dsl;OptionalDslBuilderImplicits.fromTreeToODsl.tree" title="scales.xml.XmlTree">tree</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Provides access to the ~&gt; pimps
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.OptionalDslBuilderImplicits.fromPQNameToOptionalAttribute : (name: scales.xml.AttributeQName)scales.xml.dsl.OptionalAttribute" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromPQNameToOptionalAttribute">fromPQNameToOptionalAttribute</a><span class="delimiter">(</span><a title="scales.xml.AttributeQName" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromPQNameToOptionalAttribute.name">name</a>: <a href="../../utils/EitherLike.scala.html#scales.utils;EitherLike" title="scales.xml.AttributeQName">AttributeQName</a><span class="delimiter">)</span> = 
+    <span title="scales.xml.dsl.OptionalAttribute" class="keyword">new</span> <a href="#scales.xml.dsl;OptionalAttribute" title="scales.xml.dsl.OptionalAttribute">OptionalAttribute</a><span class="delimiter">(</span><a href="#scales.xml.dsl;OptionalDslBuilderImplicits.fromPQNameToOptionalAttribute.name" title="scales.xml.AttributeQName">name</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Convenience function for adding optional subtrees
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.OptionalDslBuilderImplicits.fromOptionalDslToOptionalTree : (optionalDsl: scales.xml.dsl.OptionalDslBuilder)Option[scales.xml.ItemOrElem]" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromOptionalDslToOptionalTree">fromOptionalDslToOptionalTree</a><span class="delimiter">(</span><a title="scales.xml.dsl.OptionalDslBuilder" id="scales.xml.dsl;OptionalDslBuilderImplicits.fromOptionalDslToOptionalTree.optionalDsl">optionalDsl</a>: <a href="OptionalDSLBuilder.scala.html#scales.xml.dsl;OptionalDslBuilder" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a><span class="delimiter">)</span>: <span title="Option[scales.xml.ItemOrElem]">Option</span><span class="delimiter">[</span>ItemOrElem<span class="delimiter">]</span> =
+    <a href="#scales.xml.dsl;OptionalDslBuilderImplicits.fromOptionalDslToOptionalTree.optionalDsl" title="scales.xml.dsl.OptionalDslBuilder">optionalDsl</a>.<a href="OptionalDSLBuilder.scala.html#scales.xml.dsl;OptionalDslBuilder.toOptionalTree" title="=&gt; Option[scales.xml.XmlTree]">toOptionalTree</a>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

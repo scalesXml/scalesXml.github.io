@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\io\Buffers.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.io
+
+<span class="keyword">import</span> scales.utils.resources._
+<span class="keyword">import</span> java.nio.ByteBuffer
+
+<span class="comment">/**
+ * ByteBuffer.allocate(bufferSize) backed pool
+ * 
+ * 8k default buffer size with a pool reduction of 30.
+ */</span> 
+<span class="keyword">class</span> <a title="class JVMBufferPool extends java.lang.Object with scales.utils.resources.SimpleUnboundedPool[java.nio.ByteBuffer] with ScalaObject" id="14267">JVMBufferPool</a><a href="#14267" title="ScalaObject" class="delimiter">(</a> <span class="keyword">val</span> <a title="Int" id="85792">bufferSize</a> : <span title="Int">Int</span> = <span title="Int(8192)" class="int">8192</span>, <span class="keyword">override</span> <span class="keyword">val</span> <a title="Int" id="85793">reduceSize</a> : <span title="Int">Int</span> = <span title="Int(30)" class="int">30</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../resource/Resources.scala.html#14395" title="scales.utils.resources.SimpleUnboundedPool[java.nio.ByteBuffer]">SimpleUnboundedPool</a><span class="delimiter">[</span>ByteBuffer<span class="delimiter">]</span> <span class="delimiter">{</span>
+  
+  <span class="keyword">def</span> <a title="=&gt; java.nio.ByteBuffer" id="85785">create</a> =
+    <span title="object java.nio.ByteBuffer">ByteBuffer</span>.<span title="(x$1: Int)java.nio.ByteBuffer">allocate</span><span class="delimiter">(</span><a href="#85792" title="=&gt; Int">bufferSize</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * ByteBuffer.allocateDirect(bufferSize) backed pool
+ * 
+ * 8k default buffer size with a pool reduction of 30
+ */</span> 
+<span class="keyword">class</span> <a title="class DirectBufferPool extends java.lang.Object with scales.utils.resources.SimpleUnboundedPool[java.nio.ByteBuffer] with ScalaObject" id="14243">DirectBufferPool</a><a href="#14243" title="ScalaObject" class="delimiter">(</a> <span class="keyword">val</span> <a title="Int" id="85811">bufferSize</a> : <span title="Int">Int</span> = <span title="Int(8192)" class="int">8192</span>, <span class="keyword">override</span> <span class="keyword">val</span> <a title="Int" id="85812">reduceSize</a> : <span title="Int">Int</span> = <span title="Int(30)" class="int">30</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../resource/Resources.scala.html#14395" title="scales.utils.resources.SimpleUnboundedPool[java.nio.ByteBuffer]">SimpleUnboundedPool</a><span class="delimiter">[</span>ByteBuffer<span class="delimiter">]</span> <span class="delimiter">{</span>
+  
+  <span class="keyword">def</span> <a title="=&gt; java.nio.ByteBuffer" id="85804">create</a> =
+    <span title="object java.nio.ByteBuffer">ByteBuffer</span>.<span title="(x$1: Int)java.nio.ByteBuffer">allocateDirect</span><span class="delimiter">(</span><a href="#85811" title="=&gt; Int">bufferSize</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Pools byte arrays
+ */</span> 
+<span class="keyword">class</span> <a title="class ByteArrayPool extends java.lang.Object with scales.utils.resources.SimpleUnboundedPool[Array[Byte]] with ScalaObject" id="14203">ByteArrayPool</a><a href="#14203" title="ScalaObject" class="delimiter">(</a> <span class="keyword">val</span> <a title="Int" id="85823">byteArraySize</a>: <span title="Int">Int</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../resource/Resources.scala.html#14395" title="scales.utils.resources.SimpleUnboundedPool[Array[Byte]]">SimpleUnboundedPool</a><span class="delimiter">[</span>Array<span class="delimiter">[</span>Byte<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Array[Byte]" id="85820">create</a> = 
+    <span title="object Array">Array</span>.<span title="[T](n1: Int)(implicit evidence$3: scala.reflect.ClassManifest[T])Array[T]">ofDim</span><span title="(n1: Int)(implicit evidence$3: scala.reflect.ClassManifest[Byte])Array[Byte]" class="delimiter">[</span><span title="Byte">Byte</span><span class="delimiter">]</span><span title="=&gt; scala.reflect.AnyValManifest[Byte]" class="delimiter">(</span><a href="#85823" title="=&gt; Int">byteArraySize</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Default buffer pool backed by byte arrays
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.utils.io.DefaultBufferPool" id="14231">DefaultBufferPool</a> <a href="#85792" title="ScalaObject" class="keyword">extends</a> <a href="#14267" title="scales.utils.io.JVMBufferPool">JVMBufferPool</a> <span class="delimiter">{</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Default Byte Array pool with 8k chunks
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.utils.io.DefaultByteArrayPool" id="14237">DefaultByteArrayPool</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14203" title="scales.utils.io.ByteArrayPool">ByteArrayPool</a><span class="delimiter">(</span><span title="Int(8192)" class="int">8192</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

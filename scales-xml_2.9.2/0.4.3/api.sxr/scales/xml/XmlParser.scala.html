@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\XmlParser.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml
+
+<span class="keyword">import</span> org.xml.sax.<span class="delimiter">{</span>InputSource, XMLReader<span class="delimiter">}</span>
+<span class="keyword">import</span> javax.xml.parsers.SAXParser
+<span class="keyword">import</span> scales.utils._
+<span class="keyword">import</span> java.io._
+
+<span class="keyword">trait</span> <a title="trait XmlParserImplicits extends java.lang.Object with ScalaObject" id="12891">XmlParserImplicits</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.XmlParserImplicits.streamToSource : (source: java.io.InputStream)org.xml.sax.InputSource" id="90939">streamToSource</a><span class="delimiter">(</span> <a title="java.io.InputStream" id="94601">source</a> : <span title="java.io.InputStream">InputStream</span> <span class="delimiter">)</span> = <span title="(x$1: java.io.InputStream)org.xml.sax.InputSource" class="keyword">new</span> org.xml.sax.<span title="org.xml.sax.InputSource">InputSource</span><span class="delimiter">(</span><a href="#94601" title="java.io.InputStream">source</a><span class="delimiter">)</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.XmlParserImplicits.readerToSource : (source: java.io.Reader)org.xml.sax.InputSource" id="90940">readerToSource</a><span class="delimiter">(</span> <a title="java.io.Reader" id="94594">source</a> : <span title="java.io.Reader">Reader</span> <span class="delimiter">)</span> = <span title="(x$1: java.io.Reader)org.xml.sax.InputSource" class="keyword">new</span> org.xml.sax.<span title="org.xml.sax.InputSource">InputSource</span><span class="delimiter">(</span><a href="#94594" title="java.io.Reader">source</a><span class="delimiter">)</span>
+  <span class="comment">/**
+   * will call openStream.
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.XmlParserImplicits.urlToSource : (url: java.net.URL)org.xml.sax.InputSource" id="90941">urlToSource</a><span class="delimiter">(</span> <a title="java.net.URL" id="94503">url</a> : java.net.<span title="java.net.URL">URL</span> <span class="delimiter">)</span> = <span title="(x$1: java.io.InputStream)org.xml.sax.InputSource" class="keyword">new</span> org.xml.sax.<span title="org.xml.sax.InputSource">InputSource</span><span class="delimiter">(</span><a href="#94503" title="java.net.URL">url</a>.<span title="()java.io.InputStream">openStream</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Whilst Saxon, Xerces and nu.validator support certain combinations, this is an abstraction over those needed by the readXml function
+ */</span> 
+<span class="keyword">trait</span> <a title="trait SaxSupport extends java.lang.Object" id="12711">SaxSupport</a> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="[T &lt;: scales.xml.OptimisationToken](reader: org.xml.sax.XMLReader, handler: scales.xml.Handler[T])Unit" id="101510">setLexicalHandler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="101512">T</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span> <a title="org.xml.sax.XMLReader" id="102104">reader</a> : <span title="org.xml.sax.XMLReader">XMLReader</span>, <a title="scales.xml.Handler[T]" id="102105">handler</a> : <a href="#12414" title="scales.xml.Handler[T]">Handler</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span> : <span title="Unit">Unit</span>
+  <span class="keyword">def</span> <a title="(reader: org.xml.sax.XMLReader)AnyRef" id="101513">getXmlVersion</a><span class="delimiter">(</span> <a title="org.xml.sax.XMLReader" id="102108">reader</a> : <span title="org.xml.sax.XMLReader">XMLReader</span> <span class="delimiter">)</span> : <span title="AnyRef">AnyRef</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait DefaultSaxSupport extends java.lang.Object with scales.xml.SaxSupport with ScalaObject" id="12213">DefaultSaxSupport</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12711" title="scales.xml.SaxSupport">SaxSupport</a> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="[T &lt;: scales.xml.OptimisationToken](reader: org.xml.sax.XMLReader, handler: scales.xml.Handler[T])Unit" id="101515">setLexicalHandler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="101517">T</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span> <a title="org.xml.sax.XMLReader" id="102111">reader</a> : <span title="org.xml.sax.XMLReader">XMLReader</span>, <a title="scales.xml.Handler[T]" id="102112">handler</a> : <a href="#12414" title="scales.xml.Handler[T]">Handler</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span> : <span title="Unit">Unit</span> = <span class="delimiter">{</span>
+    <a href="#102111" title="org.xml.sax.XMLReader">reader</a>.<span title="(x$1: java.lang.String, x$2: Any)Unit">setProperty</span><span class="delimiter">(</span><span title="java.lang.String(&quot;http://xml.org/sax/properties/lexical-handler&quot;)" class="string">&quot;http://xml.org/sax/properties/lexical-handler&quot;</span>, <a href="#102112" title="scales.xml.Handler[T]">handler</a><span class="delimiter">)</span>    
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(reader: org.xml.sax.XMLReader)AnyRef" id="101518">getXmlVersion</a><span class="delimiter">(</span> <a title="org.xml.sax.XMLReader" id="102120">reader</a> : <span title="org.xml.sax.XMLReader">XMLReader</span> <span class="delimiter">)</span> : <span title="AnyRef">AnyRef</span> =
+    <a href="#102120" title="org.xml.sax.XMLReader">reader</a>.<span title="(x$1: java.lang.String)java.lang.Object">getProperty</span><span class="delimiter">(</span><span title="java.lang.String(&quot;http://xml.org/sax/properties/document-xml-version&quot;)" class="string">&quot;http://xml.org/sax/properties/document-xml-version&quot;</span><span class="delimiter">)</span>
+  
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait XmlParser extends java.lang.Object with ScalaObject" id="12885">XmlParser</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">import</span> <a href="ScalesXml.scala.html#12733" title="object scales.xml.ScalesXml">ScalesXml</a>.xmlCBF
+
+  <span class="keyword">import</span> org.xml.sax.Locator
+  <span class="keyword">import</span> org.xml.sax.ext.Locator2
+
+  <span class="comment">/**
+   * Use a custom parserPool to control the sax factory features 
+   */</span> 
+  <span class="keyword">def</span> <a title="[Token &lt;: scales.xml.OptimisationToken](source: org.xml.sax.InputSource, strategy: scales.xml.PathOptimisationStrategy[Token], parsers: scales.utils.Loaner[javax.xml.parsers.SAXParser] with scales.xml.SaxSupport)(implicit xmlVer: scales.xml.XmlVersion)scales.xml.Doc" id="15828">loadXml</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="102131">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span><a title="org.xml.sax.InputSource" id="102124">source</a>: <span title="org.xml.sax.InputSource">InputSource</span>, <a title="scales.xml.PathOptimisationStrategy[Token]" id="102129">strategy</a> : <a href="OptimisingStrategies.scala.html#12477" title="scales.xml.PathOptimisationStrategy[Token]">PathOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span> = <a href="package.scala.html#15812" title="=&gt; scales.xml.PathOptimisationStrategy[scales.xml.QNameToken]">defaultPathOptimisation</a>, <a title="XmlParser extends scales.utils.Loaner[javax.xml.parsers.SAXParser] with scales.xml.SaxSupport" id="102132">parsers</a> : <a href="#102135" title="XmlParser extends scales.utils.Loaner[javax.xml.parsers.SAXParser] with scales.xml.SaxSupport">Loaner</a><span class="delimiter">[</span>SAXParser<span class="delimiter">]</span> <span class="keyword">with</span> SaxSupport= <a href="XmlFactories.scala.html#15922" title="object scales.xml.package.DefaultSAXParserFactoryPool">DefaultSAXParserFactoryPool</a>.<a href="XmlFactories.scala.html#101457" title="=&gt; java.lang.Object with scales.utils.Loaner[javax.xml.parsers.SAXParser] with scales.xml.DefaultSaxSupport">parsers</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="102127">xmlVer</a> : <a href="Namespaces.scala.html#13086" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span>: <a href="XmlTypes.scala.html#12228" title="scales.xml.Doc">Doc</a> =
+    <a href="#102132" title="XmlParser extends scales.utils.Loaner[javax.xml.parsers.SAXParser] with scales.xml.SaxSupport">parsers</a>.<a href="../utils/Resources.scala.html#89026" title="(tThunk: javax.xml.parsers.SAXParser =&gt; scales.xml.Doc)scales.xml.Doc">loan</a> <span class="delimiter">{</span>
+      <a title="javax.xml.parsers.SAXParser" id="102143">parser</a> =&gt;
+	<a href="#15831" title="(source: org.xml.sax.InputSource, strategy: scales.xml.PathOptimisationStrategy[Token], reader: org.xml.sax.XMLReader, saxSupport: scales.xml.SaxSupport)(implicit xmlVer: scales.xml.XmlVersion)scales.xml.Doc">readXml</a><a href="#102127" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#102124" title="org.xml.sax.InputSource">source</a>, <a href="#102129" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>, <a href="#102143" title="javax.xml.parsers.SAXParser">parser</a>.<span title="()org.xml.sax.XMLReader">getXMLReader</span><span class="delimiter">(</span><span class="delimiter">)</span>, <a href="#102132" title="XmlParser extends scales.utils.Loaner[javax.xml.parsers.SAXParser] with scales.xml.SaxSupport">parsers</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="[Token &lt;: scales.xml.OptimisationToken](source: org.xml.sax.InputSource, strategy: scales.xml.PathOptimisationStrategy[Token], reader: org.xml.sax.XMLReader, saxSupport: scales.xml.SaxSupport)(implicit xmlVer: scales.xml.XmlVersion)scales.xml.Doc" id="15831">readXml</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="15833">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span><a title="org.xml.sax.InputSource" id="102144">source</a>: <span title="org.xml.sax.InputSource">InputSource</span>, <a title="scales.xml.PathOptimisationStrategy[Token]" id="102145">strategy</a> : <a href="OptimisingStrategies.scala.html#12477" title="scales.xml.PathOptimisationStrategy[Token]">PathOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span>, <a title="org.xml.sax.XMLReader" id="102146">reader</a> : <span title="org.xml.sax.XMLReader">XMLReader</span>, <a title="scales.xml.SaxSupport" id="102147">saxSupport</a> : <a href="#12711" title="scales.xml.SaxSupport">SaxSupport</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="102148">xmlVer</a> : <a href="Namespaces.scala.html#13086" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span>: <a href="XmlTypes.scala.html#12228" title="scales.xml.Doc">Doc</a> = <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="scales.xml.Handler[Token]" id="102166">handler</a> = <a href="#102148" title="scales.xml.Handler[Token]" class="keyword">new</a> <a href="#12414" title="scales.xml.Handler[Token]">Handler</a><span class="delimiter">[</span>Token<span class="delimiter">]</span><span class="delimiter">(</span><a href="#102145" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a><span class="delimiter">)</span>
+    <a href="#102147" title="scales.xml.SaxSupport">saxSupport</a>.<a href="#101510" title="[T &lt;: scales.xml.OptimisationToken](reader: org.xml.sax.XMLReader, handler: scales.xml.Handler[T])Unit">setLexicalHandler</a><span title="(reader: org.xml.sax.XMLReader, handler: scales.xml.Handler[Token])Unit" class="delimiter">[</span><a href="#15833" title="Token">Token</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#102146" title="org.xml.sax.XMLReader">reader</a>, <a href="#102166" title="scales.xml.Handler[Token]">handler</a><span class="delimiter">)</span>
+    
+    <a href="#102146" title="org.xml.sax.XMLReader">reader</a>.<span title="(x$1: org.xml.sax.ContentHandler)Unit">setContentHandler</span><span class="delimiter">(</span><a href="#102166" title="scales.xml.Handler[Token]">handler</a><span class="delimiter">)</span>
+    <a href="#102146" title="org.xml.sax.XMLReader">reader</a>.<span title="(x$1: org.xml.sax.InputSource)Unit">parse</span><span class="delimiter">(</span><a href="#102144" title="org.xml.sax.InputSource">source</a><span class="delimiter">)</span>
+
+    <span class="keyword">val</span> <a title="&lt;none&gt; extends Product with Serializable with scales.xml.XmlVersion" id="102167">docVersion</a> = <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="AnyRef" id="102175">f</a> = <a href="#102147" title="scales.xml.SaxSupport">saxSupport</a>.<a href="#101513" title="(reader: org.xml.sax.XMLReader)AnyRef">getXmlVersion</a><span class="delimiter">(</span><a href="#102146" title="org.xml.sax.XMLReader">reader</a><span class="delimiter">)</span>
+
+      <span title="&lt;none&gt; extends Product with Serializable with scales.xml.XmlVersion" class="keyword">if</span> <span class="delimiter">(</span><a href="#102175" title="AnyRef">f</a> <span title="(x$1: AnyRef)Boolean">eq</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="Namespaces.scala.html#12817" title="object scales.xml.Xml10">Xml10</a>
+      <span class="keyword">else</span> <span class="delimiter">{</span>
+	<span class="keyword">val</span> <a title="java.lang.String" id="102176">v</a> = <a href="#102175" title="AnyRef">f</a>.<span title="()java.lang.String">toString</span>
+	<span title="&lt;none&gt; extends Product with Serializable with scales.xml.XmlVersion" class="keyword">if</span> <span class="delimiter">(</span><a href="#102176" title="java.lang.String">v</a> <span title="(x$1: AnyRef)Boolean">==</span> <span title="java.lang.String(&quot;1.1&quot;)" class="string">&quot;1.1&quot;</span><span class="delimiter">)</span> 
+	  <a href="Namespaces.scala.html#12823" title="object scales.xml.Xml11">Xml11</a>
+	<span class="keyword">else</span>
+	  <a href="Namespaces.scala.html#12817" title="object scales.xml.Xml10">Xml10</a>	  
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+
+    <a href="XmlTypes.scala.html#97320" title="(rootElem: scales.xml.package.XmlTree, prolog: scales.xml.Prolog, end: scales.xml.EndMisc)scales.xml.Doc">Doc</a><span class="delimiter">(</span><a href="#102166" title="scales.xml.Handler[Token]">handler</a>.<a href="#97174" title="=&gt; scales.xml.TreeProxies">getBuf</a>.<a href="#91556" title="=&gt; scales.xml.package.XmlTree">tree</a>, <a href="#102166" title="scales.xml.Handler[Token]">handler</a>.<a href="#97179" title="scales.xml.Prolog" id="102194">getProlog</a>.<a href="XmlTypes.scala.html#95706" title="scales.xml.package.Miscs" id="102220">copy</a><span class="delimiter">(</span> 
+      decl = <a href="#102166" title="scales.xml.Handler[Token]">handler</a>.<a href="#97179" title="=&gt; scales.xml.Prolog">getProlog</a>.<a href="XmlTypes.scala.html#95199" title="scales.xml.Declaration" id="102208">decl</a>.<a href="XmlTypes.scala.html#102206" title="java.nio.charset.Charset" id="102217">copy</a><a title="scales.xml.Declaration" id="102218" class="delimiter">(</a>version = <a href="#102167" title="&lt;none&gt; extends Product with Serializable with scales.xml.XmlVersion" id="102215">docVersion</a><span class="delimiter">)</span><span class="delimiter">)</span>,
+	<a href="#102166" title="scales.xml.Handler[Token]">handler</a>.<a href="#97180" title="=&gt; scales.xml.EndMisc">getEnd</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>   
+  
+  <span class="comment">/**
+   * Use a custom parserPool to control the sax factory features 
+   */</span> 
+  <span class="keyword">def</span> <a title="[Token &lt;: scales.xml.OptimisationToken](source: org.xml.sax.InputSource, strategy: scales.xml.PathOptimisationStrategy[Token], parsers: scales.utils.Loaner[org.xml.sax.XMLReader] with scales.xml.SaxSupport)(implicit xmlVer: scales.xml.XmlVersion)scales.xml.Doc" id="15834">loadXmlReader</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="102228">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span><a title="org.xml.sax.InputSource" id="102221">source</a>: <span title="org.xml.sax.InputSource">InputSource</span>, <a title="scales.xml.PathOptimisationStrategy[Token]" id="102226">strategy</a> : <a href="OptimisingStrategies.scala.html#12477" title="scales.xml.PathOptimisationStrategy[Token]">PathOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span> = <a href="package.scala.html#15812" title="=&gt; scales.xml.PathOptimisationStrategy[scales.xml.QNameToken]">defaultPathOptimisation</a>, <a title="XmlParser extends scales.utils.Loaner[org.xml.sax.XMLReader] with scales.xml.SaxSupport" id="102229">parsers</a> : <a href="#102232" title="XmlParser extends scales.utils.Loaner[org.xml.sax.XMLReader] with scales.xml.SaxSupport">Loaner</a><span class="delimiter">[</span>XMLReader<span class="delimiter">]</span> <span class="keyword">with</span> SaxSupport = <a href="XmlFactories.scala.html#15924" title="object scales.xml.package.DefaultXMLReaderFactoryPool">DefaultXMLReaderFactoryPool</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="102224">xmlVer</a> : <a href="Namespaces.scala.html#13086" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span>: <a href="XmlTypes.scala.html#12228" title="scales.xml.Doc">Doc</a> =
+    <a href="#102229" title="XmlParser extends scales.utils.Loaner[org.xml.sax.XMLReader] with scales.xml.SaxSupport">parsers</a>.<a href="../utils/Resources.scala.html#89026" title="(tThunk: org.xml.sax.XMLReader =&gt; scales.xml.Doc)scales.xml.Doc">loan</a> <span class="delimiter">{</span>
+      <a title="org.xml.sax.XMLReader" id="102240">parser</a> =&gt;
+	<a href="#15831" title="(source: org.xml.sax.InputSource, strategy: scales.xml.PathOptimisationStrategy[Token], reader: org.xml.sax.XMLReader, saxSupport: scales.xml.SaxSupport)(implicit xmlVer: scales.xml.XmlVersion)scales.xml.Doc">readXml</a><a href="#102224" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#102221" title="org.xml.sax.InputSource">source</a>, <a href="#102226" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>, <a href="#102240" title="org.xml.sax.XMLReader">parser</a>, <a href="#102229" title="XmlParser extends scales.utils.Loaner[org.xml.sax.XMLReader] with scales.xml.SaxSupport">parsers</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+  <span class="comment">/** Elems can have any QName, attribs only prefixed or default */</span>
+  <span class="keyword">def</span> <a title="[Token &lt;: scales.xml.OptimisationToken](uri: String, localName: String, qName: String, strategy: scales.xml.MemoryOptimisationStrategy[Token], token: Token)scales.xml.QName" id="15837">eqn</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="15839">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="102251">uri</a>: <span title="String">String</span>,
+    <a title="String" id="102252">localName</a>: <span title="String">String</span>,
+    <a title="String" id="102253">qName</a>: <span title="String">String</span>, <a title="scales.xml.MemoryOptimisationStrategy[Token]" id="102254">strategy</a> : <a href="OptimisingStrategies.scala.html#12420" title="scales.xml.MemoryOptimisationStrategy[Token]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span>, <a title="Token" id="102255">token</a> : <a href="#15839" title="Token">Token</a><span class="delimiter">)</span>: <a href="QName.scala.html#12666" title="scales.xml.QName">QName</a> =
+    <span title="scales.xml.QName" class="keyword">if</span> <span class="delimiter">(</span><a href="#102251" title="String">uri</a>.<span title="()Int">length</span><span class="delimiter">(</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">// can only be in qName</span>
+      <a href="#102254" title="scales.xml.MemoryOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#90751" title="(local: String, token: Token)scales.xml.NoNamespaceQName">noNamespaceQName</a><span class="delimiter">(</span><a href="#102253" title="String">qName</a>, <a href="#102255" title="Token">token</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="comment">// might have a prefix</span>
+      <span title="scales.xml.QName" class="keyword">if</span> <span class="delimiter">(</span><a href="#102253" title="String">qName</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#102252" title="String">localName</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="comment">// no prefix</span>
+	<a href="#102254" title="scales.xml.MemoryOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#90752" title="(local: String, uri: String, token: Token)scales.xml.UnprefixedQName">unprefixedQName</a><span class="delimiter">(</span><a href="#102252" title="String">localName</a>, <a href="#102251" title="String">uri</a>, <a href="#102255" title="Token">token</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+        <span class="comment">// break up the prefix</span>
+        <span class="keyword">val</span> <a title="Array[String]" id="102276">bits</a> = <a href="#102253" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">qName</a>.<span title="(separator: Char)Array[String]">split</span><span class="delimiter">(</span><span title="Char(\':\')" class="char">':'</span><span class="delimiter">)</span>
+	
+	<a href="#102254" title="scales.xml.MemoryOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#90753" title="(local: String, uri: String, prefix: String, token: Token)scales.xml.PrefixedQName">prefixedQName</a><span class="delimiter">(</span><a href="#102252" title="String">localName</a>, <a href="#102251" title="String">uri</a>, <a href="#102276" title="(i: Int)String">bits</a><span class="delimiter">(</span><span title="Int(0)" class="int">0</span><span class="delimiter">)</span>, <a href="#102255" title="Token">token</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+
+  <span class="comment">/** attribs only prefixed or default */</span>
+  <span class="keyword">def</span> <a title="[Token &lt;: scales.xml.OptimisationToken](uri: String, localName: String, qName: String, strategy: scales.xml.MemoryOptimisationStrategy[Token], token: Token)scales.xml.package.AttributeQName" id="15840">aqn</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="15842">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="102304">uri</a>: <span title="String">String</span>,
+    <a title="String" id="102305">localName</a>: <span title="String">String</span>,
+    <a title="String" id="102306">qName</a>: <span title="String">String</span>, <a title="scales.xml.MemoryOptimisationStrategy[Token]" id="102307">strategy</a> : <a href="OptimisingStrategies.scala.html#12420" title="scales.xml.MemoryOptimisationStrategy[Token]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span>, <a title="Token" id="102308">token</a> : <a href="#15842" title="Token">Token</a><span class="delimiter">)</span>: <a href="../utils/EitherLike.scala.html#10434" title="scales.xml.package.AttributeQName">AttributeQName</a> =
+    <span title="scales.xml.package.AttributeQName" class="keyword">if</span> <span class="delimiter">(</span><a href="#102304" title="String">uri</a>.<span title="()Int">length</span><span class="delimiter">(</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">// can only be in qName</span>
+      <a href="#102307" title="scales.xml.MemoryOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#90751" title="(local: String, token: Token)scales.xml.NoNamespaceQName">noNamespaceQName</a><span class="delimiter">(</span><a href="#102306" title="String">qName</a>, <a href="#102308" title="Token">token</a><span class="delimiter">)</span> <span class="comment">// Right</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="comment">// might have a prefix</span>
+      <span title="scales.xml.package.AttributeQName" class="keyword">if</span> <span class="delimiter">(</span><a href="#102306" title="String">qName</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#102305" title="String">localName</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="comment">// no prefix</span>
+        <a href="../utils/package.scala.html#11065" title="object scales.utils.package">scales</a>.utils.<a href="../utils/package.scala.html#15392" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Should not have an attribute with a unprefixed namspace&quot;)" class="string">&quot;Should not have an attribute with a unprefixed namspace&quot;</span><span class="delimiter">)</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+        <span class="comment">// break up the prefix</span>
+        <span class="keyword">val</span> <a title="Array[String]" id="102326">bits</a> = <a href="#102306" title="implicit scala.Predef.augmentString : (x: String)scala.collection.immutable.StringOps">qName</a>.<span title="(separator: Char)Array[String]">split</span><span class="delimiter">(</span><span title="Char(\':\')" class="char">':'</span><span class="delimiter">)</span>
+        <a href="#102307" title="scales.xml.MemoryOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#90753" title="(local: String, uri: String, prefix: String, token: Token)scales.xml.PrefixedQName">prefixedQName</a><span class="delimiter">(</span><a href="#102305" title="String">localName</a>, <a href="#102304" title="String">uri</a>,<a href="#102326" title="(i: Int)String">bits</a><span class="delimiter">(</span><span title="Int(0)" class="int">0</span><span class="delimiter">)</span>, <a href="#102308" title="Token">token</a><span class="delimiter">)</span> <span class="comment">// Left</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+
+  <span class="keyword">import</span> org.xml.sax.Locator
+  <span class="keyword">import</span> org.xml.sax.ext.Locator2
+
+  <span class="keyword">class</span> <a title="class Handler[Token &lt;: scales.xml.OptimisationToken] extends org.xml.sax.ext.DefaultHandler2 with ScalaObject" id="12414">Handler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="14082">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span><a href="#12414" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.PathOptimisationStrategy[Token]" id="97302">strategy</a> : <a href="OptimisingStrategies.scala.html#12477" title="scales.xml.PathOptimisationStrategy[Token]">PathOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.XmlVersion" id="97303">defaultVersion</a> : <a href="Namespaces.scala.html#13086" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> <span class="keyword">extends</span> org.xml.sax.ext.<span title="org.xml.sax.ext.DefaultHandler2">DefaultHandler2</span> <span class="delimiter">{</span>
+
+    <span class="keyword">import</span> <a href="ScalesXml.scala.html#12733" title="object scales.xml.ScalesXml">ScalesXml</a>.xmlCBF
+
+    <span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>noPath, Path, top, ScalesUtils <span class="delimiter">}</span>
+    <span class="keyword">import</span> org.xml.sax._
+    <span class="keyword">import</span> scala.collection.immutable.Stack
+    <span class="keyword">import</span> <a href="../utils/ScalesUtils.scala.html#11263" title="object scales.utils.ScalesUtils">ScalesUtils</a>._
+<span class="comment">//    import ScalesXml.toQName // Note we aren't validating the names here anyway so we don't need to use the correct xml version, future version may double check perhaps?</span>
+
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.FromParser" id="97171">weAreInAParser</a> : <a href="XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a> = <a href="XmlTypesDefaults.scala.html#15773" title="object scales.xml.package.IsFromParser">IsFromParser</a>
+
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">val</span> <a title="Token" id="97172">token</a> : <a href="#14082" title="Token">Token</a> = <a href="#97302" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#90749" title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)Token">createToken</a>
+
+    <span class="comment">// only trees have kids, and we only need to keep the parent</span>
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">val</span> <a title="scales.xml.TreeProxies" id="97173">buf</a> = <span title="scales.xml.TreeProxies" class="keyword">new</span> <a href="#12768" title="scales.xml.TreeProxies">TreeProxies</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="keyword">def</span> <a title="=&gt; scales.xml.TreeProxies" id="97174">getBuf</a> = <a href="#97173" title="scales.xml.TreeProxies">buf</a>
+
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Boolean" id="97175">isCData</a> = <span title="Boolean(false)" class="keyword">false</span>
+
+    <span class="comment">// declarations on this element</span>
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scala.collection.immutable.Map[String,String]" id="97176">nsDeclarations</a> = <a href="XmlTypesDefaults.scala.html#15796" title="=&gt; scala.collection.immutable.Map[String,String]">emptyNamespaces</a>
+
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scales.xml.Prolog" id="97177">prolog</a> = <a href="XmlTypes.scala.html#95623" title="(decl: scales.xml.Declaration, misc: scales.xml.package.Miscs, dtd: Option[scales.xml.DTD])scales.xml.Prolog">Prolog</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scales.xml.EndMisc" id="97178">end</a> = <a href="XmlTypes.scala.html#95646" title="(misc: scales.xml.package.Miscs)scales.xml.EndMisc">EndMisc</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+    <span class="keyword">def</span> <a title="=&gt; scales.xml.Prolog" id="97179">getProlog</a> = <a href="#97177" title="scales.xml.Prolog">prolog</a>
+    <span class="keyword">def</span> <a title="=&gt; scales.xml.EndMisc" id="97180">getEnd</a> = <a href="#97178" title="scales.xml.EndMisc">end</a>
+
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="org.xml.sax.Locator" id="97181">locator</a> : <span title="org.xml.sax.Locator">Locator</span> = _
+    
+    <span class="comment">// used for judging PI or Comments</span>
+    <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Boolean" id="97182">inprolog</a> = <span title="Boolean(true)" class="keyword">true</span>
+
+    <span class="keyword">def</span> <a title="(what: String)Unit" id="97183">checkit</a><span class="delimiter">(</span><a title="String" id="102375">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span title="Unit" class="delimiter">{</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(name: String, publicId: String, systemId: String)Unit" id="97184">startDTD</a><span class="delimiter">(</span><a title="String" id="102377">name</a> : <span title="String">String</span>, <a title="String" id="102378">publicId</a> : <span title="String">String</span>, <a title="String" id="102379">systemId</a> : <span title="String">String</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#97177" title="scales.xml.Prolog">prolog</a> = <a href="#97177" title="scales.xml.Prolog" id="102381">prolog</a>.<a href="XmlTypes.scala.html#95705" title="scales.xml.Declaration" id="102390">copy</a><span class="delimiter">(</span>dtd = <span title="(x: scales.xml.DTD)Some[scales.xml.DTD]">Some</span><a title="Some[scales.xml.DTD]" id="102388" class="delimiter">(</a><a href="XmlTypes.scala.html#95730" title="(name: String, publicId: String, systemId: String)scales.xml.DTD">DTD</a><span class="delimiter">(</span><a href="#102377" title="String">name</a>, <a href="#102378" title="String">publicId</a>, <a href="#102379" title="String">systemId</a><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(target: String, data: String)Unit" id="97185">processingInstruction</a><span class="delimiter">(</span><a title="String" id="102391">target</a> : <span title="String">String</span>, <a title="String" id="102392">data</a> : <span title="String">String</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="apply extends java.lang.Object with scales.xml.PI" id="102394">pi</a> = <a href="XmlTypes.scala.html#95217" title="(targeti: String, valuei: String)(implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PI">PI</a><a href="#97171" title="scales.xml.FromParser" class="delimiter">(</a><a href="#102391" title="String">target</a>, <a href="#102392" title="String">data</a><span class="delimiter">)</span>
+      <a href="#97191" title="(miscItem: scales.xml.package.Misc)Unit">addMisc</a><span class="delimiter">(</span><span title="(b: java.lang.Object with scales.xml.PI)Right[Nothing,java.lang.Object with scales.xml.PI]">Right</span><span class="delimiter">(</span><a href="#102394" title="apply extends java.lang.Object with scales.xml.PI">pi</a><span class="delimiter">)</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span> 
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(prefix: String, uri: String)Unit" id="97186">startPrefixMapping</a><span class="delimiter">(</span><a title="String" id="102401">prefix</a>: <span title="String">String</span>, <a title="String" id="102402">uri</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#97176" title="scala.collection.immutable.Map[String,String]">nsDeclarations</a> <span title="(kv: (String, String))scala.collection.immutable.Map[String,String]">+=</span> <span class="delimiter">(</span><a href="#102401" title="(x: String)ArrowAssoc[String]">prefix</a> <span title="(y: String)(String, String)">-&gt;</span> <a href="#102402" title="String">uri</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(loc: org.xml.sax.Locator)Unit" id="97187">setDocumentLocator</a><span class="delimiter">(</span> <a title="org.xml.sax.Locator" id="102516">loc</a> : <span title="org.xml.sax.Locator">Locator</span> <span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#97181" title="org.xml.sax.Locator">locator</a> = <a href="#102516" title="org.xml.sax.Locator">loc</a>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(uri: String, localName: String, qName: String, attributes: org.xml.sax.Attributes)Unit" id="97188">startElement</a><span class="delimiter">(</span><a title="String" id="102518">uri</a>: <span title="String">String</span>,
+      <a title="String" id="102519">localName</a>: <span title="String">String</span>,
+      <a title="String" id="102520">qName</a>: <span title="String">String</span>,
+      <a title="org.xml.sax.Attributes" id="102521">attributes</a>: org.xml.sax.<span title="org.xml.sax.Attributes">Attributes</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+
+      <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#97182" title="Boolean">inprolog</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#97181" title="org.xml.sax.Locator">locator</a>.<span title="[T0]=&gt; Boolean">isInstanceOf</span><span title="Boolean" class="delimiter">[</span><span title="org.xml.sax.ext.Locator2">Locator2</span><span class="delimiter">]</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	  <span class="keyword">val</span> <a title="org.xml.sax.ext.Locator2" id="102556">loc2</a> = <a href="#97181" title="org.xml.sax.Locator">locator</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="org.xml.sax.ext.Locator2" class="delimiter">[</span><span title="org.xml.sax.ext.Locator2">Locator2</span><span class="delimiter">]</span>
+	  <a href="#97177" title="scales.xml.Prolog">prolog</a> = <a href="#97177" title="scales.xml.Prolog" id="102557">prolog</a>.<a href="XmlTypes.scala.html#95706" title="scales.xml.package.Miscs" id="102567">copy</a><span class="delimiter">(</span> decl = <a href="#97177" title="scales.xml.Prolog">prolog</a>.<a href="XmlTypes.scala.html#95199" title="scales.xml.Declaration" id="102558">decl</a>.<a href="XmlTypes.scala.html#102205" title="scales.xml.XmlVersion" id="102564">copy</a><a title="scales.xml.Declaration" id="102565" class="delimiter">(</a>encoding = <span class="delimiter">(</span>
+	    <a title="java.nio.charset.Charset" id="102562" class="keyword">if</a> <span class="delimiter">(</span><a href="#102556" title="org.xml.sax.ext.Locator2">loc2</a>.<span title="()java.lang.String">getEncoding</span> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	      java.nio.charset.<span title="object java.nio.charset.Charset">Charset</span>.<span title="(x$1: java.lang.String)java.nio.charset.Charset">forName</span><span class="delimiter">(</span><a href="#102556" title="org.xml.sax.ext.Locator2">loc2</a>.<span title="()java.lang.String">getEncoding</span><span class="delimiter">)</span>
+	    <span class="delimiter">}</span> <span class="keyword">else</span> <a href="../utils/package.scala.html#11065" title="object scales.utils.package">scales</a>.utils.<a href="../utils/Localisation.scala.html#15767" title="=&gt; java.nio.charset.Charset">defaultCharset</a>
+	  <span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span>	  
+	<span class="delimiter">}</span>
+      <span class="delimiter">}</span>
+
+      <a href="#97182" title="Boolean">inprolog</a> = <span title="Boolean(false)" class="keyword">false</span>
+
+      <span class="keyword">var</span> <a title="Int" id="102549">i</a> = <span title="Int(0)" class="int">0</span>
+      <span class="keyword">val</span> <a title="Int" id="102550">length</a> = <a href="#102521" title="org.xml.sax.Attributes">attributes</a>.<span title="()Int">getLength</span>
+      <span class="keyword">var</span> <a title="scales.utils.ListSet[scales.xml.Attribute]" id="102551">attribs</a> = <a href="XmlTypesDefaults.scala.html#15794" title="=&gt; scales.utils.ListSet[scales.xml.Attribute]">emptyAttributes</a>
+
+      <span title="Unit" class="keyword">while</span> <span class="delimiter">(</span><a href="#102549" title="Int">i</a> <span title="(x: Int)Boolean">&lt;</span> <a href="#102550" title="Int">length</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">val</span> <a title="scales.xml.package.AttributeQName" id="102572">qname</a> = <a href="#15840" title="(uri: String, localName: String, qName: String, strategy: scales.xml.MemoryOptimisationStrategy[Token], token: Token)scales.xml.package.AttributeQName">aqn</a><span class="delimiter">(</span><a href="#102521" title="org.xml.sax.Attributes">attributes</a>.<span title="(x$1: Int)java.lang.String">getURI</span><span class="delimiter">(</span><a href="#102549" title="Int">i</a><span class="delimiter">)</span>, <a href="#102521" title="org.xml.sax.Attributes">attributes</a>.<span title="(x$1: Int)java.lang.String">getLocalName</span><span class="delimiter">(</span><a href="#102549" title="Int">i</a><span class="delimiter">)</span>, <a href="#102521" title="org.xml.sax.Attributes">attributes</a>.<span title="(x$1: Int)java.lang.String">getQName</span><span class="delimiter">(</span><a href="#102549" title="Int">i</a><span class="delimiter">)</span>, <a href="#97302" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>, <a href="#97172" title="Token">token</a><span class="delimiter">)</span>
+        <a href="#102551" title="scales.utils.ListSet[scales.xml.Attribute]">attribs</a> = <a href="#102551" title="scales.utils.ListSet[scales.xml.Attribute]">attribs</a> <a href="../utils/ListSet.scala.html#74732" title="(e: scales.xml.Attribute)scales.utils.ListSet[scales.xml.Attribute]">unsafePlus</a> 
+	    <a href="#97302" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#90750" title="(qname: scales.xml.package.AttributeQName, value: String, token: Token)scales.xml.Attribute">attribute</a><span class="delimiter">(</span><a href="#102572" title="scales.xml.package.AttributeQName">qname</a>, 
+			<a href="#102521" title="org.xml.sax.Attributes">attributes</a>.<span title="(x$1: Int)java.lang.String">getValue</span><span class="delimiter">(</span><a href="#102549" title="Int">i</a><span class="delimiter">)</span>, 
+			<a href="#97172" title="Token">token</a><span class="delimiter">)</span>
+
+        <a href="#102549" title="Int">i</a> <span title="(x: Int)Int">+=</span> <span title="Int(1)" class="int">1</span>
+      <span class="delimiter">}</span>
+      
+      <span class="comment">// use the current nsMap</span>
+      <span class="keyword">val</span> <a title="scales.xml.Elem" id="102552">elem</a> = <a href="#97302" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#90754" title="(name: scales.xml.QName, attributes: scales.xml.package.Attributes, namespaces: Map[String,String], token: Token)scales.xml.Elem">elem</a><span class="delimiter">(</span>
+	  <a href="#15837" title="(uri: String, localName: String, qName: String, strategy: scales.xml.MemoryOptimisationStrategy[Token], token: Token)scales.xml.QName">eqn</a><span class="delimiter">(</span><a href="#102518" title="String">uri</a>, <a href="#102519" title="String">localName</a>, <a href="#102520" title="String">qName</a>, <a href="#97302" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>, <a href="#97172" title="Token">token</a><span class="delimiter">)</span>
+	     , <a href="#102551" title="scales.utils.ListSet[scales.xml.Attribute]">attribs</a>, <a href="#97176" title="scala.collection.immutable.Map[String,String]">nsDeclarations</a>, <a href="#97172" title="Token">token</a><span class="delimiter">)</span>
+
+      <span class="comment">// reset the map</span>
+      <a href="#97176" title="scala.collection.immutable.Map[String,String]">nsDeclarations</a> = <a href="XmlTypesDefaults.scala.html#15796" title="=&gt; scala.collection.immutable.Map[String,String]">emptyNamespaces</a>
+
+      <span class="comment">// give it a fake mutable default to work with</span>
+      <a href="#97302" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#91531" title="(stack: scales.xml.TreeProxies, elem: scales.xml.Elem, token: Token)Unit">beginSubTree</a><span class="delimiter">(</span><a href="#97173" title="scales.xml.TreeProxies">buf</a>, <a href="#102552" title="scales.xml.Elem">elem</a>, <a href="#97172" title="Token">token</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(uri: String, localName: String, qName: String)Unit" id="97189">endElement</a><span class="delimiter">(</span><a title="String" id="102613">uri</a>: <span title="String">String</span>,
+      <a title="String" id="102614">localName</a>: <span title="String">String</span>,
+      <a title="String" id="102615">qName</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+
+      <span class="comment">// pop it and we are now with the correct parent</span>
+      <span class="comment">// let the strategy decide what actually happens</span>
+      <a href="#97302" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a>.<a href="OptimisingStrategies.scala.html#91530" title="(xml: scales.xml.TreeProxies, token: Token)Unit">elementEnd</a><span class="delimiter">(</span><a href="#97173" title="scales.xml.TreeProxies">buf</a>, <a href="#97172" title="Token">token</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(ch: Array[Char], offset: Int, length: Int)Unit" id="97190">comment</a><span class="delimiter">(</span><a title="Array[Char]" id="102619">ch</a>: <span title="Array[Char]">Array</span><span class="delimiter">[</span>Char<span class="delimiter">]</span>, <a title="Int" id="102620">offset</a>: <span title="Int">Int</span>, <a title="Int" id="102621">length</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="Unit">Unit</span> = <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="java.lang.String" id="102623">text</a> = <span title="(x$1: Array[Char], x$2: Int, x$3: Int)java.lang.String" class="keyword">new</span> <span title="java.lang.String">String</span><span class="delimiter">(</span><a href="#102619" title="Array[Char]">ch</a>, <a href="#102620" title="Int">offset</a>, <a href="#102621" title="Int">length</a><span class="delimiter">)</span>
+
+      <a href="#97191" title="(miscItem: scales.xml.package.Misc)Unit">addMisc</a><span class="delimiter">(</span> <span title="(a: java.lang.Object with scales.xml.Comment)Left[java.lang.Object with scales.xml.Comment,Nothing]">Left</span><span class="delimiter">(</span><a href="XmlTypes.scala.html#95823" title="(valuei: String)(implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.Comment">Comment</a><a href="#97171" title="scales.xml.FromParser" class="delimiter">(</a><a href="#102623" title="java.lang.String">text</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">)</span>      
+    <span class="delimiter">}</span>
+
+    <span class="keyword">def</span> <a title="(miscItem: scales.xml.package.Misc)Unit" id="97191">addMisc</a><span class="delimiter">(</span> <a title="scales.xml.package.Misc" id="102395">miscItem</a> : <span title="scales.xml.package.Misc">Misc</span> <span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#97182" title="Boolean">inprolog</a><span class="delimiter">)</span> 
+	<a href="#97177" title="scales.xml.Prolog">prolog</a> = <a href="#97177" title="scales.xml.Prolog" id="102632">prolog</a>.<a href="XmlTypes.scala.html#95705" title="scales.xml.Declaration" id="102682">copy</a><span class="delimiter">(</span>misc = <a href="#97177" title="scales.xml.Prolog">prolog</a>.<a href="XmlTypes.scala.html#95201" title="=&gt; scales.xml.package.Miscs">misc</a> <a title="scales.xml.package.Miscs" id="102680">:+</a> <a href="#102395" title="scales.xml.package.Misc">miscItem</a><span class="delimiter">)</span>
+      <span class="keyword">else</span> <span class="delimiter">{</span>
+	<span class="comment">// need to tell if its finished the root elem or not</span>
+	<span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#97173" title="scales.xml.TreeProxies">buf</a>.<a href="#91550" title="=&gt; Int">depth</a> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span><span class="delimiter">)</span>
+	  <a href="#97178" title="scales.xml.EndMisc">end</a> = <a href="#97178" title="scales.xml.EndMisc">end</a>.<a href="XmlTypes.scala.html#95212" title="(misc: scales.xml.package.Miscs)scales.xml.EndMisc">copy</a><span class="delimiter">(</span> misc = <a href="#97178" title="scales.xml.EndMisc">end</a>.<a href="XmlTypes.scala.html#95209" title="=&gt; scales.xml.package.Miscs">misc</a> <span title="(elem: scales.xml.package.Misc)(implicit bf: scala.collection.generic.CanBuildFrom[Seq[scales.xml.package.Misc],scales.xml.package.Misc,scales.xml.package.Miscs])scales.xml.package.Miscs">:+</span> <a href="#102395" title="scales.xml.package.Misc">miscItem</a><span class="delimiter">)</span>
+	<span class="keyword">else</span>
+	  <span class="comment">// add it like a normal child</span>
+	  <a href="#97173" title="scales.xml.TreeProxies">buf</a>.<a href="#91553" title="(i: scales.xml.XmlItem)Unit">addChild</a><span class="delimiter">(</span> <a href="#102395" title="scales.xml.package.Misc">miscItem</a>.<span title="[X](fa: scales.xml.Comment =&gt; X, fb: scales.xml.PI =&gt; X)X">fold</span><span title="(fa: scales.xml.Comment =&gt; scales.xml.XmlItem, fb: scales.xml.PI =&gt; scales.xml.XmlItem)scales.xml.XmlItem" class="delimiter">[</span><a href="XmlTypes.scala.html#12867" title="scales.xml.XmlItem">XmlItem</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="scales.xml.Comment" id="102745">x</a>=&gt;<a href="#102745" title="scales.xml.Comment">x</a>, <a title="scales.xml.PI" id="102747">y</a>=&gt;<a href="#102747" title="scales.xml.PI">y</a><span class="delimiter">)</span><span class="delimiter">)</span> 
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(ch: Array[Char], offset: Int, length: Int)Unit" id="97192">characters</a><span class="delimiter">(</span><a title="Array[Char]" id="102748">ch</a>: <span title="Array[Char]">Array</span><span class="delimiter">[</span>Char<span class="delimiter">]</span>, <a title="Int" id="102749">offset</a>: <span title="Int">Int</span>, <a title="Int" id="102750">length</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="Unit">Unit</span> = <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="java.lang.String" id="102752">text</a> = <span title="(x$1: Array[Char], x$2: Int, x$3: Int)java.lang.String" class="keyword">new</span> <span title="java.lang.String">String</span><span class="delimiter">(</span><a href="#102748" title="Array[Char]">ch</a>, <a href="#102749" title="Int">offset</a>, <a href="#102750" title="Int">length</a><span class="delimiter">)</span>
+
+      <span class="keyword">val</span> <a title="scales.xml.XmlItem" id="102753">child</a>: <a href="XmlTypes.scala.html#12867" title="scales.xml.XmlItem">XmlItem</a> = <span title="scales.xml.XmlItem" class="keyword">if</span> <span class="delimiter">(</span><a href="#97175" title="Boolean">isCData</a><span class="delimiter">)</span> <a href="XmlTypes.scala.html#96513" title="(valuei: String)(implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.CData">CData</a><a href="#97171" title="scales.xml.FromParser" class="delimiter">(</a><a href="#102752" title="java.lang.String">text</a><span class="delimiter">)</span> <span class="keyword">else</span> <a href="XmlTypes.scala.html#96499" title="(value: String)scales.xml.Text">Text</a><span class="delimiter">(</span><a href="#102752" title="java.lang.String">text</a><span class="delimiter">)</span>
+
+      <span class="comment">// append as child</span>
+      <a href="#97173" title="scales.xml.TreeProxies">buf</a>.<a href="#91553" title="(i: scales.xml.XmlItem)Unit">addChild</a><span class="delimiter">(</span><a href="#102753" title="scales.xml.XmlItem">child</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="97193">startCDATA</a><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span> <a href="#97175" title="Boolean">isCData</a> = <span title="Boolean(true)" class="keyword">true</span>; <span class="delimiter">}</span>
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="97194">endCDATA</a><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span> <a href="#97175" title="Boolean">isCData</a> = <span title="Boolean(false)" class="keyword">false</span>; <span class="delimiter">}</span>
+
+  <span class="delimiter">}</span>
+
+
+<span class="comment">// XmlBuilder, XmlChildren</span>
+<span class="keyword">final</span> <span class="keyword">class</span> <a title="class TreeProxy extends java.lang.Object with ScalaObject" id="12771">TreeProxy</a><a href="#12771" title="ScalaObject" class="delimiter">(</a> <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scales.xml.Elem" id="102772">_elem</a> : <a href="XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a>, <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">val</span> <a title="scales.xml.package.XmlBuilder" id="102773">_builder</a> : <span title="scales.xml.package.XmlBuilder">XmlBuilder</span><span class="delimiter">)</span><span class="delimiter">{</span>
+  @inline <span class="keyword">def</span> <a title="=&gt; scales.xml.Elem" id="102766">elem</a> = <a href="#102772" title="scales.xml.Elem">_elem</a>
+
+  @inline <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)Unit" id="102767">setElem</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="102777">elem</a> : <a href="XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#102772" title="scales.xml.Elem">_elem</a> = <a href="#102777" title="scales.xml.Elem">elem</a>
+  <span class="delimiter">}</span>
+
+  @inline <span class="keyword">def</span> <a title="=&gt; scales.xml.package.XmlBuilder" id="102768">builder</a> = <a href="#102773" title="scales.xml.package.XmlBuilder">_builder</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scala.collection.mutable.ArrayBuffer
+
+<span class="comment">/**
+ * Mutable list that keeps the item creation to a minimum, no extra garbage here until the parse is done...
+ *
+ * NOTE this is effectively an internal structure, but is provided for user land performance tweaks
+ */</span> 
+<span class="keyword">class</span> <a title="class TreeProxies extends java.lang.Object with ScalaObject" id="12768">TreeProxies</a><a href="#12768" title="ScalaObject" class="delimiter">(</a> <span class="delimiter">)</span><span class="delimiter">{</span>
+  <span class="keyword">import</span> <a href="ScalesXml.scala.html#12733" title="object scales.xml.ScalesXml">ScalesXml</a>.xmlCBF
+
+  <span class="comment">// special case root tree</span>
+  <span class="keyword">var</span> <a title="scales.xml.package.XmlTree" id="91542">rootTree</a> : <a href="../utils/Trees.scala.html#11328" title="scales.xml.package.XmlTree">XmlTree</a> = _
+  
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Int" id="91544">_depth</a> : <span title="Int">Int</span> = -<span title="Int(-1)" class="int">1</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Array[scales.xml.TreeProxy]" id="91545">_proxies</a> : <span title="Array[scales.xml.TreeProxy]">Array</span><span class="delimiter">[</span>TreeProxy<span class="delimiter">]</span> = <span title="object Array">Array</span>.<span title="[T](n1: Int)(implicit evidence$3: scala.reflect.ClassManifest[T])Array[T]">ofDim</span><span title="(n1: Int)(implicit evidence$3: scala.reflect.ClassManifest[scales.xml.TreeProxy])Array[scales.xml.TreeProxy]" class="delimiter">[</span><a href="#12771" title="scales.xml.TreeProxy">TreeProxy</a><span class="delimiter">]</span><span title="(clazz: java.lang.Class[_])scala.reflect.ClassManifest[scales.xml.TreeProxy]" class="delimiter">(</span><span title="Int(50)" class="int">50</span><span class="delimiter">)</span>
+
+  <span class="comment">// current max size in the proxies (_proxies.length could be far larger)</span>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Int" id="91546">_size</a> = <span title="Int(0)" class="int">0</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scales.xml.TreeProxy" id="91547">_current</a> : <a href="#12771" title="scales.xml.TreeProxy">TreeProxy</a> = _
+
+<span class="comment">/*
+ * interface for TreeOptimisations below, don't penalise normal parsing
+ */</span> 
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.TreeProxy" id="91548">current</a> = <a href="#91547" title="scales.xml.TreeProxy">_current</a>
+  <span class="keyword">def</span> <a title="(tp: scales.xml.TreeProxy)Unit" id="91549">current_=</a><span class="delimiter">(</span> <a title="scales.xml.TreeProxy" id="102804">tp</a> : <a href="#12771" title="scales.xml.TreeProxy">TreeProxy</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#91547" title="scales.xml.TreeProxy">_current</a> = <a href="#102804" title="scales.xml.TreeProxy">tp</a> 
+  <span class="delimiter">}</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="91550">depth</a> = <a href="#91544" title="Int">_depth</a>
+  <span class="keyword">def</span> <a title="(newDepth: Int)Unit" id="91551">depth_=</a> <span class="delimiter">(</span> <a title="Int" id="102806">newDepth</a> : <span title="Int">Int</span> <span class="delimiter">)</span> <span class="delimiter">{</span> <a href="#91544" title="Int">_depth</a> = <a href="#102806" title="Int">newDepth</a> <span class="delimiter">}</span>
+  <span class="keyword">def</span> <a title="(depth: Int)scales.xml.TreeProxy" id="91552">proxy</a><span class="delimiter">(</span> <a title="Int" id="102808">depth</a> : <span title="Int">Int</span> <span class="delimiter">)</span> = <a href="#91545" title="(i: Int)scales.xml.TreeProxy">_proxies</a><span class="delimiter">(</span> <a href="#102808" title="Int">depth</a> <span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(i: scales.xml.XmlItem)Unit" id="91553">addChild</a><span class="delimiter">(</span> <a title="scales.xml.XmlItem" id="102738">i</a> : <a href="XmlTypes.scala.html#12867" title="scales.xml.XmlItem">XmlItem</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#91547" title="scales.xml.TreeProxy">_current</a>.<a href="#102768" title="=&gt; scales.xml.package.XmlBuilder">builder</a>.<span title="(elem: scales.utils.EitherLike[scales.xml.XmlItem,scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,[T]scales.utils.ImmutableArrayProxy[T]]])scala.collection.mutable.Builder[scales.xml.package.ItemOrElem,scales.xml.package.XmlChildren]">+=</span><span title="Unit" class="delimiter">(</span><a href="#102738" title="scales.xml.XmlItem">i</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="()Unit" id="91554">elementEnd</a><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.TreeProxy" id="102833">l</a> = <a href="#91547" title="scales.xml.TreeProxy">_current</a>
+
+    <span class="keyword">val</span> <a title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]" id="102834">newTree</a> = <a href="../utils/Trees.scala.html#82948" title="(isection: scales.xml.Elem, ichildren: scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]])scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">(</span><a href="#102833" title="scales.xml.TreeProxy">l</a>.<a href="#102766" title="=&gt; scales.xml.Elem">elem</a>, <a href="#102833" title="scales.xml.TreeProxy">l</a>.<a href="#102768" title="=&gt; scales.xml.package.XmlBuilder">builder</a>.<span title="()scales.xml.package.XmlChildren">result</span><span class="delimiter">)</span>
+    
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#91544" title="Int">_depth</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#91544" title="Int">_depth</a> <span title="(x: Int)Int">-=</span> <span title="Int(1)" class="int">1</span>
+      <a href="#91547" title="scales.xml.TreeProxy">_current</a> = <a href="#91545" title="(i: Int)scales.xml.TreeProxy">_proxies</a><span class="delimiter">(</span> <a href="#91544" title="Int">_depth</a> <span class="delimiter">)</span>
+      <a href="#91547" title="scales.xml.TreeProxy">_current</a>.<a href="#102768" title="=&gt; scales.xml.package.XmlBuilder">builder</a>.<span title="(elem: scales.utils.EitherLike[scales.xml.XmlItem,scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,[T]scales.utils.ImmutableArrayProxy[T]]])scala.collection.mutable.Builder[scales.xml.package.ItemOrElem,scales.xml.package.XmlChildren]">+=</span><span title="Unit" class="delimiter">(</span><a href="#102834" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">newTree</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="comment">// end of doc</span>
+      <a href="#91542" title="(x$1: scales.xml.package.XmlTree)Unit">rootTree</a> = <a href="#102834" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">newTree</a>
+      <a href="#91544" title="Int">_depth</a> <span title="(x: Int)Int">-=</span> <span title="Int(1)" class="int">1</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem, builder: =&gt; scales.xml.package.XmlBuilder)Unit" id="91555">beginSub</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="91562">elem</a> : <a href="XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a>, <a title="=&gt; scales.xml.package.XmlBuilder" id="91563">builder</a> : =&gt; XmlBuilder<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#91544" title="Int">_depth</a> <span title="(x: Int)Int">+=</span> <span title="Int(1)" class="int">1</span>
+    
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#91544" title="Int">_depth</a> <span title="(x: Int)Boolean">==</span> <a href="#91545" title="Array[scales.xml.TreeProxy]">_proxies</a>.<span title="=&gt; Int">length</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">// double the size</span>
+      <span class="keyword">val</span> <a title="Array[scales.xml.TreeProxy]" id="102901">ar</a> = <span title="object Array">Array</span>.<span title="[T](n1: Int)(implicit evidence$3: scala.reflect.ClassManifest[T])Array[T]">ofDim</span><span title="(n1: Int)(implicit evidence$3: scala.reflect.ClassManifest[scales.xml.TreeProxy])Array[scales.xml.TreeProxy]" class="delimiter">[</span><a href="#12771" title="scales.xml.TreeProxy">TreeProxy</a><span class="delimiter">]</span><span title="(clazz: java.lang.Class[_])scala.reflect.ClassManifest[scales.xml.TreeProxy]" class="delimiter">(</span> <a href="#91545" title="Array[scales.xml.TreeProxy]">_proxies</a>.<span title="=&gt; Int">length</span> <span title="(x: Int)Int">*</span> <span title="Int(2)" class="int">2</span> <span class="delimiter">)</span>
+      <span title="object Array">Array</span>.<span title="(src: AnyRef, srcPos: Int, dest: AnyRef, destPos: Int, length: Int)Unit">copy</span><span class="delimiter">(</span><a href="#91545" title="Array[scales.xml.TreeProxy]">_proxies</a>, <span title="Int(0)" class="int">0</span>, <a href="#102901" title="Array[scales.xml.TreeProxy]">ar</a>, <span title="Int(0)" class="int">0</span>, <a href="#91545" title="Array[scales.xml.TreeProxy]">_proxies</a>.<span title="=&gt; Int">length</span><span class="delimiter">)</span>
+      <a href="#91545" title="Array[scales.xml.TreeProxy]">_proxies</a> = <a href="#102901" title="Array[scales.xml.TreeProxy]">ar</a>
+    <span class="delimiter">}</span>
+
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#91544" title="Int">_depth</a> <span title="(x: Int)Boolean">==</span> <a href="#91546" title="Int">_size</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#91547" title="scales.xml.TreeProxy">_current</a> = <span title="scales.xml.TreeProxy" class="keyword">new</span> <a href="#12771" title="scales.xml.TreeProxy">TreeProxy</a><span class="delimiter">(</span><a href="#91562" title="scales.xml.Elem">elem</a>, <a href="#91563" title="=&gt; scales.xml.package.XmlBuilder">builder</a><span class="delimiter">)</span>
+      <a href="#91545" title="(i: Int, x: scales.xml.TreeProxy)Unit">_proxies</a><span class="delimiter">(</span><a href="#91544" title="Int">_depth</a><span class="delimiter">)</span> = <a href="#91547" title="scales.xml.TreeProxy">_current</a>
+      <a href="#91546" title="Int">_size</a> <span title="(x: Int)Int">+=</span><span title="Int(1)" class="int">1</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <a href="#91547" title="scales.xml.TreeProxy">_current</a> = <a href="#91545" title="(i: Int)scales.xml.TreeProxy">_proxies</a><span class="delimiter">(</span><a href="#91544" title="Int">_depth</a><span class="delimiter">)</span>
+      <a href="#91547" title="scales.xml.TreeProxy">_current</a>.<a href="#102767" title="(elem: scales.xml.Elem)Unit">setElem</a><span class="delimiter">(</span><a href="#91562" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+      <a href="#91547" title="scales.xml.TreeProxy">_current</a>.<a href="#102768" title="=&gt; scales.xml.package.XmlBuilder">builder</a>.<span title="()Unit">clear</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// don't create a new one</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Only call when its the end of the parse
+   */</span> 
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.package.XmlTree" id="91556">tree</a> = 
+    <a href="#91542" title="=&gt; scales.xml.package.XmlTree">rootTree</a>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

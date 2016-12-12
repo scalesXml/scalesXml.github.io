@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\LoggerTest.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="keyword">import</span> <a href="../../../classes.sxr/scales/utils/ScalesUtils.scala.html#10619" title="object scales.utils.ScalesUtils">ScalesUtils</a>._</span>
+<a href="l4"></a><span id="l4"></span>
+<a href="l5"></a><span id="l5"><span class="keyword">class</span> <a title="class LoggerTest extends junit.framework.TestCase with ScalaObject" id="11463">LoggerTest</a> <a href="#11463" title="ScalaObject" class="keyword">extends</a> junit.framework.<span title="junit.framework.TestCase">TestCase</span> <span class="delimiter">{</span></span>
+<a href="l6"></a><span id="l6">  </span>
+<a href="l7"></a><span id="l7">  <span class="keyword">import</span> junit.framework.<span title="object junit.framework.Assert">Assert</span>._</span>
+<a href="l8"></a><span id="l8">  </span>
+<a href="l9"></a><span id="l9">  <span class="keyword">class</span> <a title="class Dummy extends java.lang.Object with scales.utils.Logs with ScalaObject" id="51220">Dummy</a> <a href="#51220" title="ScalaObject" class="keyword">extends</a> <a href="../../../classes.sxr/scales/utils/Logger.scala.html#10473" title="scales.utils.Logs">Logs</a> <span class="delimiter">{</span></span>
+<a href="l10"></a><span id="l10">    <span class="keyword">def</span> <a title="=&gt; Unit" id="51232">trace</a> : <span title="Unit">Unit</span> = <a href="../../../classes.sxr/scales/utils/Logger.scala.html#77906" title="=&gt; scales.utils.Slf4jLogger">log</a>.<a href="../../../classes.sxr/scales/utils/Logger.scala.html#77845" title="(msg: =&gt; String)Boolean">trace</a><span title="Unit" class="delimiter">(</span><span title="java.lang.String(&quot;trace&quot;)" class="string">&quot;trace&quot;</span><span class="delimiter">)</span></span>
+<a href="l11"></a><span id="l11">    <span class="keyword">def</span> <a title="=&gt; Unit" id="51233">debug</a> : <span title="Unit">Unit</span> = <a href="../../../classes.sxr/scales/utils/Logger.scala.html#77906" title="=&gt; scales.utils.Slf4jLogger">log</a>.<a href="../../../classes.sxr/scales/utils/Logger.scala.html#77846" title="(msg: =&gt; String)Boolean">debug</a><span title="Unit" class="delimiter">(</span><span title="java.lang.String(&quot;debug&quot;)" class="string">&quot;debug&quot;</span><span class="delimiter">)</span></span>
+<a href="l12"></a><span id="l12">    <span class="keyword">def</span> <a title="=&gt; Unit" id="51234">info</a> : <span title="Unit">Unit</span> = <a href="../../../classes.sxr/scales/utils/Logger.scala.html#77906" title="=&gt; scales.utils.Slf4jLogger">log</a>.<a href="../../../classes.sxr/scales/utils/Logger.scala.html#77847" title="(msg: =&gt; String)Boolean">info</a><span title="Unit" class="delimiter">(</span><span title="java.lang.String(&quot;info&quot;)" class="string">&quot;info&quot;</span><span class="delimiter">)</span></span>
+<a href="l13"></a><span id="l13">    <span class="keyword">def</span> <a title="=&gt; Unit" id="51235">warn</a> : <span title="Unit">Unit</span> = <a href="../../../classes.sxr/scales/utils/Logger.scala.html#77906" title="=&gt; scales.utils.Slf4jLogger">log</a>.<a href="../../../classes.sxr/scales/utils/Logger.scala.html#77848" title="(msg: =&gt; String)Boolean">warn</a><span title="Unit" class="delimiter">(</span><span title="java.lang.String(&quot;warn&quot;)" class="string">&quot;warn&quot;</span><span class="delimiter">)</span></span>
+<a href="l14"></a><span id="l14">    <span class="keyword">def</span> <a title="=&gt; Unit" id="51236">error</a> : <span title="Unit">Unit</span> = <a href="../../../classes.sxr/scales/utils/Logger.scala.html#77906" title="=&gt; scales.utils.Slf4jLogger">log</a>.<a href="../../../classes.sxr/scales/utils/Logger.scala.html#77849" title="(msg: =&gt; String)Boolean">error</a><span title="Unit" class="delimiter">(</span><span title="java.lang.String(&quot;error&quot;)" class="string">&quot;error&quot;</span><span class="delimiter">)</span></span>
+<a href="l15"></a><span id="l15">    </span>
+<a href="l16"></a><span id="l16">    <span class="keyword">def</span> <a title="=&gt; String" id="51237">oops</a> : <span title="String">String</span> = <span class="delimiter">{</span><span title="(x$1: java.lang.String)Unit">fail</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Should not have been called&quot;)" class="string">&quot;Should not have been called&quot;</span><span class="delimiter">)</span>; <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">}</span></span>
+<a href="l17"></a><span id="l17">    <span class="keyword">def</span> <a title="=&gt; Throwable" id="51238">oopsT</a> : <span title="Throwable">Throwable</span> = <span class="delimiter">{</span><span title="(x$1: java.lang.String)Unit">fail</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Should not have been called&quot;)" class="string">&quot;Should not have been called&quot;</span><span class="delimiter">)</span>; <span title="(x$1: java.lang.String)java.lang.Exception" class="keyword">new</span> <span title="java.lang.Exception">Exception</span><span class="delimiter">(</span><span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span><span class="delimiter">}</span></span>
+<a href="l18"></a><span id="l18">    <span class="keyword">def</span> <a title="=&gt; Boolean" id="51239">traceEval</a> = <a href="../../../classes.sxr/scales/utils/Logger.scala.html#77906" title="=&gt; scales.utils.Slf4jLogger">log</a>.<a href="../../../classes.sxr/scales/utils/Logger.scala.html#77840" title="(msg: =&gt; String, throwable: =&gt; Throwable)Boolean">trace</a><span class="delimiter">(</span><a href="#51237" title="=&gt; String">oops</a>,<a href="#51238" title="=&gt; Throwable">oopsT</a><span class="delimiter">)</span></span>
+<a href="l19"></a><span id="l19">    <span class="keyword">def</span> <a title="=&gt; Boolean" id="51240">debugEval</a> = <a href="../../../classes.sxr/scales/utils/Logger.scala.html#77906" title="=&gt; scales.utils.Slf4jLogger">log</a>.<a href="../../../classes.sxr/scales/utils/Logger.scala.html#77841" title="(msg: =&gt; String, throwable: =&gt; Throwable)Boolean">debug</a><span class="delimiter">(</span><a href="#51237" title="=&gt; String">oops</a>,<a href="#51238" title="=&gt; Throwable">oopsT</a><span class="delimiter">)</span></span>
+<a href="l20"></a><span id="l20">  <span class="delimiter">}</span></span>
+<a href="l21"></a><span id="l21"></span>
+<a href="l22"></a><span id="l22">  <span class="keyword">def</span> <a title="=&gt; Unit" id="51221">testLogs</a> = <span class="delimiter">{</span></span>
+<a href="l23"></a><span id="l23">    <span class="keyword">val</span> <a title="java.lang.String" id="51327">file</a> = <span title="java.lang.String(&quot;./logs/testLog.log&quot;)" class="string">&quot;./logs/testLog.log&quot;</span></span>
+<a href="l24"></a><span id="l24">    <span title="java.io.File" class="keyword">new</span> java.io.<span title="java.io.File">File</span><span class="delimiter">(</span><a href="#51327" title="java.lang.String">file</a><span class="delimiter">)</span>.<span title="()Boolean">delete</span><span class="delimiter">(</span><span class="delimiter">)</span></span>
+<a href="l25"></a><span id="l25">    <span class="keyword">val</span> <a title="LoggerTest.this.Dummy" id="51328">log</a> = <span title="LoggerTest.this.Dummy" class="keyword">new</span> <a href="#51220" title="LoggerTest.this.Dummy">Dummy</a></span>
+<a href="l26"></a><span id="l26">    <a href="#51328" title="LoggerTest.this.Dummy">log</a>.<a href="#51232" title="=&gt; Unit">trace</a></span>
+<a href="l27"></a><span id="l27">    <a href="#51328" title="LoggerTest.this.Dummy">log</a>.<a href="#51233" title="=&gt; Unit">debug</a></span>
+<a href="l28"></a><span id="l28">    <a href="#51328" title="LoggerTest.this.Dummy">log</a>.<a href="#51234" title="=&gt; Unit">info</a></span>
+<a href="l29"></a><span id="l29">    <a href="#51328" title="LoggerTest.this.Dummy">log</a>.<a href="#51235" title="=&gt; Unit">warn</a></span>
+<a href="l30"></a><span id="l30">    <a href="#51328" title="LoggerTest.this.Dummy">log</a>.<a href="#51236" title="=&gt; Unit">error</a></span>
+<a href="l31"></a><span id="l31"></span>
+<a href="l32"></a><span id="l32">    <a href="#51328" title="LoggerTest.this.Dummy">log</a>.<a href="#51239" title="=&gt; Boolean">traceEval</a></span>
+<a href="l33"></a><span id="l33">    <a href="#51328" title="LoggerTest.this.Dummy">log</a>.<a href="#51240" title="=&gt; Boolean">debugEval</a></span>
+<a href="l34"></a><span id="l34"></span>
+<a href="l35"></a><span id="l35">    <span class="keyword">val</span> <a title="java.io.BufferedReader" id="51329">reader</a> = <span title="(x$1: java.io.Reader)java.io.BufferedReader" class="keyword">new</span> java.io.<span title="java.io.BufferedReader">BufferedReader</span><span class="delimiter">(</span> <span title="java.io.FileReader" class="keyword">new</span> java.io.<span title="java.io.FileReader">FileReader</span><span class="delimiter">(</span><a href="#51327" title="java.lang.String">file</a><span class="delimiter">)</span> <span class="delimiter">)</span></span>
+<a href="l36"></a><span id="l36">    <span class="keyword">try</span> <span class="delimiter">{</span> </span>
+<a href="l37"></a><span id="l37">      <span class="keyword">val</span> <a title="java.lang.String" id="52161">res</a> = <a href="#51329" title="java.io.BufferedReader">reader</a>.<span title="()java.lang.String">readLine</span><span class="delimiter">(</span><span class="delimiter">)</span></span>
+<a href="l38"></a><span id="l38">      <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;INFOinfoWARNwarnERRORerror&quot;)" class="string">&quot;INFOinfoWARNwarnERRORerror&quot;</span>, <a href="#52161" title="java.lang.String">res</a><span class="delimiter">)</span></span>
+<a href="l39"></a><span id="l39">    <span class="delimiter">}</span> <span class="keyword">finally</span> <span class="delimiter">{</span></span>
+<a href="l40"></a><span id="l40">      <a href="#51329" title="java.io.BufferedReader">reader</a>.<span title="()Unit">close</span></span>
+<a href="l41"></a><span id="l41">    <span class="delimiter">}</span></span>
+<a href="l42"></a><span id="l42">  <span class="delimiter">}</span></span>
+<a href="l43"></a><span id="l43"><span class="delimiter">}</span></span>
+<a href="l44"></a><span id="l44"></span>
+<a href="l45"></a><span id="l45">        </span>
+</pre>
+    </body>
+</html>

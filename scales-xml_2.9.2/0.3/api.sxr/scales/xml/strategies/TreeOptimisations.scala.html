@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\strategies\TreeOptimisations.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.strategies
+
+<span class="keyword">import</span> scales.xml._
+<span class="keyword">import</span> scales.utils._
+
+<span class="comment">/**
+ * Allows replacing a tree for memory optimisations
+ */</span> 
+<span class="keyword">trait</span> <a title="trait TreeOptimisation[TOKEN &lt;: scales.xml.OptimisationToken] extends java.lang.Object with scales.xml.PathOptimisationStrategy[TOKEN] with ScalaObject" id="14625">TreeOptimisation</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="14639">TOKEN</a> &lt;: scales.xml.OptimisationToken<span class="delimiter">]</span> <span title="ScalaObject" class="keyword">extends</span> <a href="../OptimisingStrategies.scala.html#12477" title="scales.xml.PathOptimisationStrategy[TOKEN]">PathOptimisationStrategy</a><span class="delimiter">[</span>TOKEN<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem, children: scales.xml.package.XmlChildren, token: TOKEN)scales.xml.package.XmlTree" id="119730">newTree</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="119742">elem</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a>, <a title="scales.xml.package.XmlChildren" id="119743">children</a> : <a href="../../utils/ImmutableArray.scala.html#10533" title="scales.xml.package.XmlChildren">XmlChildren</a>, <a title="TOKEN" id="119744">token</a> : <a href="#14639" title="TOKEN">TOKEN</a> <span class="delimiter">)</span> : <a href="../../utils/Trees.scala.html#11328" title="scales.xml.package.XmlTree">XmlTree</a>
+
+  <span class="keyword">final</span> <span class="keyword">override</span> <span class="keyword">def</span> <a title="(xml: scales.xml.TreeProxies, token: TOKEN)Unit" id="119731">elementEnd</a><span class="delimiter">(</span> <a title="scales.xml.TreeProxies" id="119786">xml</a> : <a href="../XmlParser.scala.html#12768" title="scales.xml.TreeProxies">TreeProxies</a>, <a title="TOKEN" id="119787">token</a> : <a href="#14639" title="TOKEN">TOKEN</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+
+    <span class="keyword">import</span> scales.utils.Tree
+    <span class="keyword">import</span> <a href="../ScalesXml.scala.html#12733" title="object scales.xml.ScalesXml">ScalesXml</a>.xmlCBF
+
+    <span class="keyword">val</span> <a title="scales.xml.TreeProxy" id="119793">l</a> = <a href="#119786" title="scales.xml.TreeProxies">xml</a>.<a href="../XmlParser.scala.html#91548" title="=&gt; scales.xml.TreeProxy">current</a>
+    <span class="keyword">val</span> <a title="scales.xml.package.XmlTree" id="119794">nt</a> = <a href="#119730" title="(elem: scales.xml.Elem, children: scales.xml.package.XmlChildren, token: TOKEN)scales.xml.package.XmlTree">newTree</a><span class="delimiter">(</span><a href="#119793" title="scales.xml.TreeProxy">l</a>.<a href="../XmlParser.scala.html#102766" title="=&gt; scales.xml.Elem">elem</a>, <a href="#119793" title="scales.xml.TreeProxy">l</a>.<a href="../XmlParser.scala.html#102768" title="=&gt; scales.xml.package.XmlBuilder">builder</a>.<span title="()scales.xml.package.XmlChildren">result</span>, <a href="#119787" title="TOKEN">token</a><span class="delimiter">)</span>
+    <span class="keyword">val</span> <a title="Int" id="119795">d</a> = <a href="#119786" title="scales.xml.TreeProxies">xml</a>.<a href="../XmlParser.scala.html#91550" title="=&gt; Int">depth</a>
+    <span class="keyword">val</span> <a title="Int" id="119796">nd</a> = <a href="#119795" title="Int">d</a> <span title="(x: Int)Int">-</span> <span title="Int(1)" class="int">1</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#119795" title="Int">d</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#119786" title="scales.xml.TreeProxies">xml</a>.<a href="../XmlParser.scala.html#91551" title="(newDepth: Int)Unit">depth</a> = <a href="#119796" title="Int">nd</a>
+      <span class="keyword">val</span> <a title="scales.xml.TreeProxy" id="119805">c</a> = <a href="#119786" title="scales.xml.TreeProxies">xml</a>.<a href="../XmlParser.scala.html#91552" title="(depth: Int)scales.xml.TreeProxy">proxy</a><span class="delimiter">(</span> <a href="#119796" title="Int">nd</a> <span class="delimiter">)</span>
+      <a href="#119786" title="scales.xml.TreeProxies">xml</a>.<a href="../XmlParser.scala.html#91549" title="(tp: scales.xml.TreeProxy)Unit">current</a> = <a href="#119805" title="scales.xml.TreeProxy">c</a>
+      <a href="#119805" title="scales.xml.TreeProxy">c</a>.<a href="../XmlParser.scala.html#102768" title="=&gt; scales.xml.package.XmlBuilder">builder</a> <span title="(elem: scales.utils.EitherLike[scales.xml.XmlItem,scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,[T]scales.utils.ImmutableArrayProxy[T]]])scala.collection.mutable.Builder[scales.xml.package.ItemOrElem,scales.xml.package.XmlChildren]">+=</span> <a href="#119794" title="scales.xml.package.XmlTree">nt</a>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <a href="#119786" title="scales.xml.TreeProxies">xml</a>.<a href="../XmlParser.scala.html#91542" title="(x$1: scales.xml.package.XmlTree)Unit">rootTree</a> = <a href="#119794" title="scales.xml.package.XmlTree">nt</a> 
+      <a href="#119786" title="scales.xml.TreeProxies">xml</a>.<a href="../XmlParser.scala.html#91551" title="(newDepth: Int)Unit">depth</a> = <a href="#119796" title="Int">nd</a>
+    <span class="delimiter">}</span>
+
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * An elem with no attributes, namespaces and only one text value.
+ *
+ */</span>
+<span class="keyword">abstract</span> <span class="keyword">class</span> <a title="class NameValue extends java.lang.Object with scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC] with ScalaObject" id="14601">NameValue</a><a href="#14601" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="scales.xml.QName" id="119843">name</a> : <a href="../QName.scala.html#12666" title="scales.xml.QName">QName</a>, <span class="keyword">val</span> <a title="String" id="119844">text</a> : <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../../utils/Trees.scala.html#11328" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.Elem" id="119835">section</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.package.XmlChildren" id="119836">children</a> : <a href="../../utils/ImmutableArray.scala.html#10533" title="scales.xml.package.XmlChildren">XmlChildren</a> = <a href="../../utils/ImmutableArray.scala.html#50046" title="(one: scales.xml.Text)scales.utils.IAOne[scales.xml.Text]">IAOne</a><span class="delimiter">(</span><a href="../XmlTypes.scala.html#96499" title="(value: String)scales.xml.Text">Text</a><span class="delimiter">(</span><a href="#119844" title="=&gt; String">text</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">def</span> <a title="=&gt; scales.xml.Elem" id="119837">csection</a> = <a href="#119835" title="=&gt; scales.xml.Elem">section</a>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">def</span> <a title="=&gt; scales.xml.package.XmlChildren" id="119838">cchildren</a> = <a href="#119836" title="=&gt; scales.xml.package.XmlChildren">children</a>
+
+  <span class="keyword">def</span> <a title="(section: scales.xml.Elem, children: scales.xml.package.XmlChildren)scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]" id="119839">copy</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="119871">section</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a> = <a href="#119837" title="=&gt; scales.xml.Elem">csection</a>, <a title="scales.xml.package.XmlChildren" id="119872">children</a> : <a href="../../utils/ImmutableArray.scala.html#10533" title="scales.xml.package.XmlChildren">XmlChildren</a> = <a href="#119838" title="=&gt; scales.xml.package.XmlChildren">cchildren</a><span class="delimiter">)</span> : <a href="../../utils/Trees.scala.html#11328" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="comment">// if we are copying we are no longer in a parse</span>
+    <span class="keyword">import</span> <a href="../ScalesXml.scala.html#12733" title="object scales.xml.ScalesXml">ScalesXml</a>.fromParserDefault
+    <a href="#119875" title="(section: scales.xml.Elem, children: scales.xml.package.XmlChildren)(implicit fromParser: scales.xml.FromParser)scales.xml.package.XmlTree">LazyOptimisedTree</a><a href="../XmlTypesDefaults.scala.html#90892" title="=&gt; scales.xml.FromParser" class="delimiter">(</a><a href="#119871" title="scales.xml.Elem">section</a>, <a href="#119872" title="scales.xml.package.XmlChildren">children</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * An elem with attributes or namespaces and only one text value.
+ *
+ */</span>
+<span class="keyword">class</span> <a title="class ElemValue extends java.lang.Object with scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC] with ScalaObject" id="14574">ElemValue</a><a href="#14574" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="scales.xml.Elem" id="119901">section</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a>, <span class="keyword">val</span> <a title="String" id="119902">text</a> : <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../../utils/Trees.scala.html#11328" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.package.XmlChildren" id="119894">children</a> : <a href="../../utils/ImmutableArray.scala.html#10533" title="scales.xml.package.XmlChildren">XmlChildren</a> = <a href="../../utils/ImmutableArray.scala.html#50046" title="(one: scales.xml.Text)scales.utils.IAOne[scales.xml.Text]">IAOne</a><span class="delimiter">(</span><a href="../XmlTypes.scala.html#96499" title="(value: String)scales.xml.Text">Text</a><span class="delimiter">(</span><a href="#119902" title="=&gt; String">text</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">def</span> <a title="=&gt; scales.xml.Elem" id="119895">csection</a> = <a href="#119901" title="=&gt; scales.xml.Elem">section</a>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">def</span> <a title="=&gt; scales.xml.package.XmlChildren" id="119896">cchildren</a> = <a href="#119894" title="=&gt; scales.xml.package.XmlChildren">children</a>
+
+  <span class="keyword">def</span> <a title="(section: scales.xml.Elem, children: scales.xml.package.XmlChildren)scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]" id="119897">copy</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="119927">section</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a> = <a href="#119895" title="=&gt; scales.xml.Elem">csection</a>, <a title="scales.xml.package.XmlChildren" id="119928">children</a> : <a href="../../utils/ImmutableArray.scala.html#10533" title="scales.xml.package.XmlChildren">XmlChildren</a> = <a href="#119896" title="=&gt; scales.xml.package.XmlChildren">cchildren</a><span class="delimiter">)</span> : <a href="../../utils/Trees.scala.html#11328" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="comment">// if we are copying we are no longer in a parse</span>
+    <span class="keyword">import</span> <a href="../ScalesXml.scala.html#12733" title="object scales.xml.ScalesXml">ScalesXml</a>.fromParserDefault
+    <a href="#119875" title="(section: scales.xml.Elem, children: scales.xml.package.XmlChildren)(implicit fromParser: scales.xml.FromParser)scales.xml.package.XmlTree">LazyOptimisedTree</a><a href="../XmlTypesDefaults.scala.html#90892" title="=&gt; scales.xml.FromParser" class="delimiter">(</a><a href="#119927" title="scales.xml.Elem">section</a>, <a href="#119928" title="scales.xml.package.XmlChildren">children</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+
+<span class="comment">/**
+ * Collection of optimisations that reduce memory significantly at the cost of parsing performance, and later non-lazy creation of correct objects for accessing the tree.
+ *
+ * This can have confusing runtime evaluation of XPaths etc.  These optimisations are appropriate for trees that are seldom read, repeated reads may generate too much garbage.
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.xml.strategies.LazyOptimisedTree" id="14599">LazyOptimisedTree</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Returns an optimised Tree if Possible
+   */</span> 
+  <span class="keyword">def</span> <a title="(section: scales.xml.Elem, children: scales.xml.package.XmlChildren)(implicit fromParser: scales.xml.FromParser)scales.xml.package.XmlTree" id="119875">apply</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="119877">section</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a>, <a title="scales.xml.package.XmlChildren" id="119878">children</a> : <a href="../../utils/ImmutableArray.scala.html#10533" title="scales.xml.package.XmlChildren">XmlChildren</a> <span class="delimiter">)</span> <span class="delimiter">(</span> <span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="119879">fromParser</a> : <a href="../XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a> <span class="delimiter">)</span> : <a href="../../utils/Trees.scala.html#11328" title="scales.xml.package.XmlTree">XmlTree</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.package.ItemOrElem" id="119935">head</a> = <a href="#119878" title="scales.xml.package.XmlChildren">children</a>.<span title="=&gt; scales.xml.package.ItemOrElem">head</span>
+    <span title="scales.xml.package.XmlTree" class="keyword">if</span> <span class="delimiter">(</span><a href="#119935" title="scales.xml.package.ItemOrElem">head</a>.<a href="../../utils/EitherLike.scala.html#44063" title="=&gt; Boolean">isLeft</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="scales.xml.XmlItem" id="119936">left</a> = <a href="#119935" title="scales.xml.package.ItemOrElem">head</a>.<a href="../../utils/EitherLike.scala.html#44069" title="=&gt; scales.xml.XmlItem">getLeft</a>
+      <span title="scales.xml.package.XmlTree" class="keyword">if</span> <span class="delimiter">(</span><a href="#119936" title="scales.xml.XmlItem">left</a>.<span title="[T0]=&gt; Boolean">isInstanceOf</span><span title="Boolean" class="delimiter">[</span><a href="../XmlTypes.scala.html#12747" title="scales.xml.Text">Text</a><span class="delimiter">]</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<span title="scales.xml.package.XmlTree" class="keyword">if</span> <span class="delimiter">(</span><a href="#119877" title="scales.xml.Elem">section</a>.<a href="../XmlTypes.scala.html#90847" title="=&gt; scales.xml.package.Attributes">attributes</a>.<a href="../../utils/ListSet.scala.html#74718" title="=&gt; Boolean">isEmpty</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#119877" title="scales.xml.Elem">section</a>.<a href="../XmlTypes.scala.html#90848" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#119878" title="scales.xml.package.XmlChildren">children</a>.<span title="=&gt; Int">size</span> <span title="(x: Int)Boolean">==</span> <span title="Int(1)" class="int">1</span><span class="delimiter">)</span>
+	  <a href="#119876" title="(iname: scales.xml.QName, itext: String)(implicit fromParser: scales.xml.FromParser)scales.xml.strategies.NameValue">newNameValue</a><a href="#119879" title="scales.xml.FromParser" class="delimiter">(</a><a href="#119877" title="scales.xml.Elem">section</a>.<a href="../XmlTypes.scala.html#90846" title="=&gt; scales.xml.QName">name</a>, <a href="#119936" title="scales.xml.XmlItem">left</a>.<a href="../XmlTypes.scala.html#91941" title="=&gt; String">value</a><span class="delimiter">)</span>
+	<span class="keyword">else</span>
+	  <span title="scales.xml.strategies.ElemValue" class="keyword">new</span> <a href="#14574" title="scales.xml.strategies.ElemValue">ElemValue</a><span class="delimiter">(</span><a href="#119877" title="scales.xml.Elem">section</a>, <a href="#119936" title="scales.xml.XmlItem">left</a>.<a href="../XmlTypes.scala.html#91941" title="=&gt; String">value</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <a href="../../utils/Trees.scala.html#82948" title="(isection: scales.xml.Elem, ichildren: scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]])scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">(</span><a href="#119877" title="scales.xml.Elem">section</a>, <a href="#119878" title="scales.xml.package.XmlChildren">children</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <a href="../../utils/Trees.scala.html#82948" title="(isection: scales.xml.Elem, ichildren: scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]])scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">(</span><a href="#119877" title="scales.xml.Elem">section</a>, <a href="#119878" title="scales.xml.package.XmlChildren">children</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(iname: scales.xml.QName, itext: String)(implicit fromParser: scales.xml.FromParser)scales.xml.strategies.NameValue" id="119876">newNameValue</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="119949">iname</a> : <a href="../QName.scala.html#12666" title="scales.xml.QName">QName</a>, <a title="String" id="119950">itext</a> : <span title="String">String</span> <span class="delimiter">)</span> <span class="delimiter">(</span> <span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="119951">fromParser</a> : <a href="../XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a> <span class="delimiter">)</span> : <a href="#14601" title="scales.xml.strategies.NameValue">NameValue</a> = 
+    <span title="scales.xml.strategies.NameValue" class="keyword">if</span> <span class="delimiter">(</span><a href="#119951" title="scales.xml.FromParser">fromParser</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="../XmlTypesDefaults.scala.html#15777" title="=&gt; scales.xml.package.NotFromParserO.type">NotFromParser</a><span class="delimiter">)</span>
+      <a href="#120004" title="scales.xml.strategies.NameValue" class="keyword">new</a> <a href="#14601" title="anonymous class $anon extends scales.xml.strategies.NameValue" id="120004">NameValue</a><span class="delimiter">(</span><a href="#119949" title="scales.xml.QName">iname</a>, <a href="#119950" title="String">itext</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	
+	<span class="keyword">def</span> <a title="=&gt; scales.xml.Elem" id="120021">section</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a> = <a href="../XmlTypes.scala.html#90862" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem">Elem</a><span class="delimiter">(</span><a href="#119843" title="=&gt; scales.xml.QName">name</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="../XmlTypesDefaults.scala.html#15777" title="=&gt; scales.xml.package.NotFromParserO.type">NotFromParser</a><span class="delimiter">)</span> <span class="comment">// have to recheck that the qname is ok</span>
+
+      <span class="delimiter">}</span>
+    <span class="keyword">else</span>
+      <a href="#120031" title="scales.xml.strategies.NameValue" class="keyword">new</a> <a href="#14601" title="anonymous class $anon extends scales.xml.strategies.NameValue" id="120031">NameValue</a><span class="delimiter">(</span><a href="#119949" title="scales.xml.QName">iname</a>, <a href="#119950" title="String">itext</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	
+	<span class="keyword">def</span> <a title="=&gt; scales.xml.Elem" id="120048">section</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a> = <a href="../XmlTypes.scala.html#90862" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem">Elem</a><span class="delimiter">(</span><a href="#119843" title="=&gt; scales.xml.QName">name</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="../XmlTypesDefaults.scala.html#15773" title="object scales.xml.package.IsFromParser">IsFromParser</a><span class="delimiter">)</span> <span class="comment">// don't have to recheck</span>
+
+      <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Optimises QNames and Trees according to LazyOptimisedTree
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.xml.strategies.QNameTreeOptimisation" id="14614">QNameTreeOptimisation</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14625" title="scales.xml.strategies.TreeOptimisation[scales.xml.QNameToken]">TreeOptimisation</a><span class="delimiter">[</span>QNameToken<span class="delimiter">]</span> <span class="keyword">with</span> <a href="../OptimisingStrategies.scala.html#12690" title="scales.xml.QNameOptimisationT[scales.xml.QNameToken]">QNameOptimisationT</a><span class="delimiter">[</span>QNameToken<span class="delimiter">]</span> <span class="keyword">with</span> <a href="../OptimisingStrategies.scala.html#12708" title="scales.xml.QNameTokenF">QNameTokenF</a> <span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem, children: scales.xml.package.XmlChildren, token: scales.xml.QNameToken)scales.xml.package.XmlTree" id="120059">newTree</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="120061">elem</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a>, <a title="scales.xml.package.XmlChildren" id="120062">children</a> : <a href="../../utils/ImmutableArray.scala.html#10533" title="scales.xml.package.XmlChildren">XmlChildren</a>, <a title="scales.xml.QNameToken" id="120063">token</a> : <a href="../OptimisingStrategies.scala.html#12702" title="scales.xml.QNameToken">QNameToken</a> <span class="delimiter">)</span> : <a href="../../utils/Trees.scala.html#11328" title="scales.xml.package.XmlTree">XmlTree</a> =
+    <a href="#119875" title="(section: scales.xml.Elem, children: scales.xml.package.XmlChildren)(implicit fromParser: scales.xml.FromParser)scales.xml.package.XmlTree">LazyOptimisedTree</a><span class="delimiter">(</span> <a href="#120061" title="scales.xml.Elem">elem</a>, <a href="#120062" title="scales.xml.package.XmlChildren">children</a> <span class="delimiter">)</span><span class="delimiter">(</span><a href="../XmlTypesDefaults.scala.html#15773" title="object scales.xml.package.IsFromParser">IsFromParser</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Optimised QNames, Elems and Tree, heavily reduced memory consumption with LazyOptimisedTree.
+ */</span>
+<span class="keyword">object</span> <a title="object scales.xml.strategies.QNameElemTreeOptimisation" id="14608">QNameElemTreeOptimisation</a> <span title="ScalaObject" class="keyword">extends</span> <a href="../OptimisingStrategies.scala.html#12477" title="scales.xml.PathOptimisationStrategy[scales.xml.strategies.ElemToken]">PathOptimisationStrategy</a><span class="delimiter">[</span>ElemToken<span class="delimiter">]</span> <span class="keyword">with</span> <a href="NonDefaultStrategies.scala.html#14559" title="scales.xml.strategies.ElemQNameOptimisationT[scales.xml.strategies.ElemToken]">ElemQNameOptimisationT</a><span class="delimiter">[</span>ElemToken<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#14625" title="scales.xml.strategies.TreeOptimisation[scales.xml.strategies.ElemToken]">TreeOptimisation</a><span class="delimiter">[</span>ElemToken<span class="delimiter">]</span> <span class="keyword">with</span> <a href="NonDefaultStrategies.scala.html#14571" title="scales.xml.strategies.ElemTokenF">ElemTokenF</a> <span class="delimiter">{</span>
+  
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem, children: scales.xml.package.XmlChildren, token: scales.xml.strategies.ElemToken)scales.xml.package.XmlTree" id="120069">newTree</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="120071">elem</a> : <a href="../XmlTypes.scala.html#12342" title="scales.xml.Elem">Elem</a>, <a title="scales.xml.package.XmlChildren" id="120072">children</a> : <a href="../../utils/ImmutableArray.scala.html#10533" title="scales.xml.package.XmlChildren">XmlChildren</a>, <a title="scales.xml.strategies.ElemToken" id="120073">token</a> : <a href="NonDefaultStrategies.scala.html#14565" title="scales.xml.strategies.ElemToken">ElemToken</a> <span class="delimiter">)</span> : <a href="../../utils/Trees.scala.html#11328" title="scales.xml.package.XmlTree">XmlTree</a> =
+    <a href="#119875" title="(section: scales.xml.Elem, children: scales.xml.package.XmlChildren)(implicit fromParser: scales.xml.FromParser)scales.xml.package.XmlTree">LazyOptimisedTree</a><span class="delimiter">(</span> <a href="#120071" title="scales.xml.Elem">elem</a>, <a href="#120072" title="scales.xml.package.XmlChildren">children</a> <span class="delimiter">)</span><span class="delimiter">(</span><a href="../XmlTypesDefaults.scala.html#15773" title="object scales.xml.package.IsFromParser">IsFromParser</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

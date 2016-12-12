@@ -1,0 +1,381 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;Logger.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">60 %</div>
+        <div class="greenBar" style="width:120px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Object_scales_utils_Debug"><img src="object.png"></img>Debug</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Object_scales_utils_Error"><img src="object.png"></img>Error</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Object_scales_utils_Info"><img src="object.png"></img>Info</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Trait_scales_utils_LogLevel"><img src="trait.png"></img>LogLevel</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Trait_scales_utils_Logger"><img src="trait.png"></img>Logger</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">70 %</div>
+        <div class="greenBar" style="width:140px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Object_scales_utils_Loggers"><img src="object.png"></img>Loggers</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">50 %</div>
+        <div class="greenBar" style="width:100px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Trait_scales_utils_Logs"><img src="trait.png"></img>Logs</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Class_scales_utils_Slf4jLogger"><img src="class.png"></img>Slf4jLogger</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">56 %</div>
+        <div class="greenBar" style="width:112px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Object_scales_utils_Trace"><img src="object.png"></img>Trace</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Logger.scala.html#Object_scales_utils_Warn"><img src="object.png"></img>Warn</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td> * Very simple logger, matches scala more.  Each function returns true if the message would be logged.
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td> * Each function takes an optional second parameter of a throwable.
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> * Implementations need only implement the log function.
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td><a id="Trait_scales_utils_Logger"></a>trait Logger {
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>  def trace(msg: =&gt; String, throwable: =&gt; Throwable): Boolean = log(Trace, msg, Some(throwable))
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>  def debug(msg: =&gt; String, throwable: =&gt; Throwable): Boolean = log(Debug, msg, Some(throwable))
+</td>
+          </tr><tr>
+            <td class="red">14</td>
+            <td>  def info(msg: =&gt; String, throwable: =&gt; Throwable): Boolean = <span class="non">log(Info, msg, Some(throwable))
+</span></td>
+          </tr><tr>
+            <td class="red">15</td>
+            <td>  def warn(msg: =&gt; String, throwable: =&gt; Throwable): Boolean = <span class="non">log(Warn, msg, Some(throwable))
+</span></td>
+          </tr><tr>
+            <td class="red">16</td>
+            <td>  def error(msg: =&gt; String, throwable: =&gt; Throwable): Boolean = <span class="non">log(Error, msg, Some(throwable))
+</span></td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td> 
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>  def trace(msg: =&gt; String): Boolean = log(Trace, msg, None)
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td>  def debug(msg: =&gt; String): Boolean = log(Debug, msg, None)
+</td>
+          </tr><tr>
+            <td class="green">20</td>
+            <td>  def info(msg: =&gt; String): Boolean = log(Info, msg, None)
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>  def warn(msg: =&gt; String): Boolean = log(Warn, msg, None)
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>  def error(msg: =&gt; String): Boolean = log(Error, msg, None)
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>   * Special one, logs against some specific logging level.  Wouldn't recommend using it,
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>   * just use a special named logger instead.
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  def log(level: LogLevel, msg: =&gt; String, throwable: =&gt; Option[Throwable] = None): Boolean
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td> * Simple trait for logging.
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td><a id="Trait_scales_utils_Logs"></a>trait Logs {
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>  protected[this] val log = Loggers.logger(this.getClass)
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td> * Simple loglevel marker trait
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td><a id="Trait_scales_utils_LogLevel"></a>sealed trait LogLevel
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td><a id="Object_scales_utils_Trace"></a>case object Trace extends LogLevel
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td><a id="Object_scales_utils_Debug"></a>case object Debug extends LogLevel
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td><a id="Object_scales_utils_Info"></a>case object Info extends LogLevel
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td><a id="Object_scales_utils_Warn"></a>case object Warn extends LogLevel
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td><a id="Object_scales_utils_Error"></a>case object Error extends LogLevel
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td> * Default implementation of a logger, for some reaason if its not
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td> * excluded (via private) or we change the type to no longer inherit
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td> * from logger we get a java.lang.UnsupportedOperationException: Position.Point
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td> * exception
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td><a id="Class_scales_utils_Slf4jLogger"></a>private[utils] class Slf4jLogger(logger : org.slf4j.Logger) extends Logger {
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>  def log(level: LogLevel, msg: =&gt; String, throwable: =&gt; Option[Throwable]): Boolean = {
+</td>
+          </tr><tr>
+            <td class="green">56</td>
+            <td>      level match {
+</td>
+          </tr><tr>
+            <td class="yellow">57</td>
+            <td>        case Trace =&gt; if (logger.isTraceEnabled()) {if (<span class="non">throwable.isDefined) logger.trace(msg, throwable.get) else logger.trace(msg); true} else </span>false
+</td>
+          </tr><tr>
+            <td class="yellow">58</td>
+            <td>        case Debug =&gt; if (logger.isDebugEnabled()) {if (<span class="non">throwable.isDefined) logger.debug(msg, throwable.get) else logger.debug(msg); true} else </span>false
+</td>
+          </tr><tr>
+            <td class="yellow">59</td>
+            <td>        case Info =&gt; if (logger.isInfoEnabled()) {if (throwable.isDefined) <span class="non">logger.info(msg, throwable.get) else </span>logger.info(msg); true} else <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="yellow">60</td>
+            <td>        case Warn =&gt; if (logger.isWarnEnabled()) {if (throwable.isDefined) <span class="non">logger.warn(msg, throwable.get) else </span>logger.warn(msg); true} else <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="yellow">61</td>
+            <td>        case Error =&gt; if (logger.isErrorEnabled()) {if (throwable.isDefined) <span class="non">logger.error(msg, throwable.get) else </span>logger.error(msg); true} else <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td> * Contains the logic for getting a logger
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td><a id="Object_scales_utils_Loggers"></a>object Loggers {
+</td>
+          </tr><tr>
+            <td class="green">70</td>
+            <td>  def logger[T](clazz: Class[T]) = new Slf4jLogger(org.slf4j.LoggerFactory.getLogger(clazz))
+</td>
+          </tr><tr>
+            <td class="red">71</td>
+            <td>  def logger[T](category: String) = <span class="non">new Slf4jLogger(org.slf4j.LoggerFactory.getLogger(category))
+</span></td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>
+</td>
+          </tr></tbody></table>

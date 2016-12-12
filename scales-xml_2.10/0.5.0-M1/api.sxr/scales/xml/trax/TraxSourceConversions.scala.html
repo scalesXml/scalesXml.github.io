@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\trax\TraxSourceConversions.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.trax
+
+<span class="keyword">import</span> scales.xml._
+
+<span class="keyword">import</span> javax.xml.transform.stream._
+<span class="keyword">import</span> javax.xml.transform.Source
+<span class="keyword">import</span> javax.xml.stream._
+
+<span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>top<span class="delimiter">}</span>
+<span class="keyword">import</span> scales.utils.collection.path.AbstractPathIterator
+<span class="keyword">import</span> <a href="../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>._
+
+<span class="keyword">class</span> <a title="class TreeIterable extends java.lang.Object with scales.utils.collection.path.AbstractPathIterator[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC,scales.xml.package.PullType] with ScalaObject" id="10484">TreeIterable</a><a href="#10484" title="ScalaObject" class="delimiter">(</a> <a title="scales.xml.package.XmlTree" id="119294">tree</a> : <a href="../../utils/collection/Trees.scala.html#12744" title="scales.xml.package.XmlTree">XmlTree</a> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../../utils/collection/path/PathIterator.scala.html#13291" title="scales.utils.collection.path.AbstractPathIterator[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC,scales.xml.package.PullType]">AbstractPathIterator</a><span class="delimiter">[</span>XmlItem, Elem, XCC, PullType<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">lazy</span> <span class="keyword">val</span> <a title="scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]" id="119291">initialPath</a> = <a href="../../utils/collection/path/PathFunctions.scala.html#15455" title="(tree: scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC])(implicit cbf: scales.utils.package.TreeCBF[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC])scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">top</a><a href="../impl/XmlTypesImplicits.scala.html#42885" title="=&gt; scales.xml.package.XmlCBF" class="delimiter">(</a><a href="#119294" title="scales.xml.package.XmlTree">tree</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.package.PullType" id="119292">event</a> : <span title="scales.xml.package.PullType">PullType</span> = <a href="../../utils/collection/path/PathIterator.scala.html#84177" title="=&gt; scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">path</a>.<a href="../../utils/collection/path/Paths.scala.html#46942" title="=&gt; scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">node</a>.<a href="../../utils/collection/path/Paths.scala.html#80586" title="=&gt; scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">focus</a>.<a href="../../utils/EitherLike.scala.html#45595" title="(fl: scales.xml.XmlItem =&gt; Left[scales.xml.XmlEvent,Nothing], fr: scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC] =&gt; Left[scales.xml.XmlEvent,Nothing])Left[scales.xml.XmlEvent,Nothing]">fold</a><span class="delimiter">(</span><a title="scales.xml.XmlItem" id="119333">x</a>=&gt;<a href="../parser/pull/XmlPull.scala.html#15654" title="implicit scales.xml.parser.pull.XmlPulls.toLeft : (ev: scales.xml.XmlEvent)Left[scales.xml.XmlEvent,Nothing]">x</a>,<a title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]" id="119346">y</a>=&gt;<a href="#119346" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">y</a>.<a href="../parser/pull/XmlPull.scala.html#15654" title="implicit scales.xml.parser.pull.XmlPulls.toLeft : (ev: scales.xml.XmlEvent)Left[scales.xml.XmlEvent,Nothing]">section</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.package.PullType" id="119293">end</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.Elem" id="119355">el</a> = <a href="../../utils/collection/path/PathIterator.scala.html#84177" title="=&gt; scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">path</a>.<a href="../../utils/collection/path/Paths.scala.html#46958" title="()scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">tree</a>.<a href="../../utils/collection/Trees.scala.html#45631" title="=&gt; scales.xml.Elem">section</a>
+    <a href="../XmlTypes.scala.html#94398" title="(name: scales.xml.QName, namespaces: scala.collection.immutable.Map[String,String])scales.xml.EndElem">EndElem</a><a href="../parser/pull/XmlPull.scala.html#15655" title="implicit scales.xml.parser.pull.XmlPulls.toRight : (ev: scales.xml.EndElem)Right[Nothing,scales.xml.EndElem]" class="delimiter">(</a><a href="#119355" title="scales.xml.Elem">el</a>.<a href="../XmlTypes.scala.html#45650" title="=&gt; scales.xml.QName">name</a>, <a href="#119355" title="scales.xml.Elem">el</a>.<a href="../XmlTypes.scala.html#45652" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a><span class="delimiter">)</span> : <span title="scales.xml.package.PullType">PullType</span>
+  <span class="delimiter">}</span>
+ 
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

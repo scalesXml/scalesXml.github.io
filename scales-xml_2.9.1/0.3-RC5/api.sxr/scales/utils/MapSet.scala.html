@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\MapSet.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="keyword">import</span> scala.collection._
+<span class="keyword">import</span> immutable.<span class="delimiter">{</span>Set<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scala.math.Ordering
+<span class="keyword">import</span> generic._
+<span class="keyword">import</span> mutable.<span class="delimiter">{</span> Builder, SetBuilder <span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Place Holder for equals and hashcode
+ */</span> 
+<span class="keyword">trait</span> <a title="trait Key[A] extends java.lang.Object" id="10918">Key</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="11982">A</a><span class="delimiter">]</span>
+
+<span class="comment">/** $factoryInfo
+ *  @define Coll immutable.TreeSet
+ *  @define coll immutable tree set
+ */</span>
+<span class="keyword">object</span> <a title="object scales.utils.MapSet" id="82491">MapSet</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="[A](implicit conv: A =&gt; scales.utils.Key[A])scala.collection.mutable.Builder[A,scales.utils.MapSet[A]]" id="81930">newBuilder</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="81932">A</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="A =&gt; scales.utils.Key[A]" id="82186">conv</a> : A =&gt; Key<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="scala.collection.mutable.Builder[A,scales.utils.MapSet[A]]">Builder</span><span class="delimiter">[</span>A, MapSet<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span> =
+    <span title="scala.collection.mutable.SetBuilder[A,scales.utils.MapSet[A]]" class="keyword">new</span> <span title="scala.collection.mutable.SetBuilder[A,scales.utils.MapSet[A]]">SetBuilder</span><span class="delimiter">(</span><a href="#81933" title="[A](implicit conv: A =&gt; scales.utils.Key[A])scales.utils.MapSet[A]">empty</a><a href="#82186" title="(implicit conv: A =&gt; scales.utils.Key[A])scales.utils.MapSet[A]" class="delimiter">[</a><a href="#81932" title="A">A</a><span class="delimiter">]</span><span class="delimiter">)</span>
+
+  <span class="comment">/** The empty set of this type
+   */</span>
+  <span class="keyword">def</span> <a title="[A](implicit conv: A =&gt; scales.utils.Key[A])scales.utils.MapSet[A]" id="81933">empty</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="81935">A</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="A =&gt; scales.utils.Key[A]" id="82244">conv</a> : A =&gt; Key<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#82043" title="()(implicit conv: A =&gt; scales.utils.Key[A])scales.utils.MapSet[A]" class="keyword">new</a> <a href="#11035" title="scales.utils.MapSet[A]">MapSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#82244" title="A =&gt; scales.utils.Key[A]">conv</a><span class="delimiter">)</span>
+
+  <span class="keyword">class</span> <a title="class DirectKey[A] extends java.lang.Object with scales.utils.Key[A] with ScalaObject" id="81936">DirectKey</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="81937">A</a><span class="delimiter">]</span><a href="#81936" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="A" id="82481">a</a> : <a href="#81937" title="A">A</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10918" title="scales.utils.Key[A]">Key</a><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span>
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="82477">equals</a><span class="delimiter">(</span> <a title="Any" id="82482">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#82482" title="Any">other</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <a title="Boolean" id="82485">d</a> : <a href="#81936" title="scales.utils.MapSet.DirectKey[A]">DirectKey</a><span class="delimiter">[</span>A<span class="delimiter">]</span> =&gt; <a href="#82481" title="=&gt; A">a</a> <span title="(x$1: Any)Boolean">==</span> <a href="#82485" title="scales.utils.MapSet.DirectKey[A]">d</a>.<a href="#82481" title="=&gt; A">a</a>
+      <span class="keyword">case</span> <span title="Boolean(false)">_</span> =&gt; <span title="Boolean(false)" class="keyword">false</span>
+    <span class="delimiter">}</span>
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="82478">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#82481" title="=&gt; A">a</a>.<span title="()Int">hashCode</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](a: A)scales.utils.Key[A]" id="81938">directKey</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="81940">A</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="A" id="82253">a</a> : <a href="#81940" title="A">A</a> <span class="delimiter">)</span> : <a href="#10918" title="scales.utils.Key[A]">Key</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="scales.utils.MapSet.DirectKey[A]" class="keyword">new</span> <a href="#81936" title="scales.utils.MapSet.DirectKey[A]">DirectKey</a><span class="delimiter">(</span><a href="#82253" title="A">a</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * This version of treeset better fits the xml attributes, we also want to be able to get stuff out.  So its A -&gt; A but hidden in a set
+ */</span>
+@serializable 
+@SerialVersionUID<span class="delimiter">(</span>-<span class="long">234066569778569402L</span><span class="delimiter">)</span>
+<span class="keyword">class</span> <a title="class MapSet[A] extends java.lang.Object with scala.collection.immutable.Set[A] with scala.collection.SetLike[A,scales.utils.MapSet[A]] with ScalaObject" id="11035">MapSet</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="11983">A</a><span class="delimiter">]</span><a href="#11035" title="ScalaObject" class="delimiter">(</a><span class="keyword">val</span> <a title="scala.collection.Map[scales.utils.Key[A],A]" id="82179">map</a> : <span title="scala.collection.Map[scales.utils.Key[A],A]">Map</span><span class="delimiter">[</span>Key<span class="delimiter">[</span>A<span class="delimiter">]</span>,A<span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="delimiter">(</span><span class="keyword">implicit</span> <span class="keyword">val</span> <a title="A =&gt; scales.utils.Key[A]" id="82180">conv</a> : A =&gt; Key<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="keyword">extends</span> <span title="scala.collection.immutable.Set[A]">Set</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="keyword">with</span> <span title="scala.collection.SetLike[A,scales.utils.MapSet[A]]">SetLike</span><span class="delimiter">[</span>A, MapSet<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="82042">stringPrefix</a> = <span title="java.lang.String(&quot;MapSet&quot;)" class="string">&quot;MapSet&quot;</span>
+
+  <span class="keyword">def</span> <a title="()(implicit conv: A =&gt; scales.utils.Key[A])scales.utils.MapSet[A]" id="82043" class="keyword">this</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="A =&gt; scales.utils.Key[A]" id="82181">conv</a> : A =&gt; Key<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#11035" title="MapSet.this.type" class="keyword">this</a><span class="delimiter">(</span><span title="[A, B](elems: (A, B)*)scala.collection.Map[A,B]">Map</span><span title="(elems: (scales.utils.Key[A], A)*)scala.collection.Map[scales.utils.Key[A],A]" class="delimiter">[</span><a href="#10918" title="scales.utils.Key[A]">Key</a><span class="delimiter">[</span>A<span class="delimiter">]</span>,<a href="#11983" title="A">A</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#82181" title="A =&gt; scales.utils.Key[A]">conv</a><span class="delimiter">)</span>
+  
+  <span class="keyword">private</span> <span class="keyword">def</span> <a title="(m: scala.collection.Map[scales.utils.Key[A],A])scales.utils.MapSet[A]" id="82044">newSet</a><span class="delimiter">(</span><a title="scala.collection.Map[scales.utils.Key[A],A]" id="82540">m</a> : <span title="scala.collection.Map[scales.utils.Key[A],A]">Map</span><span class="delimiter">[</span>Key<span class="delimiter">[</span>A<span class="delimiter">]</span>,A<span class="delimiter">]</span><span class="delimiter">)</span> = <span title="scales.utils.MapSet[A]" class="keyword">new</span> <a href="#11035" title="scales.utils.MapSet[A]">MapSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span><a href="#82540" title="scala.collection.Map[scales.utils.Key[A],A]">m</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#82180" title="=&gt; A =&gt; scales.utils.Key[A]">conv</a><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Builder[A,scales.utils.MapSet[A]]" id="82045">newBuilder</a> : <span title="scala.collection.mutable.Builder[A,scales.utils.MapSet[A]]">Builder</span><span class="delimiter">[</span>A, MapSet<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="#82491" title="object scales.utils.MapSet">MapSet</a>.<a href="#81930" title="(implicit conv: A =&gt; scales.utils.Key[A])scala.collection.mutable.Builder[A,scales.utils.MapSet[A]]">newBuilder</a>
+
+  <span class="comment">/** A factory to create empty sets of the same type of keys.
+   */</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.MapSet[A]" id="82046">empty</a> = <a href="#82491" title="object scales.utils.MapSet">MapSet</a>.<a href="#81933" title="(implicit conv: A =&gt; scales.utils.Key[A])scales.utils.MapSet[A]">empty</a>
+
+  <span class="keyword">override</span> <span class="keyword">val</span> <a title="Int" id="82047">size</a> = <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="=&gt; Int">size</span>
+
+  <span class="comment">/**
+   * Look ma now we are a map CTw
+   */</span>
+  <span class="keyword">def</span> <a title="[T](a: T)(implicit conv: T =&gt; scales.utils.Key[A])Option[A]" id="82049">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="82051">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="82594">a</a> : <a href="#82051" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T =&gt; scales.utils.Key[A]" id="82595">conv</a> : <span class="delimiter">(</span>T<span class="delimiter">)</span> =&gt; Key<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="Option[A]">Option</span><span class="delimiter">[</span>A<span class="delimiter">]</span> =
+    <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="(key: scales.utils.Key[A])Option[A]">get</span><span class="delimiter">(</span><a href="#82595" title="(v1: T)scales.utils.Key[A]">conv</a><span class="delimiter">(</span><a href="#82594" title="T">a</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Convertable contains
+   */</span>
+  <span class="keyword">def</span> <a title="[T](elem: T)(implicit conv: T =&gt; scales.utils.Key[A])Boolean" id="82052">contains</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="82054">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="82623">elem</a>: <a href="#82054" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T =&gt; scales.utils.Key[A]" id="82624">conv</a> : <span class="delimiter">(</span>T<span class="delimiter">)</span> =&gt; Key<span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = 
+    <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="(key: scales.utils.Key[A])Boolean">contains</span><span class="delimiter">(</span><a href="#82624" title="(v1: T)scales.utils.Key[A]">conv</a><span class="delimiter">(</span><a href="#82623" title="T">elem</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Convertable --
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](other: Traversable[T])(implicit conv: T =&gt; scales.utils.Key[A])scales.utils.MapSet[A]" id="82055">--</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="82057">T</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="Traversable[T]" id="82647">other</a> : <span title="Traversable[T]">Traversable</span><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T =&gt; scales.utils.Key[A]" id="82648">conv</a> : <span class="delimiter">(</span>T<span class="delimiter">)</span> =&gt; Key<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#82647" title="Traversable[T]">other</a>.<span title="(z: scales.utils.MapSet[A])(op: (scales.utils.MapSet[A], T) =&gt; scales.utils.MapSet[A])scales.utils.MapSet[A]">foldLeft</span><span class="delimiter">(</span><a href="#11035" title="scales.utils.MapSet[A]" class="keyword">this</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#82668" title="scales.utils.MapSet[A]">_</a> <a href="#82058" title="(other: T)(implicit conv: T =&gt; scales.utils.Key[A])scales.utils.MapSet[A]">-</a> <a href="#82669" title="T">_</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Convertable -
+   */</span>
+  <span class="keyword">def</span> <a title="[T](other: T)(implicit conv: T =&gt; scales.utils.Key[A])scales.utils.MapSet[A]" id="82058">-</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="82060">T</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="T" id="82673">other</a> : <a href="#82060" title="T">T</a><span class="delimiter">)</span> <span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T =&gt; scales.utils.Key[A]" id="82674">conv</a> : <span class="delimiter">(</span>T<span class="delimiter">)</span> =&gt; Key<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scala.collection.Map[scales.utils.Key[A],A]" id="82707">nm</a> = <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a> <span title="(key: scales.utils.Key[A])scala.collection.Map[scales.utils.Key[A],A]">-</span> <a href="#82674" title="(v1: T)scales.utils.Key[A]">conv</a><span class="delimiter">(</span><a href="#82673" title="T">other</a><span class="delimiter">)</span>
+    <span title="scales.utils.MapSet[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#82707" title="scala.collection.Map[scales.utils.Key[A],A]">nm</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a><span class="delimiter">)</span> <a href="#11035" title="scales.utils.MapSet[A]" class="keyword">this</a>
+    <span class="keyword">else</span> <a href="#82044" title="(m: scala.collection.Map[scales.utils.Key[A],A])scales.utils.MapSet[A]">newSet</a><span class="delimiter">(</span><a href="#82707" title="scala.collection.Map[scales.utils.Key[A],A]">nm</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** Creates a new `TreeSet` with the entry added.
+   *  
+   *  @param elem    a new element to add.
+   *  @return        a new $coll containing `elem` and all the elements of this $coll.
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: A)scales.utils.MapSet[A]" id="82061">+</a> <span class="delimiter">(</span><a title="A" id="82787">elem</a>: <a href="#11983" title="A">A</a><span class="delimiter">)</span>: <a href="#11035" title="scales.utils.MapSet[A]">MapSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scala.collection.Map[scales.utils.Key[A],A]" id="82796">m</a> = <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="(key: scales.utils.Key[A], value: A)scala.collection.Map[scales.utils.Key[A],A]">updated</span><span class="delimiter">(</span><a href="#82180" title="(v1: A)scales.utils.Key[A]">conv</a><span class="delimiter">(</span><a href="#82787" title="A">elem</a><span class="delimiter">)</span>, <a href="#82787" title="A">elem</a><span class="delimiter">)</span>
+    <span title="scales.utils.MapSet[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#82796" title="scala.collection.Map[scales.utils.Key[A],A]">m</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a><span class="delimiter">)</span> <a href="#11035" title="scales.utils.MapSet[A]" class="keyword">this</a> <span class="comment">// highly unlikely though</span>
+    <span class="keyword">else</span> <a href="#82044" title="(m: scala.collection.Map[scales.utils.Key[A],A])scales.utils.MapSet[A]">newSet</a><span class="delimiter">(</span><a href="#82796" title="scala.collection.Map[scales.utils.Key[A],A]">m</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** A new `TreeSet` with the entry added is returned,
+   *  assuming that elem is &lt;em&gt;not&lt;/em&gt; in the TreeSet.
+   *  
+   *  @param elem    a new element to add.
+   *  @return        a new $coll containing `elem` and all the elements of this $coll.
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: A)scales.utils.MapSet[A]" id="82062">insert</a><span class="delimiter">(</span><a title="A" id="82832">elem</a>: <a href="#11983" title="A">A</a><span class="delimiter">)</span>: <a href="#11035" title="scales.utils.MapSet[A]">MapSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.utils.Key[A]" id="82834">key</a> = <a href="#82180" title="(v1: A)scales.utils.Key[A]">conv</a><span class="delimiter">(</span><a href="#82832" title="A">elem</a><span class="delimiter">)</span>
+    <span title="(assertion: Boolean)Unit">assert</span><span class="delimiter">(</span><a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="(key: scales.utils.Key[A])Option[A]">get</span><span class="delimiter">(</span><a href="#82834" title="scales.utils.Key[A]">key</a><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span>
+    <a href="#82044" title="(m: scala.collection.Map[scales.utils.Key[A],A])scales.utils.MapSet[A]">newSet</a><span class="delimiter">(</span><a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="(key: scales.utils.Key[A], value: A)scala.collection.Map[scales.utils.Key[A],A]">updated</span><span class="delimiter">(</span><a href="#82834" title="scales.utils.Key[A]">key</a>, <a href="#82832" title="A">elem</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  
+  <span class="comment">/** Creates a new `TreeSet` with the entry removed.
+   *  
+   *  @param elem    a new element to add.
+   *  @return        a new $coll containing all the elements of this $coll except `elem`.
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: A)scales.utils.MapSet[A]" id="82063">-</a> <span class="delimiter">(</span><a title="A" id="82743">elem</a>:<a href="#11983" title="A">A</a><span class="delimiter">)</span>: <a href="#11035" title="scales.utils.MapSet[A]">MapSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scala.collection.Map[scales.utils.Key[A],A]" id="82866">m</a> = <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a> <span title="(key: scales.utils.Key[A])scala.collection.Map[scales.utils.Key[A],A]">-</span> <a href="#82180" title="(v1: A)scales.utils.Key[A]">conv</a><span class="delimiter">(</span><a href="#82743" title="A">elem</a><span class="delimiter">)</span>
+    <span title="scales.utils.MapSet[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#82866" title="scala.collection.Map[scales.utils.Key[A],A]">m</a><span class="delimiter">)</span> <a href="#11035" title="scales.utils.MapSet[A]" class="keyword">this</a>
+    <span class="keyword">else</span> <a href="#82044" title="(m: scala.collection.Map[scales.utils.Key[A],A])scales.utils.MapSet[A]">newSet</a><span class="delimiter">(</span><a href="#82866" title="scala.collection.Map[scales.utils.Key[A],A]">m</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/** Checks if this set contains element `elem`.
+   *  
+   *  @param  elem    the element to check for membership.
+   *  @return true, iff `elem` is contained in this set.
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: A)Boolean" id="82064">contains</a><span class="delimiter">(</span><a title="A" id="82897">elem</a>: <a href="#11983" title="A">A</a><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="(key: scales.utils.Key[A])Boolean">contains</span><span class="delimiter">(</span><a href="#82180" title="(v1: A)scales.utils.Key[A]">conv</a><span class="delimiter">(</span><a href="#82897" title="A">elem</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/** Creates a new iterator over all elements contained in this
+   *  object.
+   *  
+   *  @return the new iterator
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; Iterator[A]" id="82065">iterator</a>: <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="=&gt; Iterator[A]">valuesIterator</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Stream[A]" id="82066">toStream</a>: <span title="Stream[A]">Stream</span><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a>.<span title="=&gt; Iterable[A]">values</span>.<span title="=&gt; scala.collection.immutable.Stream[A]">toStream</span>
+
+<span class="comment">// for some reason the below is whats called but not seen</span>
+<span class="comment">//  override def foreach[U](f: A =&gt; U) = iterator foreach f</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="82067">equals</a><span class="delimiter">(</span> <a title="Any" id="82945">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#82945" title="Any">other</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <a title="Boolean" id="82948">o</a> : <a href="#11035" title="scales.utils.MapSet[A]">MapSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> =&gt; <a href="#82948" title="scales.utils.MapSet[A]">o</a>.<a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#82179" title="=&gt; scala.collection.Map[scales.utils.Key[A],A]">map</a> <span class="comment">// map should be faster directly</span>
+    <span class="keyword">case</span> <span title="Boolean(false)">_</span> =&gt; <span title="Boolean(false)" class="keyword">false</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

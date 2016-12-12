@@ -1,0 +1,553 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;TreeSet.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_TreeSet.scala.html#Class_scales_utils_TreeSet"><img src="class.png"></img>TreeSet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_TreeSet.scala.html#Object_scales_utils_TreeSet"><img src="object.png"></img>TreeSet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import scala.collection._
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import immutable.{SortedSet, RedBlack}
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import scala.math.Ordering
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import generic._
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import mutable.{ Builder, SetBuilder }
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>/** $factoryInfo
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td> *  @define Coll immutable.TreeSet
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td> *  @define coll immutable tree set
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td><a id="Object_scales_utils_TreeSet"></a>object TreeSet extends ImmutableSortedSetFactory[TreeSet] {
+</td>
+          </tr><tr>
+            <td class="red">15</td>
+            <td>  implicit def implicitBuilder[A](implicit ordering: Ordering[A]): Builder[A, TreeSet[A]] = <span class="non">newBuilder[A](ordering)
+</span></td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>  override def newBuilder[A](implicit ordering: Ordering[A]): Builder[A, TreeSet[A]] =
+</td>
+          </tr><tr>
+            <td class="red">17</td>
+            <td>    <span class="non">new SetBuilder(empty[A](ordering))
+</span></td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>  /** The empty set of this type
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">21</td>
+            <td>  def empty[A](implicit ordering: Ordering[A]) = <span class="non">new TreeSet[A]
+</span></td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td> * This version of treeset better fits the xml attributes, we also want to be able to get stuff out.  So its A -&gt; A but hidden in a set
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>@serializable
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>@SerialVersionUID(-234066569443569402L)
+</td>
+          </tr><tr>
+            <td class="red">29</td>
+            <td><a id="Class_scales_utils_TreeSet"></a>class TreeSet[A]<span class="non">(override val size: Int, t: RedBlack[A]#Tree[A])
+</span></td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>                (implicit val ordering: Ordering[A])
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>  extends RedBlack[A] with SortedSet[A] with SortedSetLike[A, TreeSet[A]] {
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">33</td>
+            <td>  override def stringPrefix = <span class="non">&quot;TreeSet&quot;
+</span></td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">35</td>
+            <td>  def isSmaller(x: A, y: A) = <span class="non">compare(x,y) &lt; 0
+</span></td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">37</td>
+            <td>  def this()(implicit ordering: Ordering[A]) = <span class="non">this(0, null)(ordering)
+</span></td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="red">39</td>
+            <td>  protected val tree: RedBlack[A]#Tree[A] = if (<span class="non">size == 0) Empty else t
+</span></td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">41</td>
+            <td>  private def newSet(s: Int, t: RedBlack[A]#Tree[A]) = <span class="non">new TreeSet[A](s, t)
+</span></td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">43</td>
+            <td>  override def newBuilder : Builder[A, TreeSet[A]] = <span class="non">TreeSet.newBuilder
+</span></td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>  /** A factory to create empty sets of the same type of keys.
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">47</td>
+            <td>  override def empty = <span class="non">TreeSet.empty
+</span></td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>   * Look ma now we are a map CTw
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>  def apply[T](a : T)(implicit conv : (T) =&gt; A) : Option[A] =
+</td>
+          </tr><tr>
+            <td class="red">53</td>
+            <td>    <span class="non">tree.lookup(conv(a)) match {
+</span></td>
+          </tr><tr>
+            <td class="red">54</td>
+            <td>      case n: NonEmpty[a] =&gt; <span class="non">Some(n.value)
+</span></td>
+          </tr><tr>
+            <td class="red">55</td>
+            <td>      case _ =&gt; <span class="non">None
+</span></td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>   * Convertable contains
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">61</td>
+            <td>  def contains[T](elem: T)(implicit conv : (T) =&gt; A ): Boolean = <span class="non">!tree.lookup(conv(elem)).isEmpty
+</span></td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>   * Convertable --
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="red">66</td>
+            <td>  def --[T]( other : Traversable[T] )(implicit conv : (T) =&gt; A) = <span class="non">other.foldLeft(this)(_ - _)
+</span></td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>   * Convertable -
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>  def -[T]( other : T) (implicit conv : (T) =&gt; A) = {
+</td>
+          </tr><tr>
+            <td class="red">72</td>
+            <td>    val elem = <span class="non">conv(other)
+</span></td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">74</td>
+            <td>    if (<span class="non">tree.lookup(elem).isEmpty) this
+</span></td>
+          </tr><tr>
+            <td class="red">75</td>
+            <td>    else <span class="non">newSet(size - 1, tree delete elem)
+</span></td>
+          </tr><tr>
+            <td class="black">76</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>  /** Creates a new `TreeSet` with the entry added.
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>   *  @param elem    a new element to add.
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>   *  @return        a new $coll containing `elem` and all the elements of this $coll.
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>  def + (elem: A): TreeSet[A] = {
+</td>
+          </tr><tr>
+            <td class="red">84</td>
+            <td>    val newsize = if (<span class="non">tree.lookup(elem).isEmpty) size + 1 else size
+</span></td>
+          </tr><tr>
+            <td class="red">85</td>
+            <td>    <span class="non">newSet(newsize, tree.update(elem, elem))
+</span></td>
+          </tr><tr>
+            <td class="black">86</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">87</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">88</td>
+            <td>  /** A new `TreeSet` with the entry added is returned,
+</td>
+          </tr><tr>
+            <td class="black">89</td>
+            <td>   *  assuming that elem is &lt;em&gt;not&lt;/em&gt; in the TreeSet.
+</td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">91</td>
+            <td>   *  @param elem    a new element to add.
+</td>
+          </tr><tr>
+            <td class="black">92</td>
+            <td>   *  @return        a new $coll containing `elem` and all the elements of this $coll.
+</td>
+          </tr><tr>
+            <td class="black">93</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">94</td>
+            <td>  def insert(elem: A): TreeSet[A] = {
+</td>
+          </tr><tr>
+            <td class="red">95</td>
+            <td>    <span class="non">assert(tree.lookup(elem).isEmpty)
+</span></td>
+          </tr><tr>
+            <td class="red">96</td>
+            <td>    <span class="non">newSet(size + 1, tree.update(elem, elem))
+</span></td>
+          </tr><tr>
+            <td class="black">97</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">98</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">99</td>
+            <td>  /** Creates a new `TreeSet` with the entry removed.
+</td>
+          </tr><tr>
+            <td class="black">100</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">101</td>
+            <td>   *  @param elem    a new element to add.
+</td>
+          </tr><tr>
+            <td class="black">102</td>
+            <td>   *  @return        a new $coll containing all the elements of this $coll except `elem`.
+</td>
+          </tr><tr>
+            <td class="black">103</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td>  def - (elem:A): TreeSet[A] = 
+</td>
+          </tr><tr>
+            <td class="red">105</td>
+            <td>    if (<span class="non">tree.lookup(elem).isEmpty) this
+</span></td>
+          </tr><tr>
+            <td class="red">106</td>
+            <td>    else <span class="non">newSet(size - 1, tree delete elem)
+</span></td>
+          </tr><tr>
+            <td class="black">107</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>  /** Checks if this set contains element `elem`.
+</td>
+          </tr><tr>
+            <td class="black">109</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>   *  @param  elem    the element to check for membership.
+</td>
+          </tr><tr>
+            <td class="black">111</td>
+            <td>   *  @return true, iff `elem` is contained in this set.
+</td>
+          </tr><tr>
+            <td class="black">112</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">113</td>
+            <td>  def contains(elem: A): Boolean = <span class="non">!tree.lookup(elem).isEmpty
+</span></td>
+          </tr><tr>
+            <td class="black">114</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">115</td>
+            <td>  /** Creates a new iterator over all elements contained in this
+</td>
+          </tr><tr>
+            <td class="black">116</td>
+            <td>   *  object.
+</td>
+          </tr><tr>
+            <td class="black">117</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">118</td>
+            <td>   *  @return the new iterator
+</td>
+          </tr><tr>
+            <td class="black">119</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">120</td>
+            <td>  def iterator: Iterator[A] = <span class="non">tree.toStream.iterator map (_._1)
+</span></td>
+          </tr><tr>
+            <td class="black">121</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">122</td>
+            <td>  override def toStream: Stream[A] = <span class="non">tree.toStream map (_._1)
+</span></td>
+          </tr><tr>
+            <td class="black">123</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">124</td>
+            <td>  override def foreach[U](f: A =&gt;  U) = <span class="non">tree foreach { (x, y) =&gt; f(x) } 
+</span></td>
+          </tr><tr>
+            <td class="black">125</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">126</td>
+            <td>  override def rangeImpl(from: Option[A], until: Option[A]): TreeSet[A] = {
+</td>
+          </tr><tr>
+            <td class="red">127</td>
+            <td>    val tree = <span class="non">this.tree.range(from, until)
+</span></td>
+          </tr><tr>
+            <td class="red">128</td>
+            <td>    <span class="non">newSet(tree.count, tree)
+</span></td>
+          </tr><tr>
+            <td class="black">129</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="red">130</td>
+            <td>  override def firstKey = <span class="non">tree.first
+</span></td>
+          </tr><tr>
+            <td class="red">131</td>
+            <td>  override def lastKey = <span class="non">tree.last
+</span></td>
+          </tr><tr>
+            <td class="black">132</td>
+            <td>}
+</td>
+          </tr></tbody></table>

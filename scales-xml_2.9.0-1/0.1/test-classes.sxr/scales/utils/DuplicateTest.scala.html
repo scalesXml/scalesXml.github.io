@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\DuplicateTest.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"><span class="keyword">import</span> <a href="../../../classes.sxr/scales/utils/ScalesUtils.scala.html#9179" title="object scales.utils.ScalesUtils">ScalesUtils</a>._</span>
+<a href="l3"></a><span id="l3"></span>
+<a href="l4"></a><span id="l4"><span class="keyword">class</span> <a title="class DuplicateTest extends junit.framework.TestCase with ScalaObject" id="9984">DuplicateTest</a> <a href="#9984" title="ScalaObject" class="keyword">extends</a> junit.framework.<span title="junit.framework.TestCase">TestCase</span> <span class="delimiter">{</span></span>
+<a href="l5"></a><span id="l5">  </span>
+<a href="l6"></a><span id="l6">  <span class="keyword">import</span> junit.framework.<span title="object junit.framework.Assert">Assert</span>._</span>
+<a href="l7"></a><span id="l7">  </span>
+<a href="l8"></a><span id="l8">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50120">testSimple</a> = <span class="delimiter">{</span></span>
+<a href="l9"></a><span id="l9">    <span class="keyword">val</span> <a title="List[Int]" id="51707">list</a> = <span title="(xs: Int*)List[Int]">List</span><span class="delimiter">(</span><span title="Int(1)" class="int">1</span>,<span title="Int(2)" class="int">2</span>,<span title="Int(2)" class="int">2</span>,<span title="Int(3)" class="int">3</span>,<span title="Int(3)" class="int">3</span>,<span title="Int(3)" class="int">3</span>,<span title="Int(4)" class="int">4</span>,<span title="Int(5)" class="int">5</span><span class="delimiter">)</span></span>
+<a href="l10"></a><span id="l10">    <span class="keyword">val</span> <a title="scales.utils.DuplicateFilter[Int]" id="51708">filtered</a> = <a href="../../../classes.sxr/scales/utils/DuplicateFilter.scala.html#41008" title="(orig: Iterable[Int])(implicit predicate: (Int, Int) =&gt; Boolean)scales.utils.DuplicateFilter[Int]">DuplicateFilter</a><a href="../../../classes.sxr/scales/utils/DuplicateFilter.scala.html#39676" title="=&gt; (AnyVal, AnyVal) =&gt; Boolean" class="delimiter">(</a><a href="#51707" title="List[Int]">list</a><span class="delimiter">)</span></span>
+<a href="l11"></a><span id="l11">    </span>
+<a href="l12"></a><span id="l12">    <span class="keyword">val</span> <a title="StringBuilder" id="51709">sb</a> = <span title="()StringBuilder" class="keyword">new</span> <span title="StringBuilder">StringBuilder</span><span class="delimiter">(</span><span class="delimiter">)</span></span>
+<a href="l13"></a><span id="l13">    <a href="#51708" title="scales.utils.DuplicateFilter[Int]">filtered</a>.<span title="(b: StringBuilder)StringBuilder">addString</span><span class="delimiter">(</span><a href="#51709" title="StringBuilder">sb</a><span class="delimiter">)</span></span>
+<a href="l14"></a><span id="l14">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;12345&quot;)" class="string">&quot;12345&quot;</span>,<a href="#51709" title="StringBuilder">sb</a>.<span title="()java.lang.String">toString</span><span class="delimiter">)</span></span>
+<a href="l15"></a><span id="l15">  <span class="delimiter">}</span></span>
+<a href="l16"></a><span id="l16"></span>
+<a href="l17"></a><span id="l17">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50121">testSimpleStrings</a> = <span class="delimiter">{</span></span>
+<a href="l18"></a><span id="l18">    <span class="keyword">val</span> <a title="List[java.lang.String]" id="52269">list</a> = <span title="(xs: java.lang.String*)List[java.lang.String]">List</span><span class="delimiter">(</span><span title="java.lang.String(&quot;a&quot;)" class="string">&quot;a&quot;</span>,<span title="java.lang.String(&quot;b&quot;)" class="string">&quot;b&quot;</span>,<span title="java.lang.String(&quot;b&quot;)" class="string">&quot;b&quot;</span><span class="delimiter">)</span></span>
+<a href="l19"></a><span id="l19">    <span class="keyword">val</span> <a title="scales.utils.DuplicateFilter[java.lang.String]" id="52270">filtered</a> = <a href="../../../classes.sxr/scales/utils/DuplicateFilter.scala.html#41008" title="(orig: Iterable[java.lang.String])(implicit predicate: (java.lang.String, java.lang.String) =&gt; Boolean)scales.utils.DuplicateFilter[java.lang.String]">DuplicateFilter</a><a href="../../../classes.sxr/scales/utils/DuplicateFilter.scala.html#39674" title="=&gt; (AnyRef, AnyRef) =&gt; Boolean" class="delimiter">(</a><a href="#52269" title="List[java.lang.String]">list</a><span class="delimiter">)</span></span>
+<a href="l20"></a><span id="l20">    </span>
+<a href="l21"></a><span id="l21">    <span class="keyword">val</span> <a title="StringBuilder" id="52271">sb</a> = <span title="()StringBuilder" class="keyword">new</span> <span title="StringBuilder">StringBuilder</span><span class="delimiter">(</span><span class="delimiter">)</span></span>
+<a href="l22"></a><span id="l22">    <a href="#52270" title="scales.utils.DuplicateFilter[java.lang.String]">filtered</a>.<span title="(b: StringBuilder)StringBuilder">addString</span><span class="delimiter">(</span><a href="#52271" title="StringBuilder">sb</a><span class="delimiter">)</span></span>
+<a href="l23"></a><span id="l23">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;ab&quot;)" class="string">&quot;ab&quot;</span>,<a href="#52271" title="StringBuilder">sb</a>.<span title="()java.lang.String">toString</span><span class="delimiter">)</span></span>
+<a href="l24"></a><span id="l24">  <span class="delimiter">}</span></span>
+<a href="l25"></a><span id="l25"></span>
+<a href="l26"></a><span id="l26">  case <span class="keyword">class</span> <a title="class StringHolder extends java.lang.Object with ScalaObject with Product with Serializable" id="52436">StringHolder</a><a href="#52436" title="ScalaObject" class="delimiter">(</a> <a title="String" id="52546">str</a> : <span title="String">String</span> <span class="delimiter">)</span></span>
+<a href="l27"></a><span id="l27">  </span>
+<a href="l28"></a><span id="l28">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50125">testSimpleCases</a> = <span class="delimiter">{</span></span>
+<a href="l29"></a><span id="l29">    <span class="keyword">val</span> <a title="DuplicateTest.this.StringHolder" id="52542">b</a> = <a href="#52436" title="(str: String)DuplicateTest.this.StringHolder">StringHolder</a><span class="delimiter">(</span><span title="java.lang.String(&quot;b&quot;)" class="string">&quot;b&quot;</span><span class="delimiter">)</span></span>
+<a href="l30"></a><span id="l30">    <span class="keyword">val</span> <a title="List[DuplicateTest.this.StringHolder]" id="52543">list</a> = <span title="(xs: DuplicateTest.this.StringHolder*)List[DuplicateTest.this.StringHolder]">List</span><span class="delimiter">(</span><a href="#52436" title="(str: String)DuplicateTest.this.StringHolder">StringHolder</a><span class="delimiter">(</span><span title="java.lang.String(&quot;a&quot;)" class="string">&quot;a&quot;</span><span class="delimiter">)</span>,<a href="#52542" title="DuplicateTest.this.StringHolder">b</a>, <a href="#52542" title="DuplicateTest.this.StringHolder">b</a>, <a href="#52542" title="DuplicateTest.this.StringHolder">b</a><span class="delimiter">)</span></span>
+<a href="l31"></a><span id="l31">    <span class="keyword">val</span> <a title="scales.utils.DuplicateFilter[DuplicateTest.this.StringHolder]" id="52544">filtered</a> = <a href="../../../classes.sxr/scales/utils/DuplicateFilter.scala.html#41008" title="(orig: Iterable[DuplicateTest.this.StringHolder])(implicit predicate: (DuplicateTest.this.StringHolder, DuplicateTest.this.StringHolder) =&gt; Boolean)scales.utils.DuplicateFilter[DuplicateTest.this.StringHolder]">DuplicateFilter</a><a href="../../../classes.sxr/scales/utils/DuplicateFilter.scala.html#39674" title="=&gt; (AnyRef, AnyRef) =&gt; Boolean" class="delimiter">(</a><a href="#52543" title="List[DuplicateTest.this.StringHolder]">list</a><span class="delimiter">)</span></span>
+<a href="l32"></a><span id="l32">    </span>
+<a href="l33"></a><span id="l33">    <span class="keyword">val</span> <a title="StringBuilder" id="52545">sb</a> = <span title="()StringBuilder" class="keyword">new</span> <span title="StringBuilder">StringBuilder</span><span class="delimiter">(</span><span class="delimiter">)</span></span>
+<a href="l34"></a><span id="l34">    <a href="#52544" title="scales.utils.DuplicateFilter[DuplicateTest.this.StringHolder]">filtered</a>.<span title="(f: (DuplicateTest.this.StringHolder) =&gt; String)(implicit bf: scala.collection.generic.CanBuildFrom[Iterable[DuplicateTest.this.StringHolder],String,Iterable[String]])Iterable[String]">map</span><span title="scala.collection.generic.CanBuildFrom[scala.collection.Iterable.Coll,String,Iterable[String]]" class="delimiter">(</span><a href="#52614" title="DuplicateTest.this.StringHolder">_</a>.<a href="#52546" title="=&gt; String">str</a><span class="delimiter">)</span>.<span title="(b: StringBuilder)StringBuilder">addString</span><span class="delimiter">(</span><a href="#52545" title="StringBuilder">sb</a><span class="delimiter">)</span></span>
+<a href="l35"></a><span id="l35">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;ab&quot;)" class="string">&quot;ab&quot;</span>,<a href="#52545" title="StringBuilder">sb</a>.<span title="()java.lang.String">toString</span><span class="delimiter">)</span></span>
+<a href="l36"></a><span id="l36">  <span class="delimiter">}</span></span>
+<a href="l37"></a><span id="l37"></span>
+<a href="l38"></a><span id="l38"><span class="delimiter">}</span></span>
+<a href="l39"></a><span id="l39"></span>
+<a href="l40"></a><span id="l40">        </span>
+</pre>
+    </body>
+</html>

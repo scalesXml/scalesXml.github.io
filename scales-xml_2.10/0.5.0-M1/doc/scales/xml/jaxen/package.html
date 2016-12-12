@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>jaxen - scales.xml.jaxen</title>
+          <meta name="description" content="jaxen - scales.xml.jaxen" />
+          <meta name="keywords" content="jaxen scales.xml.jaxen" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'scales.xml.jaxen.package';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../lib/package_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="scales">scales</a>.<a href="../package.html" class="extype" name="scales.xml">xml</a></p>
+        <h1>jaxen</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">jaxen</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>This package provides string XPath evaluation based on the Jaxen library, sample use: </p><pre><span class="kw">val</span> xpath = ScalesXPath(str, <span class="std">Map</span>(
+      <span class="lit">"pre"</span> -&gt; <span class="lit">"urn:prefix"</span>,
+      <span class="lit">"jh"</span> -&gt; <span class="lit">"urn:justHere"</span>,
+      <span class="lit">"def"</span> -&gt; <span class="lit">"urn:default"</span>
+    ))
+<span class="kw">val</span> result : Iterable[Either[AttributePath, XmlPath]] = xpath.evaluate(x : XmlPath)</pre><p>NB: This class is only available with the scales-jaxen dependencies.
+</p></div><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block diagram-container" id="content-diagram-container">
+                <span class="toggle diagram-link">Content Hierarchy</span>
+                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
+                <div class="diagram" id="content-diagram"><svg class="package-diagram" id="graph2" viewBox="0.00 0.00 356.00 96.00" height="96pt" width="356pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 92)" class="graph" id="graph1"><polygon points="-4,5 -4,-92 353,-92 353,5 -4,5" stroke="white" fill="white"></polygon><!-- node0 --><g class="node class" id="graph2_0"><a xlink:title="scales.xml.jaxen.ScalesXPath" xlink:href="ScalesXPath.html#inheritance-diagram"><polygon points="124.25,-26 23.75,-26 23.75,-0 124.25,-0 124.25,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-21" x="34" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="56" text-anchor="start">ScalesXPath</text></a></g><!-- node1 --><g class="node class" id="graph2_1"><a xlink:title="scales.xml.jaxen.ScalesDefaultLocationPath" xlink:href="ScalesDefaultLocationPath.html#inheritance-diagram"><polygon points="329.25,-88 166.75,-88 166.75,-62 329.25,-62 329.25,-88" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-83" x="177" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-73" x="199" text-anchor="start">ScalesDefaultLocationPath</text></a></g><!-- node2 --><g class="node class" id="graph2_2"><a xlink:title="scales.xml.jaxen.ScalesDefaultAbsoluteLocationPath" xlink:href="ScalesDefaultAbsoluteLocationPath.html#inheritance-diagram"><polygon points="348.25,-26 147.75,-26 147.75,-0 348.25,-0 348.25,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-21" x="158" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="180" text-anchor="start">ScalesDefaultAbsoluteLocationPath</text></a></g><!-- node1&#45;&gt;node2 --><g class="edge inheritance" id="graph2_1_2"><a xlink:title="ScalesDefaultAbsoluteLocationPath is a subtype of ScalesDefaultLocationPath"><path d="M248,-56.6826C248,-46.8961 248,-34.9026 248,-26.1238" stroke="#d4d4d4" fill="none"></path><polygon points="246.25,-56.8581 248,-61.8581 249.75,-56.8581 246.25,-56.8581" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node3 --><g class="node class" id="graph2_3"><a xlink:title="scales.xml.jaxen.ScalesBaseJaxenXPath" xlink:href="ScalesBaseJaxenXPath.html#inheritance-diagram"><polygon points="148.25,-88 -0.25,-88 -0.25,-62 148.25,-62 148.25,-88" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-83" x="10" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-73" x="32" text-anchor="start">ScalesBaseJaxenXPath</text></a></g><!-- node3&#45;&gt;node0 --><g class="edge inheritance" id="graph2_3_0"><a xlink:title="ScalesXPath is a subtype of ScalesBaseJaxenXPath"><path d="M74,-56.6826C74,-46.8961 74,-34.9026 74,-26.1238" stroke="#d4d4d4" fill="none"></path><polygon points="72.2501,-56.8581 74,-61.8581 75.7501,-56.8581 72.2501,-56.8581" stroke="#d4d4d4" fill="none"></polygon></a></g></g></svg></div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="scales.xml.jaxen"><span>jaxen</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="scales.xml.jaxen.ScalesBaseJaxenXPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesBaseJaxenXPathextendsXPathwithSerializable"></a>
+      <a id="ScalesBaseJaxenXPath:ScalesBaseJaxenXPath"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesBaseJaxenXPath.html"><span class="name">ScalesBaseJaxenXPath</span></a><span class="result"> extends <span class="extype" name="org.jaxen.XPath">org.jaxen.XPath</span> with <span class="extype" name="java.io.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scales.xml.jaxen.ScalesDefaultAbsoluteLocationPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesDefaultAbsoluteLocationPathextendsScalesDefaultLocationPath"></a>
+      <a id="ScalesDefaultAbsoluteLocationPath:ScalesDefaultAbsoluteLocationPath"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesDefaultAbsoluteLocationPath.html"><span class="name">ScalesDefaultAbsoluteLocationPath</span></a><span class="result"> extends <a href="ScalesDefaultLocationPath.html" class="extype" name="scales.xml.jaxen.ScalesDefaultLocationPath">ScalesDefaultLocationPath</a></span>
+      </span>
+      </h4>
+      
+    </li><li name="scales.xml.jaxen.ScalesDefaultLocationPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesDefaultLocationPathextendsDefaultLocationPath"></a>
+      <a id="ScalesDefaultLocationPath:ScalesDefaultLocationPath"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesDefaultLocationPath.html"><span class="name">ScalesDefaultLocationPath</span></a><span class="result"> extends <span class="extype" name="scales.xml.jaxen.DefaultLocationPath">DefaultLocationPath</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scales.xml.jaxen.ScalesNavigator" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesNavigatorextendsDefaultNavigator"></a>
+      <a id="ScalesNavigator:ScalesNavigator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesNavigator.html"><span class="name">ScalesNavigator</span></a><span class="result"> extends <span class="extype" name="org.jaxen.DefaultNavigator">DefaultNavigator</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Maps Scales Xml into Jaxen</p>
+    </li><li name="scales.xml.jaxen.ScalesUnionExpr" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesUnionExprextendsDefaultBinaryExprwithUnionExpr"></a>
+      <a id="ScalesUnionExpr:ScalesUnionExpr"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesUnionExpr.html"><span class="name">ScalesUnionExpr</span></a><span class="result"> extends <span class="extype" name="scales.xml.jaxen.DefaultBinaryExpr">DefaultBinaryExpr</span> with <span class="extype" name="org.jaxen.expr.UnionExpr">UnionExpr</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">To use a proper comparator
+</p>
+    </li><li name="scales.xml.jaxen.ScalesXPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesXPathextendsScalesBaseJaxenXPath"></a>
+      <a id="ScalesXPath:ScalesXPath"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesXPath.html"><span class="name">ScalesXPath</span></a><span class="result"> extends <a href="ScalesBaseJaxenXPath.html" class="extype" name="scales.xml.jaxen.ScalesBaseJaxenXPath">ScalesBaseJaxenXPath</a></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Use evaluate every time, select nodes will not work.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scales.xml.jaxen.Implicits" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Implicits"></a>
+      <a id="Implicits:Implicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Implicits$.html"><span class="name">Implicits</span></a>
+      </span>
+      </h4>
+      
+    </li><li name="scales.xml.jaxen.ScalesComparator" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesComparator"></a>
+      <a id="ScalesComparator:ScalesComparator"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesComparator$.html"><span class="name">ScalesComparator</span></a><span class="result"> extends <span class="extype" name="java.util.Comparator">Comparator</span>[<span class="extype" name="scala.AnyRef">AnyRef</span>]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Interesting exercise in futility, its better not to sort as so many other places make reference / identity assumptions.</p>
+    </li><li name="scales.xml.jaxen.ScalesXPath" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesXPath"></a>
+      <a id="ScalesXPath:ScalesXPath"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesXPath$.html"><span class="name">ScalesXPath</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Useful constructors for String XPaths
+</p>
+    </li><li name="scales.xml.jaxen.ScalesXPathFactory" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="ScalesXPathFactory"></a>
+      <a id="ScalesXPathFactory:ScalesXPathFactory"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesXPathFactory$.html"><span class="name">ScalesXPathFactory</span></a><span class="result"> extends <span class="extype" name="org.jaxen.expr.DefaultXPathFactory">DefaultXPathFactory</span></span>
+      </span>
+      </h4>
+      <p class="comment cmt">Due to reference equality comparisoms and a deeply woven comparator we need to override a few things.</p>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

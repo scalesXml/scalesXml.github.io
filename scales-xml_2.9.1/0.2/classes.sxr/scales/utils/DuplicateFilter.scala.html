@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\DuplicateFilter.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="comment">/**</span>
+<a href="l4"></a><span id="l4"> * Default implicits for duplicate detection, one for AnyRef and one for AnvVal</span>
+<a href="l5"></a><span id="l5"> * </span>
+<a href="l6"></a><span id="l6"> * @author Chris</span>
+<a href="l7"></a><span id="l7"> *</span>
+<a href="l8"></a><span id="l8"> */</span></span>
+<a href="l9"></a><span id="l9"><span class="keyword">trait</span> <a title="trait DuplicateImplicits extends java.lang.Object with ScalaObject" id="10307">DuplicateImplicits</a> <span title="ScalaObject" class="delimiter">{</span></span>
+<a href="l10"></a><span id="l10">  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="(AnyRef, AnyRef) =&gt; Boolean" id="41167">sameRef</a>: <span class="delimiter">(</span>AnyRef, AnyRef<span class="delimiter">)</span> =&gt; Boolean = <a href="#41183" title="AnyRef">_</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#41184" title="AnyRef">_</a></span>
+<a href="l11"></a><span id="l11">  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="(AnyVal, AnyVal) =&gt; Boolean" id="41169">sameVal</a>: <span class="delimiter">(</span>AnyVal, AnyVal<span class="delimiter">)</span> =&gt; Boolean = <a href="#41186" title="AnyVal">_</a> <span title="(x$1: Any)Boolean">==</span> <a href="#41187" title="AnyVal">_</a></span>
+<a href="l12"></a><span id="l12"><span class="delimiter">}</span></span>
+<a href="l13"></a><span id="l13"></span>
+<a href="l14"></a><span id="l14"><span class="comment">/**</span>
+<a href="l15"></a><span id="l15"> * Remove neighbouring duplicates based on a given predicate (defaults to _ eq _).</span>
+<a href="l16"></a><span id="l16"> * </span>
+<a href="l17"></a><span id="l17"> * For example (1,2,2,3) would be converted to (1,2,3)</span>
+<a href="l18"></a><span id="l18"> * </span>
+<a href="l19"></a><span id="l19"> * @author Chris</span>
+<a href="l20"></a><span id="l20"> *</span>
+<a href="l21"></a><span id="l21"> */</span></span>
+<a href="l22"></a><span id="l22">case <span class="keyword">class</span> <a title="class DuplicateFilter[T] extends java.lang.Object with Iterable[T] with ScalaObject with Product with Serializable" id="42479">DuplicateFilter</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="42423">T</a><span class="delimiter">]</span><a href="#42479" title="ScalaObject" class="delimiter">(</a><a title="Iterable[T]" id="42472">orig</a>: <span title="Iterable[T]">Iterable</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span></span>
+<a href="l23"></a><span id="l23">  <span class="keyword">implicit</span> <a title="(T, T) =&gt; Boolean" id="42473">predicate</a>: <span class="delimiter">(</span>T, T<span class="delimiter">)</span> =&gt; Boolean<span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterable[T]">Iterable</span><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">{</span></span>
+<a href="l24"></a><span id="l24"></span>
+<a href="l25"></a><span id="l25">  <span class="comment">/**</span>
+<a href="l26"></a><span id="l26">   * Provide iterator to the path of the children</span>
+<a href="l27"></a><span id="l27">   */</span></span>
+<a href="l28"></a><span id="l28">  <span class="keyword">def</span> <a title="()java.lang.Object with Iterator[T]" id="41194">iterator</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#41440" title="java.lang.Object with Iterator[T]{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with Iterator[T]" id="41440">Iterator</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span></span>
+<a href="l29"></a><span id="l29">    <span class="keyword">val</span> <a title="Iterator[T]" id="42238">itr</a> = <a href="#42472" title="=&gt; Iterable[T]">orig</a>.<span title="=&gt; Iterator[T]">iterator</span></span>
+<a href="l30"></a><span id="l30">    <span class="keyword">var</span> <a title="(Boolean, T)" id="42241">nextPair</a>: <span title="(Boolean, T)" class="delimiter">(</span>Boolean, T<span class="delimiter">)</span> = <a href="#42246" title="=&gt; (Boolean, T)">getNext</a></span>
+<a href="l31"></a><span id="l31">    <span class="keyword">var</span> <a title="Boolean" id="42244">isFirst</a> = <span title="Boolean(true)" class="keyword">true</span></span>
+<a href="l32"></a><span id="l32">    <span class="keyword">def</span> <a title="=&gt; (Boolean, T)" id="42246">getNext</a>: <span title="(Boolean, T)" class="delimiter">(</span>Boolean, T<span class="delimiter">)</span> =</span>
+<a href="l33"></a><span id="l33">      <span title="(Boolean, T)" class="keyword">if</span> <span class="delimiter">(</span><a href="#42238" title="=&gt; Iterator[T]">itr</a>.<span title="=&gt; Boolean">hasNext</span><span class="delimiter">)</span></span>
+<a href="l34"></a><span id="l34">        <span title="(_1: Boolean, _2: T)(Boolean, T)" class="delimiter">(</span><span title="Boolean(true)" class="keyword">true</span>, <a href="#42238" title="=&gt; Iterator[T]">itr</a>.<span title="()T">next</span><span class="delimiter">)</span></span>
+<a href="l35"></a><span id="l35">      <span class="keyword">else</span></span>
+<a href="l36"></a><span id="l36">        <span title="Null(null)" class="keyword">null</span>: <span title="(Boolean, T)" class="delimiter">(</span>Boolean, T<span class="delimiter">)</span></span>
+<a href="l37"></a><span id="l37"></span>
+<a href="l38"></a><span id="l38">    <span class="comment">/**</span>
+<a href="l39"></a><span id="l39">     * 1, 2, 2, 3</span>
+<a href="l40"></a><span id="l40">     * </span>
+<a href="l41"></a><span id="l41">     * 				nextPair	cur</span>
+<a href="l42"></a><span id="l42">     * construct		1</span>
+<a href="l43"></a><span id="l43">     * hasNext			1		-</span>
+<a href="l44"></a><span id="l44">     * hasNext.getNext	2		1</span>
+<a href="l45"></a><span id="l45">     * 	- true // pred == false</span>
+<a href="l46"></a><span id="l46">     * hasNext			2		-</span>
+<a href="l47"></a><span id="l47">     * hasNext.getNext	2		2</span>
+<a href="l48"></a><span id="l48">     * 	// pred == false</span>
+<a href="l49"></a><span id="l49">     * hasNext			2		-</span>
+<a href="l50"></a><span id="l50">     * hasNext.getNext	3		2</span>
+<a href="l51"></a><span id="l51">     * 	- true // pred == false</span>
+<a href="l52"></a><span id="l52">     * hasNext			3		-</span>
+<a href="l53"></a><span id="l53">     * hasNext.getNext	null	3</span>
+<a href="l54"></a><span id="l54">     * 	- false // nextPair eq null</span>
+<a href="l55"></a><span id="l55">     * </span>
+<a href="l56"></a><span id="l56">     */</span></span>
+<a href="l57"></a><span id="l57">    <span class="keyword">def</span> <a title="=&gt; Boolean" id="42247">hasNext</a> = <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#42244" title="=&gt; Boolean">isFirst</a><span class="delimiter">)</span> <span class="delimiter">{</span></span>
+<a href="l58"></a><span id="l58">      <span class="comment">//error(&quot;oops I iz testing init&quot;)</span></span>
+<a href="l59"></a><span id="l59">      <a href="#42244" title="(x$1: Boolean)Unit">isFirst</a> = <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l60"></a><span id="l60">      <span class="delimiter">(</span><a href="#42241" title="=&gt; (Boolean, T)">nextPair</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span></span>
+<a href="l61"></a><span id="l61">    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span></span>
+<a href="l62"></a><span id="l62">      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#42241" title="=&gt; (Boolean, T)">nextPair</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span></span>
+<a href="l63"></a><span id="l63">        <span class="keyword">val</span> <a title="(Boolean, T)" id="42253">cur</a> = <a href="#42241" title="=&gt; (Boolean, T)">nextPair</a></span>
+<a href="l64"></a><span id="l64">        <a href="#42241" title="(x$1: (Boolean, T))Unit">nextPair</a> = <a href="#42246" title="=&gt; (Boolean, T)">getNext</a></span>
+<a href="l65"></a><span id="l65">        <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#42241" title="=&gt; (Boolean, T)">nextPair</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span></span>
+<a href="l66"></a><span id="l66">          <span class="comment">// are they different?</span></span>
+<a href="l67"></a><span id="l67">          <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#42473" title="(v1: T, v2: T)Boolean">predicate</a><span class="delimiter">(</span><a href="#42253" title="(Boolean, T)">cur</a>.<span title="=&gt; T">_2</span>, <a href="#42241" title="=&gt; (Boolean, T)">nextPair</a>.<span title="=&gt; T">_2</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span></span>
+<a href="l68"></a><span id="l68">            <span class="comment">// get again, recurse</span></span>
+<a href="l69"></a><span id="l69">            <a href="#42247" title="=&gt; Boolean">hasNext</a></span>
+<a href="l70"></a><span id="l70">          <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span></span>
+<a href="l71"></a><span id="l71">            <span title="Boolean(true)" class="keyword">true</span></span>
+<a href="l72"></a><span id="l72">          <span class="delimiter">}</span></span>
+<a href="l73"></a><span id="l73">        <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span></span>
+<a href="l74"></a><span id="l74">          <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l75"></a><span id="l75">        <span class="delimiter">}</span></span>
+<a href="l76"></a><span id="l76">      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l77"></a><span id="l77">    <span class="delimiter">}</span></span>
+<a href="l78"></a><span id="l78"></span>
+<a href="l79"></a><span id="l79">    <span class="keyword">def</span> <a title="()T" id="42248">next</a><span class="delimiter">(</span><span class="delimiter">)</span>: <a href="#42423" title="T">T</a> =</span>
+<a href="l80"></a><span id="l80">      <span title="T" class="keyword">if</span> <span class="delimiter">(</span><a href="#42241" title="=&gt; (Boolean, T)">nextPair</a> <span title="(x$1: AnyRef)Boolean">ne</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span></span>
+<a href="l81"></a><span id="l81">        <a href="#42241" title="=&gt; (Boolean, T)">nextPair</a>.<span title="=&gt; T">_2</span></span>
+<a href="l82"></a><span id="l82">      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.util.NoSuchElementException" class="keyword">new</span> <span title="java.util.NoSuchElementException">NoSuchElementException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;next on empty iterator&quot;)" class="string">&quot;next on empty iterator&quot;</span><span class="delimiter">)</span></span>
+<a href="l83"></a><span id="l83"></span>
+<a href="l84"></a><span id="l84">  <span class="delimiter">}</span></span>
+<a href="l85"></a><span id="l85"><span class="delimiter">}</span></span>
+<a href="l86"></a><span id="l86"></span>
+<a href="l87"></a><span id="l87">        </span>
+</pre>
+    </body>
+</html>

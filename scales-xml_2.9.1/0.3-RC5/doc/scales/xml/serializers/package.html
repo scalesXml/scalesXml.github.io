@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>scales.xml.serializers</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../lib/template.css" />
+      <script type="text/javascript" src="../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body class="value">
+      <div id="definition">
+        <img src="../../../lib/package_big.png" />
+        <p id="owner"><a name="scales" class="extype" href="../../package.html">scales</a>.<a name="scales.xml" class="extype" href="../package.html">xml</a></p>
+        <h1>serializers</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="kind">package</span>
+      <span class="symbol"> 
+        <span class="name">serializers</span>
+        
+        
+      </span>
+      </h4>
+      
+          <div class="fullcommenttop" id="comment"></div>
+        
+
+      <div id="template">
+
+        <div id="mbrsel">
+          <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+          
+          
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="scales.xml.serializers.CDataCannotBeEncoded" data-isabs="false">
+      <a id="CDataCannotBeEncoded:CDataCannotBeEncoded"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="CDataCannotBeEncoded.html"><span class="name">CDataCannotBeEncoded</span></a>
+        
+        <span class="params">(<span name="what">what: String</span>)</span><span class="result"> extends CannotBeEncoded with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">The CData content must be split due to encoding issues, which isn't supported (due to bad CData handling on Sun JRE and differences with Xalan.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.CannotBeEncoded" data-isabs="false">
+      <a id="CannotBeEncoded:CannotBeEncoded"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="CannotBeEncoded.html"><span class="name">CannotBeEncoded</span></a>
+        
+        <span class="result"> extends SerializationException</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.serializers.CannotSerialize" data-isabs="false">
+      <a id="CannotSerialize:CannotSerialize"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="CannotSerialize.html"><span class="name">CannotSerialize</span></a>
+        
+        <span class="params">(<span name="what">what: String</span>)</span><span class="result"> extends SerializationException with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">For a given content it could not be serialized in the document.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.CommentCannotBeEncoded" data-isabs="false">
+      <a id="CommentCannotBeEncoded:CommentCannotBeEncoded"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="CommentCannotBeEncoded.html"><span class="name">CommentCannotBeEncoded</span></a>
+        
+        <span class="params">(<span name="what">what: String</span>)</span><span class="result"> extends CannotBeEncoded with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Comments don't support &amp; recognition, which means you can't escape the encoding, either they encode or they do not
+</p>
+    </li><li visbl="pub" name="scales.xml.serializers.IncompatibleQNameVersions" data-isabs="false">
+      <a id="IncompatibleQNameVersions:IncompatibleQNameVersions"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="IncompatibleQNameVersions.html"><span class="name">IncompatibleQNameVersions</span></a>
+        
+        <span class="params">(<span name="what">what: String</span>)</span><span class="result"> extends SerializationException with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Result of trying to serialize a 1.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.InvalidCharacterInMarkup" data-isabs="false">
+      <a id="InvalidCharacterInMarkup:InvalidCharacterInMarkup"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="InvalidCharacterInMarkup.html"><span class="name">InvalidCharacterInMarkup</span></a>
+        
+        <span class="params">(<span name="what">what: String</span>)</span><span class="result"> extends SerializationException with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">The serialization encoding cannot support the characters in a given markup (attribute name or element name.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.LSSerializer" data-isabs="true">
+      <a id="LSSerializer:LSSerializer"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="LSSerializer.html"><span class="name">LSSerializer</span></a>
+        
+        <span class="result"> extends Serializer</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Default serializer, correctness first.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.LSSerializerConcurrentCacheFactory" data-isabs="true">
+      <a id="LSSerializerConcurrentCacheFactory:LSSerializerConcurrentCacheFactory"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="LSSerializerConcurrentCacheFactory.html"><span class="name">LSSerializerConcurrentCacheFactory</span></a>
+        
+        <span class="result"> extends LSSerializerFactoryBase</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.serializers.LSSerializerConcurrentCacheFactoryXHTML" data-isabs="true">
+      <a id="LSSerializerConcurrentCacheFactoryXHTML:LSSerializerConcurrentCacheFactoryXHTML"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="LSSerializerConcurrentCacheFactoryXHTML.html"><span class="name">LSSerializerConcurrentCacheFactoryXHTML</span></a>
+        
+        <span class="result"> extends LSSerializerConcurrentCacheFactory</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.serializers.LSSerializerFactoryBase" data-isabs="true">
+      <a id="LSSerializerFactoryBase:LSSerializerFactoryBase"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="LSSerializerFactoryBase.html"><span class="name">LSSerializerFactoryBase</span></a>
+        
+        <span class="result"> extends SerializerFactory</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base implementation for a correct serializer using LSSerializer to provide escape character references.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.LSSerializerNoCacheFactoryT" data-isabs="true">
+      <a id="LSSerializerNoCacheFactoryT:LSSerializerNoCacheFactoryT"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="LSSerializerNoCacheFactoryT.html"><span class="name">LSSerializerNoCacheFactoryT</span></a>
+        
+        <span class="result"> extends LSSerializerFactoryBase</span>
+      </span>
+      </h4>
+      <p class="comment cmt">This variety does not use a thread safe global cache, use when your data
+is progressivly radically different for each run.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.PICannotBeEncoded" data-isabs="false">
+      <a id="PICannotBeEncoded:PICannotBeEncoded"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="PICannotBeEncoded.html"><span class="name">PICannotBeEncoded</span></a>
+        
+        <span class="params">(<span name="what">what: String</span>)</span><span class="result"> extends CannotBeEncoded with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">PIs also suffer a bad specification
+</p>
+    </li><li visbl="pub" name="scales.xml.serializers.SerializationException" data-isabs="false">
+      <a id="SerializationException:SerializationException"></a>
+      <h4 class="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <a href="SerializationException.html"><span class="name">SerializationException</span></a>
+        
+        <span class="result"> extends RuntimeException</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base exception marker for serialization
+</p>
+    </li><li visbl="pub" name="scales.xml.serializers.Serializer" data-isabs="true">
+      <a id="Serializer:Serializer"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="Serializer.html"><span class="name">Serializer</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Interface used for serializing the XML events, same for both stream and tree.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.SerializerData" data-isabs="false">
+      <a id="SerializerData:SerializerData"></a>
+      <h4 class="signature">
+      <span class="kind">case class</span>
+      <span class="symbol"> 
+        <a href="SerializerData.html"><span class="name">SerializerData</span></a>
+        
+        <span class="params">(<span name="out">out: Writer</span>, <span name="version">version: XmlVersion</span>, <span name="encoding">encoding: Charset</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.serializers.SerializerFactory" data-isabs="true">
+      <a id="SerializerFactory:SerializerFactory"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="SerializerFactory.html"><span class="name">SerializerFactory</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Serializer factories are responsible for the life cycle of serializers and
+their resources.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.SerializerImplicits" data-isabs="true">
+      <a id="SerializerImplicits:SerializerImplicits"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="SerializerImplicits.html"><span class="name">SerializerImplicits</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">SerializeableXml instances for the core types
+</p>
+    </li><li visbl="pub" name="scales.xml.serializers.SimpleSerializer" data-isabs="true">
+      <a id="SimpleSerializer:SimpleSerializer"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="SimpleSerializer.html"><span class="name">SimpleSerializer</span></a>
+        
+        <span class="result"> extends Serializer</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Performs no validation, sorting of attributes, extra spaces on the end of empty element declarations and uses the short form for empty elements.</p>
+    </li><li visbl="pub" name="scales.xml.serializers.XHTMLLSSerializer" data-isabs="true">
+      <a id="XHTMLLSSerializer:XHTMLLSSerializer"></a>
+      <h4 class="signature">
+      <span class="kind">trait</span>
+      <span class="symbol"> 
+        <a href="XHTMLLSSerializer.html"><span class="name">XHTMLLSSerializer</span></a>
+        
+        <span class="result"> extends LSSerializer</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Adds an extra space after an empty element
+</p>
+    </li></ol>
+            </div>
+        
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="scales.xml.serializers.LSSerializerFactory" data-isabs="false">
+      <a id="LSSerializerFactory:LSSerializerFactory"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="LSSerializerFactory$.html"><span class="name">LSSerializerFactory</span></a>
+        
+        <span class="result"> extends LSSerializerConcurrentCacheFactory</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Default implmementation of serialization
+</p>
+    </li><li visbl="pub" name="scales.xml.serializers.LSSerializerFactoryXHTML" data-isabs="false">
+      <a id="LSSerializerFactoryXHTML:LSSerializerFactoryXHTML"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="LSSerializerFactoryXHTML$.html"><span class="name">LSSerializerFactoryXHTML</span></a>
+        
+        <span class="result"> extends LSSerializerConcurrentCacheFactoryXHTML</span>
+      </span>
+      </h4>
+      <p class="comment cmt">XHTML serialization extra touches
+</p>
+    </li><li visbl="pub" name="scales.xml.serializers.LSSerializerNoCacheFactory" data-isabs="false">
+      <a id="LSSerializerNoCacheFactory:LSSerializerNoCacheFactory"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="LSSerializerNoCacheFactory$.html"><span class="name">LSSerializerNoCacheFactory</span></a>
+        
+        <span class="result"> extends LSSerializerNoCacheFactoryT</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.serializers.SerializerHelpers" data-isabs="false">
+      <a id="SerializerHelpers:SerializerHelpers"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="SerializerHelpers$.html"><span class="name">SerializerHelpers</span></a>
+        
+        <span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.serializers.SimpleSerializerFactory" data-isabs="false">
+      <a id="SimpleSerializerFactory:SimpleSerializerFactory"></a>
+      <h4 class="signature">
+      <span class="kind">object</span>
+      <span class="symbol"> 
+        <a href="SimpleSerializerFactory$.html"><span class="name">SimpleSerializerFactory</span></a>
+        
+        <span class="result"> extends SerializerFactory</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        
+
+      </div>
+      
+      <div id="tooltip"></div>
+      
+    </body>
+      </html>

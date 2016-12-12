@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='utf-8' ?><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=8" /><link href="./scales_base.css" rel="stylesheet" type="text/css" media="screen" /><link href="./site_docs.css" rel="stylesheet" type="text/css" media="screen" /><link href="./highlight/styles/idea.css" rel="stylesheet" type="text/css" media="screen" /><script src="./jquery.js" type="text/javascript"></script><script src="./highlight/highlight.pack.js" type="text/javascript"></script><script type="text/javascript">
+$(function() {
+$("pre[class^='language-']").each(function(i,elem) {
+  var clazz = $(elem).attr('class');
+  var str = elem.innerHTML//.replace(/\r\n|\r|\n/g,"<br/>");
+  // Workaround for IE <PRE> innerHTML normalization quirk
+  if (elem.tagName == "PRE" && "outerHTML" in elem)
+    {
+      elem.outerHTML = "<PRE><CODE class='"+clazz+"'>" + str + "</CODE></PRE>";
+    }
+  else
+    {
+      elem.innerHTML = "<CODE class='"+clazz+"'>" + str + "</CODE>"; //.replace(/\r\n|\r|\n/g,"<br/>");;
+    }
+});
+  hljs.initHighlighting();
+});
+</script>
+<link href="./menubar.css" rel="stylesheet" type="text/css" media="screen" />
+  <script type="text/javascript">
+  $(function(){
+
+  $('#scales-site-menubar li:has(ul)').toggleClass('menuPlus');
+  $('#scales-site-menubar ul').children('li:has(ul)').click(function(event){
+            if (this == event.target) {                
+                $(this).children('ul').fadeToggle('fast');
+		$(this).toggleClass('menuPlus');
+		$(this).toggleClass('menuMinus');
+            }
+	    if ($(event).get(0).target.tagName.toLowerCase() == "a") {
+	      return true; // we want links to be clickable
+	    } else {
+              return false;
+	    }
+        })
+        .children('ul').hide();
+
+});
+</script>
+</head><body><h1 id="Elem">Elem</h1><h2 id="XML_Elements">XML Elements</h2><p>Elements in XML are markup that scopes other parts of the document, typically this scoping is seen as a containment relationship in XML object models.  Classical DOM follows this approach as does Scala XML.</p><h2 id="Declaring">Declaring</h2><pre class="language-scala">
+  val ns = Namespace("uri:namespace")
+  val pre = ns.prefixed("pre")
+  val name = pre("localName")
+
+  val attr = pre("attribute")
+
+  val elem = Elem(name, 
+    Attribs("a" -&gt; "non namespaced", 
+      attr -&gt; "prefixed attribute"))
+</pre><p><i>See <a href="Attributes.html#Implicitly">attributes</a> for an explanation of how -&gt; works.</i></p><h2 id="QName_And_Namespace_Correctness">QName And Namespace Correctness</h2><p>Elements also contain both declarations of namespaces, introducing new prefixes or default namespaces, and <a href="Attributes.html">Attributes</a>. Elements are declared with a given QName, which can also be a non-prefixed but namespaced.</p><pre class="language-xml">
+  &lt;!-- this element name has no prefix but a namespace --&gt;
+  &lt;elem xmlns="uri:test"&gt; 
+    &lt;!-- this element name also has no prefix but a namespace --&gt;
+    &lt;child&gt;
+      &lt;!-- this element name has no namespace and declares 
+           that all child elements, by default, have no namespace --&gt;
+      &lt;grandchild xmlns=""&gt; 
+      .....
+    &lt;!-- this element contains an attribute (without a namespace) 
+	 but has its name with a namespace --&gt;
+    &lt;child attribute="value"&gt;
+    ....
+    &lt;!-- this element declares a new 
+    	 namespace and prefix mapping. --&gt;
+    &lt;child xmlns:pre="uri:anotherNamespace"&gt;
+      &lt;!-- this elements name is prefixed and within a namespace 
+	   but the element declares a default namespace. --&gt;
+      &lt;pre:grandchild xmlns=""&gt;
+</pre><p>As can be seen there are a number of complex combinations with namespaces and attributes that are possible and that the attribute mechanism itself is used to declare namespaces.</p><p>When supporting XML 1.0 only it can also be seen that storing the namespaces declared on an element is not necessary if all the <a href="QNames.html">QNames</a> are typed.  XML 1.1, however, allows the removal of a namespace prefix definition and requires that this information is stored.  If nothing else its quite helpful to be able to define where a namespace prefix declaration should appear.</p><p>Scales, however, does not conflate the ideas of namespace declaration, <a href="Attributes.html">attributes</a> or the <a href="QNames.html">qualified names</a> of elements.</p><h2 id="Elems_Are_Reusable">Elems Are Reusable</h2><p>Scales Elem contains the QName, Attributes and optionally prefix declarations.  They do not have any notion of containment and as such are re-usable not only within a document but across documents.  Servers processing high volumes of related data can of course benefit from the reduced allocation costs, but the code can also benefit.</p><p>Declaring an Elem once and simply including it within a tree definition is not only made possible but encouraged:</p><pre class="language-scala">
+  val unprefixedQName = "uri:namespace" :: "localName"
+  val elem = Elem(unprefixedQName)
+    
+  val root = &lt;(elem) /( 
+    elem, elem, elem, 
+    elem /( 
+      elem 
+    )
+  )
+  
+  asString(root)
+</pre><p>gives (<i>formatting added to match root's above definition</i>):</p><pre class="language-xml">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;localName xmlns="uri:namespace"&gt;
+  &lt;localName/&gt;&lt;localName/&gt;&lt;localName/&gt;
+  &lt;localName&gt;
+    &lt;localName/&gt;
+  &lt;/localName&gt;
+&lt;/localName&gt;
+</pre><h2 id="Runtime_Validation_Checks">Runtime Validation Checks</h2><p>As Elem is created with a QName it is subject to all of QNames <a href="QNames.html#QNames_in_Scales_-_Let_the_compliler_help_us">correctness</a> and <a href="QNames.html#Runtime_Validation">runtime checks</a>.</p><p>In addition Scales enforces that you cannot create an Elem with a prefix of xmlns or xml.</p><div id="scales-site-menubar"><h1 id="Scales_Xml_0.5.0">Scales Xml 0.5.0</h1><h2 id="Generated_Documentation">Generated Documentation</h2><ul><li><a href="./api.sxr/index.html">SXR Source</a></li><li><a href="./doc/index.html">ScalaDocs</a></li></ul><h2 id="Documentation_Highlights">Documentation Highlights</h2><ul><li><a href="./ScalesXmlIntro.html">Overview</a></li><li><a href="./MemoryOptimisation.html">Memory and Performance</a></li></ul><dl><dt><b>First Steps</b><ul><li><a href="Setup.html">Setup</a></li><li><a href="HowToUse.html">How To Use</a></li></ul></dt></dl><dl><dt><b>Xml Model</b><ul><li><a href="QNames.html">QNames</a><ul><li><a href="QNames.html#Creating_QNames">Creating QNames</a><ul><li><a href="QNames.html#Directly">Directly</a></li><li><a href="QNames.html#Implicits">With Sugar</a></li></ul></li><li><a href="QNames.html#Namespaces_.26_Scope">Namespaces &amp; Scope</a></li><li><a href="QNames.html#Namespaces_in_Scales">Namespaces in Scales</a></li><li><a href="QNames.html#QNames_in_Scales_-_Let_the_compiler_help_us">Type System FTW</a></li><li><a href="QNames.html#Runtime_Validation">Runtime Validation</a></li><li><a href="QNames.html#Equality">Equality</a><ul><li><a href="QNames.html#Scalaz_Equal_and_Scales_Equiv">via Scalaz Equal and Scales Equiv</a></li></ul></li><li><a href="QNames.html#Testing_For_QNames">Testing For QNames</a></li><li><a href="QNames.html#Serializing_QNames">Serializing QNames</a></li></ul></li><li><a href="XmlVersionSupport.html">XML Version Support</a><ul><li><a href="XmlVersionSupport.html#Differences_Between_1.0_and_1.1">Differences Between Xml 1.0 and 1.1</a></li><li><a href="XmlVersionSupport.html#How_Does_Scales_Allow_Both_Versions_.3F">Scales Support for Both Versions</a><ul><li><a href="XmlVersionSupport.html#In_Parser_We_Trust_-_Users_We_Protect">In Parser We Trust - Users We Protect</a></li><li><a href="XmlVersionSupport.html#Runtime_XmlVersion_QName_Related_Correctness">Runtime XmlVersion QName Related Correctness</a></li></ul></li></ul></li><li><a href="Attributes.html">Attributes</a><ul><li><a href="Attributes.html#Defining_an_Attribute">Defining</a><ul><li><a href="Attributes.html#Explicitly">Explicitly</a></li><li><a href="Attributes.html#Implicitly">Implicitly</a></li></ul></li><li><a href="Attributes.html#Equality">Equality</a><ul><li><a href="Attributes.html#Within_an_Elem">Within an Elem</a></li><li><a href="Attributes.html#Attributes_ListSet">Attributes ListSet</a></li></ul></li><li><a href="Attributes.html#Testing_Against_QNames_or_Namespaces">Testing Against QNames or Namespaces</a></li></ul></li><li><a href="Elem.html">Elem</a><ul><li><a href="Elem.html#XML_Elements">XML Elements</a></li><li><a href="Elem.html#Declaring">Declaring</a></li><li><a href="Elem.html#QName_And_Namespace_Correctness">QName And Namespace Correctness</a></li><li><a href="Elem.html#Elems_Are_Reusable">Elems Are Reusable</a></li><li><a href="Elem.html#Runtime_Validation_Checks">Runtime Validation Checks</a></li></ul></li><li><a href="XmlItem.html">XmlItem</a><ul><li><a href="XmlItem.html#Declaring">Declaring</a></li><li><a href="XmlItem.html#XmlItems_Are_Reusable">XmlItems Are Reusable</a></li><li><a href="XmlItem.html#Runtime_Correctness_Checks">Runtime Correctness Checks</a></li><li><a href="XmlItem.html#Serializing_XmlItems">Serializing XmlItems</a><ul><li><a href="XmlItem.html#Serializing_CData">Serializing CData</a></li></ul></li></ul></li><li><a href="XmlDsl.html">Xml DSL and Trees</a><ul><li><a href="XmlDsl.html#Tour_of_the_DSL">Tour of the DSL</a></li><li><a href="XmlDsl.html#Creating_a_Tree">Creating a Tree</a></li><li><a href="XmlDsl.html#Adding_To_The_Tree">Adding To The Tree</a></li><li><a href="XmlDsl.html#Adding_an_Attribute">Adding an Attribute</a></li><li><a href="XmlDsl.html#Setting_Text">Setting Text</a></li><li><a href="XmlDsl.html#Removing_Children">Removing Children</a></li><li><a href="XmlDsl.html#Removing_Attributes">Removing Attributes</a></li><li><a href="XmlDsl.html#Optional_XML">Optional XML</a></li><li><a href="XmlDsl.html#Folding_Within_The_DSL">Folding Within The DSL</a></li></ul></li><li><a href="OptionalDsl.html">Optional Xml DSL</a><ul><li><a href="OptionalDsl.html#Cascading_Optionals">Cascading Optionals</a></li></ul></li></ul></dt></dl><dl><dt><b>Accessing and Querying Data</b><ul><li><a href="XPaths.html">XPath Embedded DSL</a><ul><li><a href="XPaths.html#Simple_Usage_Examples">Simple Usage Examples</a></li><li><a href="XPaths.html#XPath_Crash_Course">XPath Crash Course</a></li><li><a href="XPaths.html#XPath_Axe">XPath Axe</a></li><li><a href="XPaths.html#Node_Tests">Node Tests</a></li><li><a href="XPaths.html#Predicates">Predicates</a><ul><li><a href="XPaths.html#Predicate_Construction">Predicate Construction</a></li><li><a href="XPaths.html#Chaining_Predicates">Chaining Predicates</a></li><li><a href="XPaths.html#Positional_Predicates">Positional Predicates</a></li><li><a href="XPaths.html#Direct_Filtering">Direct Filtering</a></li></ul></li><li><a href="XPaths.html#Unsorted_Results_and_Views">Unsorted Results and Views</a></li></ul></li><li><a href="XPathFunctions.html">XPath Functions</a><ul><li><a href="XPathFunctions.html#Organisation">Organisation</a></li><li><a href="XPathFunctions.html#QName_Functions">QName Functions</a></li><li><a href="XPathFunctions.html#Text_Functions">Text Functions</a></li><li><a href="XPathFunctions.html#Boolean_Function">Boolean Function</a></li></ul></li><li><a href="StringXPaths.html">XPath 1.0 String Evaluation</a><ul><li><a href="StringXPaths.html#How_To_Use">How To Use</a></li><li><a href="StringXPaths.html#Other_Jaxen_Tricks">Other Jaxen Tricks</a></li></ul></li></ul></dt></dl><dl><dt><b>Parsing XML</b><ul><li><a href="FullParsing.html">Full XML Doc Parsing</a><ul><li><a href="FullParsing.html#Direct_SAX_XMLReader_Usage">Direct SAX XMLReader Usage</a></li></ul></li><li><a href="PullParsing.html">Pull Parsing</a><ul><li><a href="PullParsing.html#Pull_Model">Pull Model</a></li><li><a href="PullParsing.html#Resource_Management">Resource Management</a></li><li><a href="PullParsing.html#Simple_Reading_Of_Repeated_Sections">Simple Reading Of Repeated Sections</a></li><li><a href="PullParsing.html#Buffering_And_Identifying_Xml_Messages">Buffering And Identifying Xml Messages</a></li></ul></li><li><a href="RepeatedSections.html">Pulling Repeated Sections</a><ul><li><a href="RepeatedSections.html#Supported_Repeating_Section_Examples">Supported Repeating Section Examples</a><ul><li><a href="RepeatedSections.html#alternating_and_Repeating_Elements">Alternating and Repeating Elements</a></li><li><a href="RepeatedSections.html#Grouped_Repeating">Grouped Repeating</a></li><li><a href="RepeatedSections.html#Repeating_Nested">Repeating Nested</a></li><li><a href="RepeatedSections.html#Sectioned_Grouped_Repeated">Sectioned Grouped Repeating</a></li></ul></li><li><a href="RepeatedSections.html#Pull_Parsing_ResumableIter.27atees">Pull Parsing ResumableIter'atees</a></li></ul></li><li><a href="AsyncPull.html">Async Pull</a><ul><li><a href="AsyncPull.html#Integrating_With_Enumeratees_-_enumToMany">Integrating With Enumeratees - enumToMany</a></li><li><a href="AsyncPull.html#Async_Pull_with_enumToMany">Asyc Pull with enumToMany</a></li></ul></li></ul></dt></dl><dl><dt><b>Serializing &amp; Transforming XML</b><ul><li><a href="SerializingIntro.html">Serializing</a><ul><li><a href="SerializingIntro.html#writeTo_.26_writeTo">writeTo &amp; writeTo</a></li><li><a href="SerializingIntro.html#What_Can_Be_Serialized.3F">What Can Be Serialized?</a></li></ul></li><li><a href="Folding.html">Folding Xml</a><ul><li><a href="Folding.html#PathFoldR_-_Catchy_Result_Type">PathFoldR - Catchy Result Type</a></li><li><a href="Folding.html#Composing_Transformations">Composing Transformations</a><ul><li><a href="Folding.html#ReplaceWith_-_Nested"> ReplaceWith - Nested</a></li><li><a href="Folding.html#.26_-_Fail_Early">&amp; - Fail Early</a></li><li><a href="Folding.html#.7C_-_Try_The_Next">| - Try The Next</a></li></ul></li></ul></li><li><a href="XSLT.html">TrAX &amp; XSLT Support</a><ul><li><a href="XSLT.html#Simple_Usage_Example">Simple Usage Example</a></li></ul></li></ul></dt></dl><dl><dt><b>Xml Equality</b><ul><li><a href="EqualityBasics.html">Xml Equality Basics</a><ul><li><a href="EqualityBasics.html#How_To_Use">How To Use</a></li><li><a href="EqualityBasics.html#Types_Covered">Types Covered</a></li><li><a href="EqualityBasics.html#Why_Join_Adjacent_Text_and_CData.3F">Why Join Adjacent Text and CData?</a></li><li><a href="EqualityBasics.html#Removing_Comments_And_PIs">Removing Comments and PIs</a></li><li><a href="EqualityBasics.html#Why_Not_Use_Canonical_Xml.3F">Why Not Use Canonical Xml?</a></li></ul></li><li><a href="XmlComparison.html">XmlComparison - Where Is It Different?</a><ul><li><a href="XmlComparison.html#The_compare_Function">The compare Function</a><ul><li><a href="XmlComparison.html#The_calculate_Parameter">The calculate Parameter</a></li><li><a href="XmlComparison.html#ComparisonContext">ComparisonContext</a></li><li><a href="XmlComparison.html#Return_Value">Return Value</a></li></ul></li><li><a href="XmlComparison.html#XmlDifference">XmlDifference</a></li><li><a href="XmlComparison.html#QName_Token_Handling">QName Token Handling</a></li></ul></li></ul></dt></dl><dl><dt><b>Technical Details</b><ul><li><a href="MemoryOptimisation.html">Memory Optimisation</a><ul><li><a href="MemoryOptimisation.html#Disclaimer">Disclaimer</a></li><li><a href="MemoryOptimisation.html#Introduction">Introduction</a></li><li><a href="MemoryOptimisation.html#Options_for_memory_optimisation">Options for memory optimisation</a></li><li><a href="MemoryOptimisation.html#Resulting_Sizes">Resulting Sizes</a></li><li><a href="MemoryOptimisation.html#Memory_Consumption_During_Parsing">Memory Consumption During Parsing</a></li><li><a href="MemoryOptimisation.html#Overall_Parsing_Performance">Overall Parsing Performance</a></li><li><a href="MemoryOptimisation.html#Special_Case_-_Pull_Parsing_via_onQNames">Special Case - Pull Parsing via onQNames</a></li></ul></li><li><a href="OptimisationDetails.html">General Memory Optimisation Details</a><ul><li><a href="OptimisationDetails.html#ImmutableArrayProxy">ImmutableArrayProxy</a></li><li><a href="OptimisationDetails.html#EitherLike">EitherLike</a></li><li><a href="OptimisationDetails.html#TreeOptimisation">TreeOptimisation</a></li><li><a href="OptimisationDetails.html#QName_and_Elem_Memory_Usage">QName and Elem Memory Usage</a></li><li><a href="OptimisationDetails.html#TreeProxies_and_Builders">TreeProxies and Builders</a></li></ul></li><li><a href="Serialization.html">Serializing Details</a><ul><li><a href="Serialization.html#Encoding">Encoding</a><ul><li><a href="Serialization.html#XML_Names">XML Names</a></li><li><a href="Serialization.html#Text_Data">Text Data</a></li><li><a href="Serialization.html#Other_Markup_Character_Data">Other Markup Character Data</a></li></ul></li><li><a href="Serialization.html#Creating_a_SerializerFactory">Creating a SerializerFactory</a></li></ul></li></ul></dt></dl></div></body></html>

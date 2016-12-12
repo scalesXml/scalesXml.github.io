@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\equals\FromEqual_2.9.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.equals
+
+<span class="keyword">import</span> scalaz._
+<span class="keyword">import</span> <span title="object scalaz.Scalaz">Scalaz</span>._
+
+<span class="keyword">trait</span> <a title="trait FromEqualsImplicit extends java.lang.Object with ScalaObject" id="13444">FromEqualsImplicit</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">/**
+   * An implicit but its only purpose is to convert, and needs the given comparison to function, which is provided (or not) by ScalesXml.
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T](implicit comp: scales.xml.equals.XmlComparison[T])scalaz.Equal[T]" id="91077">fromCompToEq</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="91079">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.equals.XmlComparison[T]" id="94036">comp</a> : <a href="XmlComparisons.scala.html#13597" title="scales.xml.equals.XmlComparison[T]">XmlComparison</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="scalaz.Equal[T]">Equal</span><span class="delimiter">[</span>T<span class="delimiter">]</span> = 
+    <span title="(f: (T, T) =&gt; Boolean)scalaz.Equal[T]">equal</span> <span class="delimiter">{</span>
+      <span class="delimiter">(</span> a : <a href="#91079" title="T">T</a>, b : <a href="#91079" title="T">T</a><span class="delimiter">)</span> =&gt;
+	<a href="#94036" title="scales.xml.equals.XmlComparison[T]">comp</a>.<a href="XmlComparisons.scala.html#94000" title="(calculate: Boolean, context: scales.xml.equals.ComparisonContext, left: T, right: T)Option[(scales.xml.equals.XmlDifference[_], scales.xml.equals.ComparisonContext)]">compare</a><span class="delimiter">(</span><span title="Boolean(false)" class="keyword">false</span>, <a href="ComparisonContext.scala.html#13223" title="object scales.xml.equals.ComparisonContext">ComparisonContext</a>.<a href="ComparisonContext.scala.html#111776" title="=&gt; scales.xml.equals.ComparisonContext">empty</a>, <a href="#112482" title="T">a</a>, <a href="#112483" title="T">b</a><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span>
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

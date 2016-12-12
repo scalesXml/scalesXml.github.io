@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\parser\pull\aalto\AsyncParser.scala</title>
+        <script type="text/javascript" src="../../../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.parser.pull.aalto
+
+<span class="keyword">import</span> scales.xml._
+<span class="keyword">import</span> scales.utils._
+<span class="keyword">import</span> io._
+<span class="keyword">import</span> resources._
+<span class="keyword">import</span> com.fasterxml.aalto._
+<span class="keyword">import</span> <span title="object com.fasterxml.aalto.AsyncXMLStreamReader">AsyncXMLStreamReader</span>.EVENT_INCOMPLETE
+<span class="keyword">import</span> javax.xml.stream.<span title="object javax.xml.stream.XMLStreamConstants">XMLStreamConstants</span>.END_DOCUMENT
+
+<span class="keyword">import</span> java.nio.ByteBuffer
+<span class="keyword">import</span> java.nio.channels.ReadableByteChannel
+
+<span class="keyword">import</span> scales.xml.parser.pull.PullUtils
+
+<span class="keyword">import</span> scalaz._
+<span class="keyword">import</span> scalaz.<span title="object scalaz.IterV">IterV</span>._
+
+<span class="keyword">import</span> scales.xml.parser.strategies.<span class="delimiter">{</span>MemoryOptimisationStrategy, OptimisationToken<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * An AynscParser, a DataChunk is fed in via nextInput which, in turn, returns an Input[EphmeralStream[PullType]] of events.
+ * When the Input is El then the stream may be evaluated to get all available events, and will return empty when no more for that data chunk is available.
+ * 
+ * See nextInput for more info.
+ */</span>
+<span class="keyword">abstract</span> <span class="keyword">class</span> <a title="class AsyncParser extends java.lang.Object with scales.utils.resources.CloseOnNeed with scales.xml.DocLike with ScalaObject" id="12491">AsyncParser</a><a href="#12491" title="ScalaObject" class="delimiter">(</a><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="32811">xmlVersion</a> : <a href="../../../Namespaces.scala.html#9702" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../../../../utils/resource/Resources.scala.html#14380" title="scales.utils.resources.CloseOnNeed">CloseOnNeed</a> <span class="keyword">with</span> <a href="../../../XmlTypes.scala.html#9492" title="scales.xml.DocLike">DocLike</a> <span class="delimiter">{</span>
+
+  <span class="keyword">protected</span> <span class="keyword">type</span> <a title="&gt;: Nothing &lt;: scales.xml.parser.strategies.OptimisationToken" id="29014">Token</a> &lt;: OptimisationToken
+
+  <span class="keyword">protected</span> <span class="keyword">val</span> <a title="=&gt; scales.xml.parser.strategies.MemoryOptimisationStrategy[AsyncParser.this.Token]" id="29015">strategy</a> : <a href="../../strategies/OptimisingStrategies.scala.html#14727" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[AsyncParser.this.Token]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span>
+
+  <span class="keyword">protected</span> <span class="keyword">val</span> <a title="=&gt; com.fasterxml.aalto.AsyncInputFeeder" id="29016">feeder</a> : <span title="com.fasterxml.aalto.AsyncInputFeeder">AsyncInputFeeder</span>
+
+  <span class="keyword">protected</span> <span class="keyword">val</span> <a title="=&gt; AsyncParser.this.Token" id="29017">token</a> : <a href="#29014" title="AsyncParser.this.Token">Token</a>
+
+  <span class="keyword">protected</span> <span class="keyword">val</span> <a title="=&gt; com.fasterxml.aalto.AsyncXMLStreamReader" id="29018">parser</a> : <span title="com.fasterxml.aalto.AsyncXMLStreamReader">AsyncXMLStreamReader</span>
+
+  <span class="comment">/**
+   * Closes the feeder and parser
+   */</span> 
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="29019">doClose</a> = <span class="delimiter">{</span> 
+    <a href="#29016" title="=&gt; com.fasterxml.aalto.AsyncInputFeeder">feeder</a>.<span title="()Unit">endOfInput</span>
+    <a href="#29018" title="=&gt; com.fasterxml.aalto.AsyncXMLStreamReader">parser</a>.<span title="()Unit">close</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">// to capture the miscs.</span>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scales.xml.EmptyDoc" id="29020">docImpl</a> = <a href="../../../XmlTypes.scala.html#33099" title="(prolog: scales.xml.Prolog, end: scales.xml.EndMisc)scales.xml.EmptyDoc">EmptyDoc</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="(p: scales.xml.Prolog)Unit" id="29021">copyProlog</a><span class="delimiter">(</span><a title="scales.xml.Prolog" id="33165">p</a> : <a href="../../../XmlTypes.scala.html#9642" title="scales.xml.Prolog">Prolog</a><span class="delimiter">)</span> <span class="delimiter">{</span> 
+    <a href="#29020" title="scales.xml.EmptyDoc">docImpl</a> = <a href="#29020" title="scales.xml.EmptyDoc" id="33187">docImpl</a>.<a href="../../../XmlTypes.scala.html#33186" title="scales.xml.EndMisc" id="42847">copy</a><span class="delimiter">(</span> prolog = <a href="#33165" title="scales.xml.Prolog" id="42846">p</a> <span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="(m: scales.xml.package.PullType)Unit" id="29022">addPrologMisc</a><span class="delimiter">(</span><a title="scales.xml.package.PullType" id="42848">m</a> : <span title="scales.xml.package.PullType">PullType</span><span class="delimiter">)</span> <span class="delimiter">{</span> 
+    <a href="#29021" title="(p: scales.xml.Prolog)Unit">copyProlog</a><span class="delimiter">(</span> 
+      <a href="#29024" title="scales.xml.Prolog" id="43577">prolog</a>.<a href="../../../XmlTypes.scala.html#43574" title="scales.xml.Declaration" id="45893">copy</a><span class="delimiter">(</span>
+	misc = <a href="#29024" title="=&gt; scales.xml.Prolog">prolog</a>.<a href="../../../XmlTypes.scala.html#33172" title="=&gt; scales.xml.package.Miscs">misc</a> <a title="scales.xml.package.Miscs" id="45891">:+</a> <a href="../PullIterator.scala.html#10321" title="object scales.xml.parser.pull.PullUtils">PullUtils</a>.<a href="../PullIterator.scala.html#43659" title="(c: scales.xml.package.PullType, in: String)scales.xml.package.Misc">getMisc</a><span class="delimiter">(</span><a href="#42848" title="scales.xml.package.PullType">m</a>, <span title="java.lang.String(&quot;prolog&quot;)" class="string">&quot;prolog&quot;</span><span class="delimiter">)</span> 
+      <span class="delimiter">)</span>
+    <span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="(m: scales.xml.package.PullType)Unit" id="29023">addEndMisc</a><span class="delimiter">(</span><a title="scales.xml.package.PullType" id="45894">m</a> : <span title="scales.xml.package.PullType">PullType</span><span class="delimiter">)</span> <span class="delimiter">{</span> 
+    <a href="#29020" title="scales.xml.EmptyDoc">docImpl</a> = <a href="#29020" title="scales.xml.EmptyDoc" id="45896">docImpl</a>.<a href="../../../XmlTypes.scala.html#33185" title="scales.xml.Prolog" id="45963">copy</a><span class="delimiter">(</span> 
+      end = <a href="#29025" title="=&gt; scales.xml.EndMisc">end</a>.<a href="../../../XmlTypes.scala.html#45904" title="(misc: scales.xml.package.Miscs)scales.xml.EndMisc">copy</a><a title="scales.xml.EndMisc" id="45962" class="delimiter">(</a> 
+	misc = <a href="#29025" title="=&gt; scales.xml.EndMisc">end</a>.<a href="../../../XmlTypes.scala.html#45901" title="=&gt; scales.xml.package.Miscs">misc</a> <span title="(elem: scales.xml.package.Misc)(implicit bf: scala.collection.generic.CanBuildFrom[Seq[scales.xml.package.Misc],scales.xml.package.Misc,scales.xml.package.Miscs])scales.xml.package.Miscs">:+</span> <a href="../PullIterator.scala.html#10321" title="object scales.xml.parser.pull.PullUtils">PullUtils</a>.<a href="../PullIterator.scala.html#43659" title="(c: scales.xml.package.PullType, in: String)scales.xml.package.Misc">getMisc</a><span class="delimiter">(</span><a href="#45894" title="scales.xml.package.PullType">m</a>, <span title="java.lang.String(&quot;endMisc&quot;)" class="string">&quot;endMisc&quot;</span><span class="delimiter">)</span> 
+      <span class="delimiter">)</span>
+    <span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.Prolog" id="29024">prolog</a> = <a href="#29020" title="scales.xml.EmptyDoc">docImpl</a>.<a href="../../../XmlTypes.scala.html#33121" title="=&gt; scales.xml.Prolog">prolog</a>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.EndMisc" id="29025">end</a> = <a href="#29020" title="scales.xml.EmptyDoc">docImpl</a>.<a href="../../../XmlTypes.scala.html#33123" title="=&gt; scales.xml.EndMisc">end</a>
+
+  <span class="keyword">protected</span> <span class="keyword">var</span> <a title="Int" id="29027">depth</a> = -<span title="Int(-1)" class="int">1</span>
+  <span class="keyword">protected</span> <span class="keyword">var</span> <a title="Boolean" id="29030">started</a> = <span title="Boolean(false)" class="keyword">false</span>
+
+  <span class="comment">//private var empties = 0</span>
+
+  <span class="comment">/**
+   * The document element has been reached
+   */</span> 
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="29032">startedElementProcessing</a> = <a href="#29030" title="=&gt; Boolean">started</a>
+  
+  <span class="keyword">protected</span> <span class="keyword">val</span> <a title="scales.xml.package.PullType" id="29033">incompOrEnd</a> : <span title="scales.xml.package.PullType">PullType</span> = <span title="(a: scales.xml.Text)Left[scales.xml.Text,Nothing]">Left</span><span class="delimiter">(</span><a href="../../../XmlTypes.scala.html#45972" title="(value: String)scales.xml.Text">Text</a><span class="delimiter">(</span><span title="java.lang.String(&quot;I am incomplete or doc end&quot;)" class="string">&quot;I am incomplete or doc end&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="keyword">protected</span> <span class="keyword">val</span> <a title="Int =&gt; scales.xml.package.PullType" id="29035">eventHandler</a> = <span class="delimiter">(</span>x : <span title="Int">Int</span><span class="delimiter">)</span> =&gt; <span class="delimiter">{</span>
+    <span title="scales.xml.package.PullType" class="keyword">if</span> <span class="delimiter">(</span><a href="#29473" title="Int">x</a> <span title="(x: Int)Boolean">==</span> <span title="Int(257)">EVENT_INCOMPLETE</span> <span title="(x: Boolean)Boolean">||</span> <a href="#29473" title="Int">x</a> <span title="(x: Int)Boolean">==</span> <span title="Int(8)">END_DOCUMENT</span><span class="delimiter">)</span>
+      <a href="#29033" title="=&gt; scales.xml.package.PullType">incompOrEnd</a>
+    <span class="keyword">else</span>
+      <a href="../../../../utils/package.scala.html#15164" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Got an unexpected event type &quot;)" class="string">&quot;Got an unexpected event type &quot;</span> <span title="(x$1: Any)java.lang.String">+</span> <a href="#29473" title="Int">x</a> <span title="(x$1: Any)java.lang.String">+</span><span title="java.lang.String(&quot; cannot proceed.&quot;)" class="string">&quot; cannot proceed.&quot;</span><span class="delimiter">)</span> 
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Pushes through Misc items in either prolog or the epilog
+   */</span>
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="()scalaz.Input[scales.xml.package.PullType]" id="29037">pumpMisc</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="scalaz.Input[scales.xml.package.PullType]">Input</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> = <span class="delimiter">{</span>
+
+    <span class="keyword">val</span> <a href="#45994" title="(scales.xml.package.PullType, Int, Int, scales.xml.Prolog)" class="delimiter">(</a><a href="#45993" title="scales.xml.package.PullType" id="45994">event</a>, <a href="#45993" title="Int" id="45995">num</a>, <a href="#45993" title="Int" id="45996">odepth</a>, <a href="#45993" title="scales.xml.Prolog" id="45997">oprolog</a><span class="delimiter">)</span> = <a href="../PullIterator.scala.html#10321" title="object scales.xml.parser.pull.PullUtils">PullUtils</a>.<a href="../PullIterator.scala.html#43669" title="(parser: javax.xml.stream.XMLStreamReader, strategy: scales.xml.parser.strategies.MemoryOptimisationStrategy[AsyncParser.this.Token], token: AsyncParser.this.Token, prolog: scales.xml.Prolog, idepth: Int)(otherEventHandler: Int =&gt; scales.xml.package.PullType)(scales.xml.package.PullType, Int, Int, scales.xml.Prolog)">pumpEvent</a><span class="delimiter">(</span><a href="#29018" title="=&gt; com.fasterxml.aalto.AsyncXMLStreamReader">parser</a>, <a href="#29015" title="=&gt; scales.xml.parser.strategies.MemoryOptimisationStrategy[AsyncParser.this.Token]">strategy</a>, <a href="#29017" title="=&gt; AsyncParser.this.Token">token</a>, <a href="#29024" title="=&gt; scales.xml.Prolog">prolog</a>, <a href="#29027" title="=&gt; Int">depth</a><span class="delimiter">)</span><span title="(scales.xml.package.PullType, Int, Int, scales.xml.Prolog) @unchecked" class="delimiter">(</span><a href="#29035" title="=&gt; Int =&gt; scales.xml.package.PullType">eventHandler</a><span class="delimiter">)</span>
+
+    <a href="#29027" title="(x$1: Int)Unit">depth</a> = <a href="#45996" title="Int">odepth</a>
+
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#45997" title="scales.xml.Prolog">oprolog</a> <span title="(x$1: AnyRef)Boolean">!=</span> <a href="#29024" title="=&gt; scales.xml.Prolog">prolog</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">// doc start</span>
+      <a href="#29021" title="(p: scales.xml.Prolog)Unit">copyProlog</a><span class="delimiter">(</span> <a href="#45997" title="scales.xml.Prolog">oprolog</a> <span class="delimiter">)</span> 
+    <span class="delimiter">}</span>
+    <span class="comment">// FUCKING MISC MUST RETURN EMPTY FOR ALL - OPTION SHIT!!!</span>
+    <span title="scalaz.Input[scales.xml.package.PullType]" class="keyword">if</span> <span class="delimiter">(</span><a href="#45995" title="Int">num</a> <span title="(x: Int)Boolean">==</span> <span title="Int(8)">END_DOCUMENT</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">// EOF - let the iter deal </span>
+      <span class="comment">//println(&quot;closing&quot;)</span>
+      <a href="../../../../utils/resource/Resources.scala.html#29009" title="=&gt; Unit">closeResource</a>
+      <span class="comment">//Some(EOF[T])</span>
+      <span title="[E]=&gt; scalaz.Input[E]">EOF</span><span title="scalaz.Input[scales.xml.package.PullType]" class="delimiter">[</span><span title="scales.xml.package.PullType">PullType</span><span class="delimiter">]</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span title="scalaz.Input[scales.xml.package.PullType]" class="keyword">if</span> <span class="delimiter">(</span><a href="#45995" title="Int">num</a> <span title="(x: Int)Boolean">==</span> <span title="Int(257)">EVENT_INCOMPLETE</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">//println(&quot;event incomplete &quot;)</span>
+      <span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">Empty</span><span title="scalaz.Input[scales.xml.package.PullType]" class="delimiter">[</span><span title="scales.xml.package.PullType">PullType</span><span class="delimiter">]</span><span class="comment">//None//pumpInMisc</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span title="scalaz.Input[scales.xml.package.PullType]" class="keyword">if</span> <span class="delimiter">(</span><a href="#45996" title="Int">odepth</a> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">// still misc</span>
+      <span class="comment">//println(&quot;didn't get out of misc , none??&quot;)</span>
+      
+      <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#45994" title="scales.xml.package.PullType">event</a>.<span title="=&gt; Boolean">isLeft</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#45994" title="scales.xml.package.PullType">event</a>.<span title="=&gt; Either.LeftProjection[scales.xml.XmlEvent,scales.xml.EndElem]">left</span>.<span title="=&gt; scales.xml.XmlEvent">get</span> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="../PullIterator.scala.html#10321" title="object scales.xml.parser.pull.PullUtils">PullUtils</a>.<a href="../PullIterator.scala.html#43655" title="=&gt; java.lang.Object with scales.xml.PI">dtdDummy</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<a href="#29021" title="(p: scales.xml.Prolog)Unit">copyProlog</a><span class="delimiter">(</span> <a href="#29024" title="scales.xml.Prolog" id="58565">prolog</a>.<a href="../../../XmlTypes.scala.html#43574" title="scales.xml.Declaration" id="58633">copy</a><span class="delimiter">(</span>dtd = <span title="(x: scales.xml.DTD)Some[scales.xml.DTD]">Some</span><a title="Some[scales.xml.DTD]" id="58631" class="delimiter">(</a>
+	  <a href="../../../XmlTypes.scala.html#58615" title="(name: String, publicId: String, systemId: String)scales.xml.DTD">DTD</a><span class="delimiter">(</span><span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span>, <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span>, <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span> <span class="comment">// DTD has funnyness TODO find out what it looks like</span>
+        <span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+	<span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#29030" title="=&gt; Boolean">started</a><span class="delimiter">)</span>
+	  <a href="#29022" title="(m: scales.xml.package.PullType)Unit">addPrologMisc</a><span class="delimiter">(</span><a href="#45994" title="scales.xml.package.PullType">event</a><span class="delimiter">)</span>
+	<span class="keyword">else</span>
+	  <a href="#29023" title="(m: scales.xml.package.PullType)Unit">addEndMisc</a><span class="delimiter">(</span><a href="#45994" title="scales.xml.package.PullType">event</a><span class="delimiter">)</span>	      
+      <span class="delimiter">}</span>
+
+      <span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">Empty</span><span title="scalaz.Input[scales.xml.package.PullType]" class="delimiter">[</span><span title="scales.xml.package.PullType">PullType</span><span class="delimiter">]</span><span class="comment">//None</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="comment">//println(&quot;actually started with first event&quot;)</span>
+      <a href="#29030" title="(x$1: Boolean)Unit">started</a> = <span title="Boolean(true)" class="keyword">true</span>
+      <span class="comment">// pump actual first event - yay !!, next depth -1 is endmisc</span>
+      <span title="(e0: =&gt; scales.xml.package.PullType)scalaz.Input[scales.xml.package.PullType]">El</span><span class="delimiter">(</span><a href="#45994" title="scales.xml.package.PullType">event</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="()scalaz.Input[scales.xml.package.PullType]" id="29038">pump</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="scalaz.Input[scales.xml.package.PullType]">Input</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#29016" title="=&gt; com.fasterxml.aalto.AsyncInputFeeder">feeder</a>.<span title="()Boolean">needMoreInput</span><span class="delimiter">)</span> <span title="Unit" class="delimiter">{</span>
+      <span class="comment">//println(&quot;needed more but we still pumped&quot;)</span>
+    <span class="delimiter">}</span>
+
+    <span class="comment">// don't have to re-read, let it push what it has</span>
+    <span title="scalaz.Input[scales.xml.package.PullType]" class="keyword">if</span> <span class="delimiter">(</span><a href="#29027" title="=&gt; Int">depth</a> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">//println(&quot;pumping misc&quot;)</span>
+      <span class="keyword">var</span> <a title="scalaz.Input[scales.xml.package.PullType]" id="58643">r</a> = <a href="#29037" title="()scalaz.Input[scales.xml.package.PullType]">pumpMisc</a><span class="delimiter">(</span><span class="delimiter">)</span>
+      <span class="comment">// keep going if there are more events to process and are still in misc</span>
+      <span title="Unit" class="keyword">while</span><span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#29016" title="=&gt; com.fasterxml.aalto.AsyncInputFeeder">feeder</a>.<span title="()Boolean">needMoreInput</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#58643" title="scalaz.Input[scales.xml.package.PullType]" id="58652">r</a><span class="delimiter">(</span>el = <a title="=&gt; scales.xml.package.PullType" id="58654">E</a> =&gt; <span title="Boolean(false)" class="keyword">false</span>, empty = <a title="() =&gt; Boolean(true)" id="58659" class="keyword">true</a>, eof = <a title="() =&gt; Boolean(false)" id="58660" class="keyword">false</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<a href="#58643" title="scalaz.Input[scales.xml.package.PullType]">r</a> = <a href="#29037" title="()scalaz.Input[scales.xml.package.PullType]">pumpMisc</a><span class="delimiter">(</span><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+      <a href="#58643" title="scalaz.Input[scales.xml.package.PullType]">r</a>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="comment">// 2nd &gt; events</span>
+      <span class="keyword">val</span> <a href="#58664" title="(scales.xml.package.PullType, Int, Int, scales.xml.Prolog)" class="delimiter">(</a><a href="#58663" title="scales.xml.package.PullType" id="58664">event</a>, <a href="#58663" title="Int" id="58665">num</a>, <a href="#58663" title="Int" id="58666">odepth</a>, <a href="#58663" title="scales.xml.Prolog" id="58667">oprolog</a><span class="delimiter">)</span> = <a href="../PullIterator.scala.html#10321" title="object scales.xml.parser.pull.PullUtils">PullUtils</a>.<a href="../PullIterator.scala.html#43669" title="(parser: javax.xml.stream.XMLStreamReader, strategy: scales.xml.parser.strategies.MemoryOptimisationStrategy[AsyncParser.this.Token], token: AsyncParser.this.Token, prolog: scales.xml.Prolog, idepth: Int)(otherEventHandler: Int =&gt; scales.xml.package.PullType)(scales.xml.package.PullType, Int, Int, scales.xml.Prolog)">pumpEvent</a><span class="delimiter">(</span><a href="#29018" title="=&gt; com.fasterxml.aalto.AsyncXMLStreamReader">parser</a>, <a href="#29015" title="=&gt; scales.xml.parser.strategies.MemoryOptimisationStrategy[AsyncParser.this.Token]">strategy</a>, <a href="#29017" title="=&gt; AsyncParser.this.Token">token</a>, <a href="#29024" title="=&gt; scales.xml.Prolog">prolog</a>, <a href="#29027" title="=&gt; Int">depth</a><span class="delimiter">)</span><span title="(scales.xml.package.PullType, Int, Int, scales.xml.Prolog) @unchecked" class="delimiter">(</span><a href="#29035" title="=&gt; Int =&gt; scales.xml.package.PullType">eventHandler</a><span class="delimiter">)</span>
+
+      <a href="#29027" title="(x$1: Int)Unit">depth</a> = <a href="#58666" title="Int">odepth</a>
+
+      <span title="scalaz.Input[scales.xml.package.PullType]" class="keyword">if</span> <span class="delimiter">(</span><a href="#58665" title="Int">num</a> <span title="(x: Int)Boolean">==</span> <span title="Int(8)">END_DOCUMENT</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<span class="comment">// EOF - let the iter deal -- should not occur here though, only when depth == -1</span>
+	<span class="comment">//println(&quot;closing in pump&quot;)</span>
+	<a href="../../../../utils/resource/Resources.scala.html#29009" title="=&gt; Unit">closeResource</a>
+	<span class="comment">//Some(EOF[T])</span>
+	<span title="[E]=&gt; scalaz.Input[E]">EOF</span><span title="scalaz.Input[scales.xml.package.PullType]" class="delimiter">[</span><span title="scales.xml.package.PullType">PullType</span><span class="delimiter">]</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="scalaz.Input[scales.xml.package.PullType]" class="keyword">if</span> <span class="delimiter">(</span><a href="#58665" title="Int">num</a> <span title="(x: Int)Boolean">==</span> <span title="Int(257)">EVENT_INCOMPLETE</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<span class="comment">// let the iter attempt to deal</span>
+	<span class="comment">//empties += 1</span>
+	<span class="comment">//Some(IterV.Empty[T])</span>
+	<span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">Empty</span><span title="scalaz.Input[scales.xml.package.PullType]" class="delimiter">[</span><span title="scales.xml.package.PullType">PullType</span><span class="delimiter">]</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+	<span class="comment">// actual data present, odepth -1 is looked at for the next iter</span>
+	<span class="comment">//Some(El(event))</span>
+	<span title="(e0: =&gt; scales.xml.package.PullType)scalaz.Input[scales.xml.package.PullType]">El</span><span class="delimiter">(</span><a href="#58664" title="scales.xml.package.PullType">event</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">// keep going until we get needs more input</span>
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="()scalaz.EphemeralStream[scales.xml.package.PullType]" id="29039">nextStream</a><span class="delimiter">(</span><span class="delimiter">)</span>: <span title="scalaz.EphemeralStream[scales.xml.package.PullType]">EphemeralStream</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span title="scalaz.EphemeralStream[scales.xml.package.PullType]" class="keyword">if</span> <span class="delimiter">(</span><a href="../../../../utils/resource/Resources.scala.html#29008" title="=&gt; Boolean">isClosed</a> <span title="(x: Boolean)Boolean">||</span> <a href="#29016" title="=&gt; com.fasterxml.aalto.AsyncInputFeeder">feeder</a>.<span title="()Boolean">needMoreInput</span><span class="delimiter">)</span> <span class="delimiter">{</span> <span class="comment">// keep num around?</span>
+    <span class="comment">//  println(&quot;got to nextStream and empty&quot;)</span>
+      <span title="object scalaz.EphemeralStream">EphemeralStream</span>.<span title="=&gt; java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}">empty</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+	<span class="comment">// push one more off</span>
+      <span class="keyword">val</span> <a title="scalaz.Input[scales.xml.package.PullType]" id="58714">pumped</a> = <a href="#29038" title="()scalaz.Input[scales.xml.package.PullType]">pump</a>
+      <a href="#58714" title="(empty: =&gt; java.lang.Object with scalaz.EphemeralStream[scales.xml.package.PullType], el: =&gt; scales.xml.package.PullType =&gt; java.lang.Object with scalaz.EphemeralStream[scales.xml.package.PullType], eof: =&gt; java.lang.Object with scalaz.EphemeralStream[scales.xml.package.PullType])java.lang.Object with scalaz.EphemeralStream[scales.xml.package.PullType]">pumped</a><span class="delimiter">(</span>
+	el = <a title="=&gt; scales.xml.package.PullType" id="58723">e</a> =&gt; <span class="delimiter">{</span>
+<span class="comment">//	  println(&quot;got some &quot;+e)</span>
+	  <span title="object scalaz.EphemeralStream">EphemeralStream</span>.<span title="[A](a: =&gt; A, as: =&gt; scalaz.EphemeralStream[A])java.lang.Object with scalaz.EphemeralStream[A]">cons</span><span title="(a: =&gt; scales.xml.package.PullType, as: =&gt; scalaz.EphemeralStream[scales.xml.package.PullType])java.lang.Object with scalaz.EphemeralStream[scales.xml.package.PullType]" class="delimiter">[</span><span title="scales.xml.package.PullType">PullType</span><span class="delimiter">]</span><span class="delimiter">(</span><a href="#58723" title="=&gt; scales.xml.package.PullType">e</a>, <a href="#29039" title="()scalaz.EphemeralStream[scales.xml.package.PullType]">nextStream</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+	<span class="delimiter">}</span>,
+	empty = <span class="delimiter">{</span>
+<span class="comment">//	  println(&quot;pumped all we have&quot;)</span>
+	  <span title="object scalaz.EphemeralStream">EphemeralStream</span>.<a title="() =&gt; java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}" id="58732">empty</a>
+	<span class="delimiter">}</span>,
+	eof = <span class="delimiter">{</span>
+<span class="comment">//	  println(&quot;eof from pump but returned empty&quot;)</span>
+	  <span title="object scalaz.EphemeralStream">EphemeralStream</span>.<a title="() =&gt; java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}" id="58733">empty</a> <span class="comment">// next run will pick it up</span>
+	<span class="delimiter">}</span>
+      <span class="delimiter">)</span> <span class="comment">// </span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+  <span class="comment">/**
+   * Given a DataChunk will return the next available data stream.
+   * Returns EOF when the Parser is closed, Empty when more DataChunks are needed.
+   * Returning El[EphemeralStream[PullType]] provides a stream which will lazily evalulate all available Xml Events from this DataChunk.
+   *
+   *
+   * NOTEs (see Aalto-xml feeder.feedInput for details on this):
+   * 1) All existing events from the last El should be consumed before calling nextInput again
+   * 2) The DataChunk passed in should not be re-used until the stream returns empty (or Empty/EOF is returned).
+   */</span> 
+  <span class="keyword">def</span> <a title="(d: scales.utils.io.DataChunk)scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" id="29040">nextInput</a><span class="delimiter">(</span><a title="scales.utils.io.DataChunk" id="58736">d</a>: <a href="../../../../utils/io/DataChunk.scala.html#14212" title="scales.utils.io.DataChunk">DataChunk</a><span class="delimiter">)</span>: <span title="scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]">Input</span><span class="delimiter">[</span>EphemeralStream<span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="comment">//println(&quot;called nextInput&quot;)</span>
+
+    <span title="scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" class="keyword">if</span> <span class="delimiter">(</span><a href="#58736" title="scales.utils.io.DataChunk">d</a>.<a href="../../../../utils/io/DataChunk.scala.html#58743" title="=&gt; Boolean">isEmpty</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">//println(&quot;fed empty&quot;)</span>
+      <span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">Empty</span><span title="scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" class="delimiter">[</span><span title="scalaz.EphemeralStream[scales.xml.package.PullType]">EphemeralStream</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> 
+      <span title="scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" class="keyword">if</span> <span class="delimiter">(</span><a href="../../../../utils/resource/Resources.scala.html#29008" title="=&gt; Boolean">isClosed</a> <span title="(x: Boolean)Boolean">||</span> <a href="#58736" title="scales.utils.io.DataChunk">d</a>.<a href="../../../../utils/io/DataChunk.scala.html#58742" title="=&gt; Boolean">isEOF</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#58736" title="scales.utils.io.DataChunk">d</a>.<a href="../../../../utils/io/DataChunk.scala.html#58742" title="=&gt; Boolean">isEOF</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	  <span class="comment">//println(&quot;Data was eof&quot;)</span>
+	  <a href="../../../../utils/resource/Resources.scala.html#29009" title="=&gt; Unit">closeResource</a>
+	<span class="delimiter">}</span>
+	<span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">EOF</span><span title="scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" class="delimiter">[</span><span title="scalaz.EphemeralStream[scales.xml.package.PullType]">EphemeralStream</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span>      
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+	<span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#29016" title="=&gt; com.fasterxml.aalto.AsyncInputFeeder">feeder</a>.<span title="()Boolean">needMoreInput</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	  <a href="../../../../utils/package.scala.html#15164" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;The stream from the previous call to nextInput was not evaluated &quot;)" class="string">&quot;The stream from the previous call to nextInput was not evaluated &quot;</span><span class="delimiter">)</span>
+	<span class="delimiter">}</span>
+
+	<span class="comment">//println(&quot;pushing &quot;+d)</span>
+	<a href="#29016" title="=&gt; com.fasterxml.aalto.AsyncInputFeeder">feeder</a>.<span title="(x$1: Array[Byte], x$2: Int, x$3: Int)Unit">feedInput</span><span class="delimiter">(</span><a href="#58736" title="scales.utils.io.DataChunk">d</a>.<a href="../../../../utils/io/DataChunk.scala.html#58739" title="=&gt; Array[Byte]">array</a>, <a href="#58736" title="scales.utils.io.DataChunk">d</a>.<a href="../../../../utils/io/DataChunk.scala.html#58740" title="=&gt; Int">offset</a>, <a href="#58736" title="scales.utils.io.DataChunk">d</a>.<a href="../../../../utils/io/DataChunk.scala.html#58741" title="=&gt; Int">length</a><span class="delimiter">)</span>
+
+	<span class="keyword">val</span> <a title="scalaz.EphemeralStream[scales.xml.package.PullType]" id="58748">res</a> = <a href="#29039" title="()scalaz.EphemeralStream[scales.xml.package.PullType]">nextStream</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+	<span title="scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" class="keyword">if</span> <span class="delimiter">(</span><a href="#58748" title="scalaz.EphemeralStream[scales.xml.package.PullType]">res</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <span class="delimiter">{</span> <span class="comment">// let the enumerator deal with it</span>
+	  <span class="comment">//println(&quot;empty after feeding&quot;)</span>
+	  <span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">Empty</span><span title="scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" class="delimiter">[</span><span title="scalaz.EphemeralStream[scales.xml.package.PullType]">EphemeralStream</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span>
+	<span class="delimiter">}</span> <span class="keyword">else</span> <span class="comment">// it may have empty after the call</span>
+	  <span title="object scalaz.IterV">IterV</span>.<span title="[E](e0: =&gt; E)scalaz.Input[E]">El</span><span title="(e0: =&gt; scalaz.EphemeralStream[scales.xml.package.PullType])scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" class="delimiter">[</span><span title="scalaz.EphemeralStream[scales.xml.package.PullType]">EphemeralStream</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">(</span><a href="#58748" title="scalaz.EphemeralStream[scales.xml.package.PullType]">res</a><span class="delimiter">)</span>
+	
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Provides a ResumableIter that converts DataChunks via a parser into a stream of PullTypes.  Returns Done when there are results from the pushed chunks.
+   *
+   * Calls AsyncParser parse
+   */</span>  
+  <span class="keyword">def</span> <a title="=&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]" id="29041">iteratee</a>: <span title="scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">ResumableIter</span><span class="delimiter">[</span>DataChunk, EphemeralStream<span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span> =
+    <a href="#12492" title="object scales.xml.parser.pull.aalto.AsyncParser">AsyncParser</a>.<a href="#42809" title="(parser: scales.xml.parser.pull.aalto.AsyncParser)scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">parse</a><span class="delimiter">(</span><a href="#12491" title="scales.xml.parser.pull.aalto.AsyncParser" class="keyword">this</a><span class="delimiter">)</span>
+  
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.parser.pull.aalto.AsyncParser" id="12492">AsyncParser</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Provides a ResumableIter that converts DataChunks via a parser into a stream of PullTypes.  Returns Done when there are results from the pushed chunks.
+   */</span>
+  <span class="keyword">def</span> <a title="(parser: scales.xml.parser.pull.aalto.AsyncParser)scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]" id="42809">parse</a><span class="delimiter">(</span><a title="scales.xml.parser.pull.aalto.AsyncParser" id="58758">parser</a>: <a href="#12491" title="scales.xml.parser.pull.aalto.AsyncParser">AsyncParser</a><span class="delimiter">)</span>: <span title="scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">ResumableIter</span><span class="delimiter">[</span>DataChunk, EphemeralStream<span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span> = <span class="delimiter">{</span>
+
+    <span class="keyword">def</span> <a title="=&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]" id="58761">EOF</a>: <span title="scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">ResumableIter</span><span class="delimiter">[</span>DataChunk, EphemeralStream<span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span> = <span class="delimiter">{</span>
+      <a href="#58758" title="scales.xml.parser.pull.aalto.AsyncParser">parser</a>.<a href="../../../../utils/resource/Resources.scala.html#29009" title="=&gt; Unit">closeResource</a>
+
+      <span class="comment">//println(&quot;closing against EOF from parse&quot;)</span>
+      <span title="(a: =&gt; (scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _]), i: =&gt; scalaz.Input[scales.utils.io.DataChunk])scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]">Done</span><span class="delimiter">(</span><span title="(_1: java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}, _2: scalaz.IterV[scales.utils.io.DataChunk,Nothing])(java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}, scalaz.IterV[scales.utils.io.DataChunk,Nothing])" class="delimiter">(</span><span title="object scalaz.EphemeralStream">EphemeralStream</span>.<span title="=&gt; java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}">empty</span>, 
+	  <span title="(f: scalaz.Input[scales.utils.io.DataChunk] =&gt; scalaz.IterV[scales.utils.io.DataChunk,Nothing])scalaz.IterV[scales.utils.io.DataChunk,Nothing]">Cont</span><span class="delimiter">(</span>
+	    <a href="../../../../utils/package.scala.html#15164" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Called the continuation on a closed parser&quot;)" class="string">&quot;Called the continuation on a closed parser&quot;</span><span class="delimiter">)</span>
+	  <span class="delimiter">)</span><span class="delimiter">)</span>, <span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">EOF</span><span title="scalaz.Input[scales.utils.io.DataChunk]" class="delimiter">[</span><a href="../../../../utils/io/DataChunk.scala.html#14212" title="scales.utils.io.DataChunk">DataChunk</a><span class="delimiter">]</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">def</span> <a title="=&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]" id="58762">emptyness</a> : <span title="scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">ResumableIter</span><span class="delimiter">[</span>DataChunk, EphemeralStream<span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span> = <span title="(a: =&gt; (scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _]), i: =&gt; scalaz.Input[scales.utils.io.DataChunk])scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]">Done</span><span class="delimiter">(</span><span title="(_1: java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}, _2: scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])(java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}, scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])" class="delimiter">(</span><span title="object scalaz.EphemeralStream">EphemeralStream</span>.<span title="=&gt; java.lang.Object with scalaz.EphemeralStream[scalaz.Scalaz.⊥]{def tail: () =&gt; scalaz.Scalaz.⊥}">empty</span>, <span title="(f: scalaz.Input[scales.utils.io.DataChunk] =&gt; scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]">Cont</span><span class="delimiter">(</span><a href="#58763" title="(s: scalaz.Input[scales.utils.io.DataChunk])scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">step</a><span class="delimiter">)</span><span class="delimiter">)</span>, <span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">Empty</span><span title="scalaz.Input[scales.utils.io.DataChunk]" class="delimiter">[</span><a href="../../../../utils/io/DataChunk.scala.html#14212" title="scales.utils.io.DataChunk">DataChunk</a><span class="delimiter">]</span><span class="delimiter">)</span>
+
+    <span class="keyword">def</span> <a title="(s: scalaz.Input[scales.utils.io.DataChunk])scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]" id="58763">step</a><span class="delimiter">(</span><a title="scalaz.Input[scales.utils.io.DataChunk]" id="58803">s</a>: <span title="scalaz.Input[scales.utils.io.DataChunk]">Input</span><span class="delimiter">[</span>DataChunk<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">ResumableIter</span><span class="delimiter">[</span>DataChunk, EphemeralStream<span class="delimiter">[</span>PullType<span class="delimiter">]</span><span class="delimiter">]</span> = 
+      <a href="#58803" title="(empty: =&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]], el: =&gt; scales.utils.io.DataChunk =&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]], eof: =&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]])scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">s</a><span class="delimiter">(</span>el = <a title="=&gt; scales.utils.io.DataChunk" id="58832">e</a> =&gt; <span class="delimiter">{</span>
+	  <span class="comment">//println(&quot;Did get a large chunk &quot;+e)</span>
+	  <span class="keyword">val</span> <a title="scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]" id="58833">r</a> = <a href="#58758" title="scales.xml.parser.pull.aalto.AsyncParser">parser</a>.<a href="#29040" title="(d: scales.utils.io.DataChunk)scalaz.Input[scalaz.EphemeralStream[scales.xml.package.PullType]]">nextInput</a><span class="delimiter">(</span><a href="#58832" title="=&gt; scales.utils.io.DataChunk">e</a><span class="delimiter">)</span>
+	  <a href="#58833" title="(empty: =&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]], el: =&gt; scalaz.EphemeralStream[scales.xml.package.PullType] =&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]], eof: =&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]])scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">r</a><span class="delimiter">(</span> el = <a title="=&gt; scalaz.EphemeralStream[scales.xml.package.PullType]" id="58848">es</a> =&gt; <span class="delimiter">{</span>
+		<span class="comment">//println(&quot;got el with es &quot; + es.isEmpty + &quot; feeder &quot; + parser.feeder.needMoreInput)</span>
+	      <span title="(a: =&gt; (scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _]), i: =&gt; scalaz.Input[scales.utils.io.DataChunk])scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]">Done</span><span class="delimiter">(</span><span title="(_1: scalaz.EphemeralStream[scales.xml.package.PullType], _2: scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])" class="delimiter">(</span><a href="#58848" title="=&gt; scalaz.EphemeralStream[scales.xml.package.PullType]">es</a>,
+		    <span title="(f: scalaz.Input[scales.utils.io.DataChunk] =&gt; scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]">Cont</span><span class="delimiter">(</span>
+		      <a href="#58763" title="(s: scalaz.Input[scales.utils.io.DataChunk])scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">step</a>
+		      <span class="delimiter">)</span><span class="delimiter">)</span>, <span title="object scalaz.IterV">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">Empty</span><span title="scalaz.Input[scales.utils.io.DataChunk]" class="delimiter">[</span><a href="../../../../utils/io/DataChunk.scala.html#14212" title="scales.utils.io.DataChunk">DataChunk</a><span class="delimiter">]</span><span class="delimiter">)</span>
+	      <span class="delimiter">}</span>,
+	      empty = <span class="delimiter">{</span>
+		<span class="comment">//println(&quot;empty from input&quot;)</span>
+		<span class="comment">//emptyness</span>
+		<span title="(f: scalaz.Input[scales.utils.io.DataChunk] =&gt; scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]">Cont</span><a title="() =&gt; scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]" id="58880" class="delimiter">(</a><a href="#58763" title="(s: scalaz.Input[scales.utils.io.DataChunk])scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">step</a><span class="delimiter">)</span>
+	      <span class="delimiter">}</span>,
+	      eof = <a href="#58761" title="() =&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]" id="58881">EOF</a>
+	  <span class="delimiter">)</span>
+	<span class="delimiter">}</span>,
+	empty = <span class="delimiter">{</span>
+	  <span class="comment">//println(&quot;empty input&quot;)</span>
+	  <span class="comment">//emptyness</span>
+	  <span class="comment">//Done((EphemeralStream.empty, Cont(step)), IterV.Empty[DataChunk]) // nothing that can be done on empty</span>
+	  <span title="(f: scalaz.Input[scales.utils.io.DataChunk] =&gt; scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]">Cont</span><a title="() =&gt; scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]" id="58891" class="delimiter">(</a><a href="#58763" title="(s: scalaz.Input[scales.utils.io.DataChunk])scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">step</a><span class="delimiter">)</span>
+	<span class="delimiter">}</span>,
+	eof = <a href="#58761" title="() =&gt; scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]" id="58892">EOF</a>
+      <span class="delimiter">)</span>
+
+    <span title="(f: scalaz.Input[scales.utils.io.DataChunk] =&gt; scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])])scalaz.IterV[scales.utils.io.DataChunk,(scalaz.EphemeralStream[scales.xml.package.PullType], scalaz.IterV[scales.utils.io.DataChunk, _])]">Cont</span><span class="delimiter">(</span><a href="#58763" title="(s: scalaz.Input[scales.utils.io.DataChunk])scales.utils.package.ResumableIter[scales.utils.io.DataChunk,scalaz.EphemeralStream[scales.xml.package.PullType]]">step</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+
+  <span class="comment">/**
+   * Creates a parser based on the input channel provided
+   */</span>
+  <span class="keyword">def</span> <a title="[TokenT &lt;: scales.xml.parser.strategies.OptimisationToken](optimisationStrategy: scales.xml.parser.strategies.MemoryOptimisationStrategy[TokenT], parsers: scales.utils.resources.Pool[com.fasterxml.aalto.AsyncXMLInputFactory])(implicit xmlVersion: scales.xml.XmlVersion)scales.xml.parser.pull.aalto.AsyncParser" id="42810">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.parser.strategies.OptimisationToken" id="58910">TokenT</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span> <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[TokenT]" id="58908">optimisationStrategy</a> : <a href="../../strategies/OptimisingStrategies.scala.html#14727" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[TokenT]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>TokenT<span class="delimiter">]</span> = <a href="../../../package.scala.html#15570" title="=&gt; scales.xml.parser.strategies.MemoryOptimisationStrategy[scales.xml.parser.strategies.QNameToken]">defaultOptimisation</a>, <a title="scales.utils.resources.Pool[com.fasterxml.aalto.AsyncXMLInputFactory]" id="58911">parsers</a> : <a href="../../../../utils/resource/Resources.scala.html#14392" title="scales.utils.resources.Pool[com.fasterxml.aalto.AsyncXMLInputFactory]">Pool</a><span class="delimiter">[</span>AsyncXMLInputFactory<span class="delimiter">]</span> = <a href="Factory.scala.html#12498" title="object scales.xml.parser.pull.aalto.AsyncXMLInputFactoryPool">AsyncXMLInputFactoryPool</a> <span class="delimiter">)</span><span class="delimiter">(</span> <span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="58906">xmlVersion</a> : <a href="../../../Namespaces.scala.html#9702" title="scales.xml.XmlVersion">XmlVersion</a> <span class="delimiter">)</span> : <a href="#12491" title="scales.xml.parser.pull.aalto.AsyncParser">AsyncParser</a> = <a href="#58947" title="scales.xml.parser.pull.aalto.AsyncParser{}" class="keyword">new</a> <a href="#12491" title="anonymous class $anon extends scales.xml.parser.pull.aalto.AsyncParser" id="58947">AsyncParser</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">{</span>
+    <span class="keyword">type</span> <a title="TokenT" id="58951">Token</a> = <a href="#58910" title="TokenT">TokenT</a>
+    <span class="keyword">val</span> <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[TokenT]" id="58952">strategy</a> = <a href="#58908" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[TokenT]">optimisationStrategy</a>
+    
+    <span class="keyword">import</span> <a href="../PullIterator.scala.html#10321" title="object scales.xml.parser.pull.PullUtils">PullUtils</a>.weAreInAParser
+    <span class="keyword">val</span> <a title="TokenT" id="58955">token</a> = <a href="#58952" title="=&gt; scales.xml.parser.strategies.MemoryOptimisationStrategy[TokenT]">strategy</a>.<a href="../../strategies/OptimisingStrategies.scala.html#32815" title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)TokenT">createToken</a>
+
+    <span class="keyword">val</span> <a title="com.fasterxml.aalto.AsyncXMLInputFactory" id="58957">pf</a> = <a href="#58911" title="scales.utils.resources.Pool[com.fasterxml.aalto.AsyncXMLInputFactory]">parsers</a>.<a href="../../../../utils/resource/Resources.scala.html#58924" title="=&gt; com.fasterxml.aalto.AsyncXMLInputFactory">grab</a>
+
+    <span class="keyword">val</span> <a title="com.fasterxml.aalto.AsyncXMLStreamReader" id="58959">parser</a> = <a href="#58957" title="=&gt; com.fasterxml.aalto.AsyncXMLInputFactory">pf</a>.<span title="()com.fasterxml.aalto.AsyncXMLStreamReader">createAsyncXMLStreamReader</span><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="keyword">val</span> <a title="com.fasterxml.aalto.AsyncInputFeeder" id="58961">feeder</a> = <a href="#58959" title="=&gt; com.fasterxml.aalto.AsyncXMLStreamReader">parser</a>.<span title="()com.fasterxml.aalto.AsyncInputFeeder">getInputFeeder</span>
+
+    <span class="comment">/**
+     * also handle the parsers pool
+     */</span> 
+    <span class="keyword">override</span> <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="58963">doClose</a> = <span class="delimiter">{</span> 
+      <a href="#58947" title="scales.xml.parser.pull.aalto.AsyncParser{}" class="keyword">super</a>.<a href="#29019" title="=&gt; Unit">doClose</a>
+      <a href="#58911" title="scales.utils.resources.Pool[com.fasterxml.aalto.AsyncXMLInputFactory]">parsers</a>.<a href="../../../../utils/resource/Resources.scala.html#58925" title="(t: com.fasterxml.aalto.AsyncXMLInputFactory)Unit">giveBack</a><span class="delimiter">(</span><a href="#58957" title="=&gt; com.fasterxml.aalto.AsyncXMLInputFactory">pf</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

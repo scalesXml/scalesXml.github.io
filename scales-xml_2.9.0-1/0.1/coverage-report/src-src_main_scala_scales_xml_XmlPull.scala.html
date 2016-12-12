@@ -1,0 +1,2157 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;xml/<span class="header">&#x200B;XmlPull.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">81 %</div>
+        <div class="greenBar" style="width:162px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_xml_XmlPull.scala.html#Class_scales_xml_EndElem"><img src="class.png"></img>EndElem</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_xml_XmlPull.scala.html#Trait_scales_xml_XmlPull"><img src="trait.png"></img>XmlPull</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">76 %</div>
+        <div class="greenBar" style="width:152px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_xml_XmlPull.scala.html#Class_scales_xml_XmlPulls"><img src="class.png"></img>XmlPulls</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">64 %</div>
+        <div class="greenBar" style="width:128px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_xml_XmlPull.scala.html#Trait_scales_xml_XmlPulls"><img src="trait.png"></img>XmlPulls</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">89 %</div>
+        <div class="greenBar" style="width:178px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>package scales.xml
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import javax.xml.stream._
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>import scales.utils._
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> * Wraps the stax cursor inteface (iterator just adds weight here).
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td> * scala.xml.pull uses a thread based on stax approach to push/pull events.
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td> * This code uses stax only, extra iteratee goodness will appear curtousy of scalaz....
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td><a id="Trait_scales_xml_XmlPulls"></a>trait XmlPulls {
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>  import java.io._
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>   * Load xml via pull parsing
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td><a id="Class_scales_xml_EndElem"></a>  def pullXmlCompletely[RToken &lt;: OptimisationToken]( source : org.xml.sax.InputSource, strategy : PathOptimisationStrategy[RToken] = defaultPathOptimisation, parserFactoryPool : Pool[XMLInputFactory] = DefaultStaxInputFactoryPool, closeAfterUse : Boolean = true) : Doc = {
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>    val pull = pullXml[RToken](source, strategy, parserFactoryPool, closeAfterUse)
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>    val token = pull.token.asInstanceOf[RToken] // really is an RToken but we lose the type
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>    // start with nothing
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>    val buf = new TreeProxies()
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>    while( pull.hasNext ){
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>      pull.next match {
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>  case Left( i : XmlItem ) =&gt; 
+</td>
+          </tr><tr>
+            <td class="red">31</td>
+            <td>    <span class="non">buf.addChild(i)
+</span></td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>  case Left( e : Elem ) =&gt; 
+</td>
+          </tr><tr>
+            <td class="green">33</td>
+            <td>    strategy.beginSubTree(buf, e, token)
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>  case Right(endElem) =&gt; 
+</td>
+          </tr><tr>
+            <td class="green">35</td>
+            <td>    strategy.elementEnd(buf, token)
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">38</td>
+            <td>    Doc(buf.tree, pull.prolog, pull.end)
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>   * Creates a new XmlPull based on source for direct handling of the stream.  Note to close the stream you must bracket.
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>   * The individual XmlPull will be closed after the document end but the stream will remain open
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>  def pullXmlResource[RToken &lt;: OptimisationToken](source: org.xml.sax.InputSource, optimisationStrategy : MemoryOptimisationStrategy[RToken] = defaultOptimisation, parserFactoryPool: Pool[XMLInputFactory] = DefaultStaxInputFactoryPool) : (CloseOnNeed, XmlPull) = {
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>    val stream = ProxiedCloseOnNeedReader(source.getCharacterStream()) // getByteStream() doesn't always work
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">48</td>
+            <td>    val pf = parserFactoryPool.grab
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="green">50</td>
+            <td>    implicit val weAreInAParser : FromParser = IsFromParser
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>    import ScalesXml.defaultVersion
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>    (stream,
+</td>
+          </tr><tr>
+            <td class="green">55</td>
+            <td><a id="Class_scales_xml_XmlPulls"></a>      new XmlPull {
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>  type Token = RToken
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="green">58</td>
+            <td>  val strategy = optimisationStrategy
+</td>
+          </tr><tr>
+            <td class="green">59</td>
+            <td>  implicit val token = optimisationStrategy.createToken
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">61</td>
+            <td>        val parser = pf.createXMLStreamReader(stream)
+</td>
+          </tr><tr>
+            <td class="red">62</td>
+            <td>        val resourceCloser = () =&gt; { <span class="non">parserFactoryPool.giveBack(pf) } //noop its now the CloseOnNeeds job
+</span></td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">64</td>
+            <td>        start
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>      })
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>   * Creates a new XmlPull based on source.  By default it will close the stream after use.
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>  def pullXml[RToken &lt;: OptimisationToken](source: org.xml.sax.InputSource, optimisationStrategy : MemoryOptimisationStrategy[RToken] = defaultOptimisation, parserFactoryPool: Pool[XMLInputFactory] = DefaultStaxInputFactoryPool, closeAfterUse: Boolean = true) : XmlPull with java.io.Closeable with IsClosed = {
+</td>
+          </tr><tr>
+            <td class="green">72</td>
+            <td>    val stream = ProxiedCloseOnNeedReader(source.getCharacterStream()) // getByteStream() doesn't always work
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">74</td>
+            <td>    val pf = parserFactoryPool.grab
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>    implicit val weAreInAParser : FromParser = IsFromParser
+</td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>    import ScalesXml.defaultVersion
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">80</td>
+            <td>    new XmlPull with java.io.Closeable with IsClosed {
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>      type Token = RToken
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">83</td>
+            <td>      val strategy = optimisationStrategy
+</td>
+          </tr><tr>
+            <td class="green">84</td>
+            <td>      val token = optimisationStrategy.createToken
+</td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">86</td>
+            <td>      val parser = pf.createXMLStreamReader(stream)
+</td>
+          </tr><tr>
+            <td class="green">87</td>
+            <td>      val resourceCloser = () =&gt; { parserFactoryPool.giveBack(pf); stream.closeResource } // bug: 6539065 javadocs say does not close, implementation seems to close :&lt; calling it twice should be safe - especially with CloseOnNeed
+</td>
+          </tr><tr>
+            <td class="black">88</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">89</td>
+            <td>      private[this] var closed = false
+</td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>      def isClosed = closed
+</td>
+          </tr><tr>
+            <td class="black">91</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">92</td>
+            <td>      override def internalClose { close }
+</td>
+          </tr><tr>
+            <td class="black">93</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">94</td>
+            <td>      def close {
+</td>
+          </tr><tr>
+            <td class="black">95</td>
+            <td>        if (!closed) {
+</td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>          parser.close
+</td>
+          </tr><tr>
+            <td class="black">97</td>
+            <td>          resourceCloser() // parser close doesn't close the resource
+</td>
+          </tr><tr>
+            <td class="black">98</td>
+            <td>          closed = true
+</td>
+          </tr><tr>
+            <td class="black">99</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">100</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">101</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">102</td>
+            <td>      start
+</td>
+          </tr><tr>
+            <td class="black">103</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">105</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">106</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">107</td>
+            <td>   * Allows plugging in other feeds, non source based, as such not closeable
+</td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="red">109</td>
+            <td>  def pullXmlReader[RToken &lt;: OptimisationToken]( reader  : XMLStreamReader, defaultOptimisationStrategy : MemoryOptimisationStrategy[RToken] = defaultOptimisation) : XmlPull = <span class="non">new XmlPull {
+</span></td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>    type Token = RToken
+</td>
+          </tr><tr>
+            <td class="black">111</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">112</td>
+            <td>    implicit val eweAreInAParser : FromParser = <span class="non">IsFromParser
+</span></td>
+          </tr><tr>
+            <td class="black">113</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">114</td>
+            <td>    import ScalesXml.defaultVersion
+</td>
+          </tr><tr>
+            <td class="black">115</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">116</td>
+            <td>    val strategy = <span class="non">defaultOptimisationStrategy
+</span></td>
+          </tr><tr>
+            <td class="red">117</td>
+            <td>    val token = <span class="non">defaultOptimisationStrategy.createToken
+</span></td>
+          </tr><tr>
+            <td class="black">118</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">119</td>
+            <td>    val parser = <span class="non">reader
+</span></td>
+          </tr><tr>
+            <td class="black">120</td>
+            <td>    val resourceCloser = () =&gt; {}
+</td>
+          </tr><tr>
+            <td class="black">121</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">122</td>
+            <td>    <span class="non">start
+</span></td>
+          </tr><tr>
+            <td class="black">123</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">124</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">125</td>
+            <td>  type PullType = Either[XmlEvent, EndElem]
+</td>
+          </tr><tr>
+            <td class="black">126</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">127</td>
+            <td>  implicit def toLeft(ev: XmlEvent) = Left(ev)
+</td>
+          </tr><tr>
+            <td class="green">128</td>
+            <td>  implicit def toRight(ev: EndElem) = Right(ev)
+</td>
+          </tr><tr>
+            <td class="black">129</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>  // enumerators and iteratees follow
+</td>
+          </tr><tr>
+            <td class="black">131</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">132</td>
+            <td>  import scalaz._
+</td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>  import Scalaz._
+</td>
+          </tr><tr>
+            <td class="black">134</td>
+            <td>  import scalaz.IterV._
+</td>
+          </tr><tr>
+            <td class="black">135</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>  type QNamesMatch = (List[QName], Option[XmlPath])
+</td>
+          </tr><tr>
+            <td class="black">137</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">138</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">139</td>
+            <td>   * Collects all data belonging to an element that matches
+</td>
+          </tr><tr>
+            <td class="black">140</td>
+            <td>   * the list. &lt;top&gt;&lt;middle&gt;&lt;ofInterest&gt; content &lt;/ofInterest&gt;&lt;ofInterest....
+</td>
+          </tr><tr>
+            <td class="black">141</td>
+            <td>   * onQNames(List(&quot;top&quot;l, &quot;middle&quot;l, &quot;ofInterest&quot;l))
+</td>
+          </tr><tr>
+            <td class="black">142</td>
+            <td>   * would return an iteratee that returned every &lt;ofInterest&gt; content &lt;/ofInterest&gt;
+</td>
+          </tr><tr>
+            <td class="black">143</td>
+            <td>   * as a path (each parent node containing only one child node).
+</td>
+          </tr><tr>
+            <td class="black">144</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">145</td>
+            <td>  def onQNames(qnames: List[QName]): ResumableIter[PullType, QNamesMatch] = {
+</td>
+          </tr><tr>
+            <td class="black">146</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">147</td>
+            <td>    /*
+</td>
+          </tr><tr>
+            <td class="black">148</td>
+            <td>     * The pairs allow the depth of each element to be followed.  In particular this stops both descent and ascent problems in the
+</td>
+          </tr><tr>
+            <td class="black">149</td>
+            <td>     * pushing and popping on the stack.  I.e. it covers the case where you have nested repeating QNames, both when you are looking for them
+</td>
+          </tr><tr>
+            <td class="black">150</td>
+            <td>     * and when your are not.  Don't pop to early and don't incorrectly force a done.
+</td>
+          </tr><tr>
+            <td class="black">151</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="black">152</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">153</td>
+            <td>    lazy val starter = Cont(step(List(), (qnames.head, 0), qnames.tail.map((_, 0)), noXmlPath, false))
+</td>
+          </tr><tr>
+            <td class="black">154</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">155</td>
+            <td>    def step(before: List[(QName, Int)], focus: (QName, Int), toGo: List[(QName, Int)], path: XmlPath, collecting: Boolean)(s: Input[PullType]): ResumableIter[PullType, QNamesMatch] =
+</td>
+          </tr><tr>
+            <td class="green">156</td>
+            <td>      s(el = { e =&gt; //println(e +&quot; &quot;+before+&quot; &quot;+focus+&quot; &quot; + toGo); 
+</td>
+          </tr><tr>
+            <td class="green">157</td>
+            <td>        e match {
+</td>
+          </tr><tr>
+            <td class="black">158</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">159</td>
+            <td>          case Left(elem@Elem(q, a, n)) =&gt; {
+</td>
+          </tr><tr>
+            <td class="green">160</td>
+            <td>            val nfocus = if (q == focus._1) (focus._1, focus._2 + 1)
+</td>
+          </tr><tr>
+            <td class="green">161</td>
+            <td>            else focus
+</td>
+          </tr><tr>
+            <td class="green">162</td>
+            <td>            lazy val npath = addAndFocus(path, elem)
+</td>
+          </tr><tr>
+            <td class="black">163</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">164</td>
+            <td>            val shouldCollect = collecting || (toGo.isEmpty &amp;&amp; q == focus._1)
+</td>
+          </tr><tr>
+            <td class="black">165</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">166</td>
+            <td>            Cont(
+</td>
+          </tr><tr>
+            <td class="black">167</td>
+            <td>              // is it our head?
+</td>
+          </tr><tr>
+            <td class="green">168</td>
+            <td>              if ((!toGo.isEmpty) &amp;&amp; q == focus._1)
+</td>
+          </tr><tr>
+            <td class="black">169</td>
+            <td>                // move down
+</td>
+          </tr><tr>
+            <td class="green">170</td>
+            <td>                step(before :+ focus, toGo.head, toGo.tail, npath, false)
+</td>
+          </tr><tr>
+            <td class="black">171</td>
+            <td>              else
+</td>
+          </tr><tr>
+            <td class="black">172</td>
+            <td>                // wait for a down
+</td>
+          </tr><tr>
+            <td class="green">173</td>
+            <td>                step(before, nfocus, toGo, npath, shouldCollect))
+</td>
+          </tr><tr>
+            <td class="black">174</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">175</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">176</td>
+            <td>          case Left(x: XmlItem) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">177</td>
+            <td>            if (collecting) // collect
+</td>
+          </tr><tr>
+            <td class="green">178</td>
+            <td>              Cont(step(before, focus, toGo, addChild(path, x), true))
+</td>
+          </tr><tr>
+            <td class="black">179</td>
+            <td>            else
+</td>
+          </tr><tr>
+            <td class="green">180</td>
+            <td>              Cont(step(before, focus, toGo, path, false)) // don't collect
+</td>
+          </tr><tr>
+            <td class="black">181</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">182</td>
+            <td>          case Right(EndElem(q, n)) =&gt;
+</td>
+          </tr><tr>
+            <td class="black">183</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">184</td>
+            <td>            if (q == focus._1) {
+</td>
+          </tr><tr>
+            <td class="green">185</td>
+            <td>              val ncfocus = (focus._1, focus._2 - 1)
+</td>
+          </tr><tr>
+            <td class="black">186</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">187</td>
+            <td>              if (toGo.isEmpty &amp;&amp; ncfocus._2 == 0) // we are popping to the selected level
+</td>
+          </tr><tr>
+            <td class="green">188</td>
+            <td>                Done(((qnames, Some(path)),
+</td>
+          </tr><tr>
+            <td class="green">189</td>
+            <td>                  Cont(step(before, ncfocus, toGo,
+</td>
+          </tr><tr>
+            <td class="black">190</td>
+            <td>                    // remove all children on the next iteration
+</td>
+          </tr><tr>
+            <td class="black">191</td>
+            <td>                    path.removeAndUp.getOrElse(noXmlPath), false))), IterV.Empty[PullType])
+</td>
+          </tr><tr>
+            <td class="black">192</td>
+            <td>              else {
+</td>
+          </tr><tr>
+            <td class="green">193</td>
+            <td>                if (before.isEmpty)
+</td>
+          </tr><tr>
+            <td class="red">194</td>
+            <td>                  <span class="non">starter // only when the root is asked for, could just refuse that of course?    
+</span></td>
+          </tr><tr>
+            <td class="black">195</td>
+            <td>                else {
+</td>
+          </tr><tr>
+            <td class="green">196</td>
+            <td>                  if (collecting)
+</td>
+          </tr><tr>
+            <td class="black">197</td>
+            <td>                    // we are collecting but we still have more than 0 repeated qnames deep
+</td>
+          </tr><tr>
+            <td class="green">198</td>
+            <td>                    Cont(step(before, ncfocus, toGo, path.zipUp, true))
+</td>
+          </tr><tr>
+            <td class="black">199</td>
+            <td>                  else {
+</td>
+          </tr><tr>
+            <td class="black">200</td>
+            <td>                    // we aren't collecting but we are moving up, we just have repeated names 
+</td>
+          </tr><tr>
+            <td class="green">201</td>
+            <td>                    val nfocus = before.last
+</td>
+          </tr><tr>
+            <td class="green">202</td>
+            <td>                    val nbefore = before.dropRight(1)
+</td>
+          </tr><tr>
+            <td class="green">203</td>
+            <td>                    Cont(step(nbefore, nfocus, focus :: toGo,
+</td>
+          </tr><tr>
+            <td class="black">204</td>
+            <td>                      path.removeAndUp.getOrElse(noXmlPath), false // we have NOT been collecting  
+</td>
+          </tr><tr>
+            <td class="black">205</td>
+            <td>                      ))
+</td>
+          </tr><tr>
+            <td class="black">206</td>
+            <td>                  }
+</td>
+          </tr><tr>
+            <td class="black">207</td>
+            <td>                }
+</td>
+          </tr><tr>
+            <td class="black">208</td>
+            <td>              }
+</td>
+          </tr><tr>
+            <td class="black">209</td>
+            <td>            } else {
+</td>
+          </tr><tr>
+            <td class="green">210</td>
+            <td>              Cont(step(before, focus, toGo,
+</td>
+          </tr><tr>
+            <td class="black">211</td>
+            <td>                if (collecting) // empty is not enough, it should also be definitely collecting
+</td>
+          </tr><tr>
+            <td class="black">212</td>
+            <td>                  path.zipUp
+</td>
+          </tr><tr>
+            <td class="black">213</td>
+            <td>                else
+</td>
+          </tr><tr>
+            <td class="black">214</td>
+            <td>                  path.removeAndUp.getOrElse(noXmlPath), collecting))
+</td>
+          </tr><tr>
+            <td class="black">215</td>
+            <td>            }
+</td>
+          </tr><tr>
+            <td class="black">216</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">217</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">218</td>
+            <td>      },
+</td>
+          </tr><tr>
+            <td class="red">219</td>
+            <td>        empty = <span class="non">Cont(step(before, focus, toGo, path, false)),
+</span></td>
+          </tr><tr>
+            <td class="red">220</td>
+            <td>        eof = <span class="non">Done(((qnames, None), starter), IterV.EOF[PullType]))
+</span></td>
+          </tr><tr>
+            <td class="black">221</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="yellow">222</td>
+            <td>    if (qnames.isEmpty) <span class="non">error(&quot;Qnames is empty&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">223</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">224</td>
+            <td>    starter
+</td>
+          </tr><tr>
+            <td class="black">225</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">226</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">227</td>
+            <td>  type PeekMatch = Option[XmlPath]
+</td>
+          </tr><tr>
+            <td class="black">228</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">229</td>
+            <td>  def skipv(downTo: Int*): IterV[PullType, PeekMatch] = skip(List(downTo: _*))
+</td>
+          </tr><tr>
+            <td class="black">230</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">231</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">232</td>
+            <td>   * Skips all events until the indexes match downTo, can be seen as
+</td>
+          </tr><tr>
+            <td class="black">233</td>
+            <td>   * \*\*[b]\*[c] skipping until c with skip(List(b,c)).
+</td>
+          </tr><tr>
+            <td class="black">234</td>
+            <td>   * This can be used, for example, to identify qnames within a message and combined with capture to allow replaying.
+</td>
+          </tr><tr>
+            <td class="black">235</td>
+            <td>   * Identifying a soap doc-lit request would be skip(List(2,1)).
+</td>
+          </tr><tr>
+            <td class="black">236</td>
+            <td>   * It returns the XmlPath to the skipped position, for soap /Envelope/Body/Request but does not collect the contents of that node.
+</td>
+          </tr><tr>
+            <td class="black">237</td>
+            <td>   * An empty list will simply return the first Element found.
+</td>
+          </tr><tr>
+            <td class="black">238</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">239</td>
+            <td>  def skip(downTo: =&gt; List[Int]): IterV[PullType, PeekMatch] = {
+</td>
+          </tr><tr>
+            <td class="black">240</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">241</td>
+            <td>    lazy val dEof: IterV[PullType, PeekMatch] = Done(None, IterV.EOF[PullType])
+</td>
+          </tr><tr>
+            <td class="black">242</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">243</td>
+            <td>    def step(before: List[Int], pos: List[Int], toGo: List[Int], path: XmlPath)(s: Input[PullType]): IterV[PullType, PeekMatch] =
+</td>
+          </tr><tr>
+            <td class="green">244</td>
+            <td>      s(el = { e =&gt;
+</td>
+          </tr><tr>
+            <td class="green">245</td>
+            <td>        e match {
+</td>
+          </tr><tr>
+            <td class="black">246</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">247</td>
+            <td>          case Left(elem@Elem(q, a, n)) =&gt; {
+</td>
+          </tr><tr>
+            <td class="green">248</td>
+            <td>            lazy val npath = addAndFocus(path, elem)
+</td>
+          </tr><tr>
+            <td class="green">249</td>
+            <td>            val npos = pos.head + 1 :: pos.tail
+</td>
+          </tr><tr>
+            <td class="green">250</td>
+            <td>            val could = toGo.head == npos.head
+</td>
+          </tr><tr>
+            <td class="black">251</td>
+            <td>            //println(&quot;pos &quot;+pos+ &quot; npos &quot;+npos+&quot; before &quot;+before+&quot; toGo &quot;+toGo)
+</td>
+          </tr><tr>
+            <td class="green">252</td>
+            <td>            if (pos.size == (before.size + 1)) // correct level
+</td>
+          </tr><tr>
+            <td class="green">253</td>
+            <td>              if (toGo.size == 1 &amp;&amp; could)
+</td>
+          </tr><tr>
+            <td class="green">254</td>
+            <td>                Done(Some(npath), IterV.Empty[PullType])
+</td>
+          </tr><tr>
+            <td class="green">255</td>
+            <td>              else if (npos.head &gt; toGo.head)
+</td>
+          </tr><tr>
+            <td class="green">256</td>
+            <td>                dEof
+</td>
+          </tr><tr>
+            <td class="green">257</td>
+            <td>              else if (could)
+</td>
+          </tr><tr>
+            <td class="black">258</td>
+            <td>                // pop and move down
+</td>
+          </tr><tr>
+            <td class="green">259</td>
+            <td>                Cont(step(before :+ toGo.head, 0 :: npos, toGo.tail, npath))
+</td>
+          </tr><tr>
+            <td class="black">260</td>
+            <td>              else
+</td>
+          </tr><tr>
+            <td class="green">261</td>
+            <td>                Cont(step(before, 0 :: npos, toGo, npath))
+</td>
+          </tr><tr>
+            <td class="black">262</td>
+            <td>            else
+</td>
+          </tr><tr>
+            <td class="green">263</td>
+            <td>              Cont(step(before, 0 :: npos, toGo, npath))
+</td>
+          </tr><tr>
+            <td class="black">264</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">265</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">266</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">267</td>
+            <td>          // just return this again
+</td>
+          </tr><tr>
+            <td class="black">268</td>
+            <td>          case Left(x: XmlItem) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">269</td>
+            <td>            Cont(step(before, pos, toGo, path))
+</td>
+          </tr><tr>
+            <td class="black">270</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">271</td>
+            <td>          // pop up no collecting, loose the head as we are moving up again
+</td>
+          </tr><tr>
+            <td class="black">272</td>
+            <td>          case Right(EndElem(q, n)) =&gt;
+</td>
+          </tr><tr>
+            <td class="black">273</td>
+            <td>            // get or else end doc elem
+</td>
+          </tr><tr>
+            <td class="green">274</td>
+            <td>            if (pos.size &gt; 0 &amp;&amp; pos.size == before.size + 1)
+</td>
+          </tr><tr>
+            <td class="black">275</td>
+            <td>              // we have moved down in toGo
+</td>
+          </tr><tr>
+            <td class="green">276</td>
+            <td>              Cont(step(before.dropRight(1), pos.tail, before.last :: toGo, path.removeAndUp().getOrElse(noXmlPath)))
+</td>
+          </tr><tr>
+            <td class="black">277</td>
+            <td>            else
+</td>
+          </tr><tr>
+            <td class="green">278</td>
+            <td>              Cont(step(before, pos.tail, toGo, path.removeAndUp().getOrElse(noXmlPath)))
+</td>
+          </tr><tr>
+            <td class="black">279</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">280</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">281</td>
+            <td>      },
+</td>
+          </tr><tr>
+            <td class="red">282</td>
+            <td>        empty = <span class="non">Cont(step(before, pos, toGo, path)),
+</span></td>
+          </tr><tr>
+            <td class="green">283</td>
+            <td>        eof = dEof //Done((downTo, None),IterV.EOF[PullType])
+</td>
+          </tr><tr>
+            <td class="black">284</td>
+            <td>        )
+</td>
+          </tr><tr>
+            <td class="black">285</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">286</td>
+            <td>    Cont(step(List[Int](), List(0), 1 :: downTo, noXmlPath))
+</td>
+          </tr><tr>
+            <td class="black">287</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">288</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">289</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">290</td>
+            <td>   * Wraps XmlPull
+</td>
+          </tr><tr>
+            <td class="black">291</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="red">292</td>
+            <td>  def iterate(path: List[QName], xml: XmlPull): Iterable[XmlPath] = <span class="non">iterate(path, xml.it)
+</span></td>
+          </tr><tr>
+            <td class="black">293</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">294</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">295</td>
+            <td>   * A wrapping around withIter(onDone(List(onQNames(path))))(enumXml(xml, _))
+</td>
+          </tr><tr>
+            <td class="black">296</td>
+            <td>   * it unwraps the data providing an Iterator[XPath]
+</td>
+          </tr><tr>
+            <td class="black">297</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">298</td>
+            <td>  def iterate(path: List[QName], xml: Iterator[PullType]): Iterable[XmlPath] = new Iterable[XmlPath] {
+</td>
+          </tr><tr>
+            <td class="black">299</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">300</td>
+            <td>    def iterator = new Iterator[XmlPath] {
+</td>
+          </tr><tr>
+            <td class="black">301</td>
+            <td>      import ScalesXml._
+</td>
+          </tr><tr>
+            <td class="black">302</td>
+            <td>      import ScalesUtils._
+</td>
+          </tr><tr>
+            <td class="black">303</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">304</td>
+            <td>      val orig = withIter(xml)(onDone(List(onQNames(path))))
+</td>
+          </tr><tr>
+            <td class="black">305</td>
+            <td>      def getNext = {
+</td>
+          </tr><tr>
+            <td class="black">306</td>
+            <td>        if (orig.hasNext) {
+</td>
+          </tr><tr>
+            <td class="black">307</td>
+            <td>          val t = orig.next
+</td>
+          </tr><tr>
+            <td class="black">308</td>
+            <td>          if (t.size == 1)
+</td>
+          </tr><tr>
+            <td class="black">309</td>
+            <td>            (true, t.head._2)
+</td>
+          </tr><tr>
+            <td class="black">310</td>
+            <td>          else (false, None)
+</td>
+          </tr><tr>
+            <td class="black">311</td>
+            <td>        } else (false, None)
+</td>
+          </tr><tr>
+            <td class="black">312</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">313</td>
+            <td>      var cur = getNext
+</td>
+          </tr><tr>
+            <td class="black">314</td>
+            <td>      def hasNext = cur._1 &amp;&amp; cur._2.isDefined
+</td>
+          </tr><tr>
+            <td class="black">315</td>
+            <td>      def next = {
+</td>
+          </tr><tr>
+            <td class="black">316</td>
+            <td>        val t = cur._2
+</td>
+          </tr><tr>
+            <td class="black">317</td>
+            <td>        cur = getNext
+</td>
+          </tr><tr>
+            <td class="black">318</td>
+            <td>        t.get
+</td>
+          </tr><tr>
+            <td class="black">319</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">320</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">321</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">322</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">323</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">324</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">325</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">326</td>
+            <td> * Exists purely to satisfy staxs events and indicate to the client code that the xml &quot;stack&quot; should be popped
+</td>
+          </tr><tr>
+            <td class="black">327</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">328</td>
+            <td>case class EndElem(name: QName, namespaces: Map[String, String] = Map[String, String]())
+</td>
+          </tr><tr>
+            <td class="black">329</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">330</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">331</td>
+            <td> * Basis for xmlpulls, next is (event, start/finish)
+</td>
+          </tr><tr>
+            <td class="black">332</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">333</td>
+            <td><a id="Trait_scales_xml_XmlPull"></a>trait XmlPull extends Iterator[PullType] with DocLike {
+</td>
+          </tr><tr>
+            <td class="black">334</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">335</td>
+            <td>  type Token &lt;: OptimisationToken
+</td>
+          </tr><tr>
+            <td class="black">336</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">337</td>
+            <td>  implicit val weAreInAParser : FromParser = IsFromParser
+</td>
+          </tr><tr>
+            <td class="black">338</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">339</td>
+            <td>  import ScalesXml.defaultVersion
+</td>
+          </tr><tr>
+            <td class="black">340</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">341</td>
+            <td>  protected[xml] val parser: XMLStreamReader
+</td>
+          </tr><tr>
+            <td class="black">342</td>
+            <td>  protected[xml] val resourceCloser: () =&gt; Unit
+</td>
+          </tr><tr>
+            <td class="black">343</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">344</td>
+            <td>  protected[xml] def internalClose {}
+</td>
+          </tr><tr>
+            <td class="black">345</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">346</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">347</td>
+            <td>   * Why is this on a pull parser?  Simple answer is by default it costs little,
+</td>
+          </tr><tr>
+            <td class="black">348</td>
+            <td>   * and by selection the user can optimise whole streams at an early and central place.  Optimising the stream in onQNames or another iteratee or in user code seems to go against the definition of a good design.
+</td>
+          </tr><tr>
+            <td class="black">349</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">350</td>
+            <td>  protected[xml] val strategy : MemoryOptimisationStrategy[Token]
+</td>
+          </tr><tr>
+            <td class="black">351</td>
+            <td>  protected[xml] val token : Token
+</td>
+          </tr><tr>
+            <td class="black">352</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">353</td>
+            <td>  private[xml] var current: PullType = null
+</td>
+          </tr><tr>
+            <td class="black">354</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">355</td>
+            <td>  /*
+</td>
+          </tr><tr>
+            <td class="black">356</td>
+            <td>     * DocLike parts follow
+</td>
+          </tr><tr>
+            <td class="black">357</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="black">358</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">359</td>
+            <td>  private[xml] var vprolog: Prolog = Prolog()
+</td>
+          </tr><tr>
+            <td class="green">360</td>
+            <td>  private[xml] var emisc: EndMisc = EndMisc()
+</td>
+          </tr><tr>
+            <td class="black">361</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">362</td>
+            <td>  def prolog = vprolog
+</td>
+          </tr><tr>
+            <td class="green">363</td>
+            <td>  def end = emisc
+</td>
+          </tr><tr>
+            <td class="black">364</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">365</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">366</td>
+            <td>   * If the depth is -1 then we haven't hit an element yet, and
+</td>
+          </tr><tr>
+            <td class="black">367</td>
+            <td>   * start should keep pumping until that happens.
+</td>
+          </tr><tr>
+            <td class="black">368</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">369</td>
+            <td>   * If the depth is -1 after processing the end root (haveRoot), then we keep pumping into the endMisc
+</td>
+          </tr><tr>
+            <td class="black">370</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">371</td>
+            <td>  protected[xml] var depth = -1
+</td>
+          </tr><tr>
+            <td class="green">372</td>
+            <td>  protected[xml] var haveRoot = false
+</td>
+          </tr><tr>
+            <td class="black">373</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">374</td>
+            <td>  private[xml] val dtdDummy = PI(&quot;onlyforme&quot;, &quot;init&quot;)
+</td>
+          </tr><tr>
+            <td class="black">375</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">376</td>
+            <td>  protected[xml] def getMisc(c: PullType, in: String): Misc =
+</td>
+          </tr><tr>
+            <td class="green">377</td>
+            <td>    c.fold[Misc](e =&gt; e match {
+</td>
+          </tr><tr>
+            <td class="green">378</td>
+            <td>      case ev: Comment =&gt; Left(ev)
+</td>
+          </tr><tr>
+            <td class="green">379</td>
+            <td>      case ev: PI =&gt; Right(ev)
+</td>
+          </tr><tr>
+            <td class="red">380</td>
+            <td>      case _ =&gt; <span class="non">error(&quot;Got an event (&quot; + e + &quot;) that should not be in the &quot; + in)
+</span></td>
+          </tr><tr>
+            <td class="red">381</td>
+            <td>    }, f =&gt; <span class="non">error(&quot;End element found in &quot; + in + &quot; &quot; + c))
+</span></td>
+          </tr><tr>
+            <td class="black">382</td>
+            <td>  // it must be a left and a comment or pi
+</td>
+          </tr><tr>
+            <td class="black">383</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">384</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">385</td>
+            <td>   * Pumps until the first elem, always collecting the prolog
+</td>
+          </tr><tr>
+            <td class="black">386</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">387</td>
+            <td>  protected[xml] def start = {
+</td>
+          </tr><tr>
+            <td class="green">388</td>
+            <td>    while (depth == -1) {
+</td>
+          </tr><tr>
+            <td class="green">389</td>
+            <td>      current = pumpEvent
+</td>
+          </tr><tr>
+            <td class="green">390</td>
+            <td>      if (current.isLeft &amp;&amp; (current.left.get eq dtdDummy)) {
+</td>
+          </tr><tr>
+            <td class="red">391</td>
+            <td>        <span class="non">vprolog = vprolog.copy(dtd = Some(
+</span></td>
+          </tr><tr>
+            <td class="black">392</td>
+            <td>          DTD(&quot;&quot;, &quot;&quot;, &quot;&quot;) // DTD has funnyness TODO find out what it looks like
+</td>
+          </tr><tr>
+            <td class="black">393</td>
+            <td>          ))
+</td>
+          </tr><tr>
+            <td class="black">394</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">395</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">396</td>
+            <td>      if (depth == -1) {
+</td>
+          </tr><tr>
+            <td class="green">397</td>
+            <td>        vprolog = vprolog.copy(misc = vprolog.misc :+ getMisc(current, &quot;prolog&quot;))
+</td>
+          </tr><tr>
+            <td class="black">398</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">399</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">400</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">401</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">402</td>
+            <td>  final val it = this: Iterator[PullType]
+</td>
+          </tr><tr>
+            <td class="black">403</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">404</td>
+            <td>  def hasNext = current ne null
+</td>
+          </tr><tr>
+            <td class="black">405</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">406</td>
+            <td>  private[this] def getAttributes: Attributes = {
+</td>
+          </tr><tr>
+            <td class="black">407</td>
+            <td>    import ScalesXml.toQName
+</td>
+          </tr><tr>
+            <td class="black">408</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">409</td>
+            <td>    val count = parser.getAttributeCount()
+</td>
+          </tr><tr>
+            <td class="green">410</td>
+            <td>    var i = 0
+</td>
+          </tr><tr>
+            <td class="green">411</td>
+            <td>    var map = emptyAttributes
+</td>
+          </tr><tr>
+            <td class="green">412</td>
+            <td>    while (i &lt; count) {
+</td>
+          </tr><tr>
+            <td class="green">413</td>
+            <td>      val jqname = parser.getAttributeName(i)
+</td>
+          </tr><tr>
+            <td class="green">414</td>
+            <td>      val pre = jqname.getPrefix
+</td>
+          </tr><tr>
+            <td class="green">415</td>
+            <td>      val local = jqname.getLocalPart
+</td>
+          </tr><tr>
+            <td class="black">416</td>
+            <td>      // attr qnames must be either prefixed or no namespace
+</td>
+          </tr><tr>
+            <td class="black">417</td>
+            <td>      val aqname: AttributeQName =
+</td>
+          </tr><tr>
+            <td class="green">418</td>
+            <td>        if ((pre eq null) || (pre.length == 0))
+</td>
+          </tr><tr>
+            <td class="black">419</td>
+            <td>          // no namespace
+</td>
+          </tr><tr>
+            <td class="green">420</td>
+            <td>          strategy.noNamespaceQName(local, token) // Right)
+</td>
+          </tr><tr>
+            <td class="black">421</td>
+            <td>        else
+</td>
+          </tr><tr>
+            <td class="green">422</td>
+            <td>          strategy.prefixedQName(local, jqname.getNamespaceURI, pre, token) // Left )
+</td>
+          </tr><tr>
+            <td class="black">423</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">424</td>
+            <td>      map = map unsafePlus 
+</td>
+          </tr><tr>
+            <td class="black">425</td>
+            <td>  strategy.attribute(aqname, 
+</td>
+          </tr><tr>
+            <td class="black">426</td>
+            <td>           parser.getAttributeValue(i), token)
+</td>
+          </tr><tr>
+            <td class="black">427</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">428</td>
+            <td>      i += 1
+</td>
+          </tr><tr>
+            <td class="black">429</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">430</td>
+            <td>    map
+</td>
+          </tr><tr>
+            <td class="black">431</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">432</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">433</td>
+            <td>  private[this] def getNamespaces: Map[String, String] = {
+</td>
+          </tr><tr>
+            <td class="green">434</td>
+            <td>    val count = parser.getNamespaceCount()
+</td>
+          </tr><tr>
+            <td class="green">435</td>
+            <td>    var i = 0
+</td>
+          </tr><tr>
+            <td class="green">436</td>
+            <td>    var map = Map[String, String]()
+</td>
+          </tr><tr>
+            <td class="green">437</td>
+            <td>    while (i &lt; count) {
+</td>
+          </tr><tr>
+            <td class="green">438</td>
+            <td>      val pre = parser.getNamespacePrefix(i)
+</td>
+          </tr><tr>
+            <td class="green">439</td>
+            <td>      if (pre ne null) {
+</td>
+          </tr><tr>
+            <td class="green">440</td>
+            <td>        map += (pre -&gt; parser.getNamespaceURI(i))
+</td>
+          </tr><tr>
+            <td class="black">441</td>
+            <td>      } // else nothing, the element will define it, question is should we accept it here as it was defined as such!!??
+</td>
+          </tr><tr>
+            <td class="green">442</td>
+            <td>      i += 1
+</td>
+          </tr><tr>
+            <td class="black">443</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">444</td>
+            <td>    map
+</td>
+          </tr><tr>
+            <td class="black">445</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">446</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">447</td>
+            <td>  private[this] def getElemQName = {
+</td>
+          </tr><tr>
+            <td class="black">448</td>
+            <td>    // elems can have all three, prefixed, ns and none
+</td>
+          </tr><tr>
+            <td class="black">449</td>
+            <td>/*    val jqname = parser.getName()
+</td>
+          </tr><tr>
+            <td class="black">450</td>
+            <td>    val ns = jqname.getNamespaceURI
+</td>
+          </tr><tr>
+            <td class="black">451</td>
+            <td>    val pre = jqname.getPrefix
+</td>
+          </tr><tr>
+            <td class="black">452</td>
+            <td>    val local = jqname.getLocalPart
+</td>
+          </tr><tr>
+            <td class="black">453</td>
+            <td>*/
+</td>
+          </tr><tr>
+            <td class="green">454</td>
+            <td>    val ns = parser.getNamespaceURI
+</td>
+          </tr><tr>
+            <td class="green">455</td>
+            <td>    val pre = parser.getPrefix
+</td>
+          </tr><tr>
+            <td class="green">456</td>
+            <td>    val local = parser.getLocalName
+</td>
+          </tr><tr>
+            <td class="black">457</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">458</td>
+            <td>    if ((pre eq null) || (pre.length == 0)) {
+</td>
+          </tr><tr>
+            <td class="black">459</td>
+            <td>  // ns only or none
+</td>
+          </tr><tr>
+            <td class="green">460</td>
+            <td>      if ((ns eq null) || (ns.length == 0))
+</td>
+          </tr><tr>
+            <td class="green">461</td>
+            <td>        strategy.noNamespaceQName(local, token)
+</td>
+          </tr><tr>
+            <td class="black">462</td>
+            <td>      else
+</td>
+          </tr><tr>
+            <td class="green">463</td>
+            <td>  strategy.unprefixedQName(local, ns, token)
+</td>
+          </tr><tr>
+            <td class="black">464</td>
+            <td>    } else
+</td>
+          </tr><tr>
+            <td class="green">465</td>
+            <td>      strategy.prefixedQName(local, ns, pre, token)
+</td>
+          </tr><tr>
+            <td class="black">466</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="black">467</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">468</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">469</td>
+            <td>  def next: PullType = {
+</td>
+          </tr><tr>
+            <td class="green">470</td>
+            <td>    val c = current // cache current
+</td>
+          </tr><tr>
+            <td class="yellow">471</td>
+            <td>    if (current eq null) <span class="non">throw new NoSuchElementException(&quot;The end of the document has been reached&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">472</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">473</td>
+            <td>    current = pumpEvent // pump for the next
+</td>
+          </tr><tr>
+            <td class="green">474</td>
+            <td>    if ((current ne null) &amp;&amp; current.isRight &amp;&amp; depth == -1) {
+</td>
+          </tr><tr>
+            <td class="black">475</td>
+            <td>      // we are now into the end doc, no more events will be pumped
+</td>
+          </tr><tr>
+            <td class="green">476</td>
+            <td>      var ends = pumpEvent
+</td>
+          </tr><tr>
+            <td class="green">477</td>
+            <td>      while (ends ne null) {
+</td>
+          </tr><tr>
+            <td class="green">478</td>
+            <td>        emisc = emisc.copy(misc = emisc.misc :+ getMisc(ends, &quot;document end Misc&quot;))
+</td>
+          </tr><tr>
+            <td class="green">479</td>
+            <td>        ends = pumpEvent
+</td>
+          </tr><tr>
+            <td class="black">480</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">481</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">482</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">483</td>
+            <td>    c // return cached
+</td>
+          </tr><tr>
+            <td class="black">484</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">485</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">486</td>
+            <td>  protected[xml] def pumpEvent: PullType = {
+</td>
+          </tr><tr>
+            <td class="green">487</td>
+            <td>    if (!parser.hasNext) return null
+</td>
+          </tr><tr>
+            <td class="black">488</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">489</td>
+            <td>    var nextEvent = XMLStreamConstants.END_DOCUMENT // use this in the case of error from calling next as well, blow it up but try to shut down
+</td>
+          </tr><tr>
+            <td class="black">490</td>
+            <td>    try {
+</td>
+          </tr><tr>
+            <td class="green">491</td>
+            <td>      nextEvent = parser.next
+</td>
+          </tr><tr>
+            <td class="black">492</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">493</td>
+            <td>      val event: PullType = nextEvent match {
+</td>
+          </tr><tr>
+            <td class="black">494</td>
+            <td>        case XMLStreamConstants.START_ELEMENT =&gt; 
+</td>
+          </tr><tr>
+            <td class="green">495</td>
+            <td>    depth += 1
+</td>
+          </tr><tr>
+            <td class="green">496</td>
+            <td>    strategy.elem(getElemQName, getAttributes, getNamespaces, token)
+</td>
+          </tr><tr>
+            <td class="black">497</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">498</td>
+            <td>        case XMLStreamConstants.END_ELEMENT =&gt; depth -= 1; EndElem(getElemQName, getNamespaces)
+</td>
+          </tr><tr>
+            <td class="green">499</td>
+            <td>        case XMLStreamConstants.CHARACTERS =&gt; Text(parser.getText)
+</td>
+          </tr><tr>
+            <td class="green">500</td>
+            <td>        case XMLStreamConstants.CDATA =&gt; CData(parser.getText)
+</td>
+          </tr><tr>
+            <td class="green">501</td>
+            <td>        case XMLStreamConstants.COMMENT =&gt; Comment(parser.getText)
+</td>
+          </tr><tr>
+            <td class="green">502</td>
+            <td>        case XMLStreamConstants.PROCESSING_INSTRUCTION =&gt; PI(parser.getPITarget(), parser.getPIData())
+</td>
+          </tr><tr>
+            <td class="red">503</td>
+            <td>        case XMLStreamConstants.SPACE =&gt; <span class="non">Text(parser.getText) // jdk impl never calls but to be safe we should grab it
+</span></td>
+          </tr><tr>
+            <td class="black">504</td>
+            <td>        case XMLStreamConstants.START_DOCUMENT =&gt; {
+</td>
+          </tr><tr>
+            <td class="black">505</td>
+            <td>          // get the encoding etc
+</td>
+          </tr><tr>
+            <td class="red">506</td>
+            <td>          val ec = <span class="non">parser.getCharacterEncodingScheme()
+</span></td>
+          </tr><tr>
+            <td class="black">507</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">508</td>
+            <td>          <span class="non">vprolog = vprolog.copy(decl = Declaration(
+</span></td>
+          </tr><tr>
+            <td class="red">509</td>
+            <td>            version = if (<span class="non">parser.getVersion() == &quot;1.1&quot;)
+</span></td>
+          </tr><tr>
+            <td class="red">510</td>
+            <td>              <span class="non">Xml11 else Xml10,
+</span></td>
+          </tr><tr>
+            <td class="red">511</td>
+            <td>            encoding = if (<span class="non">ec eq null) defaultCharset else java.nio.charset.Charset.forName(ec), // TODO what do we do about unsupported, throwing is probably fine, but it irritates, if we can get here the parser at least supports it, even if we can't write to it
+</span></td>
+          </tr><tr>
+            <td class="black">512</td>
+            <td>            standalone = parser.isStandalone()))
+</td>
+          </tr><tr>
+            <td class="black">513</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">514</td>
+            <td>          <span class="non">pumpEvent // we don't want to handle this
+</span></td>
+          </tr><tr>
+            <td class="black">515</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="red">516</td>
+            <td>        case XMLStreamConstants.DTD =&gt; <span class="non">dtdDummy // push it through in start
+</span></td>
+          </tr><tr>
+            <td class="black">517</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">518</td>
+            <td>        // we don't really want to handle other types?
+</td>
+          </tr><tr>
+            <td class="green">519</td>
+            <td>        case _ =&gt; pumpEvent // push another through if possible, this also stops doc starts and doc ends etc
+</td>
+          </tr><tr>
+            <td class="black">520</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="green">521</td>
+            <td>      event
+</td>
+          </tr><tr>
+            <td class="black">522</td>
+            <td>    } finally {
+</td>
+          </tr><tr>
+            <td class="black">523</td>
+            <td>      // should we close it? 
+</td>
+          </tr><tr>
+            <td class="green">524</td>
+            <td>      if (nextEvent == XMLStreamConstants.END_DOCUMENT) {
+</td>
+          </tr><tr>
+            <td class="green">525</td>
+            <td>        internalClose
+</td>
+          </tr><tr>
+            <td class="black">526</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">527</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">528</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">529</td>
+            <td>}
+</td>
+          </tr></tbody></table>

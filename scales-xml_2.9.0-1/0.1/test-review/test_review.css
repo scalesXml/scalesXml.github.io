@@ -1,0 +1,71 @@
+
+
+#toc ul li, ul li ul {
+    padding-left: 0.4em;
+    list-style-type: none;
+    margin-left: 0px;
+}
+
+#toc ul {
+    margin-left: 0.4em;
+    padding-left: 0.4em;
+}
+
+
+#toc img {
+    padding: 0px;
+    padding-right: 2px;
+    margin: 0px;
+}
+
+.plus, .minus {
+    position: relative;
+    display: inline;
+    z-index: 100;
+}
+
+.plus {
+    left: -14px;
+    top: -1px;
+}
+
+.minus {
+    left: -14px;
+    top: -1px;
+}
+
+.testFailure {
+    background-color: #FF0000; /* make nicer later */
+    color: white;
+}
+
+.testError {
+    background-color: #990000; /* make nicer later */
+    color: white;
+}
+
+.testSuccess {
+}
+
+.tocGroup {
+    font-weight: bold;
+    position: relative;
+    left: -0.5em;
+}
+
+.tocFailure a {
+    /* background-color: #FF0000;  make nicer later 
+    color: white;*/
+    padding: 2px;
+}
+
+.tocError a {
+    /* background-color: #990000;  make nicer later */
+    color: white;
+    padding: 2px;
+}
+
+.tocSuccess {
+    padding: 2px;
+}
+

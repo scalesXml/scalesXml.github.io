@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\XmlTypes.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml
+
+<span class="keyword">import</span> scala.collection.immutable.Map
+
+<span class="keyword">import</span> scala.collection.generic.CanBuildFrom
+
+<span class="keyword">import</span> scalaz._
+<span class="keyword">import</span> <span title="object scalaz.Scalaz">Scalaz</span>._
+
+<span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>ListSet, MapSet, Key, ImmutableArray, EitherLike, LeftLike, Tree<span class="delimiter">}</span>
+
+<span class="keyword">import</span> java.nio.charset.Charset
+
+<span class="comment">/**
+ * Attributes can only work with either a prefixed qname or an empty ns name
+ */</span>
+case <span class="keyword">class</span> <a title="class Attribute extends java.lang.Object with ScalaObject with Product with Serializable" id="111517">Attribute</a><a href="#111517" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.package.AttributeQName" id="92182">name</a>: <a href="../utils/EitherLike.scala.html#10426" title="scales.xml.package.AttributeQName">AttributeQName</a>, <a title="String" id="92183">value</a>: <span title="String">String</span><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * Allows easy patterns for attribute values
+ */</span>
+<span class="keyword">object</span> <a title="object scales.xml.Attr" id="12115">Attr</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(attr: scales.xml.Attribute)Some[String]" id="108267">unapply</a><span class="delimiter">(</span><a title="scales.xml.Attribute" id="108269">attr</a>: <a href="#111517" title="scales.xml.Attribute">Attribute</a><span class="delimiter">)</span> = <span title="(x: String)Some[String]">Some</span><span class="delimiter">(</span><a href="#108269" title="scales.xml.Attribute">attr</a>.<a href="#92183" title="=&gt; String">value</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Basis for typed pull api
+ */</span>
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait XmlEvent extends java.lang.Object" id="12873">XmlEvent</a>
+
+<span class="comment">/**
+ * The namespaces map refers to sax startPrefixMapping events before this element.  These are used
+ * in order to properly write the same XML back out, otherwise we end up with new xmlns:pre declarations
+ * for each step.
+ *
+ * The namespaces map may of course contain a DefaultNamespace.
+ *
+ * QName -&gt; Attribute as the map functions need the lowest QName to search for not an either
+ *
+ * @author Chris
+ *
+ */</span>
+
+<span class="keyword">import</span> <a href="ScalesXml.scala.html#12784" title="object scales.xml.ScalesXml">ScalesXml</a>._
+<span class="keyword">import</span> xml._
+
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait Elem extends java.lang.Object with scales.xml.XmlEvent with ScalaObject" id="12423">Elem</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12873" title="scales.xml.XmlEvent">XmlEvent</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="=&gt; scales.xml.QName" id="92250">name</a> : <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a>
+  <span class="keyword">val</span> <a title="=&gt; scales.xml.package.Attributes" id="92251">attributes</a> : <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a>
+  <span class="keyword">val</span> <a title="=&gt; scala.collection.immutable.Map[String,String]" id="92252">namespaces</a> : <span title="scala.collection.immutable.Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span>
+
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, attributes: scales.xml.package.Attributes, namespaces: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem" id="92253">copy</a><span class="delimiter">(</span><a title="scales.xml.QName" id="101997">name</a>: <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="#101997" title="scales.xml.QName">name</a>, <a title="scales.xml.package.Attributes" id="101998">attributes</a>: <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a> = <a href="#101998" title="scales.xml.package.Attributes">attributes</a>, <a title="scala.collection.immutable.Map[String,String]" id="101999">namespaces</a>: <span title="scala.collection.immutable.Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span> = <a href="#101999" title="scala.collection.immutable.Map[String,String]">namespaces</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="101995">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12423" title="scales.xml.Elem">Elem</a>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="92254">equals</a><span class="delimiter">(</span> <a title="Any" id="108278">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#108278" title="Any">other</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <a title="Boolean" id="108281">o</a> : <a href="#12423" title="scales.xml.Elem">Elem</a> =&gt; 
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><a href="#92250" title="=&gt; scales.xml.QName">name</a> <a href="QName.scala.html#91879" title="(other: scales.xml.QName)Boolean">===</a> <a href="#108281" title="scales.xml.Elem">o</a>.<a href="#92250" title="=&gt; scales.xml.QName">name</a><span class="delimiter">)</span> <span class="comment">// exact match needed?? </span>
+	  <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#92251" title="=&gt; scales.xml.package.Attributes">attributes</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#108281" title="scales.xml.Elem">o</a>.<a href="#92251" title="=&gt; scales.xml.package.Attributes">attributes</a><span class="delimiter">)</span>
+	  <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#92252" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#108281" title="scales.xml.Elem">o</a>.<a href="#92252" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a><span class="delimiter">)</span> <span class="delimiter">)</span>
+	<span title="Boolean(true)" class="keyword">true</span>
+      <span class="keyword">else</span>
+	<span title="Boolean(false)" class="keyword">false</span>
+    <span class="keyword">case</span> <span title="Boolean(false)">_</span> =&gt; <span title="Boolean(false)" class="keyword">false</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="92255">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="Int">Int</span> = <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="Int" id="108291">hs</a> = <span title="Int(1)" class="int">1</span>
+    <a href="#108291" title="Int">hs</a> = <span class="delimiter">(</span><a href="#108291" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <a href="#92250" title="=&gt; scales.xml.QName">name</a>.<a href="QName.scala.html#91882" title="()Int">hashCode</a>
+    <a href="#108291" title="Int">hs</a> = <span class="delimiter">(</span><a href="#108291" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <span class="delimiter">(</span>
+      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="XmlTypesDefaults.scala.html#15216" title="=&gt; scales.utils.ListSet[scales.xml.Attribute]">emptyAttributes</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#92251" title="=&gt; scales.xml.package.Attributes">attributes</a><span class="delimiter">)</span>
+	<a href="XmlTypesDefaults.scala.html#15220" title="=&gt; Int">emptyAttributesHash</a> <span class="comment">// don't do it more than once</span>
+      <span class="keyword">else</span>
+	<a href="#92251" title="=&gt; scales.xml.package.Attributes">attributes</a>.<span title="()Int">hashCode</span>
+      <span class="delimiter">)</span>
+    <a href="#108291" title="Int">hs</a> = <span class="delimiter">(</span><a href="#108291" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <span class="delimiter">(</span>
+      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#92252" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15218" title="=&gt; scala.collection.immutable.Map[String,String]">emptyNamespaces</a><span class="delimiter">)</span>
+	<a href="XmlTypesDefaults.scala.html#15222" title="=&gt; Int">emptyNamespacesHash</a> <span class="comment">// don't do it more than once</span>
+      <span class="keyword">else</span>
+	<a href="#92252" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a>.<span title="()Int">hashCode</span>
+      <span class="delimiter">)</span>
+
+    <a href="#108291" title="Int">hs</a>    
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.Elem" id="12424">Elem</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, attributes: scales.xml.package.Attributes, namespaces: Iterable[scales.xml.PrefixedNamespace])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem" id="92258">apply</a><span class="delimiter">(</span><a title="scales.xml.QName" id="92860">name</a> : <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a>, <a title="scales.xml.package.Attributes" id="92861">attributes</a> : <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a>, <a title="Iterable[scales.xml.PrefixedNamespace]" id="92862">namespaces</a> :  <span title="Iterable[scales.xml.PrefixedNamespace]">Iterable</span><span class="delimiter">[</span> PrefixedNamespace <span class="delimiter">]</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="92863">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12423" title="scales.xml.Elem">Elem</a> = 
+    <a href="#92262" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem">apply</a><span class="delimiter">(</span><a href="#92860" title="scales.xml.QName">name</a>, <a href="#92861" title="scales.xml.package.Attributes">attributes</a>, <a href="#92862" title="Iterable[scales.xml.PrefixedNamespace]">namespaces</a>.<span title="(f: scales.xml.PrefixedNamespace =&gt; (String, String))(implicit bf: scala.collection.generic.CanBuildFrom[Iterable[scales.xml.PrefixedNamespace],(String, String),Iterable[(String, String)]])Iterable[(String, String)]">map</span><span title="scala.collection.generic.CanBuildFrom[scala.collection.Iterable.Coll,(String, String),Iterable[(String, String)]]" class="delimiter">(</span> <a title="scales.xml.PrefixedNamespace" id="108978">p</a> =&gt; <a href="#108978" title="scales.xml.PrefixedNamespace">p</a>.<a href="Namespaces.scala.html#91952" title="(x: String)ArrowAssoc[String]">prefix</a> <span title="(y: String)(String, String)">-&gt;</span> <a href="#108978" title="scales.xml.PrefixedNamespace">p</a>.<a href="Namespaces.scala.html#91951" title="=&gt; scales.xml.Namespace">ns</a>.<a href="Namespaces.scala.html#91831" title="=&gt; String">uri</a> <span class="delimiter">)</span>.<span title="(implicit ev: &lt;:&lt;[(String, String),(String, String)])scala.collection.immutable.Map[String,String]">toMap</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#92863" title="scales.xml.FromParser">fromParser</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, namespaces: Iterable[scales.xml.PrefixedNamespace])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem" id="92259">apply</a><span class="delimiter">(</span><a title="scales.xml.QName" id="92856">name</a> : <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a>, <a title="Iterable[scales.xml.PrefixedNamespace]" id="92857">namespaces</a> :  <span title="Iterable[scales.xml.PrefixedNamespace]">Iterable</span><span class="delimiter">[</span> PrefixedNamespace <span class="delimiter">]</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="92858">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12423" title="scales.xml.Elem">Elem</a> = 
+    <a href="#92262" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem">apply</a><span class="delimiter">(</span><a href="#92856" title="scales.xml.QName">name</a>, <a href="XmlTypesDefaults.scala.html#15216" title="=&gt; scales.utils.ListSet[scales.xml.Attribute]">emptyAttributes</a>, <a href="#92857" title="Iterable[scales.xml.PrefixedNamespace]">namespaces</a>.<span title="(f: scales.xml.PrefixedNamespace =&gt; (String, String))(implicit bf: scala.collection.generic.CanBuildFrom[Iterable[scales.xml.PrefixedNamespace],(String, String),Iterable[(String, String)]])Iterable[(String, String)]">map</span><span title="scala.collection.generic.CanBuildFrom[scala.collection.Iterable.Coll,(String, String),Iterable[(String, String)]]" class="delimiter">(</span> <a title="scales.xml.PrefixedNamespace" id="109083">p</a> =&gt; <a href="#109083" title="scales.xml.PrefixedNamespace">p</a>.<a href="Namespaces.scala.html#91952" title="(x: String)ArrowAssoc[String]">prefix</a> <span title="(y: String)(String, String)">-&gt;</span> <a href="#109083" title="scales.xml.PrefixedNamespace">p</a>.<a href="Namespaces.scala.html#91951" title="=&gt; scales.xml.Namespace">ns</a>.<a href="Namespaces.scala.html#91831" title="=&gt; String">uri</a> <span class="delimiter">)</span>.<span title="(implicit ev: &lt;:&lt;[(String, String),(String, String)])scala.collection.immutable.Map[String,String]">toMap</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#92858" title="scales.xml.FromParser">fromParser</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, namespace: scales.xml.PrefixedNamespace, namespaces: scales.xml.PrefixedNamespace*)(implicit fromParser: scales.xml.FromParser)scales.xml.Elem" id="92260">apply</a><span class="delimiter">(</span><a title="scales.xml.QName" id="92851">name</a> : <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a> , <a title="scales.xml.PrefixedNamespace" id="92852">namespace</a> : <a href="Namespaces.scala.html#12576" title="scales.xml.PrefixedNamespace">PrefixedNamespace</a>, <a title="scales.xml.PrefixedNamespace*" id="92853">namespaces</a> : <span title="scales.xml.PrefixedNamespace*">PrefixedNamespace</span> * <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="92854">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12423" title="scales.xml.Elem">Elem</a> = 
+    <a href="#92262" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem">apply</a><span class="delimiter">(</span><a href="#92851" title="scales.xml.QName">name</a>, <a href="XmlTypesDefaults.scala.html#15216" title="=&gt; scales.utils.ListSet[scales.xml.Attribute]">emptyAttributes</a>, <span class="delimiter">(</span><a href="#92852" title="scales.xml.PrefixedNamespace">namespace</a> <a href="#109170" title="(elem: scales.xml.PrefixedNamespace)(implicit bf: scala.collection.generic.CanBuildFrom[Seq[scales.xml.PrefixedNamespace],scales.xml.PrefixedNamespace,Seq[scales.xml.PrefixedNamespace]])Seq[scales.xml.PrefixedNamespace]">+:</a> <a href="#92853" title="scales.xml.PrefixedNamespace*">namespaces</a><span class="delimiter">)</span>.<span title="(f: scales.xml.PrefixedNamespace =&gt; (String, String))(implicit bf: scala.collection.generic.CanBuildFrom[Seq[scales.xml.PrefixedNamespace],(String, String),Seq[(String, String)]])Seq[(String, String)]">map</span><span title="scala.collection.generic.CanBuildFrom[scala.collection.Seq.Coll,(String, String),Seq[(String, String)]]" class="delimiter">(</span> <a title="scales.xml.PrefixedNamespace" id="109264">p</a> =&gt; <a href="#109264" title="scales.xml.PrefixedNamespace">p</a>.<a href="Namespaces.scala.html#91952" title="(x: String)ArrowAssoc[String]">prefix</a> <span title="(y: String)(String, String)">-&gt;</span> <a href="#109264" title="scales.xml.PrefixedNamespace">p</a>.<a href="Namespaces.scala.html#91951" title="=&gt; scales.xml.Namespace">ns</a>.<a href="Namespaces.scala.html#91831" title="=&gt; String">uri</a> <span class="delimiter">)</span>.<span title="(implicit ev: &lt;:&lt;[(String, String),(String, String)])scala.collection.immutable.Map[String,String]">toMap</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#92854" title="scales.xml.FromParser">fromParser</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, attributes: scales.xml.package.Attributes, namespace: scales.xml.PrefixedNamespace, namespaces: scales.xml.PrefixedNamespace*)(implicit fromParser: scales.xml.FromParser)scales.xml.Elem" id="92261">apply</a><span class="delimiter">(</span><a title="scales.xml.QName" id="92845">name</a> : <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a>, <a title="scales.xml.package.Attributes" id="92846">attributes</a> : <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a>, <a title="scales.xml.PrefixedNamespace" id="92847">namespace</a> : <a href="Namespaces.scala.html#12576" title="scales.xml.PrefixedNamespace">PrefixedNamespace</a>, <a title="scales.xml.PrefixedNamespace*" id="92848">namespaces</a> : <span title="scales.xml.PrefixedNamespace*">PrefixedNamespace</span> * <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="92849">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12423" title="scales.xml.Elem">Elem</a> = 
+    <a href="#92262" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem">apply</a><span class="delimiter">(</span><a href="#92845" title="scales.xml.QName">name</a>, <a href="XmlTypesDefaults.scala.html#15216" title="=&gt; scales.utils.ListSet[scales.xml.Attribute]">emptyAttributes</a>, <span class="delimiter">(</span><a href="#92847" title="scales.xml.PrefixedNamespace">namespace</a> <a href="#109372" title="(elem: scales.xml.PrefixedNamespace)(implicit bf: scala.collection.generic.CanBuildFrom[Seq[scales.xml.PrefixedNamespace],scales.xml.PrefixedNamespace,Seq[scales.xml.PrefixedNamespace]])Seq[scales.xml.PrefixedNamespace]">+:</a> <a href="#92848" title="scales.xml.PrefixedNamespace*">namespaces</a><span class="delimiter">)</span>.<span title="(f: scales.xml.PrefixedNamespace =&gt; (String, String))(implicit bf: scala.collection.generic.CanBuildFrom[Seq[scales.xml.PrefixedNamespace],(String, String),Seq[(String, String)]])Seq[(String, String)]">map</span><span title="scala.collection.generic.CanBuildFrom[scala.collection.Seq.Coll,(String, String),Seq[(String, String)]]" class="delimiter">(</span> <a title="scales.xml.PrefixedNamespace" id="109434">p</a> =&gt; <a href="#109434" title="scales.xml.PrefixedNamespace">p</a>.<a href="Namespaces.scala.html#91952" title="(x: String)ArrowAssoc[String]">prefix</a> <span title="(y: String)(String, String)">-&gt;</span> <a href="#109434" title="scales.xml.PrefixedNamespace">p</a>.<a href="Namespaces.scala.html#91951" title="=&gt; scales.xml.Namespace">ns</a>.<a href="Namespaces.scala.html#91831" title="=&gt; String">uri</a> <span class="delimiter">)</span>.<span title="(implicit ev: &lt;:&lt;[(String, String),(String, String)])scala.collection.immutable.Map[String,String]">toMap</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#92849" title="scales.xml.FromParser">fromParser</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem" id="92262">apply</a><span class="delimiter">(</span><a title="scales.xml.QName" id="92266">namei</a>: <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a>, <a title="scales.xml.package.Attributes" id="92271">attributesi</a>: <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a> = <a href="XmlTypesDefaults.scala.html#15216" title="=&gt; scales.utils.ListSet[scales.xml.Attribute]">emptyAttributes</a>, <a title="scala.collection.immutable.Map[String,String]" id="92272">namespacesi</a>: <span title="scala.collection.immutable.Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span> = <a href="XmlTypesDefaults.scala.html#15218" title="=&gt; scala.collection.immutable.Map[String,String]">emptyNamespaces</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="92269">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12423" title="scales.xml.Elem">Elem</a> = <a href="#109522" title="java.lang.Object with scales.xml.Elem{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.Elem" id="109522">Elem</a> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#92269" title="scales.xml.FromParser">fromParser</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15201" title="=&gt; scales.xml.package.NotFromParserO.type">NotFromParser</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><span title="=&gt; Boolean">!</span><span class="delimiter">(</span><a href="#92266" title="scales.xml.QName">namei</a>.<a href="QName.scala.html#91872" title="=&gt; Option[String]">prefix</a>.<span title="(f: String =&gt; Boolean)Option[Boolean]">map</span> <span class="delimiter">{</span> <a title="String" id="109601">p</a> =&gt;
+	<span class="delimiter">(</span><a href="#109601" title="String">p</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="Namespaces.scala.html#12577" title="object scales.xml.PrefixedNamespace">PrefixedNamespace</a>.<a href="Namespaces.scala.html#91995" title="=&gt; java.lang.String">xmlPRE</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span>
+				 <span class="delimiter">(</span><a href="#109601" title="String">p</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="Namespaces.scala.html#12577" title="object scales.xml.PrefixedNamespace">PrefixedNamespace</a>.<a href="Namespaces.scala.html#91993" title="=&gt; java.lang.String">xmlnsPRE</a><span class="delimiter">)</span>
+			       <span class="delimiter">}</span>.<span title="(default: =&gt; Boolean)Boolean">getOrElse</span><span class="delimiter">(</span><span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span><span class="delimiter">)</span>, <span title="java.lang.String(&quot;Prefixes (xmlns, xml) are not allowed for elements&quot;)" class="string">&quot;Prefixes (xmlns, xml) are not allowed for elements&quot;</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">val</span> <a title="scales.xml.QName" id="109526">name</a> = <a href="#92266" title="scales.xml.QName">namei</a>
+    <span class="keyword">val</span> <a title="scales.xml.package.Attributes" id="109528">attributes</a> = <a href="#92271" title="scales.xml.package.Attributes">attributesi</a>
+    <span class="keyword">val</span> <a title="scala.collection.immutable.Map[String,String]" id="109530">namespaces</a> = <a href="#92272" title="scala.collection.immutable.Map[String,String]">namespacesi</a>
+
+    <span class="keyword">def</span> <a title="(name: scales.xml.QName, attributes: scales.xml.package.Attributes, namespaces: scala.collection.immutable.Map[String,String])(implicit fromParseri: scales.xml.FromParser)scales.xml.Elem" id="109532">copy</a><span class="delimiter">(</span><a title="scales.xml.QName" id="109538">name</a>: <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="#109538" title="scales.xml.QName">name</a>, <a title="scales.xml.package.Attributes" id="109539">attributes</a>: <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a> = <a href="#109539" title="scales.xml.package.Attributes">attributes</a>, <a title="scala.collection.immutable.Map[String,String]" id="109540">namespaces</a>: <span title="scala.collection.immutable.Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span> = <a href="#109540" title="scala.collection.immutable.Map[String,String]">namespaces</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="109536">fromParseri</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12423" title="scales.xml.Elem">Elem</a> =
+      <a href="#92262" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem">apply</a><span class="delimiter">(</span><a href="#109538" title="scales.xml.QName">name</a>, <a href="#109539" title="scales.xml.package.Attributes">attributes</a>, <a href="#109540" title="scala.collection.immutable.Map[String,String]">namespaces</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#109536" title="scales.xml.FromParser">fromParseri</a><span class="delimiter">)</span>
+
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(el: scales.xml.Elem)Some[(scales.xml.QName, scales.xml.package.Attributes, scala.collection.immutable.Map[String,String])]" id="92263">unapply</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="93649">el</a> : <a href="#12423" title="scales.xml.Elem">Elem</a><span class="delimiter">)</span> = <span title="(x: (scales.xml.QName, scales.xml.package.Attributes, scala.collection.immutable.Map[String,String]))Some[(scales.xml.QName, scales.xml.package.Attributes, scala.collection.immutable.Map[String,String])]">Some</span><span class="delimiter">(</span><span title="(_1: scales.xml.QName, _2: scales.xml.package.Attributes, _3: scala.collection.immutable.Map[String,String])(scales.xml.QName, scales.xml.package.Attributes, scala.collection.immutable.Map[String,String])" class="delimiter">(</span><a href="#93649" title="scales.xml.Elem">el</a>.<a href="#92250" title="=&gt; scales.xml.QName">name</a>, <a href="#93649" title="scales.xml.Elem">el</a>.<a href="#92251" title="=&gt; scales.xml.package.Attributes">attributes</a>, <a href="#93649" title="scales.xml.Elem">el</a>.<a href="#92252" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Allows quick lookups without creating elements, only use via copy and then don't change it
+ */</span> 
+<span class="keyword">class</span> <a title="class ElemKey extends java.lang.Object with ScalaObject" id="12426">ElemKey</a> <a href="#12426" title="ScalaObject" class="delimiter">{</a>
+  <span class="keyword">var</span> <a title="scales.xml.QName" id="109622">name</a> : <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a> = _
+  <span class="keyword">var</span> <a title="Int" id="109625">nameHash</a> : <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span><span class="comment">// incase it can be passed in</span>
+  <span class="keyword">var</span> <a title="scales.xml.package.Attributes" id="109628">attributes</a> : <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a> = _
+  <span class="keyword">var</span> <a title="scala.collection.immutable.Map[String,String]" id="109631">namespaces</a> : <span title="scala.collection.immutable.Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span> = _
+
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, attributes: scales.xml.package.Attributes, namespaces: scala.collection.immutable.Map[String,String], nameHash: Int)scales.xml.ElemKey" id="109633">set</a><span class="delimiter">(</span><a title="scales.xml.QName" id="109646">name</a> : <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a>, <a title="scales.xml.package.Attributes" id="109647">attributes</a> : <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a>, <a title="scala.collection.immutable.Map[String,String]" id="109648">namespaces</a> : <span title="scala.collection.immutable.Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span>, <a title="Int" id="109652">nameHash</a> : <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <a href="#12426" title="ElemKey.this.type" class="keyword">this</a>.<a href="#109622" title="(x$1: scales.xml.QName)Unit">name</a> = <a href="#109646" title="scales.xml.QName">name</a>
+    <a href="#12426" title="ElemKey.this.type" class="keyword">this</a>.<a href="#109628" title="(x$1: scales.xml.package.Attributes)Unit">attributes</a> = <a href="#109647" title="scales.xml.package.Attributes">attributes</a>
+    <a href="#12426" title="ElemKey.this.type" class="keyword">this</a>.<a href="#109631" title="(x$1: scala.collection.immutable.Map[String,String])Unit">namespaces</a> = <a href="#109648" title="scala.collection.immutable.Map[String,String]">namespaces</a>
+
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#109652" title="Int">nameHash</a> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+      <a href="#12426" title="ElemKey.this.type" class="keyword">this</a>.<a href="#109625" title="(x$1: Int)Unit">nameHash</a> = <a href="#109646" title="scales.xml.QName">name</a>.<a href="QName.scala.html#91882" title="()Int">hashCode</a>
+    <span class="keyword">else</span>
+      <a href="#12426" title="ElemKey.this.type" class="keyword">this</a>.<a href="#109625" title="(x$1: Int)Unit">nameHash</a> = <a href="#109652" title="Int">nameHash</a>
+    
+    <a href="#109637" title="(x$1: Int)Unit">lastHash</a> = <span title="Int(0)" class="int">0</span>
+    <span class="comment">// do it now</span>
+    <a href="#109639" title="()Int">hashCode</a>
+    <a href="#12426" title="scales.xml.ElemKey" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.ElemKey" id="109634">copy</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.ElemKey" id="109661">r</a> = <span title="scales.xml.ElemKey" class="keyword">new</span> <a href="#12426" title="scales.xml.ElemKey">ElemKey</a>
+    <a href="#109661" title="scales.xml.ElemKey">r</a>.<a href="#109622" title="(x$1: scales.xml.QName)Unit">name</a> = <a href="#109622" title="=&gt; scales.xml.QName">name</a>
+    <a href="#109661" title="scales.xml.ElemKey">r</a>.<a href="#109628" title="(x$1: scales.xml.package.Attributes)Unit">attributes</a> = <a href="#109628" title="=&gt; scales.xml.package.Attributes">attributes</a>
+    <a href="#109661" title="scales.xml.ElemKey">r</a>.<a href="#109631" title="(x$1: scala.collection.immutable.Map[String,String])Unit">namespaces</a> = <a href="#109631" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a>
+    <a href="#109661" title="scales.xml.ElemKey">r</a>.<a href="#109637" title="(x$1: Int)Unit">lastHash</a> = <a href="#109637" title="=&gt; Int">lastHash</a>
+    <a href="#109661" title="scales.xml.ElemKey">r</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Why are we doing eq's as well? Defaults and caching, and having to recast every time when we already know what we are..
+   */</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="109635">equals</a><span class="delimiter">(</span> <a title="Any" id="109662">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#109662" title="Any">other</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <a title="Boolean" id="109665">oq</a> : <a href="#12426" title="scales.xml.ElemKey">ElemKey</a> =&gt;
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><a href="#109637" title="=&gt; Int">lastHash</a> <span title="(x: Int)Boolean">==</span> <a href="#109665" title="scales.xml.ElemKey">oq</a>.<a href="#109637" title="=&gt; Int">lastHash</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span>
+	<span class="delimiter">(</span><span class="delimiter">(</span><a href="#109622" title="=&gt; scales.xml.QName">name</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#109665" title="scales.xml.ElemKey">oq</a>.<a href="#109622" title="=&gt; scales.xml.QName">name</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span> <span class="delimiter">(</span><a href="#109622" title="=&gt; scales.xml.QName">name</a> <a href="QName.scala.html#91879" title="(other: scales.xml.QName)Boolean">===</a> <a href="#109665" title="scales.xml.ElemKey">oq</a>.<a href="#109622" title="=&gt; scales.xml.QName">name</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> 
+	  <span class="delimiter">(</span><span class="delimiter">(</span><a href="#109628" title="=&gt; scales.xml.package.Attributes">attributes</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#109665" title="scales.xml.ElemKey">oq</a>.<a href="#109628" title="=&gt; scales.xml.package.Attributes">attributes</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span> <span class="delimiter">(</span><a href="#109628" title="=&gt; scales.xml.package.Attributes">attributes</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#109665" title="scales.xml.ElemKey">oq</a>.<a href="#109628" title="=&gt; scales.xml.package.Attributes">attributes</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span>
+	  <span class="delimiter">(</span><span class="delimiter">(</span><a href="#109631" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#109665" title="scales.xml.ElemKey">oq</a>.<a href="#109631" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span> <span class="delimiter">(</span><a href="#109631" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#109665" title="scales.xml.ElemKey">oq</a>.<a href="#109631" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="comment">// only checks after running equals == instanceof checks ++</span>
+	<span class="delimiter">)</span>
+	<span title="Boolean(true)" class="keyword">true</span>
+      <span class="keyword">else</span>
+	<span title="Boolean(false)" class="keyword">false</span>
+    <span class="keyword">case</span> <span title="Nothing">_</span> =&gt; <a href="../utils/package.scala.html#11072" title="object scales.utils.package">scales</a>.utils.<a href="../utils/package.scala.html#14825" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Cannot compare an ElemKey to anything else other than a ElemKey&quot;)" class="string">&quot;Cannot compare an ElemKey to anything else other than a ElemKey&quot;</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * When non 0 it has been calculated
+   */</span> 
+  <span class="keyword">var</span> <a title="Int" id="109637">lastHash</a> : <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="109639">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="Int">Int</span> = <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#109637" title="=&gt; Int">lastHash</a> <span title="(x: Int)Boolean">!=</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span title="Nothing" class="keyword">return</span> <a href="#109637" title="=&gt; Int">lastHash</a>
+
+    <span class="keyword">var</span> <a title="Int" id="109681">hs</a> = <span title="Int(1)" class="int">1</span>
+    <a href="#109681" title="Int">hs</a> = <span class="delimiter">(</span><a href="#109681" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <a href="#109625" title="=&gt; Int">nameHash</a>
+    <a href="#109681" title="Int">hs</a> = <span class="delimiter">(</span><a href="#109681" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <span class="delimiter">(</span>
+      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="XmlTypesDefaults.scala.html#15216" title="=&gt; scales.utils.ListSet[scales.xml.Attribute]">emptyAttributes</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#109628" title="=&gt; scales.xml.package.Attributes">attributes</a><span class="delimiter">)</span>
+	<a href="XmlTypesDefaults.scala.html#15220" title="=&gt; Int">emptyAttributesHash</a> <span class="comment">// don't do it more than once</span>
+      <span class="keyword">else</span>
+	<a href="#109628" title="=&gt; scales.xml.package.Attributes">attributes</a>.<span title="()Int">hashCode</span>
+      <span class="delimiter">)</span>
+    <a href="#109681" title="Int">hs</a> = <span class="delimiter">(</span><a href="#109681" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <span class="delimiter">(</span>
+      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#109631" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15218" title="=&gt; scala.collection.immutable.Map[String,String]">emptyNamespaces</a><span class="delimiter">)</span>
+	<a href="XmlTypesDefaults.scala.html#15222" title="=&gt; Int">emptyNamespacesHash</a> <span class="comment">// don't do it more than once</span>
+      <span class="keyword">else</span>
+	<a href="#109631" title="=&gt; scala.collection.immutable.Map[String,String]">namespaces</a>.<span title="()Int">hashCode</span>
+      <span class="delimiter">)</span>
+
+    <a href="#109637" title="(x$1: Int)Unit">lastHash</a> = <a href="#109681" title="Int">hs</a>
+    <a href="#109681" title="Int">hs</a>    
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait XmlItem extends java.lang.Object with scales.utils.LeftLike[scales.xml.XmlItem,scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]] with scales.xml.XmlEvent with ScalaObject" id="12912">XmlItem</a> <span title="ScalaObject" class="keyword">extends</span> <a href="../utils/EitherLike.scala.html#10924" title="scales.utils.LeftLike[scales.xml.XmlItem,scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]]">LeftLike</a><span class="delimiter">[</span>XmlItem, Tree<span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span><span class="delimiter">]</span> <span class="keyword">with</span> <a href="#12873" title="scales.xml.XmlEvent">XmlEvent</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="=&gt; String" id="93292">value</a>: <span title="String">String</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="93293">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="Int">Int</span> = 
+    <a href="#93292" title="=&gt; String">value</a>.<span title="()Int">hashCode</span>
+
+  <span class="keyword">def</span> <a title="(other: Any, clazz: Class[_])Boolean" id="93294">doEquals</a><span class="delimiter">(</span> <a title="Any" id="110352">other</a> : <span title="Any">Any</span>, <a title="Class[_]" id="110353">clazz</a> : <span title="Class[_]">Class</span><span class="delimiter">[</span>_<span class="delimiter">]</span> <span class="delimiter">)</span> = 
+    <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#110353" title="Class[_]">clazz</a>.<span title="(x$1: Any)Boolean">isInstance</span><span class="delimiter">(</span><a href="#110352" title="Any">other</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<span class="keyword">val</span> <a title="scales.xml.XmlItem" id="110358">o</a> = <a href="#110352" title="Any">other</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.XmlItem" class="delimiter">[</span><a href="#12912" title="scales.xml.XmlItem">XmlItem</a><span class="delimiter">]</span>
+	<span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#110358" title="scales.xml.XmlItem">o</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#12912" title="scales.xml.XmlItem" class="keyword">this</a><span class="delimiter">)</span> <span title="Boolean(true)" class="keyword">true</span>
+	<span class="keyword">else</span> <span class="delimiter">(</span><a href="#110358" title="scales.xml.XmlItem">o</a>.<a href="#93292" title="=&gt; String">value</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#93292" title="=&gt; String">value</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Boolean(false)" class="keyword">false</span>
+
+<span class="delimiter">}</span>
+
+case <span class="keyword">class</span> <a title="class Text extends java.lang.Object with scales.xml.XmlItem with ScalaObject with Product with Serializable" id="111442">Text</a><a href="#111442" title="ScalaObject" class="delimiter">(</a><a title="String" id="97730">value</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#12912" title="scales.xml.XmlItem">XmlItem</a>
+
+<span class="comment">/**
+ * Comments aren't escaped and will throw a CommentCannotBeEncoded error if the contents cannot be serialized, xalan just tries to serialize directly which can't work.
+ *
+ * Note: Will throw if &quot;--&quot; is found in the value
+ */</span>
+<span class="keyword">trait</span> <a title="trait Comment extends java.lang.Object with scales.xml.XmlItem with ScalaObject" id="12282">Comment</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12912" title="scales.xml.XmlItem">XmlItem</a> <span class="delimiter">{</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="97089">equals</a><span class="delimiter">(</span> <a title="Any" id="110408">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#93294" title="(other: Any, clazz: Class[_])Boolean">doEquals</a><span class="delimiter">(</span><a href="#110408" title="Any">other</a>, <a href="#12283" title="object scales.xml.Comment">Comment</a>.<a href="#97238" title="=&gt; java.lang.Class[_ &lt;: scales.xml.Comment]">commentClass</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.Comment" id="12283">Comment</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">val</span> <a title="java.lang.Class[_ &lt;: scales.xml.Comment]" id="97238">commentClass</a> = <a href="#97240" title="(valuei: String)(implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.Comment">Comment</a><span class="delimiter">(</span><span title="java.lang.String(&quot;a&quot;)" class="string">&quot;a&quot;</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="XmlTypesDefaults.scala.html#15197" title="object scales.xml.package.IsFromParser">IsFromParser</a><span class="delimiter">)</span>.<span title="()java.lang.Class[_]">getClass</span>
+
+  <span class="keyword">def</span> <a title="(valuei: String)(implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.Comment" id="97240">apply</a><span class="delimiter">(</span><a title="String" id="97820">valuei</a> : <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="97821">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="#97824" title="java.lang.Object with scales.xml.Comment{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.Comment" id="97824">Comment</a> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#97821" title="scales.xml.FromParser">fromParser</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15201" title="=&gt; scales.xml.package.NotFromParserO.type">NotFromParser</a><span class="delimiter">)</span> 
+      <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><a href="#97820" title="String">valuei</a>.<span title="(x$1: java.lang.String)Int">indexOf</span><span class="delimiter">(</span><span title="java.lang.String(&quot;--&quot;)" class="string">&quot;--&quot;</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span>, <span title="java.lang.String(&quot;Comments cannot contain the sequence --&quot;)" class="string">&quot;Comments cannot contain the sequence --&quot;</span><span class="delimiter">)</span>
+
+    <span class="keyword">val</span> <a title="String" id="97826">value</a> = <a href="#97820" title="String">valuei</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(cmt: scales.xml.Comment)Some[String]" id="97241">unapply</a><span class="delimiter">(</span><a title="scales.xml.Comment" id="110419">cmt</a> : <a href="#12282" title="scales.xml.Comment">Comment</a><span class="delimiter">)</span> = <span title="(x: String)Some[String]">Some</span><span class="delimiter">(</span><a href="#110419" title="scales.xml.Comment">cmt</a>.<a href="#93292" title="=&gt; String">value</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Might be tempting to use, but think twice, XOM removes it for a
+good reason, and I'm sorely tempted to, but I've worked with enough
+applications that really thought they needed it.
+ * CData serialization is dependent on the encoding, if your CData contains
+umlauts etc but you choose US-ACSII you will receive a
+CDataCannotBeEncoded for your efforts.  Choose not to use CData in the
+first place.
+ * Note: Will throw if given the CData end sequence
+ */</span>
+<span class="keyword">trait</span> <a title="trait CData extends java.lang.Object with scales.xml.XmlItem with ScalaObject" id="12261">CData</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12912" title="scales.xml.XmlItem">XmlItem</a> <span class="delimiter">{</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="97745">equals</a><span class="delimiter">(</span> <a title="Any" id="110427">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#93294" title="(other: Any, clazz: Class[_])Boolean">doEquals</a><span class="delimiter">(</span><a href="#110427" title="Any">other</a>, <a href="#12262" title="object scales.xml.CData">CData</a>.<a href="#97735" title="=&gt; java.lang.Class[_ &lt;: scales.xml.CData]">cdataClass</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.CData" id="12262">CData</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="java.lang.Class[_ &lt;: scales.xml.CData]" id="97735">cdataClass</a> = <a href="#97737" title="(valuei: String)(implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.CData">CData</a><span class="delimiter">(</span><span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="XmlTypesDefaults.scala.html#15197" title="object scales.xml.package.IsFromParser">IsFromParser</a><span class="delimiter">)</span>.<span title="()java.lang.Class[_]">getClass</span>
+
+  <span class="keyword">def</span> <a title="(valuei: String)(implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.CData" id="97737">apply</a><span class="delimiter">(</span><a title="String" id="97739">valuei</a> : <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="97740">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="#97743" title="java.lang.Object with scales.xml.CData{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.CData" id="97743">CData</a> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#97740" title="scales.xml.FromParser">fromParser</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15201" title="=&gt; scales.xml.package.NotFromParserO.type">NotFromParser</a><span class="delimiter">)</span>
+      <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><a href="#97739" title="String">valuei</a>.<span title="(x$1: java.lang.String)Int">indexOf</span><span class="delimiter">(</span><span title="java.lang.String(&quot;]]&gt;&quot;)" class="string">&quot;]]&gt;&quot;</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span>, 
+	<span title="java.lang.String(&quot;CData sections cannot contain the sequence ]]&gt;&quot;)" class="string">&quot;CData sections cannot contain the sequence ]]&gt;&quot;</span><span class="delimiter">)</span>
+ 
+    <span class="keyword">val</span> <a title="String" id="97747">value</a> = <a href="#97739" title="String">valuei</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(cmt: scales.xml.CData)Some[String]" id="97738">unapply</a><span class="delimiter">(</span><a title="scales.xml.CData" id="110438">cmt</a> : <a href="#12261" title="scales.xml.CData">CData</a><span class="delimiter">)</span> = <span title="(x: String)Some[String]">Some</span><span class="delimiter">(</span><a href="#110438" title="scales.xml.CData">cmt</a>.<a href="#93292" title="=&gt; String">value</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait PI extends java.lang.Object with scales.xml.XmlItem with ScalaObject" id="12564">PI</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12912" title="scales.xml.XmlItem">XmlItem</a> <span class="delimiter">{</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="96665">equals</a><span class="delimiter">(</span> <a title="Any" id="110446">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = 
+    <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#110446" title="Any">other</a>.<span title="[T0]=&gt; Boolean">isInstanceOf</span><span title="Boolean" class="delimiter">[</span><a href="#12564" title="scales.xml.PI">PI</a><span class="delimiter">]</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="scales.xml.PI" id="110449">o</a> = <a href="#110446" title="Any">other</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.PI" class="delimiter">[</span><a href="#12564" title="scales.xml.PI">PI</a><span class="delimiter">]</span>
+      <span class="delimiter">(</span><a href="#110449" title="scales.xml.PI">o</a>.<a href="#93292" title="=&gt; String">value</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#93292" title="=&gt; String">value</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#110449" title="scales.xml.PI">o</a>.<a href="#96667" title="=&gt; String">target</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#96667" title="=&gt; String">target</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Boolean(false)" class="keyword">false</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="96666">hashCode</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="Int">Int</span> = <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="Int" id="110459">hs</a> = <span title="Int(1)" class="int">1</span>
+    <a href="#110459" title="Int">hs</a> = <span class="delimiter">(</span><a href="#110459" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <a href="#93292" title="=&gt; String">value</a>.<span title="()Int">hashCode</span>
+    <a href="#110459" title="Int">hs</a> = <span class="delimiter">(</span><a href="#110459" title="Int">hs</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <a href="#96667" title="=&gt; String">target</a>.<span title="()Int">hashCode</span>
+    <a href="#110459" title="Int">hs</a>    
+  <span class="delimiter">}</span>
+
+  <span class="keyword">val</span> <a title="=&gt; String" id="96667">target</a> : <span title="String">String</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.PI" id="12565">PI</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(targeti: String, valuei: String)(implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PI" id="96656">apply</a><span class="delimiter">(</span><a title="String" id="96658">targeti</a> : <span title="String">String</span>, <a title="String" id="96659">valuei</a> : <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.FromParser" id="96660">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="#96663" title="java.lang.Object with scales.xml.PI{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.PI" id="96663">PI</a> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#96660" title="scales.xml.FromParser">fromParser</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15201" title="=&gt; scales.xml.package.NotFromParserO.type">NotFromParser</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><a href="#96659" title="String">valuei</a>.<span title="(x$1: java.lang.String)Int">indexOf</span><span class="delimiter">(</span><span title="java.lang.String(&quot;?&gt;&quot;)" class="string">&quot;?&gt;&quot;</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span>, <span title="java.lang.String(&quot;PI Processing Instructions cannot contain the sequence ?&gt; in the value&quot;)" class="string">&quot;PI Processing Instructions cannot contain the sequence ?&gt; in the value&quot;</span><span class="delimiter">)</span>
+      <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><a href="#96658" title="String">targeti</a>.<span title="(x$1: java.lang.String)Int">indexOf</span><span class="delimiter">(</span><span title="java.lang.String(&quot;?&gt;&quot;)" class="string">&quot;?&gt;&quot;</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span>, <span title="java.lang.String(&quot;PI Processing Instructions cannot contain the sequence ?&gt; in the value&quot;)" class="string">&quot;PI Processing Instructions cannot contain the sequence ?&gt; in the value&quot;</span><span class="delimiter">)</span>
+      <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#96658" title="String">targeti</a>.<span title="()java.lang.String">toLowerCase</span>.<span title="(x$1: java.lang.String)Boolean">startsWith</span><span class="delimiter">(</span><span title="java.lang.String(&quot;xml&quot;)" class="string">&quot;xml&quot;</span><span class="delimiter">)</span>, <span title="java.lang.String(&quot;PI Processing Instructions targets cannot start with ?&gt;&quot;)" class="string">&quot;PI Processing Instructions targets cannot start with ?&gt;&quot;</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span class="keyword">val</span> <a title="String" id="96669">value</a> = <a href="#96659" title="String">valuei</a>
+    <span class="keyword">val</span> <a title="String" id="96671">target</a> = <a href="#96658" title="String">targeti</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(pi: scales.xml.PI)Some[(String, String)]" id="96657">unapply</a><span class="delimiter">(</span><a title="scales.xml.PI" id="110899">pi</a> : <a href="#12564" title="scales.xml.PI">PI</a><span class="delimiter">)</span> = <span title="(x: (String, String))Some[(String, String)]">Some</span><span class="delimiter">(</span><span title="(_1: String, _2: String)(String, String)" class="delimiter">(</span><a href="#110899" title="scales.xml.PI">pi</a>.<a href="#96667" title="=&gt; String">target</a>, <a href="#110899" title="scales.xml.PI">pi</a>.<a href="#93292" title="=&gt; String">value</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Xml declaration
+ */</span>
+case <span class="keyword">class</span> <a title="class Declaration extends java.lang.Object with ScalaObject with Product with Serializable" id="111513">Declaration</a><a href="#111513" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.XmlVersion" id="97905">version</a>: <a href="Namespaces.scala.html#13146" title="scales.xml.XmlVersion">XmlVersion</a> = <a href="Namespaces.scala.html#91534" title="=&gt; scales.xml.XmlVersion">defaultVersion</a>, <a title="java.nio.charset.Charset" id="97906">encoding</a>: <span title="java.nio.charset.Charset">Charset</span> = scales.utils.<a href="../utils/Localisation.scala.html#15191" title="=&gt; java.nio.charset.Charset">defaultCharset</a>, <a title="Boolean" id="97907">standalone</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * DTD is not part of the tree, nor a stream, it can only occur once and as such is neither an XmlEvent nor an XmlItem directly
+ */</span>
+case <span class="keyword">class</span> <a title="class DTD extends java.lang.Object with ScalaObject with Product with Serializable" id="111476">DTD</a><a href="#111476" title="ScalaObject" class="delimiter">(</a><a title="String" id="97149">name</a>: <span title="String">String</span>, <a title="String" id="97150">publicId</a>: <span title="String">String</span>, <a title="String" id="97151">systemId</a>: <span title="String">String</span><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * Includes all information before the root elem
+ */</span>
+case <span class="keyword">class</span> <a title="class Prolog extends java.lang.Object with ScalaObject with Product with Serializable" id="111455">Prolog</a><a href="#111455" title="ScalaObject" class="delimiter">(</a>
+  <a title="scales.xml.Declaration" id="97042">decl</a>: <a href="#111513" title="scales.xml.Declaration">Declaration</a> = <a href="#111513" title="(version: scales.xml.XmlVersion, encoding: java.nio.charset.Charset, standalone: Boolean)scales.xml.Declaration">Declaration</a><span class="delimiter">(</span><span class="delimiter">)</span>,
+  <a title="scales.xml.package.Miscs" id="97043">misc</a>: <span title="scales.xml.package.Miscs">Miscs</span> = <a href="XmlTypesDefaults.scala.html#15214" title="=&gt; List[Either[scales.xml.Comment,scales.xml.PI]]">emptyMiscs</a>,
+  <a title="Option[scales.xml.DTD]" id="97044">dtd</a>: <span title="Option[scales.xml.DTD]">Option</span><span class="delimiter">[</span>DTD<span class="delimiter">]</span> = <span title="object None">None</span><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * The information after the root elem
+ */</span>
+case <span class="keyword">class</span> <a title="class EndMisc extends java.lang.Object with ScalaObject with Product with Serializable" id="111461">EndMisc</a><a href="#111461" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.package.Miscs" id="97065">misc</a>: <span title="scales.xml.package.Miscs">Miscs</span> = <a href="XmlTypesDefaults.scala.html#15214" title="=&gt; List[Either[scales.xml.Comment,scales.xml.PI]]">emptyMiscs</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * All documents look similar to this, even when stream
+ */</span>
+<span class="keyword">trait</span> <a title="trait DocLike extends java.lang.Object" id="12312">DocLike</a> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.Prolog" id="95244">prolog</a>: <a href="#111455" title="scales.xml.Prolog">Prolog</a>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.EndMisc" id="95245">end</a>: <a href="#111461" title="scales.xml.EndMisc">EndMisc</a>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Provides a simple empty document for streams etc
+ */</span>
+case <span class="keyword">class</span> <a title="class EmptyDoc extends java.lang.Object with scales.xml.DocLike with ScalaObject with Product with Serializable" id="111472">EmptyDoc</a><a href="#111472" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.Prolog" id="98715">prolog</a>: <a href="#111455" title="scales.xml.Prolog">Prolog</a> = <a href="#111455" title="(decl: scales.xml.Declaration, misc: scales.xml.package.Miscs, dtd: Option[scales.xml.DTD])scales.xml.Prolog">Prolog</a><span class="delimiter">(</span><span class="delimiter">)</span>, <a title="scales.xml.EndMisc" id="98716">end</a>: <a href="#111461" title="scales.xml.EndMisc">EndMisc</a> = <a href="#111461" title="(misc: scales.xml.package.Miscs)scales.xml.EndMisc">EndMisc</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#12312" title="scales.xml.DocLike">DocLike</a>
+
+<span class="comment">/**
+ * Tree based document
+ */</span>
+case <span class="keyword">class</span> <a title="class Doc extends java.lang.Object with scales.xml.DocLike with ScalaObject with Product with Serializable" id="111503">Doc</a><a href="#111503" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.package.XmlTree" id="95430">rootElem</a>: <a href="../utils/Trees.scala.html#11329" title="scales.xml.package.XmlTree">XmlTree</a>, <a title="scales.xml.Prolog" id="95431">prolog</a>: <a href="#111455" title="scales.xml.Prolog">Prolog</a> = <a href="#111455" title="(decl: scales.xml.Declaration, misc: scales.xml.package.Miscs, dtd: Option[scales.xml.DTD])scales.xml.Prolog">Prolog</a><span class="delimiter">(</span><span class="delimiter">)</span>, <a title="scales.xml.EndMisc" id="95432">end</a>: <a href="#111461" title="scales.xml.EndMisc">EndMisc</a> = <a href="#111461" title="(misc: scales.xml.package.Miscs)scales.xml.EndMisc">EndMisc</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#12312" title="scales.xml.DocLike">DocLike</a> <span class="delimiter">{</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()java.lang.String" id="95427">toString</a><span class="delimiter">(</span><span class="delimiter">)</span> = <span title="java.lang.String(&quot;scales.xml.doc&quot;)" class="string">&quot;scales.xml.doc&quot;</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * exists only to provide Jaxen and JXPath with a document &quot;root&quot;
+ */</span> 
+case <span class="keyword">class</span> <a title="class DocumentRoot extends java.lang.Object with ScalaObject with Product with Serializable" id="111483">DocumentRoot</a><a href="#111483" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.package.XmlPath" id="111480">xmlPath</a> : <a href="../utils/Paths.scala.html#11083" title="scales.xml.package.XmlPath">XmlPath</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * exists only to provide Jaxen and JXPath with the same document root
+ */</span> 
+case <span class="keyword">class</span> <a title="class DocsUp[WHAT] extends java.lang.Object with ScalaObject with Product with Serializable" id="111494">DocsUp</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="111395">WHAT</a><span class="delimiter">]</span><a href="#111494" title="ScalaObject" class="delimiter">(</a><a title="WHAT" id="111487">what</a> : <a href="#111395" title="WHAT">WHAT</a>, <a title="scales.xml.DocumentRoot" id="111488">docroot</a> : <a href="#111483" title="scales.xml.DocumentRoot">DocumentRoot</a><span class="delimiter">)</span>
+
+        </pre>
+    </body>
+</html>

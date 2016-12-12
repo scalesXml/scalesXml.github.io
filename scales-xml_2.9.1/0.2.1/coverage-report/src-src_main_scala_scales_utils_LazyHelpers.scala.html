@@ -1,0 +1,429 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;LazyHelpers.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_LazyHelpers.scala.html#Object_org_scales_utils_LazyFnHelpers"><img src="object.png"></img>LazyFnHelpers</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_LazyHelpers.scala.html#Class_org_scales_utils_LazyFnHelpers_LazyFnTupler"><img src="class.png"></img>LazyFnHelpers.LazyFnTupler</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_LazyHelpers.scala.html#Object_org_scales_utils_LazyHelpers"><img src="object.png"></img>LazyHelpers</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_LazyHelpers.scala.html#Object_org_scales_utils_LazyTupleOfFunctionHelpers"><img src="object.png"></img>LazyTupleOfFunctionHelpers</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_LazyHelpers.scala.html#Class_org_scales_utils_LazyTupleOfFunctionHelpers_LazyTOFTupler"><img src="class.png"></img>LazyTupleOfFunctionHelpers.LazyTOFTupler</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_LazyHelpers.scala.html#Object_org_scales_utils_LazyTuplers"><img src="object.png"></img>LazyTuplers</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_LazyHelpers.scala.html#Class_org_scales_utils_LazyTuplers_LazyTupler"><img src="class.png"></img>LazyTuplers.LazyTupler</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package org.scales.utils;
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>* Collection of functions to aid in creating and using MBeans
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>*/
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td><a id="Object_org_scales_utils_LazyHelpers"></a>object LazyHelpers {
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>  /** &lt;br/&gt; converts =&gt; A to ()=&gt;A, allowing the result to be passed around */
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>  implicit def delayedXToFnX[A](a: =&gt; A): ()=&gt; A = { () =&gt;
+</td>
+          </tr><tr>
+            <td class="red">10</td>
+            <td>     <span class="non">a
+</span></td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>  /** &lt;br/&gt; converts =&gt; Seq[(A,B)] to ()=&gt;Seq[(A,B)], allowing the result to be passed around */
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>  implicit def delayedSeqMap[A,B](a: =&gt; Seq[(A,B)] ): ()=&gt; Seq[(A,B)] = { () =&gt;
+</td>
+          </tr><tr>
+            <td class="red">15</td>
+            <td>    <span class="non">a
+</span></td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td> * Creates lazy tuples where both _1 and _2 are lazily evaluated
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td><a id="Object_org_scales_utils_LazyTuplers"></a>object LazyTuplers {
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td> 
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>   * &lt;br/&gt;Lazy evaluation to make a tuple, lets us manage nicely when we choose to.
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>   * &lt;br/&gt;
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>   * NOTE this needs to happen all the way down
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">30</td>
+            <td><a id="Class_org_scales_utils_LazyTuplers_LazyTupler"></a>  class LazyTupler[A]<span class="non">(a: =&gt; A) {
+</span></td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>    // lazy param here too, otherwise it will get created by the --&gt; itself.
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>    def --&gt;[B](b: =&gt; B) : () =&gt; (A,B) = { () =&gt;
+</td>
+          </tr><tr>
+            <td class="red">33</td>
+            <td>      <span class="non">(a, b)
+</span></td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>  /** &lt;br/&gt; converts =&gt; A to LazyTupler, enabling the --&gt; syntax */
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>  implicit def allToLazyTupler[A](a: =&gt; A ): LazyTupler[A] = {
+</td>
+          </tr><tr>
+            <td class="red">39</td>
+            <td>    <span class="non">new LazyTupler[A](a)
+</span></td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>   
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td> * These lazyhelpers are primarily for function creation
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td><a id="Object_org_scales_utils_LazyFnHelpers"></a>object LazyFnHelpers {
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>   * &lt;br/&gt;Lazy evaluation to make a tuple, lets us manage nicely when we choose to.
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>   * &lt;br/&gt;  Unlike LazyTupler the actual tuple members are functions.
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>   * NOTE this needs to happen all the way down
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">53</td>
+            <td><a id="Class_org_scales_utils_LazyFnHelpers_LazyFnTupler"></a>  class LazyFnTupler[A]<span class="non">(a: () =&gt; A) {
+</span></td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>    // lazy param here too, otherwise it will get created by the --&gt; itself.
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>    def --&gt;[B](b: () =&gt; B) : () =&gt; ( () =&gt; A, () =&gt; B) = { () =&gt;
+</td>
+          </tr><tr>
+            <td class="red">56</td>
+            <td>      <span class="non">(a, b)
+</span></td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>  /** &lt;br/&gt; converts =&gt; A to LazyFnTupler, enabling the --&gt; syntax */
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>  implicit def allToLazyFnTupler[A](a: =&gt; A ): LazyFnTupler[A] = {
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>    //import LazyHelpers.delayedXToFnX
+</td>
+          </tr><tr>
+            <td class="red">63</td>
+            <td>    <span class="non">new LazyFnTupler[A]( () =&gt; a)
+</span></td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td> * These lazyhelpers are primarily for function creation, e.g. for callFirst or callAll
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td><a id="Object_org_scales_utils_LazyTupleOfFunctionHelpers"></a>object LazyTupleOfFunctionHelpers {
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>   * &lt;br/&gt;Lazy evaluation to make a tuple, lets us manage nicely when we choose to.
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>   * &lt;br/&gt;  Unlike LazyTupler and LazyFnTupler the actual tuple members are functions without the extra function.
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>   * NOTE this needs to happen all the way down
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">76</td>
+            <td><a id="Class_org_scales_utils_LazyTupleOfFunctionHelpers_LazyTOFTupler"></a>  class LazyTOFTupler[A]<span class="non">(a: () =&gt; A) {
+</span></td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>    // lazy param here too, otherwise it will get created by the --&gt; itself.
+</td>
+          </tr><tr>
+            <td class="red">78</td>
+            <td>    def --&gt;[B](b: () =&gt; B) : ( () =&gt; A, () =&gt; B) = <span class="non">(a, b)
+</span></td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>    
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>  /** &lt;br/&gt; converts =&gt; A to LazyTOFTupler, enabling the --&gt; syntax */
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>  implicit def allToLazyTOFTupler[A](a: () =&gt; A ): LazyTOFTupler[A] = {
+</td>
+          </tr><tr>
+            <td class="red">84</td>
+            <td>    <span class="non">new LazyTOFTupler[A](a)
+</span></td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">86</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">87</td>
+            <td>  /** &lt;br/&gt; converts =&gt; A to LazyTOFTupler, enabling the --&gt; syntax */
+</td>
+          </tr><tr>
+            <td class="black">88</td>
+            <td>  implicit def lazyToLazyTOFTupler[A](a:  =&gt; A ): LazyTOFTupler[A] = {
+</td>
+          </tr><tr>
+            <td class="red">89</td>
+            <td>    <span class="non">new LazyTOFTupler[A](a _)
+</span></td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">91</td>
+            <td>}
+</td>
+          </tr></tbody></table>

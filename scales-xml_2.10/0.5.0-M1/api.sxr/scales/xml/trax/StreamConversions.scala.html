@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\trax\StreamConversions.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.trax
+
+<span class="keyword">import</span> scales.utils._
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>PullType, XmlTree, dsl<span class="delimiter">}</span>
+
+<span class="keyword">import</span> dsl.DslBuilder
+
+<span class="comment">/**
+ * All safe conversions from T to Iterator[PullType].
+ *
+ */</span> 
+<span class="keyword">trait</span> <a title="trait PullTypeConversionImplicits extends java.lang.Object with ScalaObject" id="10406">PullTypeConversionImplicits</a> <span title="ScalaObject" class="delimiter">{</span>
+  
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.trax.PullTypeConversionImplicits.treeToStream : (tree: scales.xml.package.XmlTree)Iterator[scales.xml.package.PullType]" id="43024">treeToStream</a><span class="delimiter">(</span> <a title="scales.xml.package.XmlTree" id="47096">tree</a> : <a href="../../utils/collection/Trees.scala.html#12744" title="scales.xml.package.XmlTree">XmlTree</a> <span class="delimiter">)</span> : <span title="Iterator[scales.xml.package.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> = <span title="scales.xml.trax.TreeIterable" class="keyword">new</span> <a href="TraxSourceConversions.scala.html#10484" title="scales.xml.trax.TreeIterable">TreeIterable</a><span class="delimiter">(</span><a href="#47096" title="scales.xml.package.XmlTree">tree</a><span class="delimiter">)</span>
+  
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.trax.PullTypeConversionImplicits.dslToStream : (ds: scales.xml.dsl.DslBuilder)Iterator[scales.xml.package.PullType]" id="43025">dslToStream</a><span class="delimiter">(</span> <a title="scales.xml.dsl.DslBuilder" id="47063">ds</a> : <a href="../dsl/DslBuilder.scala.html#9836" title="scales.xml.dsl.DslBuilder">DslBuilder</a> <span class="delimiter">)</span> : <span title="Iterator[scales.xml.package.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> = <span title="scales.xml.trax.TreeIterable" class="keyword">new</span> <a href="TraxSourceConversions.scala.html#10484" title="scales.xml.trax.TreeIterable">TreeIterable</a><span class="delimiter">(</span><a href="#47063" title="scales.xml.dsl.DslBuilder">ds</a>.<a href="../dsl/DslBuilder.scala.html#47095" title="=&gt; scales.xml.package.XmlTree">toTree</a><span class="delimiter">)</span>
+  
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

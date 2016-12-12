@@ -1,0 +1,286 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>All classes and objects in scales.sbtplugins</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.7.final)" name="generator"></meta><link href="../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../script.js"></script>
+        </head>
+        <body onload="init()"><div class="page-title"><div>scales-sbt-plugins 0.2.2 API</div></div><p><div>This document is the API specification for scales-sbt-plugins 0.2.2 API</div></p><table summary="" cellpadding="3" class="member">
+        <tr><td class="title" colspan="2">Class Summary</td></tr>
+        <tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/ArtifactsHelper.html" target="_self">ArtifactsHelper</a></em>
+        <code> extends </code><a href="" target="contentFrame" class="sbt/BasicManagedProject">sbt.BasicManagedProject</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/Copy.html" target="_self">Copy</a></em>
+        (<code>val </code><em>from</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <code>val </code><em>to</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/DocWrapper.html" target="_self">DocWrapper</a></em>
+        <code> extends </code><a href="../scales/sbtplugins/SxrPaths.html" target="_self">SxrPaths</a><code> with </code><a href="" target="contentFrame" class="sbt/MavenStyleScalaPaths">sbt.MavenStyleScalaPaths</a>
+        
+        <div>Logic for replacing source code links in scaladocs with sxr code.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/MarkupHeader.html" target="_self">MarkupHeader</a></em>
+        (<code>val </code><em>title</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <code>val </code><em>extraHeaders</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <code>val </code><em>overrideHeader</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>)<code> extends </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>Allows providing an additional header set per individual markup.
+ Title gets special treatment as it is likely the most common case, given the siteHeaders.
+ If the user really only wants a certain set of headers then they can set overrideHeaders to true.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/Site.html" target="_self">Site</a></em>
+        (<code>val </code><em>copy</em> : <a href="../scales/sbtplugins/Copy.html" target="_self">Copy</a>, <code>val </code><em>siteDesc</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <code>val </code><em>siteLink</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <code>val </code><em>ignore</em> : <a href="" target="contentFrame" class="scala/Iterable">scala.Iterable</a>[<a href="" target="contentFrame" class="sbt/FileFilter">sbt.FileFilter</a>])<code> extends </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>siteDesc is a mediawiki snippet (will simply be embedded)
+ to represent the part of the site that copy refers to.
+ siteLink is optionally the target html to load for that link,
+ defaulting to copy.to / index.html.
+
+ It MUST be in utf-8 format
+
+ The ignore list can be tailored for just a site, it will be added to 
+ the siteIgnore list upon running site.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SiteBase.html" target="_self">SiteBase</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SiteProject.html" target="_self">SiteProject</a></em>
+        <code> extends </code><a href="../scales/sbtplugins/DocWrapper.html" target="_self">DocWrapper</a><code> with </code><a href="../scales/sbtplugins/SiteBase.html" target="_self">SiteBase</a><code> with </code><a href="../scales/sbtplugins/ArtifactsHelper.html" target="_self">ArtifactsHelper</a>
+        
+        <div>Utilities and tasks for creating a site</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SxrHelper.html" target="_self">SxrHelper</a></em>
+        <code> extends </code><a href="../scales/sbtplugins/SxrPaths.html" target="_self">SxrPaths</a><code> with </code><a href="" target="contentFrame" class="sbt/AutoCompilerPlugins">sbt.AutoCompilerPlugins</a><code> with </code><a href="" target="contentFrame" class="sbt/MavenStyleScalaPaths">sbt.MavenStyleScalaPaths</a>
+        
+        <div>Configures sxr to:
+ 1) disable during consoles
+ 2) configure correct linking from test cases into main src
+ 3) ensure the correct base directory is used</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SxrLineWrapper.html" target="_self">SxrLineWrapper</a></em>
+        <code> extends </code><a href="../scales/sbtplugins/SxrPaths.html" target="_self">SxrPaths</a>
+        
+        <div>Wraps the output of sxr to add line number anchors.  Sxr uses
+ newlines in a very large pre block so this filters on newlines</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SxrPaths.html" target="_self">SxrPaths</a></em>
+        <code> extends </code><a href="" target="contentFrame" class="sbt/BasicScalaProject">sbt.BasicScalaProject</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SxrRelativeTestUrls.html" target="_self">SxrRelativeTestUrls</a></em>
+        <code> extends </code><a href="../scales/sbtplugins/SxrHelper.html" target="_self">SxrHelper</a>
+        
+        <div>Replace the main source links with relative paths
+
+ Basically looks for <a href="file:/C:/Dev/projects/scales/scalesUtils/target/scala_2.8.1/classes.sxr/scales/xml/XmlPaths.scala.html#58662" >...
+ where the path starts with mainSxrPath as a url with the relative paths.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SxrWrapper.html" target="_self">SxrWrapper</a></em>
+        <code> extends </code><a href="../scales/sbtplugins/SxrLineWrapper.html" target="_self">SxrLineWrapper</a><code> with </code><a href="../scales/sbtplugins/SxrRelativeTestUrls.html" target="_self">SxrRelativeTestUrls</a>
+        
+        <div>Provides simple sxr helping, relative path handling for test code
+ and line wrapping for sxr output</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/TestReview.html" target="_self">TestReview</a></em>
+        <code> extends </code><a href="../scales/sbtplugins/SiteBase.html" target="_self">SiteBase</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/TestReviewListener.html" target="_self">TestReviewListener</a></em>
+        (<em>links</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[(<a href="" target="contentFrame" class="java/io/File">java.io.File</a>, <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)], <em>project</em> : <a href="" target="contentFrame" class="sbt/Project">sbt.Project</a>)<code> extends </code><a href="" target="contentFrame" class="sbt/TestsListener">sbt.TestsListener</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Creates a mediawiki report for displaying test results.  Both classes and stack contents are matched against
+ sxr output.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/TestReviewer.html" target="_self">TestReviewer</a></em>
+        <code> extends </code><a href="../scales/sbtplugins/TestReview.html" target="_self">TestReview</a><code> with </code><a href="../scales/sbtplugins/SxrHelper.html" target="_self">SxrHelper</a>
+        
+        <div>Links directly to SxrWrappers as well, which may not be wanted.
+
+ If its not wanted just use TestReview instead and provide your own testListeners function</div>
+      </td>
+    </tr>        
+        </table>
+<table summary="" cellpadding="3" class="member">
+        <tr><td class="title" colspan="2">Object Summary</td></tr>
+        <tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/Copy$object.html" target="_self">Copy</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/MarkupHeader$object.html" target="_self">MarkupHeader</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SbtWiki$object.html" target="_self">SbtWiki</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Provides a wrapper around WikiText for simple site operations</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/Site$object.html" target="_self">Site</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/SxrLines$object.html" target="_self">SxrLines</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/TestReviewHelper$object.html" target="_self">TestReviewHelper</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/Tokens$object.html" target="_self">Tokens</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../scales/sbtplugins/Utils$object.html" target="_self">Utils</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>        
+        </table></body>
+      </html>

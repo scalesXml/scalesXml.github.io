@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\impl\NamespaceExtras.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.impl
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>XmlVersion, Xml10, EmptyNamespace, Namespace<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait DefaultXmlVersion extends AnyRef" id="scales.xml.impl;DefaultXmlVersion">DefaultXmlVersion</a> <span title="Unit" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.XmlVersion" id="scales.xml.impl;DefaultXmlVersion.defaultVersion">defaultVersion</a> : <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a> = <a href="../Namespaces.scala.html#scales.xml.Xml10" title="scales.xml.Xml10.type">Xml10</a>
+<span class="delimiter">}</span>
+
+<span title="AnyRef" class="keyword">object</span> <a title="scales.xml.impl.NamespaceDefaults.type" id="scales.xml.impl.NamespaceDefaults">NamespaceDefaults</a> <a href="#scales.xml.impl.NamespaceDefaults" title="scales.xml.impl.NamespaceDefaults.type" class="delimiter">{</a>
+  <span class="comment">/**
+   * placeholder for the current element default namespace
+   */</span>
+  <span class="keyword">protected</span><span class="delimiter">[</span>xml<span class="delimiter">]</span> <span class="keyword">val</span> <a title="scales.xml.Namespace" id="scales.xml.impl.NamespaceDefaults.namespace">namespace</a> = <a href="../Namespaces.scala.html#scales.xml.Namespace.apply" title="(validUri: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)scales.xml.Namespace">Namespace</a><span class="delimiter">(</span><span title="String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="../Namespaces.scala.html#scales.xml.Xml10" title="scales.xml.Xml10.type">Xml10</a>,<a href="FromParser.scala.html#scales.xml.impl.IsFromParser" title="scales.xml.impl.IsFromParser.type">IsFromParser</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * The no namespace namespace (xmlns=&quot;&quot;)
+   */</span>
+  <span class="keyword">val</span> <a title="scales.xml.EmptyNamespace.type" id="scales.xml.impl.NamespaceDefaults.noNamespace">noNamespace</a> = <a href="../Namespaces.scala.html#scales.xml.EmptyNamespace" title="scales.xml.EmptyNamespace.type">EmptyNamespace</a>
+<span class="delimiter">}</span>
+
+
+<span class="comment">/**
+ * Follows the XML 1.0 spec and XML 1.1 spec, all underlying code provided by a copied version of the Xerces libs.
+ *
+ * Throughout user QName code we default to XML 1.0, as all XML 1.0 docs are valid XML 1.1's but the reverse is not true.
+ *
+ * Also note that we do not accept :, we are namespace compliant first and foremost
+ *
+ * The reason I'm simply copying to another package is that the utils.XMLChar functions aren't then forcing a JAXP or
+ * xerces version.
+ */</span>
+<span title="AnyRef" class="keyword">object</span> <a title="scales.xml.impl.QNameCharUtils.type" id="scales.xml.impl.QNameCharUtils">QNameCharUtils</a> <a href="#scales.xml.impl.QNameCharUtils" title="scales.xml.impl.QNameCharUtils.type" class="delimiter">{</a>
+  <span class="keyword">import</span> scales.org.apache.xerces.util._
+
+  <span class="keyword">def</span> <a title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean" id="scales.xml.impl.QNameCharUtils.validLocalName">validLocalName</a><span class="delimiter">(</span> <a title="String" id="scales.xml.impl.QNameCharUtils.validLocalName.name">name</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="scales.xml.impl.QNameCharUtils.validLocalName.ver">ver</a> : <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> =
+    <a href="#scales.xml.impl.QNameCharUtils.validXmlName" title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean">validXmlName</a><a href="#scales.xml.impl.QNameCharUtils.validLocalName.ver" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#scales.xml.impl.QNameCharUtils.validLocalName.name" title="String">name</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span>
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl.QNameCharUtils.validLocalName.name" title="String">name</a>.<span title="()Int">length</span> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(2)" class="int">2</span><span class="delimiter">)</span> 
+	<a href="#scales.xml.impl.QNameCharUtils.validLocalName.name" title="String">name</a>.<span title="(x$1: Int, x$2: Int)String">substring</span><span class="delimiter">(</span><span title="Int(0)" class="int">0</span>,<span title="Int(2)" class="int">2</span><span class="delimiter">)</span>.<span title="()String">toLowerCase</span> <span title="(x$1: AnyRef)Boolean">!=</span> <span title="String(&quot;xml&quot;)" class="string">&quot;xml&quot;</span>
+      <span class="keyword">else</span>
+	<span title="Boolean(true)" class="keyword">true</span>
+    <span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span>
+    <a href="#scales.xml.impl.QNameCharUtils.validLocalName.name" title="String">name</a>.<span title="(x$1: Int)Int">indexOf</span><span class="delimiter">(</span><span title="Int(58)" class="char">':'</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span> <span class="comment">// namespaces ftw</span>
+
+  <span class="keyword">def</span> <a title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean" id="scales.xml.impl.QNameCharUtils.validXmlName">validXmlName</a><span class="delimiter">(</span> <a title="String" id="scales.xml.impl.QNameCharUtils.validXmlName.name">name</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="scales.xml.impl.QNameCharUtils.validXmlName.ver">ver</a> : <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span>  =
+    <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl.QNameCharUtils.validXmlName.ver" title="scales.xml.XmlVersion">ver</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="../Namespaces.scala.html#scales.xml.Xml10" title="scales.xml.Xml10.type">Xml10</a><span class="delimiter">)</span>
+      <a href="../../org/apache/xerces/util/XMLChar.java.html#scales.org.apache.xerces.util.XMLChar" title="scales.org.apache.xerces.util.XMLChar.type">XMLChar</a>.<a href="../../org/apache/xerces/util/XMLChar.java.html#scales.org.apache.xerces.util.XMLChar.isValidName" title="(name: String)Boolean">isValidName</a><span class="delimiter">(</span><a href="#scales.xml.impl.QNameCharUtils.validXmlName.name" title="String">name</a><span class="delimiter">)</span>
+    <span class="keyword">else</span>
+      <a href="../../org/apache/xerces/util/XML11Char.java.html#scales.org.apache.xerces.util.XML11Char" title="scales.org.apache.xerces.util.XML11Char.type">XML11Char</a>.<a href="../../org/apache/xerces/util/XML11Char.java.html#scales.org.apache.xerces.util.XML11Char.isXML11ValidName" title="(name: String)Boolean">isXML11ValidName</a><span class="delimiter">(</span><a href="#scales.xml.impl.QNameCharUtils.validXmlName.name" title="String">name</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(prefix: String)(implicit ver: scales.xml.XmlVersion)Boolean" id="scales.xml.impl.QNameCharUtils.validXmlPrefix">validXmlPrefix</a><span class="delimiter">(</span> <a title="String" id="scales.xml.impl.QNameCharUtils.validXmlPrefix.prefix">prefix</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="scales.xml.impl.QNameCharUtils.validXmlPrefix.ver">ver</a> : <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> = 
+    <a href="#scales.xml.impl.QNameCharUtils.validXmlName" title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean">validXmlName</a><a href="#scales.xml.impl.QNameCharUtils.validXmlPrefix.ver" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#scales.xml.impl.QNameCharUtils.validXmlPrefix.prefix" title="String">prefix</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean" class="comment">&amp;&amp;// other xmlns etc validations must be done in the actual qnames and elements</span>
+    <a href="#scales.xml.impl.QNameCharUtils.validXmlPrefix.prefix" title="String">prefix</a>.<span title="(x$1: Int)Int">indexOf</span><span class="delimiter">(</span><span title="Int(58)" class="char">':'</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span>
+
+  <span class="keyword">def</span> <a title="(namespace: String)(implicit ver: scales.xml.XmlVersion)Boolean" id="scales.xml.impl.QNameCharUtils.validXmlNamespace">validXmlNamespace</a><span class="delimiter">(</span> <a title="String" id="scales.xml.impl.QNameCharUtils.validXmlNamespace.namespace">namespace</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="scales.xml.impl.QNameCharUtils.validXmlNamespace.ver">ver</a> : <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> =
+    <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><a href="#scales.xml.impl.QNameCharUtils.validXmlNamespace.ver" title="scales.xml.XmlVersion">ver</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="../Namespaces.scala.html#scales.xml.Xml10" title="scales.xml.Xml10.type">Xml10</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#scales.xml.impl.QNameCharUtils.validXmlNamespace.namespace" title="String">namespace</a>.<span title="()String">trim</span>.<span title="()Int">length</span> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span><span class="delimiter">)</span>
+      <span title="Boolean(false)" class="keyword">false</span> <span class="comment">// can't do empties in 1.0, only 1.1</span>
+    <span class="keyword">else</span> <span class="comment">// TODO - what else should we validate here, parsing URI / IRI?</span>
+      <span title="Boolean(true)" class="keyword">true</span>
+
+  <span class="comment">/**
+   * Validates and returns or throws
+   */</span>
+  <span class="keyword">def</span> <a title="(validLocal: String)(implicit ver: scales.xml.XmlVersion)String" id="scales.xml.impl.QNameCharUtils.validateLocalName">validateLocalName</a><span class="delimiter">(</span> <a title="String" id="scales.xml.impl.QNameCharUtils.validateLocalName.validLocal">validLocal</a> : <span title="String">String</span> <span class="delimiter">)</span> <span class="delimiter">(</span> <span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="scales.xml.impl.QNameCharUtils.validateLocalName.ver">ver</a> : <a href="../Namespaces.scala.html#scales.xml;XmlVersion" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> = 
+    <span title="String" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl.QNameCharUtils.validLocalName" title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean">validLocalName</a><a href="#scales.xml.impl.QNameCharUtils.validateLocalName.ver" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#scales.xml.impl.QNameCharUtils.validateLocalName.validLocal" title="String">validLocal</a><span class="delimiter">)</span><span class="delimiter">)</span> 
+      <a href="#scales.xml.impl.QNameCharUtils.validateLocalName.validLocal" title="String">validLocal</a>
+    <span class="keyword">else</span>
+      <span title="(message: String)Nothing">error</span><span class="delimiter">(</span><span title="String(&quot;The local name \'&quot;)" class="string">&quot;The local name '&quot;</span><span title="(x$1: Any)String">+</span><a href="#scales.xml.impl.QNameCharUtils.validateLocalName.validLocal" title="String">validLocal</a><span title="(x$1: Any)String">+</span><span title="String(&quot;\' is not valid for Xml &quot;)" class="string">&quot;' is not valid for Xml &quot;</span><span title="(x$1: Any)String">+</span><a href="#scales.xml.impl.QNameCharUtils.validateLocalName.ver" title="scales.xml.XmlVersion">ver</a>.<a href="../Namespaces.scala.html#scales.xml;XmlVersion.version" title="=&gt; String">version</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+
+        </pre>
+    </body>
+</html>

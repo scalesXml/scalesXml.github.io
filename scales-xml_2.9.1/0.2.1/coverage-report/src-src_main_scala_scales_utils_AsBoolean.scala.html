@@ -1,0 +1,197 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;AsBoolean.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">92 %</div>
+        <div class="greenBar" style="width:184px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_AsBoolean.scala.html#Trait_scales_utils_AsBooleanTrait"><img src="trait.png"></img>AsBooleanTrait</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">66 %</div>
+        <div class="greenBar" style="width:132px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_AsBoolean.scala.html#Class_scales_utils_AsBooleanTrait_BooleanAndTMatcher"><img src="class.png"></img>AsBooleanTrait.BooleanAndTMatcher</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_AsBoolean.scala.html#Class_scales_utils_AsBooleanTrait_BooleanMatcher"><img src="class.png"></img>AsBooleanTrait.BooleanMatcher</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td> * Provides the conversion type class AsBoolean, and simple matchers (extractor builders) to
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td> * use them.  Used by the xpath boolean function and xmltree matching
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td><a id="Trait_scales_utils_AsBooleanTrait"></a>trait AsBooleanTrait {
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>  type AsBoolean[T] = Function1[T, Boolean]
+</td>
+          </tr><tr>
+            <td class="red">9</td>
+            <td>  def boolean[T : AsBoolean]( it : T ) : Boolean = <span class="non">implicitly[AsBoolean[T]].apply(it)
+</span></td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td><a id="Class_scales_utils_AsBooleanTrait_BooleanMatcher"></a>  class BooleanMatcher[X, T : AsBoolean](eval  : (X) =&gt; T) {
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>    def unapply( x : X ) : Option[T] = {
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>      val res = eval(x)
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>      if (!implicitly[AsBoolean[T]].apply(res)) None
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>      else Some(res)
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td><a id="Class_scales_utils_AsBooleanTrait_BooleanAndTMatcher"></a>  class BooleanAndTMatcher[X, T : AsBoolean](eval : (X) =&gt; T) {
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>    def unapply( x : X ) : Option[(T, X)] = {
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>      val res = eval(x)
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td>      if (!implicitly[AsBoolean[T]].apply(res)) None
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>      else Some((res, x))
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>   * Calls eval to return a T t'.  This T is then evaluated with the AsBoolean type class.
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>   * When evaluated to true t' is returned.
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>   * val Matcher = booleanMatcher( (x) =&gt; T ); val Matcher(t) = x
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="green">32</td>
+            <td>  def booleanMatcher[X, T : AsBoolean]( eval : (X) =&gt; T ) = new BooleanMatcher[X, T](eval)
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>   * Calls eval to return a T t'.  This T is then evaluated with the AsBoolean type class.
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>   * When evaluated to true (t',x) is returned.
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>   * val Matcher = booleanMatcher( (x) =&gt; T ); val Matcher(t,x) = x
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">40</td>
+            <td>  def booleanAndTMatcher[X, T : AsBoolean]( eval : (X) =&gt; T ) = new BooleanAndTMatcher[X, T](eval)
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>}
+</td>
+          </tr></tbody></table>

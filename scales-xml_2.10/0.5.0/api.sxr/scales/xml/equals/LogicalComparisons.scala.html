@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\equals\LogicalComparisons.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.equals
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>PullType, Text, CData, PI, Comment<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Modifies the stream to turn CData nodes into Text nodes and join all adjacent Text nodes togeter i.e. a &quot;tree&quot; with children (Text, CData, Text, CData) will become a single Text child.
+ *
+ * CData can be kept if keepCData is set to true
+ */</span> 
+<span class="keyword">class</span> <a title="class JoinTextAndCData extends AnyRef with Iterator[scales.xml.PullType]" id="scales.xml.equals.JoinTextAndCData">JoinTextAndCData</a><a href="#scales.xml.equals.JoinTextAndCData" title="scales.xml.equals.JoinTextAndCData" class="delimiter">(</a> <span class="keyword">var</span> <a title="Iterator[scales.xml.PullType]" id="scales.xml.equals;JoinTextAndCData.it">it</a> : <span title="Iterator[scales.xml.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span>, <span class="keyword">val</span> <a title="Boolean" id="scales.xml.equals.JoinTextAndCData.<init>$default$2">keepCData</a> : <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterator[scales.xml.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">var</span> <a title="Boolean" id="scales.xml.equals;JoinTextAndCData.gotNext_=">gotNext</a> = <span title="Boolean(false)" class="keyword">false</span>
+  <span class="keyword">var</span> <a title="scales.xml.PullType" id="scales.xml.equals;JoinTextAndCData.item_=">item</a> : <span title="scales.xml.PullType">PullType</span> = _
+  <span class="keyword">var</span> <a title="Boolean" id="scales.xml.equals;JoinTextAndCData.nextIsNonText_=">nextIsNonText</a> = <span title="Boolean(false)" class="keyword">false</span>
+  <span class="keyword">var</span> <a title="scales.xml.PullType" id="scales.xml.equals;JoinTextAndCData.nonText_=">nonText</a> : <span title="scales.xml.PullType">PullType</span> = _
+  <span class="keyword">var</span> <a title="StringBuilder" id="scales.xml.equals;JoinTextAndCData.sb_=">sb</a> : java.lang.<span title="StringBuilder">StringBuilder</span> = _
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.xml.equals;JoinTextAndCData.hasNext">hasNext</a> = <a href="#scales.xml.equals;JoinTextAndCData.gotNext_=" title="=&gt; Boolean">gotNext</a>
+
+  <span class="keyword">def</span> <a title="()scales.xml.PullType" id="scales.xml.equals;JoinTextAndCData.next">next</a> = <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#scales.xml.equals;JoinTextAndCData.gotNext_=" title="=&gt; Boolean">gotNext</a><span class="delimiter">)</span> <span title="Nothing" class="keyword">throw</span> <span title="(x$1: String)java.util.NoSuchElementException" class="keyword">new</span> java.util.<span title="java.util.NoSuchElementException">NoSuchElementException</span><span class="delimiter">(</span><span title="String(&quot;No more data to give&quot;)" class="string">&quot;No more data to give&quot;</span><span class="delimiter">)</span>
+    <span class="keyword">var</span> <a title="scales.xml.PullType" id="scales.xml.equals;JoinTextAndCData.next.i">i</a> = <a href="#scales.xml.equals;JoinTextAndCData.item_=" title="=&gt; scales.xml.PullType">item</a>
+    <a href="#scales.xml.equals;JoinTextAndCData.pumpNext" title="=&gt; Unit">pumpNext</a> <span class="comment">// set the next one up</span>
+    <a href="#scales.xml.equals;JoinTextAndCData.next.i" title="scales.xml.PullType">i</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Unit" id="scales.xml.equals;JoinTextAndCData.pumpNext">pumpNext</a> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.equals;JoinTextAndCData.nextIsNonText_=" title="=&gt; Boolean">nextIsNonText</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#scales.xml.equals;JoinTextAndCData.nextIsNonText_=" title="(x$1: Boolean)Unit">nextIsNonText</a> = <span title="Boolean(false)" class="keyword">false</span>
+      <span class="comment">// set gotNext to true as we have it anyway</span>
+      <a href="#scales.xml.equals;JoinTextAndCData.item_=" title="(x$1: scales.xml.PullType)Unit">item</a> = <a href="#scales.xml.equals;JoinTextAndCData.nonText_=" title="=&gt; scales.xml.PullType">nonText</a>
+      <a href="#scales.xml.equals;JoinTextAndCData.gotNext_=" title="(x$1: Boolean)Unit">gotNext</a> = <span title="Boolean(true)" class="keyword">true</span>
+      <span title="Nothing" class="keyword">return</span>
+    <span class="delimiter">}</span>
+    <span class="comment">// otherwise we must try again</span>
+    
+    <a href="#scales.xml.equals;JoinTextAndCData.gotNext_=" title="(x$1: Boolean)Unit">gotNext</a> = <span title="Boolean(false)" class="keyword">false</span>
+    <span class="keyword">var</span> <a title="Boolean" id="scales.xml.equals;JoinTextAndCData.pumpNext.inText">inText</a> = <span title="Boolean(false)" class="keyword">false</span>
+
+    <span class="keyword">def</span> <a title="(str: String)Unit" id="scales.xml.equals;JoinTextAndCData.pumpNext.addText">addText</a><span class="delimiter">(</span> <a title="String" id="scales.xml.equals;JoinTextAndCData.pumpNext.addText.str">str</a> : <span title="String">String</span> <span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#scales.xml.equals;JoinTextAndCData.pumpNext.inText" title="Boolean">inText</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<a href="#scales.xml.equals;JoinTextAndCData.pumpNext.inText" title="Boolean">inText</a> = <span title="Boolean(true)" class="keyword">true</span>
+	<a href="#scales.xml.equals;JoinTextAndCData.sb_=" title="(x$1: StringBuilder)Unit">sb</a> = <span title="StringBuilder" class="keyword">new</span> java.lang.<span title="StringBuilder">StringBuilder</span><span class="delimiter">(</span><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+      <a href="#scales.xml.equals;JoinTextAndCData.sb_=" title="=&gt; StringBuilder">sb</a>.<span title="(x$1: String)StringBuilder">append</span><span title="Unit" class="delimiter">(</span><a href="#scales.xml.equals;JoinTextAndCData.pumpNext.addText.str" title="String">str</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+    <span title="Unit" class="keyword">while</span><span class="delimiter">(</span> <span title="=&gt; Boolean">!</span><a href="#scales.xml.equals;JoinTextAndCData.gotNext_=" title="=&gt; Boolean">gotNext</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#scales.xml.equals;JoinTextAndCData.it" title="=&gt; Iterator[scales.xml.PullType]">it</a>.<span title="=&gt; Boolean">hasNext</span><span class="delimiter">)</span> <a href="#scales.xml.equals;JoinTextAndCData.pumpNext.while$1" title="()Unit" class="delimiter">{</a>
+      <a href="#scales.xml.equals;JoinTextAndCData.item_=" title="(x$1: scales.xml.PullType)Unit">item</a> = <a href="#scales.xml.equals;JoinTextAndCData.it" title="=&gt; Iterator[scales.xml.PullType]">it</a>.<span title="()scales.xml.PullType">next</span>
+      <a href="#scales.xml.equals;JoinTextAndCData.item_=" title="=&gt; scales.xml.PullType">item</a> <span title="Unit" class="keyword">match</span> <span class="delimiter">{</span>
+	<span class="keyword">case</span> Left<span class="delimiter">(</span><span title="scales.xml.Text">x</span> : <a href="../XmlTypes.scala.html#scales.xml;Text" title="scales.xml.Text">Text</a><span class="delimiter">)</span> =&gt; <a href="#scales.xml.equals;JoinTextAndCData.pumpNext.addText" title="(str: String)Unit">addText</a><span class="delimiter">(</span><span title="scales.xml.Text">x</span>.<a href="../XmlTypes.scala.html#scales.xml;Text.value" title="=&gt; String">value</a><span class="delimiter">)</span>
+	<span class="keyword">case</span> Left<span class="delimiter">(</span><span title="scales.xml.CData">x</span> : <a href="../XmlTypes.scala.html#scales.xml;CData" title="scales.xml.CData">CData</a><span class="delimiter">)</span> <span class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#scales.xml.equals.JoinTextAndCData.<init>$default$2" title="=&gt; Boolean">keepCData</a><span class="delimiter">)</span> =&gt; <a href="#scales.xml.equals;JoinTextAndCData.pumpNext.addText" title="(str: String)Unit">addText</a><span class="delimiter">(</span><span title="scales.xml.CData">x</span>.<a href="../XmlTypes.scala.html#scales.xml;XmlItem.value" title="=&gt; String">value</a><span class="delimiter">)</span>
+	<span class="keyword">case</span> <span title="scala.util.Either[scales.xml.XmlEvent,scales.xml.EndElem]">x</span> : <span title="scales.xml.PullType">PullType</span> =&gt; 
+	  <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.equals;JoinTextAndCData.pumpNext.inText" title="Boolean">inText</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	    <a href="#scales.xml.equals;JoinTextAndCData.nextIsNonText_=" title="(x$1: Boolean)Unit">nextIsNonText</a> = <span title="Boolean(true)" class="keyword">true</span>
+	    <a href="#scales.xml.equals;JoinTextAndCData.nonText_=" title="(x$1: scales.xml.PullType)Unit">nonText</a> = <a href="#scales.xml.equals;JoinTextAndCData.item_=" title="=&gt; scales.xml.PullType">item</a>
+	    <span class="comment">// join them up</span>
+	    <a href="#scales.xml.equals;JoinTextAndCData.item_=" title="(x$1: scales.xml.PullType)Unit">item</a> = <span title="(a: scales.xml.Text)scala.util.Left[scales.xml.Text,Nothing]">Left</span><span class="delimiter">(</span><a href="../XmlTypes.scala.html#scales.xml;Text" title="(value: String)scales.xml.Text">Text</a><span class="delimiter">(</span><a href="#scales.xml.equals;JoinTextAndCData.sb_=" title="=&gt; StringBuilder">sb</a>.<span title="()String">toString</span><span class="delimiter">)</span><span class="delimiter">)</span>
+	  <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+	    <a href="#scales.xml.equals;JoinTextAndCData.nextIsNonText_=" title="(x$1: Boolean)Unit">nextIsNonText</a> = <span title="Boolean(false)" class="keyword">false</span>
+	  <span class="delimiter">}</span>
+	<a href="#scales.xml.equals;JoinTextAndCData.gotNext_=" title="(x$1: Boolean)Unit">gotNext</a> = <span title="Boolean(true)" class="keyword">true</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <a href="#scales.xml.equals;JoinTextAndCData.pumpNext" title="=&gt; Unit">pumpNext</a> <span class="comment">// start it off</span>
+<span class="delimiter">}</span>
+
+
+<span class="comment">/**
+ * A collection of stream filters to help with equality
+ */</span> 
+<span class="keyword">object</span> <a title="scales.xml.equals.LogicalFilters.type" id="scales.xml.equals.LogicalFilters">LogicalFilters</a> <a href="#scales.xml.equals.LogicalFilters" title="scales.xml.equals.LogicalFilters.type" class="delimiter">{</a>
+  
+  <span class="comment">/**
+   * Modifies the stream to turn CData nodes into Text nodes and join all adjacent Text nodes togeter i.e. a &quot;tree&quot; with children (Text, CData, Text, CData) will become a single Text child. 
+   */</span> 
+  <span class="keyword">def</span> <a title="(it: Iterator[scales.xml.PullType])Iterator[scales.xml.PullType]" id="scales.xml.equals.LogicalFilters.joinTextAndCData">joinTextAndCData</a><span class="delimiter">(</span> <a title="Iterator[scales.xml.PullType]" id="scales.xml.equals.LogicalFilters.joinTextAndCData.it">it</a> : <span title="Iterator[scales.xml.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> <span class="delimiter">)</span> : <span title="Iterator[scales.xml.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> = 
+    <a href="#scales.xml.equals.JoinTextAndCData.<init>$default$2" title="scales.xml.equals.JoinTextAndCData" class="keyword">new</a> <a href="#scales.xml.equals.JoinTextAndCData" title="scales.xml.equals.JoinTextAndCData">JoinTextAndCData</a><span class="delimiter">(</span><a href="#scales.xml.equals.LogicalFilters.joinTextAndCData.it" title="Iterator[scales.xml.PullType]">it</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Joins all adjacent Text nodes together but keeps CData nodes
+   * @see joinTextAndCData
+   */</span> 
+  <span class="keyword">def</span> <a title="(it: Iterator[scales.xml.PullType])Iterator[scales.xml.PullType]" id="scales.xml.equals.LogicalFilters.joinText">joinText</a><span class="delimiter">(</span> <a title="Iterator[scales.xml.PullType]" id="scales.xml.equals.LogicalFilters.joinText.it">it</a> : <span title="Iterator[scales.xml.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> <span class="delimiter">)</span> : <span title="Iterator[scales.xml.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> =
+    <span title="scales.xml.equals.JoinTextAndCData" class="keyword">new</span> <a href="#scales.xml.equals.JoinTextAndCData" title="scales.xml.equals.JoinTextAndCData">JoinTextAndCData</a><span class="delimiter">(</span><a href="#scales.xml.equals.LogicalFilters.joinText.it" title="Iterator[scales.xml.PullType]">it</a>, <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Removes all comments and PIs.  This is not used by default.
+   */</span> 
+  <span class="keyword">def</span> <a title="(it: Iterator[scales.xml.PullType])Iterator[scales.xml.PullType]" id="scales.xml.equals.LogicalFilters.removePIAndComments">removePIAndComments</a><span class="delimiter">(</span> <a title="Iterator[scales.xml.PullType]" id="scales.xml.equals.LogicalFilters.removePIAndComments.it">it</a> : <span title="Iterator[scales.xml.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> <span class="delimiter">)</span> : <span title="Iterator[scales.xml.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> =
+    <a href="#scales.xml.equals.LogicalFilters.removePIAndComments.it" title="Iterator[scales.xml.PullType]">it</a>.<span title="(p: scales.xml.PullType =&gt; Boolean)Iterator[scales.xml.PullType]">filter</span><a href="#scales.xml.equals.LogicalFilters.removePIAndComments.$anonfun.x0$1" title="Boolean" class="delimiter">{</a>
+      <span class="keyword">case</span> Left<span class="delimiter">(</span>_ : <a href="../XmlTypes.scala.html#scales.xml;PI" title="scales.xml.PI">PI</a><span class="delimiter">)</span> | Left<span class="delimiter">(</span>_ : <a href="../XmlTypes.scala.html#scales.xml;Comment" title="scales.xml.Comment">Comment</a><span class="delimiter">)</span> =&gt; <span title="Boolean(false)" class="keyword">false</span>
+      <span class="keyword">case</span> _ =&gt; <span title="Boolean(true)" class="keyword">true</span>
+    <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

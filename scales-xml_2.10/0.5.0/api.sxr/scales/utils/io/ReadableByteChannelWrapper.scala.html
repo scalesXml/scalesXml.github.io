@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\io\ReadableByteChannelWrapper.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.io
+
+<span class="keyword">import</span> scales.utils._
+
+<span class="keyword">import</span> resources._
+
+<span class="keyword">import</span> scalaz.<span class="delimiter">{</span>IterV, Enumerator, Input<span class="delimiter">}</span>
+<span class="keyword">import</span> scalaz.<span title="scalaz.IterV.type">IterV</span>._
+
+<span class="keyword">import</span> java.io._
+<span class="keyword">import</span> java.nio.channels._
+
+<span class="keyword">import</span> java.nio.ByteBuffer
+
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait DataChunkEvidence[T] extends AnyRef" id="scales.utils.io;DataChunkEvidence">DataChunkEvidence</a><span class="delimiter">[</span><a title="" id="scales.utils.io;DataChunkEvidence;T">T</a><span class="delimiter">]</span>
+
+<span title="AnyRef" class="keyword">object</span> <a title="scales.utils.io.DataChunkEvidence.type" id="scales.utils.io.DataChunkEvidence">DataChunkEvidence</a> <a href="#scales.utils.io.DataChunkEvidence" title="scales.utils.io.DataChunkEvidence.type" class="delimiter">{</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk]" id="scales.utils.io.DataChunkEvidence.justDataChunk">justDataChunk</a>: <a href="#scales.utils.io;DataChunkEvidence" title="scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk]">DataChunkEvidence</a><span class="delimiter">[</span>DataChunk<span class="delimiter">]</span> = 
+    <a href="#scales.utils.io.DataChunkEvidence.justDataChunk;$anon" title="scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk]" class="keyword">new</a> <a title="anonymous class $anon extends AnyRef with scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk]" id="scales.utils.io.DataChunkEvidence.justDataChunk;$anon">DataChunkEvidence</a><span class="delimiter">[</span>DataChunk<span class="delimiter">]</span><span class="delimiter">{</span><span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span title="AnyRef" class="keyword">object</span> <a title="scales.utils.io.ReadableByteChannelWrapper.type" id="scales.utils.io.ReadableByteChannelWrapper">ReadableByteChannelWrapper</a> <a href="#scales.utils.io.ReadableByteChannelWrapper" title="scales.utils.io.ReadableByteChannelWrapper.type" class="delimiter">{</a>
+  <span class="keyword">val</span> <a title="Array[Byte]" id="scales.utils.io.ReadableByteChannelWrapper.emptyBytes">emptyBytes</a> = <span title="Array.type">Array</span>.<span title="[T](n1: Int)(implicit evidence$3: scala.reflect.ClassTag[T])Array[T]">ofDim</span><span title="(n1: Int)(implicit evidence$3: scala.reflect.ClassTag[Byte])Array[Byte]" class="delimiter">[</span> <span title="Byte">Byte</span> <span class="delimiter">]</span><span title="=&gt; scala.reflect.ClassTag[Byte]" class="delimiter">(</span><span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * An abstraction over a stream that provides DataChunks
+ */</span>
+<span title="AnyRef" class="keyword">trait</span> <a title="trait DataChunker[T] extends AnyRef with scales.utils.resources.CloseOnNeed" id="scales.utils.io;DataChunker">DataChunker</a><span class="delimiter">[</span><a title="" id="scales.utils.io;DataChunker;T">T</a><span class="delimiter">]</span> <span title="Unit" class="keyword">extends</span> <a href="../resources/Resources.scala.html#scales.utils.resources;CloseOnNeed" title="scales.utils.resources.CloseOnNeed">CloseOnNeed</a> <span class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Is the underlying resource closed - if true the dataChunkEnumerator will
+   * return the Iteratee passed to it, stopping evaluation
+   */</span> 
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils.io;DataChunker.underlyingClosed">underlyingClosed</a> = <span title="Boolean(false)" class="keyword">false</span>
+
+  <span class="keyword">protected</span> <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="=&gt; scales.utils.io.DataChunkEvidence[T]" id="scales.utils.io;DataChunker.ev">ev</a>: <a href="#scales.utils.io;DataChunkEvidence" title="scales.utils.io.DataChunkEvidence[T]">DataChunkEvidence</a><span class="delimiter">[</span>T<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Receives the next chunk from the underlying 
+   */</span> 
+  <span class="keyword">def</span> <a title="=&gt; scales.utils.io.DataChunk" id="scales.utils.io;DataChunker.nextChunk">nextChunk</a>: <a href="DataChunk.scala.html#scales.utils.io;DataChunk" title="scales.utils.io.DataChunk">DataChunk</a>
+<span class="delimiter">}</span>
+
+
+<span class="comment">/**
+ * Wraps a ReadableByteChannel to provide DataChunks, optionally closes the channel (defaults to closing).
+ *
+ * This base implementation should only be used against already provided buffers, prefer using ReadableByteChannelWrapper directly instead.
+ *
+ * @constructor Direct buffers also require a backing array to be specified.
+ */</span> 
+<span class="keyword">class</span> <a title="class ReadableByteChannelWrapperBase[T] extends AnyRef with scales.utils.io.DataChunker[T] with scales.utils.resources.CloseOnNeed" id="scales.utils.io.ReadableByteChannelWrapperBase">ReadableByteChannelWrapperBase</a><span class="delimiter">[</span><a title="" id="scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4;T">T</a><span class="delimiter">]</span><a href="#scales.utils.io.ReadableByteChannelWrapperBase" title="scales.utils.io.ReadableByteChannelWrapperBase[T]" class="delimiter">(</a><span class="keyword">val</span> <a title="java.nio.channels.ReadableByteChannel" id="scales.utils.io;ReadableByteChannelWrapperBase.channel">channel</a>: <span title="java.nio.channels.ReadableByteChannel">ReadableByteChannel</span>, <span class="keyword">protected</span> <span class="keyword">val</span> <a title="java.nio.ByteBuffer" id="scales.utils.io;ReadableByteChannelWrapperBase.buffer">buffer</a>: <span title="java.nio.ByteBuffer">ByteBuffer</span>, <span class="keyword">val</span> <a title="Boolean" id="scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$3">closeChannel</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span>, <span class="keyword">protected</span> <span class="keyword">val</span> <a title="Array[Byte]" id="scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4">backingArray</a>: <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span> = <a href="#scales.utils.io.ReadableByteChannelWrapper" title="scales.utils.io.ReadableByteChannelWrapper.type">ReadableByteChannelWrapper</a>.<a href="#scales.utils.io.ReadableByteChannelWrapper.emptyBytes" title="=&gt; Array[Byte]">emptyBytes</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.utils.io.DataChunkEvidence[T]" id="scales.utils.io;ReadableByteChannelWrapperBase.ev">ev</a>: <a href="#scales.utils.io;DataChunkEvidence" title="scales.utils.io.DataChunkEvidence[T]">DataChunkEvidence</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.utils.io;DataChunker" title="scales.utils.io.DataChunker[T]">DataChunker</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="keyword">with</span> <a href="../resources/Resources.scala.html#scales.utils.resources;CloseOnNeed" title="scales.utils.resources.CloseOnNeed">CloseOnNeed</a> <span class="delimiter">{</span>
+
+  <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="()Boolean">hasArray</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span>
+      <a href="#scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4" title="=&gt; Array[Byte]">backingArray</a>.<span title="=&gt; Int">length</span> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span>,
+      <span title="String(&quot;A ReadableByteChannelWrapper with a Direct buffer must be created with a non empty backingArray&quot;)" class="string">&quot;A ReadableByteChannelWrapper with a Direct buffer must be created with a non empty backingArray&quot;</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils.io;ReadableByteChannelWrapperBase.underlyingClosed">underlyingClosed</a> = <span title="=&gt; Boolean">!</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.channel" title="=&gt; java.nio.channels.ReadableByteChannel">channel</a>.<span title="()Boolean">isOpen</span>
+      
+  <span class="comment">/**
+   * Closes the channel when closeChannel is true - ensure to call from derived classes
+   */</span> 
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="scales.utils.io;ReadableByteChannelWrapperBase.doClose">doClose</a> = <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$3" title="=&gt; Boolean">closeChannel</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#scales.utils.io;ReadableByteChannelWrapperBase.channel" title="=&gt; java.nio.channels.ReadableByteChannel">channel</a>.<span title="()Unit">close</span><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Called when processing array backed buffers
+   */</span> 
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="()scales.utils.io.DataChunk" id="scales.utils.io;ReadableByteChannelWrapperBase.jbytes">jbytes</a><span class="delimiter">(</span><span class="delimiter">)</span> : <a href="DataChunk.scala.html#scales.utils.io;DataChunk" title="scales.utils.io.DataChunk">DataChunk</a> = <span class="delimiter">{</span>
+    <a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="()java.nio.Buffer">clear</span><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="keyword">val</span> <a title="Int" id="scales.utils.io;ReadableByteChannelWrapperBase.jbytes.read">read</a> = <a href="#scales.utils.io;ReadableByteChannelWrapperBase.channel" title="=&gt; java.nio.channels.ReadableByteChannel">channel</a>.<span title="(x$1: java.nio.ByteBuffer)Int">read</span><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a><span class="delimiter">)</span>
+    <a href="#scales.utils.io;ReadableByteChannelWrapperBase.jbytes.read" title="Int">read</a> <span title="scales.utils.io.DataChunk" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <span title="Int(-1)">-</span><span class="int">1</span> =&gt; <span class="delimiter">{</span>
+	<a href="../resources/Resources.scala.html#scales.utils.resources;CloseOnNeed.closeResource" title="=&gt; Unit">closeResource</a>
+	<a href="DataChunk.scala.html#scales.utils.io.EOFData" title="scales.utils.io.EOFData.type">EOFData</a>
+      <span class="delimiter">}</span>
+      <span class="keyword">case</span> <span title="Int(0)" class="int">0</span> =&gt; <a href="DataChunk.scala.html#scales.utils.io.EmptyData" title="scales.utils.io.EmptyData.type">EmptyData</a>
+      <span class="keyword">case</span> _ =&gt; <a href="DataChunk.scala.html#scales.utils.io;Chunk" title="(array: Array[Byte], offset: Int, length: Int)scales.utils.io.Chunk">Chunk</a><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="()Array[Byte]">array</span>, <span title="Int(0)" class="int">0</span>, <a href="#scales.utils.io;ReadableByteChannelWrapperBase.jbytes.read" title="Int">read</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">private</span> <span class="keyword">var</span> <a title="Int" id="scales.utils.io;ReadableByteChannelWrapperBase.leftInBuffer_=">leftInBuffer</a> = <span title="Int(0)" class="int">0</span>
+  
+  <span class="comment">/**
+   * Called when processing via Direct Buffers
+   */</span> 
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="()scales.utils.io.DataChunk" id="scales.utils.io;ReadableByteChannelWrapperBase.direct">direct</a><span class="delimiter">(</span><span class="delimiter">)</span> : <a href="DataChunk.scala.html#scales.utils.io;DataChunk" title="scales.utils.io.DataChunk">DataChunk</a> = <span class="delimiter">{</span>
+    <span class="comment">// limit is rem when its not read anything</span>
+    <span title="scales.utils.io.DataChunk" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.leftInBuffer_=" title="=&gt; Int">leftInBuffer</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">// println(&quot;remains &quot;+leftInBuffer)</span>
+      <span class="keyword">val</span> <span title="Int">used</span> = math.<span title="(x: Int, y: Int)Int">min</span><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.leftInBuffer_=" title="=&gt; Int">leftInBuffer</a>, <a href="#scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4" title="=&gt; Array[Byte]">backingArray</a>.<span title="=&gt; Int">length</span><span class="delimiter">)</span>
+      <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.leftInBuffer_=" title="=&gt; Int">leftInBuffer</a> <span title="(x: Int)Boolean">&gt;=</span> <span title="Int">used</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<span class="comment">// still got some left to push</span>
+	<a href="#scales.utils.io;ReadableByteChannelWrapperBase.leftInBuffer_=" title="(x$1: Int)Unit">leftInBuffer</a> = <a href="#scales.utils.io;ReadableByteChannelWrapperBase.leftInBuffer_=" title="=&gt; Int">leftInBuffer</a> <span title="(x: Int)Int">-</span> <span title="Int">used</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+	<a href="#scales.utils.io;ReadableByteChannelWrapperBase.leftInBuffer_=" title="(x$1: Int)Unit">leftInBuffer</a> = <span title="Int(0)" class="int">0</span>
+      <span class="delimiter">}</span>
+      <span class="comment">// if there is still data read it out in a chunk</span>
+      <a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="(x$1: Array[Byte], x$2: Int, x$3: Int)java.nio.ByteBuffer">get</span><span class="delimiter">(</span><a href="#scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4" title="=&gt; Array[Byte]">backingArray</a>, <span title="Int(0)" class="int">0</span>, <span title="Int">used</span><span class="delimiter">)</span>
+      <a href="DataChunk.scala.html#scales.utils.io;Chunk" title="(array: Array[Byte], offset: Int, length: Int)scales.utils.io.Chunk">Chunk</a><span class="delimiter">(</span><a href="#scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4" title="=&gt; Array[Byte]">backingArray</a>, <span title="Int(0)" class="int">0</span>, <span title="Int">used</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+
+      <a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="()java.nio.Buffer">clear</span><span class="delimiter">(</span><span class="delimiter">)</span>
+      
+      <span class="keyword">val</span> <a title="Int" id="scales.utils.io;ReadableByteChannelWrapperBase.direct.read">read</a> = <a href="#scales.utils.io;ReadableByteChannelWrapperBase.channel" title="=&gt; java.nio.channels.ReadableByteChannel">channel</a>.<span title="(x$1: java.nio.ByteBuffer)Int">read</span><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a><span class="delimiter">)</span>
+      <span class="comment">// println(&quot;read this &quot;+read)</span>
+      <span class="keyword">val</span> <a title="Int" id="scales.utils.io;ReadableByteChannelWrapperBase.direct.rem">rem</a> = <a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="()Int">remaining</span>
+      <a href="#scales.utils.io;ReadableByteChannelWrapperBase.direct.read" title="Int">read</a> <span title="scales.utils.io.DataChunk" class="keyword">match</span> <span class="delimiter">{</span>
+	<span class="keyword">case</span> <span title="Int(-1)">-</span><span class="int">1</span> =&gt; 
+	  <a href="../resources/Resources.scala.html#scales.utils.resources;CloseOnNeed.closeResource" title="=&gt; Unit">closeResource</a>
+	<a href="DataChunk.scala.html#scales.utils.io.EOFData" title="scales.utils.io.EOFData.type">EOFData</a>
+	
+	<span class="keyword">case</span> <span title="Int(0)" class="int">0</span> =&gt; <a href="DataChunk.scala.html#scales.utils.io.EmptyData" title="scales.utils.io.EmptyData.type">EmptyData</a>
+	
+	<span class="keyword">case</span> _ =&gt; 
+
+	  <span class="keyword">val</span> <span title="Int">used</span> = math.<span title="(x: Int, y: Int)Int">min</span><span class="delimiter">(</span>math.<span title="(x: Int, y: Int)Int">min</span><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.direct.rem" title="Int">rem</a>, <a href="#scales.utils.io;ReadableByteChannelWrapperBase.direct.read" title="Int">read</a><span class="delimiter">)</span>, <a href="#scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4" title="=&gt; Array[Byte]">backingArray</a>.<span title="=&gt; Int">length</span><span class="delimiter">)</span>
+	  <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.direct.read" title="Int">read</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int">used</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	    <a href="#scales.utils.io;ReadableByteChannelWrapperBase.leftInBuffer_=" title="(x$1: Int)Unit">leftInBuffer</a> = <a href="#scales.utils.io;ReadableByteChannelWrapperBase.direct.read" title="Int">read</a> <span title="(x: Int)Int">-</span> <span title="Int">used</span>
+	  <span class="delimiter">}</span>
+
+	  <a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="()java.nio.Buffer">rewind</span><span class="delimiter">(</span><span class="delimiter">)</span>
+	  <span class="comment">// println(&quot;calling get with &quot;+used)</span>
+	  <span class="comment">//try{</span>
+	    <a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="(x$1: Array[Byte], x$2: Int, x$3: Int)java.nio.ByteBuffer">get</span><span class="delimiter">(</span><a href="#scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4" title="=&gt; Array[Byte]">backingArray</a>, <span title="Int(0)" class="int">0</span>, <span title="Int">used</span><span class="delimiter">)</span>
+	    <span class="comment">//println(&quot;read &quot;+ new String(to, 0, used, &quot;UTF-8&quot;))</span>
+	  <span class="comment">//} catch {</span>
+	  <span class="comment">//  case t: Throwable =&gt; </span>
+	      <span class="comment">// println(&quot;threw &quot;+t.getMessage)</span>
+	  <span class="comment">//    t.printStackTrace</span>
+	  <span class="comment">//    throw t</span>
+	  <span class="comment">//}</span>
+	  <a href="DataChunk.scala.html#scales.utils.io;Chunk" title="(array: Array[Byte], offset: Int, length: Int)scales.utils.io.Chunk">Chunk</a><span class="delimiter">(</span><a href="#scales.utils.io.ReadableByteChannelWrapperBase.<init>$default$4" title="=&gt; Array[Byte]">backingArray</a>, <span title="Int(0)" class="int">0</span>, <span title="Int">used</span><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Receives the next chunk from the underlying 
+   */</span> 
+  <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.io.DataChunk" id="scales.utils.io;ReadableByteChannelWrapperBase.nextChunk">nextChunk</a>: <a href="DataChunk.scala.html#scales.utils.io;DataChunk" title="scales.utils.io.DataChunk">DataChunk</a> = 
+    <span title="scales.utils.io.DataChunk" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperBase.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="()Boolean">hasArray</span><span class="delimiter">)</span>
+      <a href="#scales.utils.io;ReadableByteChannelWrapperBase.jbytes" title="()scales.utils.io.DataChunk">jbytes</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="keyword">else</span>
+      <a href="#scales.utils.io;ReadableByteChannelWrapperBase.direct" title="()scales.utils.io.DataChunk">direct</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Wraps a ReadableByteChannel to provide DataChunks, optionally closes the channel (defaults to closing).
+ *
+ * Can work with either direct or heap based buffers and uses pools to re-use the allocated buffers.
+ * 
+ * @param directBufferArrayPool is used when there is a direct ByteBuffer only.
+ */</span> 
+<span class="keyword">class</span> <a title="class ReadableByteChannelWrapper[T] extends scales.utils.io.ReadableByteChannelWrapperBase[T]" id="scales.utils.io;ReadableByteChannelWrapper">ReadableByteChannelWrapper</a><span class="delimiter">[</span><a title="" id="scales.utils.io;ReadableByteChannelWrapper;T">T</a><span class="delimiter">]</span><a href="#scales.utils.io;ReadableByteChannelWrapper" title="scales.utils.io.ReadableByteChannelWrapper[T]" class="delimiter">(</a><a title="java.nio.channels.ReadableByteChannel" id="scales.utils.io;ReadableByteChannelWrapper.channel">channel</a>: <span title="java.nio.channels.ReadableByteChannel">ReadableByteChannel</span>, <a title="[T]=&gt; Boolean" id="scales.utils.io;ReadableByteChannelWrapper.closeChannel">closeChannel</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span>, <span class="keyword">private</span> <span class="keyword">val</span> <a title="[T]=&gt; scales.utils.resources.Pool[java.nio.ByteBuffer]" id="scales.utils.io;ReadableByteChannelWrapper.bytePool">bytePool</a>: <a href="../resources/Resources.scala.html#scales.utils.resources;Pool" title="scales.utils.resources.Pool[java.nio.ByteBuffer]">Pool</a><span class="delimiter">[</span>ByteBuffer<span class="delimiter">]</span> = <a href="Buffers.scala.html#scales.utils.io.DefaultBufferPool" title="scales.utils.io.DefaultBufferPool.type">DefaultBufferPool</a>, <span class="keyword">private</span> <span class="keyword">val</span> <a title="[T]=&gt; scales.utils.resources.Pool[Array[Byte]]" id="scales.utils.io;ReadableByteChannelWrapper.directBufferArrayPool">directBufferArrayPool</a>: <a href="../resources/Resources.scala.html#scales.utils.resources;Pool" title="scales.utils.resources.Pool[Array[Byte]]">Pool</a><span class="delimiter">[</span>Array<span class="delimiter">[</span>Byte<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="Buffers.scala.html#scales.utils.io.DefaultByteArrayPool" title="scales.utils.io.DefaultByteArrayPool.type">DefaultByteArrayPool</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.io.DataChunkEvidence[T]" id="scales.utils.io;ReadableByteChannelWrapper.ev">ev</a>: <a href="#scales.utils.io;DataChunkEvidence" title="scales.utils.io.DataChunkEvidence[T]">DataChunkEvidence</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span class="delimiter">{</span>
+
+  <span class="keyword">override</span> <span class="keyword">protected</span> <span class="keyword">val</span> <a title="java.nio.ByteBuffer" id="scales.utils.io;ReadableByteChannelWrapper.buffer">buffer</a>: <span title="java.nio.ByteBuffer">ByteBuffer</span> = <a href="#scales.utils.io;ReadableByteChannelWrapper.bytePool" title="scales.utils.resources.Pool[java.nio.ByteBuffer]">bytePool</a>.<a href="../resources/Resources.scala.html#scales.utils.resources;Pool.grab" title="=&gt; java.nio.ByteBuffer">grab</a>
+
+  <span class="keyword">override</span> <span class="keyword">protected</span> <span class="keyword">val</span> <a title="Array[Byte]" id="scales.utils.io;ReadableByteChannelWrapper.backingArray">backingArray</a>: <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span> =
+    <span title="Array[Byte]" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapper.buffer" title="java.nio.ByteBuffer">buffer</a>.<span title="()Boolean">hasArray</span><span class="delimiter">)</span>
+      <a href="#scales.utils.io.ReadableByteChannelWrapper" title="scales.utils.io.ReadableByteChannelWrapper.type">ReadableByteChannelWrapper</a>.<a href="#scales.utils.io.ReadableByteChannelWrapper.emptyBytes" title="=&gt; Array[Byte]">emptyBytes</a>
+    <span class="keyword">else</span>
+      <a href="#scales.utils.io;ReadableByteChannelWrapper.directBufferArrayPool" title="scales.utils.resources.Pool[Array[Byte]]">directBufferArrayPool</a>.<a href="../resources/Resources.scala.html#scales.utils.resources;Pool.grab" title="=&gt; Array[Byte]">grab</a>
+
+<span class="delimiter">}</span> <span class="keyword">with</span> 
+  <a href="#scales.utils.io.ReadableByteChannelWrapperBase" title="scales.utils.io.ReadableByteChannelWrapperBase[T]">ReadableByteChannelWrapperBase</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span>
+    <a href="#scales.utils.io;ReadableByteChannelWrapper.channel" title="java.nio.channels.ReadableByteChannel">channel</a>, <a href="#scales.utils.io;ReadableByteChannelWrapper.buffer" title="java.nio.ByteBuffer">buffer</a>, <a href="#scales.utils.io;ReadableByteChannelWrapper.closeChannel" title="Boolean">closeChannel</a>, <a href="#scales.utils.io;ReadableByteChannelWrapper.backingArray" title="Array[Byte]">backingArray</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+   
+  <span class="keyword">override</span> <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="scales.utils.io;ReadableByteChannelWrapper.doClose">doClose</a> = <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#scales.utils.io;ReadableByteChannelWrapper.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a>.<span title="()Boolean">hasArray</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#scales.utils.io;ReadableByteChannelWrapper.directBufferArrayPool" title="=&gt; scales.utils.resources.Pool[Array[Byte]]">directBufferArrayPool</a>.<a href="../resources/Resources.scala.html#scales.utils.resources;Pool.giveBack" title="(t: Array[Byte])Unit">giveBack</a><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapper.backingArray" title="=&gt; Array[Byte]">backingArray</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+    <a href="#scales.utils.io;ReadableByteChannelWrapper.bytePool" title="=&gt; scales.utils.resources.Pool[java.nio.ByteBuffer]">bytePool</a>.<a href="../resources/Resources.scala.html#scales.utils.resources;Pool.giveBack" title="(t: java.nio.ByteBuffer)Unit">giveBack</a><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapper.buffer" title="=&gt; java.nio.ByteBuffer">buffer</a><span class="delimiter">)</span>
+    <a href="#scales.utils.io;ReadableByteChannelWrapper" title="scales.utils.io.ReadableByteChannelWrapper[T]" class="keyword">super</a>.<a href="#scales.utils.io;ReadableByteChannelWrapperBase.doClose" title="=&gt; Unit">doClose</a>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Convenience function for wrapping a channel
+ */</span> 
+<span class="keyword">class</span> <a title="class RBCImplicitWrapper extends AnyRef" id="scales.utils.io;RBCImplicitWrapper">RBCImplicitWrapper</a><a href="#scales.utils.io;RBCImplicitWrapper" title="scales.utils.io.RBCImplicitWrapper" class="delimiter">(</a><a title="java.nio.channels.ReadableByteChannel" id="scales.utils.io;RBCImplicitWrapper.channel">channel</a>: <span title="java.nio.channels.ReadableByteChannel">ReadableByteChannel</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk]" id="scales.utils.io;RBCImplicitWrapper.ev">ev</a>: <a href="#scales.utils.io;DataChunkEvidence" title="scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk]">DataChunkEvidence</a><span class="delimiter">[</span>DataChunk<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; scales.utils.io.DataChunker[scales.utils.io.DataChunk]" id="scales.utils.io;RBCImplicitWrapper.wrapped">wrapped</a>: <a href="#scales.utils.io;DataChunker" title="scales.utils.io.DataChunker[scales.utils.io.DataChunk]">DataChunker</a><span class="delimiter">[</span>DataChunk<span class="delimiter">]</span> = <a href="#scales.utils.io;ReadableByteChannelWrapper.closeChannel" title="scales.utils.io.ReadableByteChannelWrapper[scales.utils.io.DataChunk]" class="keyword">new</a> <a href="#scales.utils.io;ReadableByteChannelWrapper" title="scales.utils.io.ReadableByteChannelWrapper[scales.utils.io.DataChunk]">ReadableByteChannelWrapper</a><span class="delimiter">(</span><a href="#scales.utils.io;RBCImplicitWrapper.channel" title="java.nio.channels.ReadableByteChannel">channel</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span title="AnyRef" class="keyword">trait</span> <a title="trait ReadableByteChannelWrapperImplicits extends AnyRef" id="scales.utils.io;ReadableByteChannelWrapperImplicits">ReadableByteChannelWrapperImplicits</a> <span title="Unit" class="delimiter">{</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.utils.io.ReadableByteChannelWrapperImplicits.toRBCWrapper : (channel: java.nio.channels.ReadableByteChannel)(implicit ev: scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk])scales.utils.io.RBCImplicitWrapper" id="scales.utils.io;ReadableByteChannelWrapperImplicits.toRBCWrapper">toRBCWrapper</a><span class="delimiter">(</span><a title="java.nio.channels.ReadableByteChannel" id="scales.utils.io;ReadableByteChannelWrapperImplicits.toRBCWrapper.channel">channel</a>: <span title="java.nio.channels.ReadableByteChannel">ReadableByteChannel</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk]" id="scales.utils.io;ReadableByteChannelWrapperImplicits.toRBCWrapper.ev">ev</a>: <a href="#scales.utils.io;DataChunkEvidence" title="scales.utils.io.DataChunkEvidence[scales.utils.io.DataChunk]">DataChunkEvidence</a><span class="delimiter">[</span>DataChunk<span class="delimiter">]</span><span class="delimiter">)</span>: <a href="#scales.utils.io;RBCImplicitWrapper" title="scales.utils.io.RBCImplicitWrapper">RBCImplicitWrapper</a> = <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.toRBCWrapper.ev" title="scales.utils.io.RBCImplicitWrapper" class="keyword">new</a> <a href="#scales.utils.io;RBCImplicitWrapper" title="scales.utils.io.RBCImplicitWrapper">RBCImplicitWrapper</a><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.toRBCWrapper.channel" title="java.nio.channels.ReadableByteChannel">channel</a><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T[_] &lt;: scales.utils.io.DataChunker[_]]=&gt; scalaz.Enumerator[T]" id="scales.utils.io;ReadableByteChannelWrapperImplicits.dataChunkerEnumerator">dataChunkerEnumerator</a><span class="delimiter">[</span><a title="[_] &lt;: scales.utils.io.DataChunker[_]" id="scales.utils.io;ReadableByteChannelWrapperImplicits.dataChunkerEnumerator;T">T</a><span class="delimiter">[</span><a title="" id="scales.utils.io;ReadableByteChannelWrapperImplicits.dataChunkerEnumerator;T;_">_</a><span class="delimiter">]</span> &lt;: DataChunker<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span>: <span title="scalaz.Enumerator[T]">Enumerator</span><span class="delimiter">[</span>T<span class="delimiter">]</span> =
+    <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator.<init>$default$1" title="ReadableByteChannelWrapperImplicits.this.AsyncDataChunkerEnumerator[T]" class="keyword">new</a> <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator" title="ReadableByteChannelWrapperImplicits.this.AsyncDataChunkerEnumerator[T]">AsyncDataChunkerEnumerator</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Use in a call to asyncReadableByteChannelEnumerator to turn it into a synchronous enumerator (constantly trying to get new chunks of data)
+   */</span>
+  <span class="keyword">val</span> <a title="Int" id="scales.utils.io;ReadableByteChannelWrapperImplicits.INFINITE_RETRIES">INFINITE_RETRIES</a> = -<span title="Int(-1)" class="int">1</span>
+
+  <span class="comment">/**
+   * Creates an Enumerator with a given count for Empty -&gt; Cont applications.
+   *
+   * When the count is met it returns the Cont for the next Enumeration step.
+   *
+   * Note: Call via eval only.
+   * @param contOnCont INFINITE_RETRIES (-1) for keep on trying, the default is 5 (as exposed by the implicit enumerator readableByteChannelEnumerator)
+   */</span>
+  <span class="keyword">class</span> <a title="class AsyncDataChunkerEnumerator[T[_] &lt;: scales.utils.io.DataChunker[_]] extends Object with scalaz.Enumerator[T]" id="scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator">AsyncDataChunkerEnumerator</a><span class="delimiter">[</span><a title="[_] &lt;: scales.utils.io.DataChunker[_]" id="scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator.<init>$default$1;T">T</a><span class="delimiter">[</span><a title="" id="scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator.<init>$default$1;T;_">_</a><span class="delimiter">]</span> &lt;: DataChunker<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator" title="ReadableByteChannelWrapperImplicits.this.AsyncDataChunkerEnumerator[T]" class="delimiter">(</a> <a title="Int" id="scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator.<init>$default$1">contOnCont</a>: <span title="Int">Int</span> = <span title="Int(5)" class="int">5</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <span title="scalaz.Enumerator[T]">Enumerator</span><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">{</span>
+    <span class="keyword">def</span> <a title="[E, A](chunker: T[E], i: scalaz.IterV[E,A])scalaz.IterV[E,A]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply">apply</a><span class="delimiter">[</span><a title="" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply;E">E</a>,<a title="" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply;A">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T[E]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.chunker">chunker</a>: <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator.<init>$default$1;T" title="T[E]">T</a><span class="delimiter">[</span>E<span class="delimiter">]</span>, <a title="scalaz.IterV[E,A]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.i">i</a>: <span title="scalaz.IterV[E,A]">IterV</span><span class="delimiter">[</span>E,A<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="scalaz.IterV[E,A]">IterV</span><span class="delimiter">[</span>E, A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+ 
+      <span class="keyword">def</span> <a title="(chunker: T[E], i: scalaz.IterV[E,A], count: Int)scalaz.IterV[E,A]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply">apply</a><span class="delimiter">(</span><a title="T[E]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.chunker">chunker</a>: <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator.<init>$default$1;T" title="T[E]">T</a><span class="delimiter">[</span>E<span class="delimiter">]</span>, <a title="scalaz.IterV[E,A]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.i">i</a>: <span title="scalaz.IterV[E,A]">IterV</span><span class="delimiter">[</span>E,A<span class="delimiter">]</span>, <a title="Int" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.count">count</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="scalaz.IterV[E,A]">IterV</span><span class="delimiter">[</span>E, A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+	<a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.i" title="scalaz.IterV[E,A]">i</a> <span title="scalaz.IterV[E,A]" class="keyword">match</span> <span class="delimiter">{</span>
+	  <span class="keyword">case</span> _ <span class="keyword">if</span> <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.chunker" title="T[E]">chunker</a>.<a href="#scales.utils.io;DataChunker.underlyingClosed" title="=&gt; Boolean">underlyingClosed</a> <span title="(x: Boolean)Boolean">||</span> <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.chunker" title="T[E]">chunker</a>.<a href="../resources/Resources.scala.html#scales.utils.resources;CloseOnNeed.isClosed" title="=&gt; Boolean">isClosed</a> =&gt; <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.i" title="scalaz.IterV[E,A]">i</a>
+	  <span class="keyword">case</span> <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.<unapply-selector>" title="(r: scalaz.IterV[E,A])Option[(A, scalaz.Input[E])]">Done</a><span class="delimiter">(</span><a title="A" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.acc">acc</a>, <a title="scalaz.Input[E]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.input">input</a><span class="delimiter">)</span> =&gt; <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.i" title="scalaz.IterV[E,A]">i</a>
+	  <span class="keyword">case</span> <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.<unapply-selector>" title="(r: scalaz.IterV[E,A])Option[scalaz.Input[E] =&gt; scalaz.IterV[E,A]]">Cont</a><span class="delimiter">(</span><a title="scalaz.Input[E] =&gt; scalaz.IterV[E,A]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.k">k</a><span class="delimiter">)</span> =&gt;
+	    <span class="keyword">val</span> <a title="scales.utils.io.DataChunk" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.realChunk">realChunk</a> = <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.chunker" title="T[E]">chunker</a>.<a href="#scales.utils.io;DataChunker.nextChunk" title="=&gt; scales.utils.io.DataChunk">nextChunk</a>
+	    <span class="keyword">val</span> <a title="E" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nextChunk">nextChunk</a> = <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.realChunk" title="scales.utils.io.DataChunk">realChunk</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="E" class="delimiter">[</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply;E" title="E">E</a><span class="delimiter">]</span>
+	    <span class="keyword">val</span> <a title="scalaz.IterV[E,A]" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nextI">nextI</a> = 
+	      <span title="scalaz.IterV[E,A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.realChunk" title="scales.utils.io.DataChunk">realChunk</a>.<a href="DataChunk.scala.html#scales.utils.io;DataChunk.isEOF" title="=&gt; Boolean">isEOF</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+		 <span class="comment">// println(&quot;actual data was EOF !!!&quot;)</span>
+		  <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.k" title="(v1: scalaz.Input[E])scalaz.IterV[E,A]">k</a><span class="delimiter">(</span><span title="scalaz.IterV.type">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">EOF</span><span title="scalaz.Input[E]" class="delimiter">[</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply;E" title="E">E</a><span class="delimiter">]</span><span class="delimiter">)</span>
+		<span class="delimiter">}</span> <span class="keyword">else</span>
+		  <span title="scalaz.IterV[E,A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.realChunk" title="scales.utils.io.DataChunk">realChunk</a>.<a href="DataChunk.scala.html#scales.utils.io;DataChunk.isEmpty" title="=&gt; Boolean">isEmpty</a><span class="delimiter">)</span>
+		    <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.k" title="(v1: scalaz.Input[E])scalaz.IterV[E,A]">k</a><span class="delimiter">(</span><span title="scalaz.IterV.type">IterV</span>.<span title="[E]=&gt; scalaz.Input[E]">Empty</span><span title="scalaz.Input[E]" class="delimiter">[</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply;E" title="E">E</a><span class="delimiter">]</span><span class="delimiter">)</span>
+		  <span class="keyword">else</span>
+		    <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.k" title="(v1: scalaz.Input[E])scalaz.IterV[E,A]">k</a><span class="delimiter">(</span><span title="(e0: =&gt; E)scalaz.Input[E]">El</span><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nextChunk" title="E">nextChunk</a><span class="delimiter">)</span><span class="delimiter">)</span>
+	    <span class="keyword">val</span> <a title="Int" id="scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nc">nc</a> = 
+	      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.realChunk" title="scales.utils.io.DataChunk">realChunk</a>.<a href="DataChunk.scala.html#scales.utils.io;DataChunk.isEmpty" title="=&gt; Boolean">isEmpty</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span title="=&gt; Boolean">!</span><a href="../iteratee/Iteratees.scala.html#scales.utils.iteratee;Iteratees.isDone" title="(iter: scalaz.IterV[E,A])Boolean">isDone</a><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nextI" title="scalaz.IterV[E,A]">nextI</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+		<a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.count" title="Int">count</a> <span title="(x: Int)Int">+</span> <span title="Int(1)" class="int">1</span>
+	      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Int(0)" class="int">0</span>
+
+	    <span title="scalaz.IterV[E,A]" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator.<init>$default$1" title="Int">contOnCont</a> <span title="(x: Int)Boolean">!=</span> <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.INFINITE_RETRIES" title="=&gt; Int">INFINITE_RETRIES</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nc" title="Int">nc</a> <span title="(x: Int)Boolean">&gt;</span> <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits.AsyncDataChunkerEnumerator.<init>$default$1" title="Int">contOnCont</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+	      <span class="comment">//println(&quot;had cont on cont count, returning&quot;)</span>
+	      <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nextI" title="scalaz.IterV[E,A]">nextI</a>
+	    <span class="delimiter">}</span> <span class="keyword">else</span>
+	      <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply" title="(chunker: T[E], i: scalaz.IterV[E,A], count: Int)scalaz.IterV[E,A]">apply</a><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.chunker" title="T[E]">chunker</a>, <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nextI" title="scalaz.IterV[E,A]">nextI</a>, <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply.nc" title="Int">nc</a><span class="delimiter">)</span>
+	<span class="delimiter">}</span>
+      <span class="delimiter">}</span>
+
+      <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.apply" title="(chunker: T[E], i: scalaz.IterV[E,A], count: Int)scalaz.IterV[E,A]">apply</a><span class="delimiter">(</span><a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.chunker" title="T[E]">chunker</a>, <a href="#scales.utils.io;ReadableByteChannelWrapperImplicits;AsyncDataChunkerEnumerator.apply.i" title="scalaz.IterV[E,A]">i</a>, <span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\jaxen\ScalesBaseJaxenXPath.java</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/*
+ * $Header$
+ * $Revision: 1321 $
+ * $Date: 2008-04-26 17:30:06 -0700 (Sat, 26 Apr 2008) $
+ *
+ * ====================================================================
+ *
+ * Copyright 2000-2002 bob mcwhirter &amp; James Strachan.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ * 
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ * 
+ *   * Neither the name of the Jaxen Project nor the names of its
+ *     contributors may be used to endorse or promote products derived 
+ *     from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS
+ * IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ====================================================================
+ * This software consists of voluntary contributions made by many 
+ * individuals on behalf of the Jaxen Project and was originally 
+ * created by bob mcwhirter &lt;bob@werken.com&gt; and 
+ * James Strachan &lt;jstrachan@apache.org&gt;.  For more information on the 
+ * Jaxen Project, please see &lt;http://www.jaxen.org/&gt;.
+ * 
+ * $Id: ScalesBaseJaxenXPath.java 545 2011-10-22 19:01:04Z chris.twiner $
+ */</span>
+
+
+<span class="keyword">package</span> scales.xml.jaxen;
+
+<span class="keyword">import</span> java.io.Serializable;
+<span class="keyword">import</span> java.util.List;
+
+<span class="keyword">import</span> org.jaxen.expr.Expr;
+<span class="keyword">import</span> org.jaxen.expr.XPathExpr;
+<span class="keyword">import</span> org.jaxen.expr.XPathFactory;
+<span class="keyword">import</span> org.jaxen.function.BooleanFunction;
+<span class="keyword">import</span> org.jaxen.function.NumberFunction;
+<span class="keyword">import</span> org.jaxen.function.StringFunction;
+<span class="keyword">import</span> org.jaxen.saxpath.SAXPathException;
+<span class="keyword">import</span> org.jaxen.saxpath.XPathReader;
+<span class="keyword">import</span> org.jaxen.saxpath.helpers.XPathReaderFactory;
+<span class="keyword">import</span> org.jaxen.util.SingletonList;
+
+<span class="keyword">import</span> org.jaxen.*;
+
+<span class="comment">/** Base functionality for all concrete, implementation-specific XPaths.
+ *
+ *  &lt;p&gt;
+ *  This class provides generic functionality for further-defined
+ *  implementation-specific XPaths.
+ *  &lt;/p&gt;
+ *
+ *  &lt;p&gt;
+ *  If you want to adapt the Jaxen engine so that it can traverse your own
+ *  object model, then this is a good base class to derive from.
+ *  Typically you only really need to provide your own 
+ *  {@link org.jaxen.Navigator} implementation.
+ *  &lt;/p&gt;
+ *
+ *  @see org.jaxen.dom4j.Dom4jXPath XPath for dom4j
+ *  @see org.jaxen.jdom.JDOMXPath   XPath for JDOM
+ *  @see org.jaxen.dom.DOMXPath     XPath for W3C DOM
+ *
+ *  @author &lt;a href=&quot;mailto:bob@werken.com&quot;&gt;bob mcwhirter&lt;/a&gt;
+ *  @author &lt;a href=&quot;mailto:jstrachan@apache.org&quot;&gt;James Strachan&lt;/a&gt;
+ */</span>
+public <span class="keyword">class</span> <a title="object scales.xml.jaxen.ScalesBaseJaxenXPath" id="14673">ScalesBaseJaxenXPath</a> implements XPath, Serializable
+<span class="delimiter">{</span>
+
+    <span class="keyword">private</span> static <span class="keyword">final</span> long <a title="Long" id="124060">serialVersionUID</a> = -<span class="long">1993731281300293168L</span>;
+
+    <span class="comment">/** Original expression text. */</span>
+    <span class="keyword">private</span> <span class="keyword">final</span> String <a title="java.lang.String" id="123707">exprText</a>;
+
+    <span class="comment">/** the parsed form of the XPath expression */</span>
+    <span class="keyword">private</span> <span class="keyword">final</span> XPathExpr <a title="org.jaxen.expr.XPathExpr" id="123708">xpath</a>;
+    
+    <span class="comment">/** the support information and function, namespace and variable contexts */</span>
+    <span class="keyword">private</span> ContextSupport <a title="org.jaxen.ContextSupport" id="123709">support</a>;
+
+    <span class="comment">/** the implementation-specific Navigator for retrieving XML nodes **/</span>
+    <span class="keyword">private</span> Navigator <a title="org.jaxen.Navigator" id="123710">navigator</a>;
+
+    <span class="comment">/** Construct given an XPath expression string. 
+     *
+     *  @param xpathExpr the XPath expression
+     *
+     *  @throws JaxenException if there is a syntax error while
+     *          parsing the expression
+     */</span>
+    <span class="keyword">protected</span> ScalesBaseJaxenXPath<a href="#14673" title="scales.xml.jaxen.ScalesBaseJaxenXPath" class="delimiter">(</a>String <a title="java.lang.String" id="124223">xpathExpr</a>, XPathFactory <a title="org.jaxen.expr.XPathFactory" id="124224">fact</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        <span class="keyword">try</span>
+        <span class="delimiter">{</span>
+            XPathReader reader = XPathReaderFactory.createReader<span class="delimiter">(</span><span class="delimiter">)</span>;
+            JaxenHandler handler = <span class="keyword">new</span> JaxenHandler<span class="delimiter">(</span><span class="delimiter">)</span>;
+	    handler.setXPathFactory<span class="delimiter">(</span> fact <span class="delimiter">)</span>; <span class="comment">// override the default one</span>
+            reader.setXPathHandler<span class="delimiter">(</span> handler <span class="delimiter">)</span>;
+            reader.parse<span class="delimiter">(</span> xpathExpr <span class="delimiter">)</span>;
+            <span class="keyword">this</span>.xpath = handler.getXPathExpr<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">catch</span> <span class="delimiter">(</span>org.jaxen.saxpath.XPathSyntaxException e<span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            <span class="keyword">throw</span> <span class="keyword">new</span> org.jaxen.XPathSyntaxException<span class="delimiter">(</span> e <span class="delimiter">)</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">catch</span> <span class="delimiter">(</span>SAXPathException e<span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            <span class="keyword">throw</span> <span class="keyword">new</span> JaxenException<span class="delimiter">(</span> e <span class="delimiter">)</span>;
+        <span class="delimiter">}</span>
+
+        <span class="keyword">this</span>.exprText = xpathExpr;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Construct given an XPath expression string.
+     *
+     *  @param xpathExpr the XPath expression
+     *
+     *  @param navigator the XML navigator to use
+     *
+     *  @throws JaxenException if there is a syntax error while
+     *          parsing the expression
+     */</span>
+    public ScalesBaseJaxenXPath<a title="(xpathExpr: java.lang.String, fact: org.jaxen.expr.XPathFactory, navigator: org.jaxen.Navigator)scales.xml.jaxen.ScalesBaseJaxenXPath" id="123712" class="delimiter">(</a>String <a title="java.lang.String" id="124056">xpathExpr</a>, XPathFactory <a title="org.jaxen.expr.XPathFactory" id="124057">fact</a>, Navigator <a title="org.jaxen.Navigator" id="124058">navigator</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        <span class="keyword">this</span><span class="delimiter">(</span> xpathExpr, fact <span class="delimiter">)</span>;
+        <span class="keyword">this</span>.navigator = navigator;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Evaluate this XPath against a given context.
+     *  The context of evaluation may be any object type
+     *  the navigator recognizes as a node.
+     *  The return value is either a &lt;code&gt;String&lt;/code&gt;,
+     *  &lt;code&gt;Double&lt;/code&gt;, &lt;code&gt;Boolean&lt;/code&gt;, or &lt;code&gt;List&lt;/code&gt;
+     *  of nodes.
+     *
+     *  &lt;p&gt;
+     *  When using this method, one must be careful to
+     *  test the class of the returned object.  If the returned 
+     *  object is a list, then the items in this 
+     *  list will be the actual &lt;code&gt;Document&lt;/code&gt;,
+     *  &lt;code&gt;Element&lt;/code&gt;, &lt;code&gt;Attribute&lt;/code&gt;, etc. objects
+     *  as defined by the concrete XML object-model implementation,
+     *  directly from the context document.  This method &lt;strong&gt;does
+     *  not return &lt;em&gt;copies&lt;/em&gt; of anything&lt;/strong&gt;, but merely 
+     *  returns references to objects within the source document.
+     *  &lt;/p&gt;
+     *  
+     * @param context the node, node-set or Context object for evaluation. 
+     *      This value can be null.
+     *
+     * @return the result of evaluating the XPath expression
+     *          against the supplied context
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     * @throws ClassCastException if the context is not a node
+     */</span>
+    public Object <a title="(context: Any)java.lang.Object" id="123713">evaluate</a><span class="delimiter">(</span>Object <a title="Any" id="124601">context</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        List answer = selectNodes<span class="delimiter">(</span>context<span class="delimiter">)</span>;
+
+        <span class="keyword">if</span> <span class="delimiter">(</span> answer != <span class="keyword">null</span>
+             &amp;&amp;
+             answer.size<span class="delimiter">(</span><span class="delimiter">)</span> == <span class="int">1</span> <span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            Object first = answer.get<span class="delimiter">(</span><span class="int">0</span><span class="delimiter">)</span>;
+
+            <span class="keyword">if</span> <span class="delimiter">(</span> first instanceof String
+                 ||
+                 first instanceof Number
+                 ||
+                 first instanceof Boolean <span class="delimiter">)</span> 
+            <span class="delimiter">{</span>
+                <span class="keyword">return</span> first;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> answer;
+    <span class="delimiter">}</span>
+    
+    <span class="comment">/** Select all nodes that are selected by this XPath
+     *  expression. If multiple nodes match, multiple nodes
+     *  will be returned. Nodes will be returned
+     *  in document-order, as defined by the XPath
+     *  specification. If the expression selects a non-node-set
+     *  (i.e. a number, boolean, or string) then a List
+     *  containing just that one object is returned.
+     *  &lt;/p&gt;
+     *
+     * @param node the node, node-set or Context object for evaluation. 
+     *     This value can be null.
+     *
+     * @return the node-set of all items selected
+     *          by this XPath expression
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     *
+     * @see #selectNodesForContext
+     */</span>
+    public List <a title="(node: Any)java.util.List[_]" id="123714">selectNodes</a><span class="delimiter">(</span>Object <a title="Any" id="124604">node</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        Context context = getContext<span class="delimiter">(</span> node <span class="delimiter">)</span>;
+        <span class="keyword">return</span> selectNodesForContext<span class="delimiter">(</span> context <span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Select only the first node selected by this XPath
+     *  expression.  If multiple nodes match, only one node will be
+     *  returned. The selected node will be the first
+     *  selected node in document-order, as defined by the XPath
+     *  specification.
+     *  &lt;/p&gt;
+     *
+     * @param node the node, node-set or Context object for evaluation. 
+     *     This value can be null.
+     *
+     * @return the node-set of all items selected
+     *          by this XPath expression
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     *
+     * @see #selectNodes
+     */</span>
+    public Object <a title="(node: Any)java.lang.Object" id="123715">selectSingleNode</a><span class="delimiter">(</span>Object <a title="Any" id="128121">node</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        List results = selectNodes<span class="delimiter">(</span> node <span class="delimiter">)</span>;
+
+        <span class="keyword">if</span> <span class="delimiter">(</span> results.isEmpty<span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">null</span>;
+        <span class="delimiter">}</span>
+
+        <span class="keyword">return</span> results.get<span class="delimiter">(</span> <span class="int">0</span> <span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/**
+     * Returns the XPath string-value of the argument node.
+     * 
+     * @param node the node whose value to take
+     * @return the XPath string value of this node
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     * @deprecated replaced by {@link #stringValueOf}
+     */</span>
+    public String <a title="(node: Any)java.lang.String" id="123716">valueOf</a><span class="delimiter">(</span>Object <a title="Any" id="128123">node</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> stringValueOf<span class="delimiter">(</span> node <span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Retrieves the string-value of the result of
+     *  evaluating this XPath expression when evaluated 
+     *  against the specified context.
+     *
+     *  &lt;p&gt;
+     *  The string-value of the expression is determined per
+     *  the &lt;code&gt;string(..)&lt;/code&gt; core function defined
+     *  in the XPath specification.  This means that an expression
+     *  that selects zero nodes will return the empty string,
+     *  while an expression that selects one-or-more nodes will
+     *  return the string-value of the first node.
+     *  &lt;/p&gt;
+     *
+     * @param node the node, node-set or Context object for evaluation. This value can be null.
+     *
+     * @return the string-value of the result of evaluating this expression with the specified context node
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     */</span>
+    public String <a title="(node: Any)java.lang.String" id="123717">stringValueOf</a><span class="delimiter">(</span>Object <a title="Any" id="128125">node</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        Context context = getContext<span class="delimiter">(</span> node <span class="delimiter">)</span>;
+        
+        Object result = selectSingleNodeForContext<span class="delimiter">(</span> context <span class="delimiter">)</span>;
+
+        <span class="keyword">if</span> <span class="delimiter">(</span> result == <span class="keyword">null</span> <span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="string">&quot;&quot;</span>;
+        <span class="delimiter">}</span>
+
+        <span class="keyword">return</span> StringFunction.evaluate<span class="delimiter">(</span> result,
+                                        context.getNavigator<span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Retrieve a boolean-value interpretation of this XPath
+     *  expression when evaluated against a given context.
+     *
+     *  &lt;p&gt;
+     *  The boolean-value of the expression is determined per
+     *  the &lt;code&gt;boolean(..)&lt;/code&gt; function defined
+     *  in the XPath specification.  This means that an expression
+     *  that selects zero nodes will return &lt;code&gt;false&lt;/code&gt;,
+     *  while an expression that selects one or more nodes will
+     *  return &lt;code&gt;true&lt;/code&gt;.
+     *  &lt;/p&gt;
+     *
+     * @param node the node, node-set or Context object for evaluation. This value can be null.
+     *
+     * @return the boolean-value of the result of evaluating this expression with the specified context node
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     */</span>
+    public boolean <a title="(node: Any)Boolean" id="123718">booleanValueOf</a><span class="delimiter">(</span>Object <a title="Any" id="128127">node</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        Context context = getContext<span class="delimiter">(</span> node <span class="delimiter">)</span>;
+        List result = selectNodesForContext<span class="delimiter">(</span> context <span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span> result == <span class="keyword">null</span> <span class="delimiter">)</span> <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="keyword">return</span> BooleanFunction.evaluate<span class="delimiter">(</span> result, context.getNavigator<span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">)</span>.booleanValue<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Retrieve a number-value interpretation of this XPath
+     *  expression when evaluated against a given context.
+     *
+     *  &lt;p&gt;
+     *  The number-value of the expression is determined per
+     *  the &lt;code&gt;number(..)&lt;/code&gt; core function as defined
+     *  in the XPath specification. This means that if this
+     *  expression selects multiple nodes, the number-value
+     *  of the first node is returned.
+     *  &lt;/p&gt;
+     *
+     * @param node the node, node-set or Context object for evaluation. This value can be null.
+     *
+     * @return a &lt;code&gt;Double&lt;/code&gt; indicating the numeric value of
+     *      evaluating this expression against the specified context
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     */</span>
+    public Number <a title="(node: Any)java.lang.Number" id="123719">numberValueOf</a><span class="delimiter">(</span>Object <a title="Any" id="128129">node</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        Context context = getContext<span class="delimiter">(</span> node <span class="delimiter">)</span>;
+        Object result = selectSingleNodeForContext<span class="delimiter">(</span> context <span class="delimiter">)</span>;
+        <span class="keyword">return</span> NumberFunction.evaluate<span class="delimiter">(</span> result,
+                                        context.getNavigator<span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">// Helpers</span>
+
+    <span class="comment">/** Add a namespace prefix-to-URI mapping for this XPath
+     *  expression.
+     *
+     *  &lt;p&gt;
+     *  Namespace prefix-to-URI mappings in an XPath are independent
+     *  of those used within any document.  Only the mapping explicitly
+     *  added to this XPath will be available for resolving the
+     *  XPath expression.
+     *  &lt;/p&gt;
+     *
+     *  &lt;p&gt;
+     *  This is a convenience method for adding mappings to the
+     *  default {@link NamespaceContext} in place for this XPath.
+     *  If you have installed a custom &lt;code&gt;NamespaceContext&lt;/code&gt;
+     *  that is not a &lt;code&gt;SimpleNamespaceContext&lt;/code&gt;,
+     *  then this method will throw a &lt;code&gt;JaxenException&lt;/code&gt;.
+     *  &lt;/p&gt;
+     *
+     *  @param prefix the namespace prefix
+     *  @param uri the namespace URI
+     *
+     *  @throws JaxenException if the &lt;code&gt;NamespaceContext&lt;/code&gt;
+     *          used by this XPath is not a &lt;code&gt;SimpleNamespaceContext&lt;/code&gt;
+     */</span>
+    public void <a title="(prefix: java.lang.String, uri: java.lang.String)Unit" id="123720">addNamespace</a><span class="delimiter">(</span>String <a title="java.lang.String" id="128131">prefix</a>,
+                             String <a title="java.lang.String" id="128132">uri</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        NamespaceContext nsContext = getNamespaceContext<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span> nsContext instanceof SimpleNamespaceContext <span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            <span class="delimiter">(</span><span class="delimiter">(</span>SimpleNamespaceContext<span class="delimiter">)</span>nsContext<span class="delimiter">)</span>.addNamespace<span class="delimiter">(</span> prefix,
+                                                              uri <span class="delimiter">)</span>;
+            <span class="keyword">return</span>;
+        <span class="delimiter">}</span>
+
+        <span class="keyword">throw</span> <span class="keyword">new</span> JaxenException<span class="delimiter">(</span><span class="string">&quot;Operation not permitted while using a non-simple namespace context.&quot;</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">//     Properties</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+
+    
+    <span class="comment">/** Set a &lt;code&gt;NamespaceContext&lt;/code&gt; for use with this
+     *  XPath expression.
+     *
+     *  &lt;p&gt;
+     *  A &lt;code&gt;NamespaceContext&lt;/code&gt; is responsible for translating
+     *  namespace prefixes within the expression into namespace URIs.
+     *  &lt;/p&gt;
+     *
+     *  @param namespaceContext the &lt;code&gt;NamespaceContext&lt;/code&gt; to
+     *         install for this expression
+     *
+     *  @see NamespaceContext
+     *  @see NamespaceContext#translateNamespacePrefixToUri
+     */</span>
+    public void <a title="(namespaceContext: org.jaxen.NamespaceContext)Unit" id="123721">setNamespaceContext</a><span class="delimiter">(</span>NamespaceContext <a title="org.jaxen.NamespaceContext" id="124597">namespaceContext</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        getContextSupport<span class="delimiter">(</span><span class="delimiter">)</span>.setNamespaceContext<span class="delimiter">(</span>namespaceContext<span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Set a &lt;code&gt;FunctionContext&lt;/code&gt; for use with this XPath
+     *  expression.
+     *
+     *  &lt;p&gt;
+     *  A &lt;code&gt;FunctionContext&lt;/code&gt; is responsible for resolving
+     *  all function calls used within the expression.
+     *  &lt;/p&gt;
+     *
+     *  @param functionContext the &lt;code&gt;FunctionContext&lt;/code&gt; to
+     *         install for this expression
+     *
+     *  @see FunctionContext
+     *  @see FunctionContext#getFunction
+     */</span>
+    public void <a title="(functionContext: org.jaxen.FunctionContext)Unit" id="123722">setFunctionContext</a><span class="delimiter">(</span>FunctionContext <a title="org.jaxen.FunctionContext" id="128134">functionContext</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        getContextSupport<span class="delimiter">(</span><span class="delimiter">)</span>.setFunctionContext<span class="delimiter">(</span>functionContext<span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Set a &lt;code&gt;VariableContext&lt;/code&gt; for use with this XPath
+     *  expression.
+     *
+     *  &lt;p&gt;
+     *  A &lt;code&gt;VariableContext&lt;/code&gt; is responsible for resolving
+     *  all variables referenced within the expression.
+     *  &lt;/p&gt;
+     *
+     *  @param variableContext The &lt;code&gt;VariableContext&lt;/code&gt; to
+     *         install for this expression
+     *
+     *  @see VariableContext
+     *  @see VariableContext#getVariableValue
+     */</span>
+    public void <a title="(variableContext: org.jaxen.VariableContext)Unit" id="123723">setVariableContext</a><span class="delimiter">(</span>VariableContext <a title="org.jaxen.VariableContext" id="128140">variableContext</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        getContextSupport<span class="delimiter">(</span><span class="delimiter">)</span>.setVariableContext<span class="delimiter">(</span>variableContext<span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Retrieve the &lt;code&gt;NamespaceContext&lt;/code&gt; used by this XPath
+     *  expression.
+     *
+     *  &lt;p&gt;
+     *  A &lt;code&gt;NamespaceContext&lt;/code&gt; is responsible for mapping
+     *  prefixes used within the expression to namespace URIs.
+     *  &lt;/p&gt;
+     *
+     *  &lt;p&gt;
+     *  If this XPath expression has not previously had a &lt;code&gt;NamespaceContext&lt;/code&gt;
+     *  installed, a new default &lt;code&gt;NamespaceContext&lt;/code&gt; will be created,
+     *  installed and returned.
+     *  &lt;/p&gt;
+     *
+     *  @return the &lt;code&gt;NamespaceContext&lt;/code&gt; used by this expression
+     *
+     *  @see NamespaceContext
+     */</span>
+    public NamespaceContext <a title="()org.jaxen.NamespaceContext" id="123724">getNamespaceContext</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> getContextSupport<span class="delimiter">(</span><span class="delimiter">)</span>.getNamespaceContext<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Retrieve the &lt;code&gt;FunctionContext&lt;/code&gt; used by this XPath
+     *  expression.
+     *
+     *  &lt;p&gt;
+     *  A &lt;code&gt;FunctionContext&lt;/code&gt; is responsible for resolving
+     *  all function calls used within the expression.
+     *  &lt;/p&gt;
+     *
+     *  &lt;p&gt;
+     *  If this XPath expression has not previously had a &lt;code&gt;FunctionContext&lt;/code&gt;
+     *  installed, a new default &lt;code&gt;FunctionContext&lt;/code&gt; will be created,
+     *  installed and returned.
+     *  &lt;/p&gt;
+     *
+     *  @return the &lt;code&gt;FunctionContext&lt;/code&gt; used by this expression
+     *
+     *  @see FunctionContext
+     */</span>
+    public FunctionContext <a title="()org.jaxen.FunctionContext" id="123725">getFunctionContext</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> getContextSupport<span class="delimiter">(</span><span class="delimiter">)</span>.getFunctionContext<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Retrieve the &lt;code&gt;VariableContext&lt;/code&gt; used by this XPath
+     *  expression.
+     *
+     *  &lt;p&gt;
+     *  A &lt;code&gt;VariableContext&lt;/code&gt; is responsible for resolving
+     *  all variables referenced within the expression.
+     *  &lt;/p&gt;
+     *
+     *  &lt;p&gt;
+     *  If this XPath expression has not previously had a &lt;code&gt;VariableContext&lt;/code&gt;
+     *  installed, a new default &lt;code&gt;VariableContext&lt;/code&gt; will be created,
+     *  installed and returned.
+     *  &lt;/p&gt;
+     *  
+     *  @return the &lt;code&gt;VariableContext&lt;/code&gt; used by this expression
+     *
+     *  @see VariableContext
+     */</span>
+    public VariableContext <a title="()org.jaxen.VariableContext" id="123726">getVariableContext</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> getContextSupport<span class="delimiter">(</span><span class="delimiter">)</span>.getVariableContext<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+    
+    
+    <span class="comment">/** Retrieve the root expression of the internal
+     *  compiled form of this XPath expression.
+     *
+     *  &lt;p&gt;
+     *  Internally, Jaxen maintains a form of Abstract Syntax
+     *  Tree (AST) to represent the structure of the XPath expression.
+     *  This is normally not required during normal consumer-grade
+     *  usage of Jaxen.  This method is provided for hard-core users
+     *  who wish to manipulate or inspect a tree-based version of
+     *  the expression.
+     *  &lt;/p&gt;
+     *
+     *  @return the root of the AST of this expression
+     */</span>
+    public Expr <a title="()org.jaxen.expr.Expr" id="123727">getRootExpr</a><span class="delimiter">(</span><span class="delimiter">)</span> 
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> xpath.getRootExpr<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+    
+    <span class="comment">/** Return the original expression text.
+     *
+     *  @return the normalized XPath expression string
+     */</span>
+    public String <a title="()java.lang.String" id="123728">toString</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>.exprText;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Returns a string representation of the parse tree.
+     *
+     *  @return a string representation of the parse tree.
+     */</span>
+    public String <a title="()java.lang.String" id="123729">debug</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>.xpath.toString<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+    
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">//     Implementation methods</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+
+    
+    <span class="comment">/** Create a {@link Context} wrapper for the provided
+     *  implementation-specific object.
+     *
+     *  @param node the implementation-specific object 
+     *         to be used as the context
+     *
+     *  @return a &lt;code&gt;Context&lt;/code&gt; wrapper around the object
+     */</span>
+    <span class="keyword">protected</span> Context <a title="(node: Any)org.jaxen.Context" id="123730">getContext</a><span class="delimiter">(</span>Object <a title="Any" id="128152">node</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span> node instanceof Context <span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="delimiter">(</span>Context<span class="delimiter">)</span> node;
+        <span class="delimiter">}</span>
+
+        Context fullContext = <span class="keyword">new</span> Context<span class="delimiter">(</span> getContextSupport<span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">)</span>;
+
+        <span class="keyword">if</span> <span class="delimiter">(</span> node instanceof List <span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            fullContext.setNodeSet<span class="delimiter">(</span> <span class="delimiter">(</span>List<span class="delimiter">)</span> node <span class="delimiter">)</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">else</span>
+        <span class="delimiter">{</span>
+            List list = <span class="keyword">new</span> SingletonList<span class="delimiter">(</span>node<span class="delimiter">)</span>;
+            fullContext.setNodeSet<span class="delimiter">(</span> list <span class="delimiter">)</span>;
+        <span class="delimiter">}</span>
+
+        <span class="keyword">return</span> fullContext;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Retrieve the {@link ContextSupport} aggregation of
+     *  &lt;code&gt;NamespaceContext&lt;/code&gt;, &lt;code&gt;FunctionContext&lt;/code&gt;,
+     *  &lt;code&gt;VariableContext&lt;/code&gt;, and {@link Navigator}.
+     *
+     *  @return aggregate &lt;code&gt;ContextSupport&lt;/code&gt; for this
+     *          XPath expression
+     */</span>
+    <span class="keyword">protected</span> ContextSupport <a title="()org.jaxen.ContextSupport" id="123731">getContextSupport</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">if</span> <span class="delimiter">(</span> support == <span class="keyword">null</span> <span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            support = <span class="keyword">new</span> ContextSupport<span class="delimiter">(</span> 
+                createNamespaceContext<span class="delimiter">(</span><span class="delimiter">)</span>,
+                createFunctionContext<span class="delimiter">(</span><span class="delimiter">)</span>,
+                createVariableContext<span class="delimiter">(</span><span class="delimiter">)</span>,
+                getNavigator<span class="delimiter">(</span><span class="delimiter">)</span> 
+            <span class="delimiter">)</span>;
+        <span class="delimiter">}</span>
+
+        <span class="keyword">return</span> support;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/** Retrieve the XML object-model-specific {@link Navigator} 
+     *  for us in evaluating this XPath expression.
+     *
+     *  @return the implementation-specific &lt;code&gt;Navigator&lt;/code&gt;
+     */</span>
+    public Navigator <a title="()org.jaxen.Navigator" id="123732">getNavigator</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> navigator;
+    <span class="delimiter">}</span>
+    
+    
+
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">//     Factory methods for default contexts</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+    <span class="comment">// ------------------------------------------------------------</span>
+
+    <span class="comment">/** Create a default &lt;code&gt;FunctionContext&lt;/code&gt;.
+     *
+     *  @return a default &lt;code&gt;FunctionContext&lt;/code&gt;
+     */</span>
+    <span class="keyword">protected</span> FunctionContext <a title="()org.jaxen.FunctionContext" id="123733">createFunctionContext</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> XPathFunctionContext.getInstance<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+    
+    <span class="comment">/** Create a default &lt;code&gt;NamespaceContext&lt;/code&gt;.
+     *
+     *  @return a default &lt;code&gt;NamespaceContext&lt;/code&gt; instance
+     */</span>
+    <span class="keyword">protected</span> NamespaceContext <a title="()org.jaxen.NamespaceContext" id="123734">createNamespaceContext</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> SimpleNamespaceContext<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+    
+    <span class="comment">/** Create a default &lt;code&gt;VariableContext&lt;/code&gt;.
+     *
+     *  @return a default &lt;code&gt;VariableContext&lt;/code&gt; instance
+     */</span>
+    <span class="keyword">protected</span> VariableContext <a title="()org.jaxen.VariableContext" id="123735">createVariableContext</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="keyword">new</span> SimpleVariableContext<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+    
+    <span class="comment">/** Select all nodes that match this XPath
+     *  expression on the given Context object. 
+     *  If multiple nodes match, multiple nodes
+     *  will be returned in document-order, as defined by the XPath
+     *  specification. If the expression selects a non-node-set
+     *  (i.e. a number, boolean, or string) then a List
+     *  containing just that one object is returned.
+     *  &lt;/p&gt;
+     *
+     * @param context the Context which gets evaluated
+     *
+     * @return the node-set of all items selected
+     *          by this XPath expression
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     *
+     */</span>
+    <span class="keyword">protected</span> List <a title="(context: org.jaxen.Context)java.util.List" id="123736">selectNodesForContext</a><span class="delimiter">(</span>Context <a title="org.jaxen.Context" id="128159">context</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        List list = <span class="keyword">this</span>.xpath.asList<span class="delimiter">(</span> context <span class="delimiter">)</span>;
+        <span class="keyword">return</span> list;
+        
+    <span class="delimiter">}</span>
+ 
+
+    <span class="comment">/** Return only the first node that is selected by this XPath
+     *  expression.  If multiple nodes match, only one node will be
+     *  returned. The selected node will be the first
+     *  selected node in document-order, as defined by the XPath
+     *  specification. If the XPath expression selects a double,
+     *  String, or boolean, then that object is returned.
+     *  &lt;/p&gt;
+     *
+     * @param context the Context against which this expression is evaluated
+     *
+     * @return the first node in document order of all nodes selected
+     *          by this XPath expression
+     * @throws JaxenException if an XPath error occurs during expression evaluation
+     *
+     *  @see #selectNodesForContext
+     */</span>
+    <span class="keyword">protected</span> Object <a title="(context: org.jaxen.Context)java.lang.Object" id="123737">selectSingleNodeForContext</a><span class="delimiter">(</span>Context <a title="org.jaxen.Context" id="128161">context</a><span class="delimiter">)</span> throws JaxenException
+    <span class="delimiter">{</span>
+        List results = selectNodesForContext<span class="delimiter">(</span> context <span class="delimiter">)</span>;
+
+        <span class="keyword">if</span> <span class="delimiter">(</span> results.isEmpty<span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">null</span>;
+        <span class="delimiter">}</span>
+
+        <span class="keyword">return</span> results.get<span class="delimiter">(</span> <span class="int">0</span> <span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+    
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>XmlDifference - scales.xml.equals.XmlDifference</title>
+          <meta name="description" content="XmlDifference - scales.xml.equals.XmlDifference" />
+          <meta name="keywords" content="XmlDifference scales.xml.equals.XmlDifference" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'scales.xml.equals.XmlDifference';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img src="../../../lib/trait_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="scales">scales</a>.<a href="../package.html" class="extype" name="scales.xml">xml</a>.<a href="package.html" class="extype" name="scales.xml.equals">equals</a></p>
+        <h1>XmlDifference</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">XmlDifference</span><span class="tparams">[<span name="X">X</span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Why did equality fail, pattern match fun
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="../../../../api.sxr/scales/xml/equals/XmlDifference.scala.html" target="_blank">XmlDifference.scala</a></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+          <span class="toggle">Known Subclasses</span>
+          <div class="subClasses hiddenContent"><a href="AttributeDifference.html" class="extype" name="scales.xml.equals.AttributeDifference">AttributeDifference</a>, <a href="AttributeNameDifference.html" class="extype" name="scales.xml.equals.AttributeNameDifference">AttributeNameDifference</a>, <a href="AttributeValueDifference.html" class="extype" name="scales.xml.equals.AttributeValueDifference">AttributeValueDifference</a>, <a href="AttributesDifference.html" class="extype" name="scales.xml.equals.AttributesDifference">AttributesDifference</a>, <a href="DifferentNumberOfAttributes.html" class="extype" name="scales.xml.equals.DifferentNumberOfAttributes">DifferentNumberOfAttributes</a>, <a href="DifferentNumberOfMiscs.html" class="extype" name="scales.xml.equals.DifferentNumberOfMiscs">DifferentNumberOfMiscs</a>, <a href="DifferentTypes.html" class="extype" name="scales.xml.equals.DifferentTypes">DifferentTypes</a>, <a href="DifferentValueAttributes.html" class="extype" name="scales.xml.equals.DifferentValueAttributes">DifferentValueAttributes</a>, <a href="ElemAttributeDifference.html" class="extype" name="scales.xml.equals.ElemAttributeDifference">ElemAttributeDifference</a>, <a href="ElemDifference.html" class="extype" name="scales.xml.equals.ElemDifference">ElemDifference</a>, <a href="ElemNameDifference.html" class="extype" name="scales.xml.equals.ElemNameDifference">ElemNameDifference</a>, <a href="ElemNamespacesDifference.html" class="extype" name="scales.xml.equals.ElemNamespacesDifference">ElemNamespacesDifference</a>, <a href="EndElemNameDifference.html" class="extype" name="scales.xml.equals.EndElemNameDifference">EndElemNameDifference</a>, <a href="ItemDifference.html" class="extype" name="scales.xml.equals.ItemDifference">ItemDifference</a>, <a href="MiscDifference.html" class="extype" name="scales.xml.equals.MiscDifference">MiscDifference</a>, <a href="MiscDifferentTypes.html" class="extype" name="scales.xml.equals.MiscDifferentTypes">MiscDifferentTypes</a>, <a href="MissingAttributes.html" class="extype" name="scales.xml.equals.MissingAttributes">MissingAttributes</a>, <a href="QNameDifference.html" class="extype" name="scales.xml.equals.QNameDifference">QNameDifference</a>, <a href="SomeDifference$.html" class="extype" name="scales.xml.equals.SomeDifference">SomeDifference</a></div>
+        </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+                <span class="toggle diagram-link">Type Hierarchy</span>
+                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph135" viewBox="0.00 0.00 1537.50 155.00" height="155pt" width="1538pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 151)" class="graph" id="graph0"><polygon points="-4,4 -4,-151 1533.5,-151 1533.5,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this trait" id="graph135_0"><g id="a_this trait|graph135_0"><a xlink:title="scales.xml.equals.XmlDifference (this trait)" xlink:href="#inheritance-diagram"><polygon points="844,-86 730,-86 730,-61 844,-61 844,-86" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-80.5" x="740" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-70.5" x="761" text-anchor="start">XmlDifference[X]</text></a></g></g><!-- node1 --><g class="node trait" id="graph135_1"><g id="a_trait|graph135_1"><a xlink:title="scales.xml.equals.AttributeDifference" xlink:href="AttributeDifference.html#inheritance-diagram"><polygon points="124,-25 0,-25 0,-0 124,-0 124,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-19.5" x="10" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="31" text-anchor="start">AttributeDifference</text></a></g></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph135_0_1"><g id="a_inheritance|graph135_0_1"><a xlink:title="AttributeDifference is a subtype of XmlDifference[X]"><path d="M724.882,-69.8138C608.478,-64.3753 349.697,-50.3688 133,-25 130.147,-24.6661 127.234,-24.2993 124.295,-23.9083" stroke="#d4d4d4" fill="none"></path><polygon points="724.903,-71.5666 729.979,-70.0507 725.066,-68.0703 724.903,-71.5666" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph135_2"><g id="a_trait|graph135_2"><a xlink:title="scales.xml.equals.AttributesDifference" xlink:href="AttributesDifference.html#inheritance-diagram"><polygon points="271.5,-25 142.5,-25 142.5,-0 271.5,-0 271.5,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-19.5" x="153" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="174" text-anchor="start">AttributesDifference</text></a></g></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph135_0_2"><g id="a_inheritance|graph135_0_2"><a xlink:title="AttributesDifference is a subtype of XmlDifference[X]"><path d="M724.926,-67.8909C629.371,-60.521 440.564,-44.8694 281,-25 277.904,-24.6144 274.737,-24.2001 271.542,-23.7657" stroke="#d4d4d4" fill="none"></path><polygon points="724.845,-69.6398 729.965,-68.2785 725.114,-66.1501 724.845,-69.6398" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node3 --><g class="node class" id="graph135_3"><g id="a_class|graph135_3"><a xlink:title="scales.xml.equals.DifferentNumberOfMiscs" xlink:href="DifferentNumberOfMiscs.html#inheritance-diagram"><polygon points="440,-25 290,-25 290,-0 440,-0 440,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="300" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="321" text-anchor="start">DifferentNumberOfMiscs</text></a></g></g><!-- node0&#45;&gt;node3 --><g class="edge inheritance" id="graph135_0_3"><g id="a_inheritance|graph135_0_3"><a xlink:title="DifferentNumberOfMiscs is a subtype of XmlDifference[X]"><path d="M724.28,-63.731C648.459,-53.1305 520.984,-35.3082 440.028,-23.9897" stroke="#d4d4d4" fill="none"></path><polygon points="724.454,-65.5223 729.648,-64.4816 724.939,-62.0561 724.454,-65.5223" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node4 --><g class="node class" id="graph135_4"><g id="a_class|graph135_4"><a xlink:title="scales.xml.equals.DifferentTypes" xlink:href="DifferentTypes.html#inheritance-diagram"><polygon points="564,-25 458,-25 458,-0 564,-0 564,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="468" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="489" text-anchor="start">DifferentTypes</text></a></g></g><!-- node0&#45;&gt;node4 --><g class="edge inheritance" id="graph135_0_4"><g id="a_inheritance|graph135_0_4"><a xlink:title="DifferentTypes is a subtype of XmlDifference[X]"><path d="M728.196,-59.9296C679.619,-49.5454 611.252,-34.9306 564.265,-24.8864" stroke="#d4d4d4" fill="none"></path><polygon points="727.874,-61.6502 733.129,-60.9841 728.606,-58.2275 727.874,-61.6502" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node5 --><g class="node trait" id="graph135_5"><g id="a_trait|graph135_5"><a xlink:title="scales.xml.equals.ElemDifference" xlink:href="ElemDifference.html#inheritance-diagram"><polygon points="692,-25 582,-25 582,-0 692,-0 692,-25" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-19.5" x="592" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="613" text-anchor="start">ElemDifference</text></a></g></g><!-- node0&#45;&gt;node5 --><g class="edge inheritance" id="graph135_0_5"><g id="a_inheritance|graph135_0_5"><a xlink:title="ElemDifference is a subtype of XmlDifference[X]"><path d="M752.971,-59.1152C726.905,-48.8627 691.314,-34.8634 666.46,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="752.429,-60.7825 757.722,-60.9841 753.71,-57.5253 752.429,-60.7825" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node6 --><g class="node class" id="graph135_6"><g id="a_class|graph135_6"><a xlink:title="scales.xml.equals.EndElemNameDifference" xlink:href="EndElemNameDifference.html#inheritance-diagram"><polygon points="863.5,-25 710.5,-25 710.5,-0 863.5,-0 863.5,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="721" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="742" text-anchor="start">EndElemNameDifference</text></a></g></g><!-- node0&#45;&gt;node6 --><g class="edge inheritance" id="graph135_0_6"><g id="a_inheritance|graph135_0_6"><a xlink:title="EndElemNameDifference is a subtype of XmlDifference[X]"><path d="M787,-55.6874C787,-45.9173 787,-33.8534 787,-25.1323" stroke="#d4d4d4" fill="none"></path><polygon points="785.25,-55.8435 787,-60.8435 788.75,-55.8435 785.25,-55.8435" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node7 --><g class="node class" id="graph135_7"><g id="a_class|graph135_7"><a xlink:title="scales.xml.equals.ItemDifference" xlink:href="ItemDifference.html#inheritance-diagram"><polygon points="988,-25 882,-25 882,-0 988,-0 988,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="892" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="913" text-anchor="start">ItemDifference</text></a></g></g><!-- node0&#45;&gt;node7 --><g class="edge inheritance" id="graph135_0_7"><g id="a_inheritance|graph135_0_7"><a xlink:title="ItemDifference is a subtype of XmlDifference[X]"><path d="M820.575,-59.1152C846.294,-48.8627 881.41,-34.8634 905.933,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="819.884,-57.5069 815.887,-60.9841 821.18,-60.7581 819.884,-57.5069" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node8 --><g class="node class" id="graph135_8"><g id="a_class|graph135_8"><a xlink:title="scales.xml.equals.MiscDifference" xlink:href="MiscDifference.html#inheritance-diagram"><polygon points="1114,-25 1006,-25 1006,-0 1114,-0 1114,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="1016" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="1037" text-anchor="start">MiscDifference</text></a></g></g><!-- node0&#45;&gt;node8 --><g class="edge inheritance" id="graph135_0_8"><g id="a_inheritance|graph135_0_8"><a xlink:title="MiscDifference is a subtype of XmlDifference[X]"><path d="M845.422,-59.8739C893.135,-49.5624 960.023,-35.1068 1006.38,-25.0875" stroke="#d4d4d4" fill="none"></path><polygon points="844.803,-58.2174 840.285,-60.9841 845.542,-61.6384 844.803,-58.2174" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node9 --><g class="node class" id="graph135_9"><g id="a_class|graph135_9"><a xlink:title="scales.xml.equals.MiscDifferentTypes" xlink:href="MiscDifferentTypes.html#inheritance-diagram"><polygon points="1259.5,-25 1132.5,-25 1132.5,-0 1259.5,-0 1259.5,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="1143" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="1164" text-anchor="start">MiscDifferentTypes</text></a></g></g><!-- node0&#45;&gt;node9 --><g class="edge inheritance" id="graph135_0_9"><g id="a_inheritance|graph135_0_9"><a xlink:title="MiscDifferentTypes is a subtype of XmlDifference[X]"><path d="M849.298,-63.9931C916.784,-54.7078 1027.6,-39.2571 1123,-25 1126.05,-24.5449 1129.16,-24.074 1132.31,-23.5944" stroke="#d4d4d4" fill="none"></path><polygon points="848.828,-62.2912 844.113,-64.7061 849.305,-65.7586 848.828,-62.2912" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node10 --><g class="node class" id="graph135_10"><g id="a_class|graph135_10"><a xlink:title="scales.xml.equals.QNameDifference" xlink:href="QNameDifference.html#inheritance-diagram"><polygon points="1398,-25 1278,-25 1278,-0 1398,-0 1398,-25" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-19.5" x="1288" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="1309" text-anchor="start">QNameDifference</text></a></g></g><!-- node0&#45;&gt;node10 --><g class="edge inheritance" id="graph135_0_10"><g id="a_inheritance|graph135_0_10"><a xlink:title="QNameDifference is a subtype of XmlDifference[X]"><path d="M849.401,-67.693C941.43,-60.2999 1118.88,-44.8848 1269,-25 1271.89,-24.6173 1274.84,-24.2052 1277.82,-23.7728" stroke="#d4d4d4" fill="none"></path><polygon points="849.119,-65.96 844.274,-68.1037 849.398,-69.4488 849.119,-65.96" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node11 --><g class="node object" id="graph135_11"><g id="a_object|graph135_11"><a xlink:title="scales.xml.equals.SomeDifference" xlink:href="SomeDifference$.html#inheritance-diagram"><polygon points="1529.5,-25 1416.5,-25 1416.5,-0 1529.5,-0 1529.5,-25" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-19.5" x="1427" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-9.5" x="1448" text-anchor="start">SomeDifference</text></a></g></g><!-- node0&#45;&gt;node11 --><g class="edge inheritance" id="graph135_0_11"><g id="a_inheritance|graph135_0_11"><a xlink:title="SomeDifference is a subtype of XmlDifference[X]"><path d="M849.259,-69.7122C961.204,-64.2588 1203.75,-50.433 1407,-25 1410,-24.6245 1413.07,-24.2067 1416.17,-23.759" stroke="#d4d4d4" fill="none"></path><polygon points="848.938,-67.9756 844.028,-69.9656 849.107,-71.4715 848.938,-67.9756" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node12 --><g class="node class" id="graph135_12"><g id="a_class|graph135_12"><a xlink:title="scala.AnyRef"><polygon points="825,-147 749,-147 749,-122 825,-122 825,-147" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-141.5" x="759" preserveAspectRatio="xMinYMin meet" height="15px" width="15px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-131.5" x="780" text-anchor="start">AnyRef</text></a></g></g><!-- node12&#45;&gt;node0 --><g class="edge inheritance" id="graph135_12_0"><g id="a_inheritance|graph135_12_0"><a xlink:title="XmlDifference[X] is a subtype of AnyRef"><path d="M787,-116.687C787,-106.917 787,-94.8534 787,-86.1323" stroke="#d4d4d4" fill="none"></path><polygon points="785.25,-116.843 787,-121.843 788.75,-116.844 785.25,-116.843" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="scales.xml.equals.XmlDifference"><span>XmlDifference</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Abstract Value Members</h3>
+              <ol><li name="scales.xml.equals.XmlDifference#left" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="left:X"></a>
+      <a id="left:X"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">left</span><span class="result">: <span class="extype" name="scales.xml.equals.XmlDifference.X">X</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scales.xml.equals.XmlDifference#right" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="right:X"></a>
+      <a id="right:X"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">right</span><span class="result">: <span class="extype" name="scales.xml.equals.XmlDifference.X">X</span></span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        <div id="values" class="values members">
+              <h3>Concrete Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:AnyRef):Boolean"></a>
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.Any#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:AnyRef):Boolean"></a>
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.Any#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+      <script defer="defer" type="text/javascript" id="jquery-js" src="../../../lib/jquery.js"></script><script defer="defer" type="text/javascript" id="jquery-ui-js" src="../../../lib/jquery-ui.js"></script><script defer="defer" type="text/javascript" id="tools-tooltip-js" src="../../../lib/tools.tooltip.js"></script><script defer="defer" type="text/javascript" id="template-js" src="../../../lib/template.js"></script><script defer="defer" type="text/javascript" id="modernizr-custom-js" src="../../../lib/modernizr.custom.js"></script><script defer="defer" type="text/javascript" id="diagrams-js" src="../../../lib/diagrams.js"></script>
+    </body>
+      </html>

@@ -1,0 +1,249 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;StackUtils.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_StackUtils.scala.html#Trait_scales_utils_StackUtils"><img src="trait.png"></img>StackUtils</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import scala.collection.immutable.Stack
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td><a id="Trait_scales_utils_StackUtils"></a>trait StackUtils {
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>  // it is expected that the top is the same, afterwards recurse (as available) until a difference is seen
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>  @scala.annotation.tailrec
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>  final def compareStack(p1: Stack[Int], p2: Stack[Int]): Int = {
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>    if (p1.isEmpty &amp;&amp; p2.isEmpty == false) {
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>      1 // the position could be parent of same item, parents first 
+</td>
+          </tr><tr>
+            <td class="green">12</td>
+            <td>    } else if (p1.isEmpty == false &amp;&amp; p2.isEmpty) {
+</td>
+          </tr><tr>
+            <td class="green">13</td>
+            <td>      -1 // the position could be parent of same item, parents first 
+</td>
+          </tr><tr>
+            <td class="green">14</td>
+            <td>    } else if (p1.isEmpty &amp;&amp; p2.isEmpty) {
+</td>
+          </tr><tr>
+            <td class="green">15</td>
+            <td>      0 // no idea what this should be other than == 0 from normal comparisom
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>    } else {
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>      // get the tops, compare, if same pop and recurse
+</td>
+          </tr><tr>
+            <td class="green">18</td>
+            <td>      val t1 = p1.top
+</td>
+          </tr><tr>
+            <td class="green">19</td>
+            <td>      val t2 = p2.top
+</td>
+          </tr><tr>
+            <td class="green">20</td>
+            <td>      if (t1 == t2) {
+</td>
+          </tr><tr>
+            <td class="green">21</td>
+            <td>        compareStack(p1.pop, p2.pop)
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>      } else {
+</td>
+          </tr><tr>
+            <td class="green">23</td>
+            <td>        if (t1 &lt; t2)
+</td>
+          </tr><tr>
+            <td class="green">24</td>
+            <td>          1
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>        else
+</td>
+          </tr><tr>
+            <td class="green">26</td>
+            <td>          -1
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>  def sameBase(test: Stack[Int], against: Stack[Int]): Boolean = {
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>    /**
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>     * Should go into a seperate util class along with compare
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>    @scala.annotation.tailrec
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>    def iSameBase(test: Stack[Int], against: Stack[Int]): Boolean = {
+</td>
+          </tr><tr>
+            <td class="green">38</td>
+            <td>      if (test.isEmpty &amp;&amp; against.isEmpty == false) {
+</td>
+          </tr><tr>
+            <td class="green">39</td>
+            <td>        true // if it was empty to start its still true, if not against is still below this stack
+</td>
+          </tr><tr>
+            <td class="green">40</td>
+            <td>      } else if (test.isEmpty == false &amp;&amp; against.isEmpty) {
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>        false // base has more nodes
+</td>
+          </tr><tr>
+            <td class="green">42</td>
+            <td>      } else if (test.isEmpty &amp;&amp; against.isEmpty) {
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>        true // the same depth, and in this function the same position
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>      } else {
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>        // get the tops, compare, if same pop and recurse
+</td>
+          </tr><tr>
+            <td class="green">46</td>
+            <td>        val t1 = test.top
+</td>
+          </tr><tr>
+            <td class="green">47</td>
+            <td>        val t2 = against.top
+</td>
+          </tr><tr>
+            <td class="green">48</td>
+            <td>        if (t1 == t2) {
+</td>
+          </tr><tr>
+            <td class="green">49</td>
+            <td>          iSameBase(test.pop, against.pop)
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>        } else {
+</td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>          false // different
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="green">55</td>
+            <td>    iSameBase(test, against)
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>}
+</td>
+          </tr></tbody></table>

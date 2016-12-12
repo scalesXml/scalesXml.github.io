@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\Equiv.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="keyword">import</span> scalaz.Equal
+
+<span class="comment">/**
+ * Provides evidence that two instances of two disctinct types are equivalent after a conversion.
+ * Requires an instance of Equal for the common convertable type.
+ * 
+ * @author Derek Williams
+ */</span> 
+<span class="keyword">class</span> <a title="class Equiv[A] extends AnyRef" id="scales.utils;Equiv">Equiv</a><span class="delimiter">[</span><a title="" id="scales.utils;Equiv;A">A</a> : Equal<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="[B, C](b: B, c: C)(implicit evidence$2: B =&gt; A, implicit evidence$3: C =&gt; A)Boolean" id="scales.utils;Equiv.apply">apply</a><span class="delimiter">[</span> <a title="" id="scales.utils;Equiv.apply;B">B</a> &lt;% A, <a title="" id="scales.utils;Equiv.apply;C">C</a> &lt;% A<span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="scales.utils;Equiv.apply.b">b</a> : <a href="#scales.utils;Equiv.apply;B" title="B">B</a> , <a title="C" id="scales.utils;Equiv.apply.c">c</a> : <a href="#scales.utils;Equiv.apply;C" title="C">C</a><span class="delimiter">)</span> : <span title="Boolean">Boolean</span> = <span title="[T](implicit e: T)T">implicitly</span><a href="#scales.utils;Equiv.evidence$1" title="(implicit e: scalaz.Equal[A])scalaz.Equal[A]" class="delimiter">[</a><span title="scalaz.Equal[A]">Equal</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span>.<span title="(a1: A, a2: A)Boolean">equal</span><span class="delimiter">(</span><a href="#scales.utils;Equiv.apply.evidence$2" title="(v1: B)A">b</a>:<a href="#scales.utils;Equiv;A" title="A">A</a>, <a href="#scales.utils;Equiv.apply.evidence$3" title="(v1: C)A">c</a>:<a href="#scales.utils;Equiv;A" title="A">A</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span title="AnyRef" class="keyword">trait</span> <a title="trait EquivFunctions extends AnyRef" id="scales.utils;EquivFunctions">EquivFunctions</a> <span title="Unit" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Are these two parameters (convertable to a C) equal for a given Equiv[C] instance
+   */</span> 
+  <span class="keyword">def</span> <a title="[A, B, C](a: A, b: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: A =&gt; C, implicit viewB: B =&gt; C)Boolean" id="scales.utils;EquivFunctions.equivalent">equivalent</a><span class="delimiter">[</span><a title="" id="scales.utils;EquivFunctions.equivalent;A">A</a>, <a title="" id="scales.utils;EquivFunctions.equivalent;B">B</a>, <a title="" id="scales.utils;EquivFunctions.equivalent;C">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="A" id="scales.utils;EquivFunctions.equivalent.a">a</a> : <a href="#scales.utils;EquivFunctions.equivalent;A" title="A">A</a>, <a title="B" id="scales.utils;EquivFunctions.equivalent.b">b</a> : <a href="#scales.utils;EquivFunctions.equivalent;B" title="B">B</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="scales.utils;EquivFunctions.equivalent.equiv">equiv</a>: <a href="#scales.utils;Equiv" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="A =&gt; C" id="scales.utils;EquivFunctions.equivalent.viewA">viewA</a>: A =&gt; C, <a title="B =&gt; C" id="scales.utils;EquivFunctions.equivalent.viewB">viewB</a>: B =&gt; C<span class="delimiter">)</span> = <a href="#scales.utils;Equiv.apply" title="(b: A, c: B)(implicit evidence$2: A =&gt; C, implicit evidence$3: B =&gt; C)Boolean">equiv</a><a href="#scales.utils;EquivFunctions.equivalent.viewA" title="A =&gt; C" class="delimiter">(</a><a href="#scales.utils;EquivFunctions.equivalent.a" title="A">a</a>, <a href="#scales.utils;EquivFunctions.equivalent.b" title="B">b</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

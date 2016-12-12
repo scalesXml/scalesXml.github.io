@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\EitherLike.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="keyword">trait</span> <a title="trait LeftLikeProjection[+L] extends java.lang.Object" id="10320">LeftLikeProjection</a><span class="delimiter">[</span>+<a title="&gt;: Nothing &lt;: Any" id="10321">L</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span></span>
+<a href="l4"></a><span id="l4">  <span class="keyword">def</span> <a title="=&gt; L" id="43027">get</a> : <a href="#10321" title="L">L</a></span>
+<a href="l5"></a><span id="l5"><span class="delimiter">}</span></span>
+<a href="l6"></a><span id="l6"></span>
+<a href="l7"></a><span id="l7"><span class="keyword">trait</span> <a title="trait RightLikeProjection[+R] extends java.lang.Object" id="10322">RightLikeProjection</a><span class="delimiter">[</span>+<a title="&gt;: Nothing &lt;: Any" id="10323">R</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span></span>
+<a href="l8"></a><span id="l8">  <span class="keyword">def</span> <a title="=&gt; R" id="39620">get</a> : <a href="#10323" title="R">R</a></span>
+<a href="l9"></a><span id="l9"><span class="delimiter">}</span></span>
+<a href="l10"></a><span id="l10"></span>
+<a href="l11"></a><span id="l11"><span class="keyword">object</span> <a title="object scales.utils.NonLeftP" id="10324">NonLeftP</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10320" title="scales.utils.LeftLikeProjection[Nothing]">LeftLikeProjection</a><span class="delimiter">[</span>Nothing<span class="delimiter">]</span> <span class="delimiter">{</span></span>
+<a href="l12"></a><span id="l12">  <span class="keyword">def</span> <a title="=&gt; Nothing" id="43031">get</a> : <span title="Nothing">Nothing</span> = <a href="package.scala.html#12052" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Cannot get a left from a RightLike.&quot;)" class="string">&quot;Cannot get a left from a RightLike.&quot;</span><span class="delimiter">)</span></span>
+<a href="l13"></a><span id="l13"><span class="delimiter">}</span></span>
+<a href="l14"></a><span id="l14"></span>
+<a href="l15"></a><span id="l15"><span class="keyword">object</span> <a title="object scales.utils.NonRightP" id="10326">NonRightP</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10322" title="scales.utils.RightLikeProjection[Nothing]">RightLikeProjection</a><span class="delimiter">[</span>Nothing<span class="delimiter">]</span> <span class="delimiter">{</span></span>
+<a href="l16"></a><span id="l16">  <span class="keyword">def</span> <a title="=&gt; Nothing" id="43040">get</a> : <span title="Nothing">Nothing</span> = <a href="package.scala.html#12052" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Cannot get a right from a LeftLike.&quot;)" class="string">&quot;Cannot get a right from a LeftLike.&quot;</span><span class="delimiter">)</span></span>
+<a href="l17"></a><span id="l17"><span class="delimiter">}</span></span>
+<a href="l18"></a><span id="l18"></span>
+<a href="l19"></a><span id="l19"><span class="comment">/**</span>
+<a href="l20"></a><span id="l20"> * Either is great, perfect for what is needed, except for the indirection and the added memory and cpu costs thereof.  If ScalesXml is meant to be used in the placesthat JAXP and friends would live it should perform the best it can.</span>
+<a href="l21"></a><span id="l21"> *</span>
+<a href="l22"></a><span id="l22"> * That means reducing allocations wherever possible and optimising up to the point of model damage.  I think this unfortunately crosses that line but meets the aim.</span>
+<a href="l23"></a><span id="l23"> */</span> </span>
+<a href="l24"></a><span id="l24"><span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait EitherLike[+L, +R] extends java.lang.Object" id="10328">EitherLike</a><span class="delimiter">[</span>+<a title="&gt;: Nothing &lt;: Any" id="10329">L</a>,+<a title="&gt;: Nothing &lt;: Any" id="10330">R</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span></span>
+<a href="l25"></a><span id="l25">  <span class="keyword">def</span> <a title="=&gt; Boolean" id="39633">isLeft</a> : <span title="Boolean">Boolean</span></span>
+<a href="l26"></a><span id="l26"></span>
+<a href="l27"></a><span id="l27">  <span class="keyword">def</span> <a title="=&gt; Boolean" id="39634">isRight</a> : <span title="Boolean">Boolean</span></span>
+<a href="l28"></a><span id="l28"></span>
+<a href="l29"></a><span id="l29">  <span class="keyword">def</span> <a title="[X](fl: L =&gt; X, fr: R =&gt; X)X" id="39635">fold</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="39637">X</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="L =&gt; X" id="43045">fl</a> : <span class="delimiter">(</span>L<span class="delimiter">)</span> =&gt; X, <a title="R =&gt; X" id="43046">fr</a> : <span class="delimiter">(</span>R<span class="delimiter">)</span> =&gt; X<span class="delimiter">)</span> : <a href="#39637" title="X">X</a></span>
+<a href="l30"></a><span id="l30"></span>
+<a href="l31"></a><span id="l31">  <span class="keyword">def</span> <a title="=&gt; scales.utils.LeftLikeProjection[L]" id="39638">left</a> : <a href="#10320" title="scales.utils.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span></span>
+<a href="l32"></a><span id="l32">  </span>
+<a href="l33"></a><span id="l33">  <span class="keyword">def</span> <a title="=&gt; L" id="39639">getLeft</a> : <a href="#10329" title="L">L</a></span>
+<a href="l34"></a><span id="l34"></span>
+<a href="l35"></a><span id="l35">  <span class="keyword">def</span> <a title="=&gt; scales.utils.RightLikeProjection[R]" id="39640">right</a> : <a href="#10322" title="scales.utils.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span></span>
+<a href="l36"></a><span id="l36"></span>
+<a href="l37"></a><span id="l37">  <span class="keyword">def</span> <a title="=&gt; R" id="39641">getRight</a> : <a href="#10330" title="R">R</a></span>
+<a href="l38"></a><span id="l38"><span class="delimiter">}</span></span>
+<a href="l39"></a><span id="l39"></span>
+<a href="l40"></a><span id="l40"><span class="keyword">trait</span> <a title="trait LeftLike[+L, +R] extends java.lang.Object with scales.utils.LeftLikeProjection[L] with scales.utils.EitherLike[L,R] with ScalaObject" id="10331">LeftLike</a><span class="delimiter">[</span>+<a title="&gt;: Nothing &lt;: Any" id="10332">L</a>, +<a title="&gt;: Nothing &lt;: Any" id="10333">R</a><span class="delimiter">]</span> <span title="ScalaObject" class="keyword">extends</span> <a href="#10320" title="scales.utils.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#10328" title="scales.utils.EitherLike[L,R]">EitherLike</a><span class="delimiter">[</span>L,R<span class="delimiter">]</span> <span class="delimiter">{</span> lefty : L =&gt;</span>
+<a href="l41"></a><span id="l41">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="43051">isLeft</a> = <span title="Boolean(true)" class="keyword">true</span></span>
+<a href="l42"></a><span id="l42">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="43052">isRight</a> = <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l43"></a><span id="l43"></span>
+<a href="l44"></a><span id="l44">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="[X](fl: L =&gt; X, fr: R =&gt; X)X" id="43053">fold</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="43055">X</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="L =&gt; X" id="43071">fl</a> : <span class="delimiter">(</span>L<span class="delimiter">)</span> =&gt; X, <a title="R =&gt; X" id="43072">fr</a> : <span class="delimiter">(</span>R<span class="delimiter">)</span> =&gt; X<span class="delimiter">)</span> : <a href="#43055" title="X">X</a> = <a href="#43071" title="(v1: L)X">fl</a><span class="delimiter">(</span><a href="#10331" title="&lt;none&gt; extends scales.utils.LeftLike[L,R] with L">lefty</a><span class="delimiter">)</span></span>
+<a href="l45"></a><span id="l45"></span>
+<a href="l46"></a><span id="l46">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.LeftLikeProjection[L]" id="43056">left</a> : <a href="#10320" title="scales.utils.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span> = <a href="#10331" title="&lt;none&gt; extends scales.utils.LeftLike[L,R] with L" class="keyword">this</a></span>
+<a href="l47"></a><span id="l47"></span>
+<a href="l48"></a><span id="l48">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.RightLikeProjection[R]" id="43057">right</a> : <a href="#10322" title="scales.utils.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span> = <a href="#10326" title="object scales.utils.NonRightP">NonRightP</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.utils.RightLikeProjection[R]" class="delimiter">[</span><a href="#10322" title="scales.utils.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span><span class="delimiter">]</span></span>
+<a href="l49"></a><span id="l49"></span>
+<a href="l50"></a><span id="l50">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; L" id="43058">get</a> : <a href="#10332" title="L">L</a> = <a href="#10331" title="&lt;none&gt; extends scales.utils.LeftLike[L,R] with L">lefty</a></span>
+<a href="l51"></a><span id="l51"></span>
+<a href="l52"></a><span id="l52">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; L" id="43059">getLeft</a> : <a href="#10332" title="L">L</a> = <a href="#10331" title="&lt;none&gt; extends scales.utils.LeftLike[L,R] with L">lefty</a></span>
+<a href="l53"></a><span id="l53"></span>
+<a href="l54"></a><span id="l54">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; R" id="43060">getRight</a> : <a href="#10333" title="R">R</a> = <a href="#43057" title="=&gt; scales.utils.RightLikeProjection[R]">right</a>.<a href="#39620" title="=&gt; R">get</a></span>
+<a href="l55"></a><span id="l55"></span>
+<a href="l56"></a><span id="l56"><span class="delimiter">}</span></span>
+<a href="l57"></a><span id="l57"></span>
+<a href="l58"></a><span id="l58"><span class="keyword">trait</span> <a title="trait RightLike[+L, +R] extends java.lang.Object with scales.utils.RightLikeProjection[R] with scales.utils.EitherLike[L,R] with ScalaObject" id="10334">RightLike</a><span class="delimiter">[</span>+<a title="&gt;: Nothing &lt;: Any" id="10335">L</a>, +<a title="&gt;: Nothing &lt;: Any" id="10336">R</a><span class="delimiter">]</span> <span title="ScalaObject" class="keyword">extends</span> <a href="#10322" title="scales.utils.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#10328" title="scales.utils.EitherLike[L,R]">EitherLike</a><span class="delimiter">[</span>L,R<span class="delimiter">]</span> <span class="delimiter">{</span> righty : R =&gt;</span>
+<a href="l59"></a><span id="l59">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="39623">isLeft</a> = <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l60"></a><span id="l60">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="39624">isRight</a> = <span title="Boolean(true)" class="keyword">true</span></span>
+<a href="l61"></a><span id="l61"></span>
+<a href="l62"></a><span id="l62">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="[X](fl: L =&gt; X, fr: R =&gt; X)X" id="39625">fold</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="39627">X</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="L =&gt; X" id="43102">fl</a> : <span class="delimiter">(</span>L<span class="delimiter">)</span> =&gt; X, <a title="R =&gt; X" id="43103">fr</a> : <span class="delimiter">(</span>R<span class="delimiter">)</span> =&gt; X<span class="delimiter">)</span> : <a href="#39627" title="X">X</a> = <a href="#43103" title="(v1: R)X">fr</a><span class="delimiter">(</span><a href="#10334" title="&lt;none&gt; extends scales.utils.RightLike[L,R] with R">righty</a><span class="delimiter">)</span></span>
+<a href="l63"></a><span id="l63"></span>
+<a href="l64"></a><span id="l64">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.LeftLikeProjection[L]" id="39628">left</a> : <a href="#10320" title="scales.utils.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span> = <a href="#10324" title="object scales.utils.NonLeftP">NonLeftP</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.utils.LeftLikeProjection[L]" class="delimiter">[</span><a href="#10320" title="scales.utils.LeftLikeProjection[L]">LeftLikeProjection</a><span class="delimiter">[</span>L<span class="delimiter">]</span><span class="delimiter">]</span></span>
+<a href="l65"></a><span id="l65"></span>
+<a href="l66"></a><span id="l66">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.RightLikeProjection[R]" id="39629">right</a> : <a href="#10322" title="scales.utils.RightLikeProjection[R]">RightLikeProjection</a><span class="delimiter">[</span>R<span class="delimiter">]</span> = <a href="#10334" title="&lt;none&gt; extends scales.utils.RightLike[L,R] with R" class="keyword">this</a> </span>
+<a href="l67"></a><span id="l67"></span>
+<a href="l68"></a><span id="l68">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; R" id="39630">get</a> : <a href="#10336" title="R">R</a> = <a href="#10334" title="&lt;none&gt; extends scales.utils.RightLike[L,R] with R">righty</a></span>
+<a href="l69"></a><span id="l69"></span>
+<a href="l70"></a><span id="l70">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; R" id="39631">getRight</a> : <a href="#10336" title="R">R</a> = <a href="#10334" title="&lt;none&gt; extends scales.utils.RightLike[L,R] with R">righty</a></span>
+<a href="l71"></a><span id="l71"></span>
+<a href="l72"></a><span id="l72">  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; L" id="39632">getLeft</a> : <a href="#10335" title="L">L</a> = <a href="#39628" title="=&gt; scales.utils.LeftLikeProjection[L]">left</a>.<a href="#43027" title="=&gt; L">get</a></span>
+<a href="l73"></a><span id="l73"><span class="delimiter">}</span></span>
+<a href="l74"></a><span id="l74"></span>
+<a href="l75"></a><span id="l75">        </span>
+</pre>
+    </body>
+</html>

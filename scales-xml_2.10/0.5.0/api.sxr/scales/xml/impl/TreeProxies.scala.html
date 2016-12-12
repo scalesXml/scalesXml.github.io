@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\impl\TreeProxies.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.impl
+
+<span class="keyword">import</span> scales.xml._
+<span class="keyword">import</span> scales.utils.collection.Tree
+
+<span class="comment">// XmlBuilder, XmlChildren</span>
+<span class="keyword">final</span> <span class="keyword">class</span> <a title="class TreeProxy extends AnyRef" id="scales.xml.impl;TreeProxy">TreeProxy</a><a href="#scales.xml.impl;TreeProxy" title="scales.xml.impl.TreeProxy" class="delimiter">(</a> <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scales.xml.Elem" id="scales.xml.impl;TreeProxy._elem">_elem</a> : <a href="../XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a>, <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">val</span> <a title="scales.xml.XmlBuilder" id="scales.xml.impl;TreeProxy._builder">_builder</a> : <span title="scales.xml.XmlBuilder">XmlBuilder</span><span class="delimiter">)</span><span class="delimiter">{</span>
+  @inline <span class="keyword">def</span> <a title="=&gt; scales.xml.Elem" id="scales.xml.impl;TreeProxy.elem">elem</a> = <a href="#scales.xml.impl;TreeProxy._elem" title="scales.xml.Elem">_elem</a>
+
+  @inline <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)Unit" id="scales.xml.impl;TreeProxy.setElem">setElem</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="scales.xml.impl;TreeProxy.setElem.elem">elem</a> : <a href="../XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#scales.xml.impl;TreeProxy._elem" title="scales.xml.Elem">_elem</a> = <a href="#scales.xml.impl;TreeProxy.setElem.elem" title="scales.xml.Elem">elem</a>
+  <span class="delimiter">}</span>
+
+  @inline <span class="keyword">def</span> <a title="=&gt; scales.xml.XmlBuilder" id="scales.xml.impl;TreeProxy.builder">builder</a> = <a href="#scales.xml.impl;TreeProxy._builder" title="scales.xml.XmlBuilder">_builder</a>
+<span class="delimiter">}</span>
+
+<span title="AnyRef" class="keyword">import</span> scala.collection.mutable.ArrayBuffer
+
+<span class="comment">/**
+ * Mutable list that keeps the item creation to a minimum, no extra garbage here until the parse is done...
+ *
+ * NOTE this is effectively an internal structure, but is provided for user land performance tweaks
+ */</span> 
+<span class="keyword">class</span> <a title="class TreeProxies extends AnyRef" id="scales.xml.impl;TreeProxies">TreeProxies</a><a href="#scales.xml.impl;TreeProxies" title="scales.xml.impl.TreeProxies" class="delimiter">(</a> <span class="delimiter">)</span><span class="delimiter">{</span>
+  <span class="keyword">import</span> <a href="../ScalesXml.scala.html#scales.xml.ScalesXml" title="scales.xml.ScalesXml.type">ScalesXml</a>.xmlCBF
+
+  <span class="comment">// special case root tree</span>
+  <span class="keyword">var</span> <a title="scales.xml.XmlTree" id="scales.xml.impl;TreeProxies.rootTree_=">rootTree</a> : <a href="../../utils/collection/Trees.scala.html#scales.utils.collection;Tree" title="scales.xml.XmlTree">XmlTree</a> = _
+  
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Int" id="scales.xml.impl;TreeProxies._depth">_depth</a> : <span title="Int">Int</span> = -<span title="Int(-1)" class="int">1</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Array[scales.xml.impl.TreeProxy]" id="scales.xml.impl;TreeProxies._proxies">_proxies</a> : <span title="Array[scales.xml.impl.TreeProxy]">Array</span><span class="delimiter">[</span>TreeProxy<span class="delimiter">]</span> = <span title="Array.type">Array</span>.<span title="[T](n1: Int)(implicit evidence$3: scala.reflect.ClassTag[T])Array[T]">ofDim</span><span title="(n1: Int)(implicit evidence$3: scala.reflect.ClassTag[scales.xml.impl.TreeProxy])Array[scales.xml.impl.TreeProxy]" class="delimiter">[</span><a href="#scales.xml.impl;TreeProxy" title="scales.xml.impl.TreeProxy">TreeProxy</a><span class="delimiter">]</span><span title="(runtimeClass1: Class[_])scala.reflect.ClassTag[scales.xml.impl.TreeProxy]" class="delimiter">(</span><span title="Int(50)" class="int">50</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Strips a path from the current position to the top of tree.  The
+   * existing cached trees are then effectively re-created without the current position (one depth less)
+   */</span> 
+  <span class="keyword">def</span> <a title="()scales.xml.XmlPath" id="scales.xml.impl;TreeProxies.proxyPath">proxyPath</a><span class="delimiter">(</span><span class="delimiter">)</span> : <a href="../../utils/collection/path/Paths.scala.html#scales.utils.collection.path;Path" title="scales.xml.XmlPath">XmlPath</a> = <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="Int" id="scales.xml.impl;TreeProxies.proxyPath.d">d</a> = <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a>
+    <span class="keyword">val</span> <a title="scales.xml.impl.TreeProxy" id="scales.xml.impl;TreeProxies.proxyPath.l">l</a> = <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>
+
+    <span class="keyword">val</span> <a title="scales.xml.Elem" id="scales.xml.impl;TreeProxies.proxyPath.te">te</a> = <a href="#scales.xml.impl;TreeProxies.proxyPath.l" title="scales.xml.impl.TreeProxy">l</a>.<a href="#scales.xml.impl;TreeProxy.elem" title="=&gt; scales.xml.Elem">elem</a>
+    <span class="keyword">val</span> <a title="scales.xml.XmlChildren" id="scales.xml.impl;TreeProxies.proxyPath.tcc">tcc</a> = <a href="#scales.xml.impl;TreeProxies.proxyPath.l" title="scales.xml.impl.TreeProxy">l</a>.<a href="#scales.xml.impl;TreeProxy.builder" title="=&gt; scales.xml.XmlBuilder">builder</a>.<span title="()scales.xml.XmlChildren">result</span>
+     
+    <span class="keyword">var</span> <a title="Array[scales.xml.Elem]" id="scales.xml.impl;TreeProxies.proxyPath.elems">elems</a> = <span title="Array.type">Array</span>.<span title="[T](n1: Int)(implicit evidence$3: scala.reflect.ClassTag[T])Array[T]">ofDim</span><span title="(n1: Int)(implicit evidence$3: scala.reflect.ClassTag[scales.xml.Elem])Array[scales.xml.Elem]" class="delimiter">[</span><a href="../XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a><span class="delimiter">]</span><span title="(runtimeClass1: Class[_])scala.reflect.ClassTag[scales.xml.Elem]" class="delimiter">(</span><span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a> <span title="(x: Int)Boolean">&lt;</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span title="Int(0)" class="int">0</span> <span class="keyword">else</span> <a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a><span class="delimiter">)</span>
+    <span title="Unit" class="keyword">while</span><span class="delimiter">(</span> <a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span> <span class="delimiter">)</span> <a href="#scales.xml.impl;TreeProxies.proxyPath.while$1" title="()Unit" class="delimiter">{</a>
+      <a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a> <span title="(x: Int)Int">-=</span> <span title="Int(1)" class="int">1</span>
+
+      <a href="#scales.xml.impl;TreeProxies.proxyPath.elems" title="(i: Int, x: scales.xml.Elem)Unit">elems</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a><span class="delimiter">)</span> = <a href="#scales.xml.impl;TreeProxies._proxies" title="(i: Int)scales.xml.impl.TreeProxy">_proxies</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a><span class="delimiter">)</span>.<a href="#scales.xml.impl;TreeProxy.elem" title="=&gt; scales.xml.Elem">elem</a>
+    <span class="delimiter">}</span>
+
+    <a href="#scales.xml.impl;TreeProxies.reuse" title="()scales.xml.impl.TreeProxies">reuse</a>
+
+    <span class="keyword">var</span> <a title="scales.xml.XmlPath" id="scales.xml.impl;TreeProxies.proxyPath.p">p</a> = <a href="XmlTypesDefaults.scala.html#scales.xml.impl;XmlTypes.noXmlPath" title="=&gt; scales.xml.XmlPath">noXmlPath</a>
+
+    <span class="comment">// add them back</span>
+    <a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a> = <span title="Int(0)" class="int">0</span>
+    <span title="Unit" class="keyword">while</span><span class="delimiter">(</span> <a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a> <span title="(x: Int)Boolean">&lt;</span> <a href="#scales.xml.impl;TreeProxies.proxyPath.elems" title="Array[scales.xml.Elem]">elems</a>.<span title="=&gt; Int">length</span> <span class="delimiter">)</span><a href="#scales.xml.impl;TreeProxies.proxyPath.while$2" title="()Unit" class="delimiter">{</a>
+      <a href="#scales.xml.impl;TreeProxies.beginSub" title="(elem: scales.xml.Elem, builder: =&gt; scales.xml.XmlBuilder)Unit">beginSub</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyPath.elems" title="(i: Int)scales.xml.Elem">elems</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a><span class="delimiter">)</span>, <a href="XmlTypesDefaults.scala.html#scales.xml.impl;XmlTypes.XmlBuilder" title="()scales.xml.XmlBuilder">XmlBuilder</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+      <span class="comment">// add child to path</span>
+      <a href="#scales.xml.impl;TreeProxies.proxyPath.p" title="scales.xml.XmlPath">p</a> = <a href="XmlTypesDefaults.scala.html#scales.xml.impl;XmlTypes.addAndFocus" title="(path: scales.xml.XmlPath, elem: scales.xml.Elem, dchildren: scales.xml.XmlChildren)scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.XCC]">addAndFocus</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyPath.p" title="scales.xml.XmlPath">p</a>, <a href="#scales.xml.impl;TreeProxies.proxyPath.elems" title="(i: Int)scales.xml.Elem">elems</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a><span class="delimiter">)</span><span class="delimiter">)</span>
+      <a href="#scales.xml.impl;TreeProxies.proxyPath.d" title="Int">d</a> <span title="(x: Int)Int">+=</span> <span title="Int(1)" class="int">1</span>
+    <span class="delimiter">}</span>
+    <a href="#scales.xml.impl;TreeProxies.proxyPath.p" title="scales.xml.XmlPath">p</a> = <a href="XmlTypesDefaults.scala.html#scales.xml.impl;XmlTypes.addAndFocus" title="(path: scales.xml.XmlPath, elem: scales.xml.Elem, dchildren: scales.xml.XmlChildren)scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.XCC]">addAndFocus</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyPath.p" title="scales.xml.XmlPath">p</a>, <a href="#scales.xml.impl;TreeProxies.proxyPath.te" title="scales.xml.Elem">te</a>, <a href="#scales.xml.impl;TreeProxies.proxyPath.tcc" title="scales.xml.XmlChildren">tcc</a><span class="delimiter">)</span>
+    
+    <a href="#scales.xml.impl;TreeProxies.proxyPath.p" title="scales.xml.XmlPath">p</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Pushes up the tree discarding the last, if its the top it &quot;resets&quot; the tree
+   * Note unlike Paths, there is only the notion of last child on the parent depth.
+   */</span>
+  <span class="keyword">def</span> <a title="()scales.xml.impl.TreeProxies" id="scales.xml.impl;TreeProxies.proxyRemoveAndUp">proxyRemoveAndUp</a><span class="delimiter">(</span><span class="delimiter">)</span> : <a href="#scales.xml.impl;TreeProxies" title="scales.xml.impl.TreeProxies">TreeProxies</a> = <span class="delimiter">{</span>
+    
+    <span class="keyword">val</span> <a title="Int" id="scales.xml.impl;TreeProxies.proxyRemoveAndUp.nd">nd</a> = <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span title="(x: Int)Int">-</span> <span title="Int(1)" class="int">1</span>
+
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a> = <a href="#scales.xml.impl;TreeProxies._proxies" title="(i: Int)scales.xml.impl.TreeProxy">_proxies</a><span class="delimiter">(</span> <a href="#scales.xml.impl;TreeProxies.proxyRemoveAndUp.nd" title="Int">nd</a> <span class="delimiter">)</span>
+      <span class="comment">// scrap the last</span>
+      <span class="comment">//val r = _current.builder.result</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>.<a href="#scales.xml.impl;TreeProxy.builder" title="=&gt; scales.xml.XmlBuilder">builder</a>.<span title="()Unit">clear</span><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="comment">// end of doc</span>
+      <a href="#scales.xml.impl;TreeProxies.rootTree_=" title="(x$1: scales.xml.XmlTree)Unit">rootTree</a> = <span title="Null(null)" class="keyword">null</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.XmlTree" class="delimiter">[</span><a href="../../utils/collection/Trees.scala.html#scales.utils.collection;Tree" title="scales.xml.XmlTree">XmlTree</a><span class="delimiter">]</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a> = <span title="Null(null)" class="keyword">null</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.impl.TreeProxy" class="delimiter">[</span><a href="#scales.xml.impl;TreeProxy" title="scales.xml.impl.TreeProxy">TreeProxy</a><span class="delimiter">]</span>
+    <span class="delimiter">}</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.proxyRemoveAndUp.nd" title="Int">nd</a> <span title="(x: Int)Boolean">&gt;</span> -<span title="Int(-2)" class="int">2</span><span class="delimiter">)</span>
+      <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> = <a href="#scales.xml.impl;TreeProxies.proxyRemoveAndUp.nd" title="Int">nd</a>
+    <span class="keyword">else</span>
+      <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> = -<span title="Int(-1)" class="int">1</span>
+    
+    <a href="#scales.xml.impl;TreeProxies" title="scales.xml.impl.TreeProxies" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Keeps the same _proxies array but resets the rest.  The old proxies is
+   * no longer usable.
+   * WARN - as per class docs this is effectively an internal structure caveat empor
+   */</span> 
+  <span class="keyword">def</span> <a title="()scales.xml.impl.TreeProxies" id="scales.xml.impl;TreeProxies.reuse">reuse</a><span class="delimiter">(</span><span class="delimiter">)</span> : <a href="#scales.xml.impl;TreeProxies" title="scales.xml.impl.TreeProxies">TreeProxies</a> = <span class="delimiter">{</span>
+    <span class="comment">// size is not redone so we keep builders around</span>
+    <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> = -<span title="Int(-1)" class="int">1</span>
+    <a href="#scales.xml.impl;TreeProxies.rootTree_=" title="(x$1: scales.xml.XmlTree)Unit">rootTree</a> = <span title="Null(null)" class="keyword">null</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.XmlTree" class="delimiter">[</span><a href="../../utils/collection/Trees.scala.html#scales.utils.collection;Tree" title="scales.xml.XmlTree">XmlTree</a><span class="delimiter">]</span>
+    <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a> = <span title="Null(null)" class="keyword">null</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.impl.TreeProxy" class="delimiter">[</span><a href="#scales.xml.impl;TreeProxy" title="scales.xml.impl.TreeProxy">TreeProxy</a><span class="delimiter">]</span>
+    <a href="#scales.xml.impl;TreeProxies" title="scales.xml.impl.TreeProxies" class="keyword">this</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">// current max size in the proxies (_proxies.length could be far larger)</span>
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Int" id="scales.xml.impl;TreeProxies._size">_size</a> = <span title="Int(0)" class="int">0</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="scales.xml.impl.TreeProxy" id="scales.xml.impl;TreeProxies._current">_current</a> : <a href="#scales.xml.impl;TreeProxy" title="scales.xml.impl.TreeProxy">TreeProxy</a> = _
+
+<span class="comment">/*
+ * interface for TreeOptimisations below, don't penalise normal parsing
+ */</span> 
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.impl.TreeProxy" id="scales.xml.impl;TreeProxies.current">current</a> = <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>
+  <span class="keyword">def</span> <a title="(tp: scales.xml.impl.TreeProxy)Unit" id="scales.xml.impl;TreeProxies.current_=">current_=</a><span class="delimiter">(</span> <a title="scales.xml.impl.TreeProxy" id="scales.xml.impl;TreeProxies.current_=.tp">tp</a> : <a href="#scales.xml.impl;TreeProxy" title="scales.xml.impl.TreeProxy">TreeProxy</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a> = <a href="#scales.xml.impl;TreeProxies.current_=.tp" title="scales.xml.impl.TreeProxy">tp</a> 
+  <span class="delimiter">}</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="scales.xml.impl;TreeProxies.depth">depth</a> = <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a>
+  <span class="keyword">def</span> <a title="(newDepth: Int)Unit" id="scales.xml.impl;TreeProxies.depth_=">depth_=</a> <span class="delimiter">(</span> <a title="Int" id="scales.xml.impl;TreeProxies.depth_=.newDepth">newDepth</a> : <span title="Int">Int</span> <span class="delimiter">)</span> <span class="delimiter">{</span> <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> = <a href="#scales.xml.impl;TreeProxies.depth_=.newDepth" title="Int">newDepth</a> <span class="delimiter">}</span>
+  <span class="keyword">def</span> <a title="(depth: Int)scales.xml.impl.TreeProxy" id="scales.xml.impl;TreeProxies.proxy">proxy</a><span class="delimiter">(</span> <a title="Int" id="scales.xml.impl;TreeProxies.proxy.depth">depth</a> : <span title="Int">Int</span> <span class="delimiter">)</span> = <a href="#scales.xml.impl;TreeProxies._proxies" title="(i: Int)scales.xml.impl.TreeProxy">_proxies</a><span class="delimiter">(</span> <a href="#scales.xml.impl;TreeProxies.proxy.depth" title="Int">depth</a> <span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(i: scales.xml.XmlItem)Unit" id="scales.xml.impl;TreeProxies.addChild">addChild</a><span class="delimiter">(</span> <a title="scales.xml.XmlItem" id="scales.xml.impl;TreeProxies.addChild.i">i</a> : <a href="../XmlTypes.scala.html#scales.xml;XmlItem" title="scales.xml.XmlItem">XmlItem</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>.<a href="#scales.xml.impl;TreeProxy.builder" title="=&gt; scales.xml.XmlBuilder">builder</a>.<span title="(elem: scales.utils.EitherLike[scales.xml.XmlItem,scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,[T]scales.utils.collection.ImmutableArrayProxy[T]]])scala.collection.mutable.Builder[scales.xml.ItemOrElem,scales.xml.XmlChildren]">+=</span><span title="Unit" class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.addChild.i" title="scales.xml.XmlItem">i</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="()Unit" id="scales.xml.impl;TreeProxies.elementEnd">elementEnd</a><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.impl.TreeProxy" id="scales.xml.impl;TreeProxies.elementEnd.l">l</a> = <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>
+
+    <span class="keyword">val</span> <a title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.XCC]" id="scales.xml.impl;TreeProxies.elementEnd.newTree">newTree</a> = <a href="../../utils/collection/Trees.scala.html#scales.utils.collection.Tree.apply" title="(isection: scales.xml.Elem, ichildren: scales.xml.XCC[scales.utils.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.XCC]])scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.XCC]">Tree</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.elementEnd.l" title="scales.xml.impl.TreeProxy">l</a>.<a href="#scales.xml.impl;TreeProxy.elem" title="=&gt; scales.xml.Elem">elem</a>, <a href="#scales.xml.impl;TreeProxies.elementEnd.l" title="scales.xml.impl.TreeProxy">l</a>.<a href="#scales.xml.impl;TreeProxy.builder" title="=&gt; scales.xml.XmlBuilder">builder</a>.<span title="()scales.xml.XmlChildren">result</span><span class="delimiter">)</span>
+    
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span title="(x: Int)Int">-=</span> <span title="Int(1)" class="int">1</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a> = <a href="#scales.xml.impl;TreeProxies._proxies" title="(i: Int)scales.xml.impl.TreeProxy">_proxies</a><span class="delimiter">(</span> <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span class="delimiter">)</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>.<a href="#scales.xml.impl;TreeProxy.builder" title="=&gt; scales.xml.XmlBuilder">builder</a>.<span title="(elem: scales.utils.EitherLike[scales.xml.XmlItem,scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,[T]scales.utils.collection.ImmutableArrayProxy[T]]])scala.collection.mutable.Builder[scales.xml.ItemOrElem,scales.xml.XmlChildren]">+=</span><span title="Unit" class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.elementEnd.newTree" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.XCC]">newTree</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="comment">// end of doc</span>
+      <a href="#scales.xml.impl;TreeProxies.rootTree_=" title="(x$1: scales.xml.XmlTree)Unit">rootTree</a> = <a href="#scales.xml.impl;TreeProxies.elementEnd.newTree" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.XCC]">newTree</a>
+      <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span title="(x: Int)Int">-=</span> <span title="Int(1)" class="int">1</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem, builder: =&gt; scales.xml.XmlBuilder)Unit" id="scales.xml.impl;TreeProxies.beginSub">beginSub</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="scales.xml.impl;TreeProxies.beginSub.elem">elem</a> : <a href="../XmlTypes.scala.html#scales.xml;Elem" title="scales.xml.Elem">Elem</a>, <a title="=&gt; scales.xml.XmlBuilder" id="scales.xml.impl;TreeProxies.beginSub.builder">builder</a> : =&gt; XmlBuilder<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span title="(x: Int)Int">+=</span> <span title="Int(1)" class="int">1</span>
+    
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span title="(x: Int)Boolean">==</span> <a href="#scales.xml.impl;TreeProxies._proxies" title="Array[scales.xml.impl.TreeProxy]">_proxies</a>.<span title="=&gt; Int">length</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="comment">// double the size</span>
+      <span class="keyword">val</span> <a title="Array[scales.xml.impl.TreeProxy]" id="scales.xml.impl;TreeProxies.beginSub.ar">ar</a> = <span title="Array.type">Array</span>.<span title="[T](n1: Int)(implicit evidence$3: scala.reflect.ClassTag[T])Array[T]">ofDim</span><span title="(n1: Int)(implicit evidence$3: scala.reflect.ClassTag[scales.xml.impl.TreeProxy])Array[scales.xml.impl.TreeProxy]" class="delimiter">[</span><a href="#scales.xml.impl;TreeProxy" title="scales.xml.impl.TreeProxy">TreeProxy</a><span class="delimiter">]</span><span title="(runtimeClass1: Class[_])scala.reflect.ClassTag[scales.xml.impl.TreeProxy]" class="delimiter">(</span> <a href="#scales.xml.impl;TreeProxies._proxies" title="Array[scales.xml.impl.TreeProxy]">_proxies</a>.<span title="=&gt; Int">length</span> <span title="(x: Int)Int">*</span> <span title="Int(2)" class="int">2</span> <span class="delimiter">)</span>
+      <span title="Array.type">Array</span>.<span title="(src: AnyRef, srcPos: Int, dest: AnyRef, destPos: Int, length: Int)Unit">copy</span><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies._proxies" title="Array[scales.xml.impl.TreeProxy]">_proxies</a>, <span title="Int(0)" class="int">0</span>, <a href="#scales.xml.impl;TreeProxies.beginSub.ar" title="Array[scales.xml.impl.TreeProxy]">ar</a>, <span title="Int(0)" class="int">0</span>, <a href="#scales.xml.impl;TreeProxies._proxies" title="Array[scales.xml.impl.TreeProxy]">_proxies</a>.<span title="=&gt; Int">length</span><span class="delimiter">)</span>
+      <a href="#scales.xml.impl;TreeProxies._proxies" title="Array[scales.xml.impl.TreeProxy]">_proxies</a> = <a href="#scales.xml.impl;TreeProxies.beginSub.ar" title="Array[scales.xml.impl.TreeProxy]">ar</a>
+    <span class="delimiter">}</span>
+
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a> <span title="(x: Int)Boolean">==</span> <a href="#scales.xml.impl;TreeProxies._size" title="Int">_size</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a> = <span title="scales.xml.impl.TreeProxy" class="keyword">new</span> <a href="#scales.xml.impl;TreeProxy" title="scales.xml.impl.TreeProxy">TreeProxy</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.beginSub.elem" title="scales.xml.Elem">elem</a>, <a href="#scales.xml.impl;TreeProxies.beginSub.builder" title="=&gt; scales.xml.XmlBuilder">builder</a><span class="delimiter">)</span>
+      <a href="#scales.xml.impl;TreeProxies._proxies" title="(i: Int, x: scales.xml.impl.TreeProxy)Unit">_proxies</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a><span class="delimiter">)</span> = <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>
+      <a href="#scales.xml.impl;TreeProxies._size" title="Int">_size</a> <span title="(x: Int)Int">+=</span><span title="Int(1)" class="int">1</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a> = <a href="#scales.xml.impl;TreeProxies._proxies" title="(i: Int)scales.xml.impl.TreeProxy">_proxies</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies._depth" title="Int">_depth</a><span class="delimiter">)</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>.<a href="#scales.xml.impl;TreeProxy.setElem" title="(elem: scales.xml.Elem)Unit">setElem</a><span class="delimiter">(</span><a href="#scales.xml.impl;TreeProxies.beginSub.elem" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+      <a href="#scales.xml.impl;TreeProxies._current" title="scales.xml.impl.TreeProxy">_current</a>.<a href="#scales.xml.impl;TreeProxy.builder" title="=&gt; scales.xml.XmlBuilder">builder</a>.<span title="()Unit">clear</span><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// don't create a new one</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Only call when its the end of the parse
+   */</span> 
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.XmlTree" id="scales.xml.impl;TreeProxies.tree">tree</a> = 
+    <a href="#scales.xml.impl;TreeProxies.rootTree_=" title="=&gt; scales.xml.XmlTree">rootTree</a>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

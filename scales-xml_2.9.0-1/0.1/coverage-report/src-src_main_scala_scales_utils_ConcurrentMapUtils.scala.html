@@ -1,0 +1,273 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;ConcurrentMapUtils.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">58 %</div>
+        <div class="greenBar" style="width:116px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_ConcurrentMapUtils.scala.html#Class_scales_utils_ConcurrentMapUtils"><img src="class.png"></img>ConcurrentMapUtils</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_ConcurrentMapUtils.scala.html#Trait_scales_utils_ConcurrentMapUtils"><img src="trait.png"></img>ConcurrentMapUtils</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">58 %</div>
+        <div class="greenBar" style="width:116px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_ConcurrentMapUtils.scala.html#Trait_scales_utils_ConcurrentMapUtils_Once"><img src="trait.png"></img>ConcurrentMapUtils.Once</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import java.util.concurrent.ConcurrentHashMap
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import java.util.concurrent.ConcurrentLinkedQueue
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td> * Simple helper functions to get and remove ConcurrentLinkedQueues from a ConcurrentHashMap
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td><a id="Trait_scales_utils_ConcurrentMapUtils"></a>trait ConcurrentMapUtils {
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>  def getList[K, T](key: K, mapToList: ConcurrentHashMap[K, ConcurrentLinkedQueue[T]]): ConcurrentLinkedQueue[T] = 
+</td>
+          </tr><tr>
+            <td class="red">12</td>
+            <td>    <span class="non">value(key, mapToList)(
+</span></td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>      new ConcurrentLinkedQueue[T]())
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>  def removeList[K, T](key: K, mapToList: ConcurrentHashMap[K, ConcurrentLinkedQueue[T]]): ConcurrentLinkedQueue[T] = 
+</td>
+          </tr><tr>
+            <td class="red">16</td>
+            <td>    <span class="non">removeOr(key,mapToList)(new ConcurrentLinkedQueue[T]())
+</span></td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>   * Removes the value, returning either it or a new item (stops end code worrying about nulls etc..
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>  def removeOr[K, T](key: K, map: ConcurrentHashMap[K, T])(newT : =&gt; T): T = {
+</td>
+          </tr><tr>
+            <td class="red">22</td>
+            <td>    var res = <span class="non">map.remove(key)
+</span></td>
+          </tr><tr>
+            <td class="red">23</td>
+            <td>    if (<span class="non">res == null) {
+</span></td>
+          </tr><tr>
+            <td class="red">24</td>
+            <td>      <span class="non">res = newT
+</span></td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">27</td>
+            <td>    <span class="non">res
+</span></td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>   * Only created once and via calcOnce
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td><a id="Trait_scales_utils_ConcurrentMapUtils_Once"></a>  sealed trait Once[T] {
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>    val value : T
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>   * Calculates the value once and only once (using a lazy val), returning the result, use this approach for expensive calculations.
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>  def calcOnce[K,T](key : K, map : ConcurrentHashMap[K, Once[T]])( calc : =&gt; T ) : T = 
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td><a id="Class_scales_utils_ConcurrentMapUtils"></a>    value(key, map)(new Once[T]{
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>  lazy val value = calc
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>      }).
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>    // doesn't matter which thread did this
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>    value
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>   * retrieves the value of a concurrent hashmap against a given key, creating if necessary.  Note it makes no gaurantee of once only semantics for the value generation
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>  def value[K,T](key : K, map : ConcurrentHashMap[K, T])( newT : =&gt; T ) : T = {
+</td>
+          </tr><tr>
+            <td class="green">51</td>
+            <td>    var value = map.get(key)
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>    if (value == null) {
+</td>
+          </tr><tr>
+            <td class="green">53</td>
+            <td>      value = newT
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>      val res = map.putIfAbsent(key, value)
+</td>
+          </tr><tr>
+            <td class="yellow">55</td>
+            <td>      value = if (res == null) value else <span class="non">res
+</span></td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">58</td>
+            <td>    value
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>}
+</td>
+          </tr></tbody></table>

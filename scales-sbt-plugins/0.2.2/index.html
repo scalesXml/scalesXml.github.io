@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8' ?><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>scales : scales-sbt-plugins-0.2.2 Site</title><link href="./scales_base.css" rel="stylesheet" type="text/css" media="screen" /><link href="./site_docs.css" rel="stylesheet" type="text/css" media="screen" /><link href="./highlight/styles/idea.css" rel="stylesheet" type="text/css" media="screen" /><script src="./jquery.js" type="text/javascript"></script><script src="./highlight/highlight.pack.js" type="text/javascript"></script><script type="text/javascript">
+$(function() {
+$("pre[class^='language-']").each(function(i,elem) {
+  var clazz = $(elem).attr('class');
+  var str = elem.innerHTML//.replace(/\r\n|\r|\n/g,"<br/>");
+  // Workaround for IE <PRE> innerHTML normalization quirk
+  if (elem.tagName == "PRE" && "outerHTML" in elem)
+    {
+      elem.outerHTML = "<PRE><CODE class='"+clazz+"'>" + str + "</CODE></PRE>";
+    }
+  else
+    {
+      elem.innerHTML = "<CODE class='"+clazz+"'>" + str + "</CODE>"; //.replace(/\r\n|\r|\n/g,"<br/>");;
+    }
+});
+  hljs.initHighlighting();
+//$("pre[class^='language-']").each(function(i, e) {hljs.highlightBlock(e)});
+});
+</script>
+</head><body><h1 id="scales_:_scales-sbt-plugins-0.2.2_Site">scales : scales-sbt-plugins-0.2.2 Site</h1><p><br/></p><ul><li><a href="./doc/index.html">ScalaDocs for scales-sbt-plugins</a></li></ul><p><br/></p><h2 id="Project_Documentation">Project Documentation</h2><p><br/></p><ul><li><a href="./ScalesSbtPluginsIntro.html">An Introduction to Scales SBT Plugins</a></li></ul><p><br/>
+<a href="./scales-sbt-plugins-0.2.2-site.zip">Download Site Zip</a></p><p>Built By: Chris, Fri Apr 08 20:39:54 CEST 2011</p></body></html>

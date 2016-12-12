@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\Namespaces.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml
+
+<span class="keyword">import</span> scales.utils.error
+<span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>LeftLike, RightLike<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Scales supports many aspects of Xml10 and Xml11, verification of serialization and values takes place with the XmlVersion ADT. 
+ */</span> 
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait XmlVersion extends java.lang.Object" id="13095">XmlVersion</a><span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="=&gt; String" id="90498">version</a> : <span title="String">String</span>
+<span class="delimiter">}</span>
+case <span class="keyword">object</span> <a href="#90509" title="object scales.xml.Xml11" id="90514">Xml11</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="java.lang.String" id="90501">version</a> = <span title="java.lang.String(&quot;1.1&quot;)" class="string">&quot;1.1&quot;</span>
+<span class="delimiter">}</span>
+case <span class="keyword">object</span> <a href="#90524" title="object scales.xml.Xml10" id="90529">Xml10</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="java.lang.String" id="90516">version</a> = <span title="java.lang.String(&quot;1.0&quot;)" class="string">&quot;1.0&quot;</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait DefaultXmlVersion extends java.lang.Object with ScalaObject" id="12219">DefaultXmlVersion</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.XmlVersion" id="90531">defaultVersion</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a> = <a href="#90529" title="object scales.xml.Xml10">Xml10</a>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Follows the XML 1.0 spec and XML 1.1 spec, all underlying code provided by a copied version of the Xerces libs.
+ *
+ * Throughout user QName code we default to XML 1.0, as all XML 1.0 docs are valid XML 1.1's but the reverse is not true.
+ *
+ * Also note that we do not accept :, we are namespace compliant first and foremost
+ *
+ * The reason I'm simply copying to another package is that the utils.XMLChar functions aren't then forcing a JAXP or
+ * xerces version.
+ */</span>
+<span class="keyword">object</span> <a title="object scales.xml.QNameCharUtils" id="12679">QNameCharUtils</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">import</span> scales.org.apache.xerces.util._
+
+  <span class="keyword">def</span> <a title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean" id="90537">validLocalName</a><span class="delimiter">(</span> <a title="String" id="90543">name</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90544">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> =
+    <a href="#90538" title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean">validXmlName</a><a href="#90544" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#90543" title="String">name</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span>
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#90543" title="String">name</a>.<span title="()Int">length</span> <span title="(x: Int)Boolean">&gt;</span> <span title="Int(2)" class="int">2</span><span class="delimiter">)</span> 
+	<a href="#90543" title="String">name</a>.<span title="(x$1: Int, x$2: Int)java.lang.String">substring</span><span class="delimiter">(</span><span title="Int(0)" class="int">0</span>,<span title="Int(2)" class="int">2</span><span class="delimiter">)</span>.<span title="()java.lang.String">toLowerCase</span> <span title="(x$1: AnyRef)Boolean">!=</span> <span title="java.lang.String(&quot;xml&quot;)" class="string">&quot;xml&quot;</span>
+      <span class="keyword">else</span>
+	<span title="Boolean(true)" class="keyword">true</span>
+    <span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span>
+    <a href="#90543" title="String">name</a>.<span title="(x$1: Int)Int">indexOf</span><span class="delimiter">(</span><span title="Int(58)" class="char">':'</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span> <span class="comment">// namespaces ftw</span>
+
+  <span class="keyword">def</span> <a title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean" id="90538">validXmlName</a><span class="delimiter">(</span> <a title="String" id="90547">name</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90548">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span>  =
+    <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#90548" title="scales.xml.XmlVersion">ver</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#90529" title="object scales.xml.Xml10">Xml10</a><span class="delimiter">)</span>
+      <a href="../org/apache/xerces/util/XMLChar.java.html#9937" title="object scales.org.apache.xerces.util.XMLChar">XMLChar</a>.<a href="../org/apache/xerces/util/XMLChar.java.html#90577" title="(name: java.lang.String)Boolean">isValidName</a><span class="delimiter">(</span><a href="#90547" title="String">name</a><span class="delimiter">)</span>
+    <span class="keyword">else</span>
+      <a href="../org/apache/xerces/util/XML11Char.java.html#9934" title="object scales.org.apache.xerces.util.XML11Char">XML11Char</a>.<a href="../org/apache/xerces/util/XML11Char.java.html#90607" title="(name: java.lang.String)Boolean">isXML11ValidName</a><span class="delimiter">(</span><a href="#90547" title="String">name</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(prefix: String)(implicit ver: scales.xml.XmlVersion)Boolean" id="90539">validXmlPrefix</a><span class="delimiter">(</span> <a title="String" id="90800">prefix</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90801">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> = 
+    <a href="#90538" title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean">validXmlName</a><a href="#90801" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#90800" title="String">prefix</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;// other xmlns etc validations must be done in the actual qnames and elements</span>
+    <a href="#90800" title="String">prefix</a>.<span title="(x$1: Int)Int">indexOf</span><span class="delimiter">(</span><span title="Int(58)" class="char">':'</span><span class="delimiter">)</span> <span title="(x: Int)Boolean">==</span> -<span title="Int(-1)" class="int">1</span>
+
+  <span class="keyword">def</span> <a title="(namespace: String)(implicit ver: scales.xml.XmlVersion)Boolean" id="90540">validXmlNamespace</a><span class="delimiter">(</span> <a title="String" id="90813">namespace</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90814">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> =
+    <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><a href="#90814" title="scales.xml.XmlVersion">ver</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#90529" title="object scales.xml.Xml10">Xml10</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#90813" title="String">namespace</a>.<span title="()java.lang.String">trim</span>.<span title="()Int">length</span> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span><span class="delimiter">)</span>
+      <span title="Boolean(false)" class="keyword">false</span> <span class="comment">// can't do empties in 1.0, only 1.1</span>
+    <span class="keyword">else</span> <span class="comment">// TODO - what else should we validate here, parsing URI / IRI?</span>
+      <span title="Boolean(true)" class="keyword">true</span>
+
+  <span class="comment">/**
+   * Validates and returns or throws
+   */</span>
+  <span class="keyword">def</span> <a title="(validLocal: String)(implicit ver: scales.xml.XmlVersion)String" id="90541">validateLocalName</a><span class="delimiter">(</span> <a title="String" id="90823">validLocal</a> : <span title="String">String</span> <span class="delimiter">)</span> <span class="delimiter">(</span> <span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90824">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> = 
+    <span title="String" class="keyword">if</span> <span class="delimiter">(</span><a href="#90537" title="(name: String)(implicit ver: scales.xml.XmlVersion)Boolean">validLocalName</a><a href="#90824" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#90823" title="String">validLocal</a><span class="delimiter">)</span><span class="delimiter">)</span> 
+      <a href="#90823" title="String">validLocal</a>
+    <span class="keyword">else</span>
+      <a href="../utils/package.scala.html#15432" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;The local name \'&quot;)" class="string">&quot;The local name '&quot;</span><span title="(x$1: Any)java.lang.String">+</span><a href="#90823" title="String">validLocal</a><span title="(x$1: Any)java.lang.String">+</span><span title="java.lang.String(&quot;\' is not valid for Xml &quot;)" class="string">&quot;' is not valid for Xml &quot;</span><span title="(x$1: Any)java.lang.String">+</span><a href="#90824" title="scales.xml.XmlVersion">ver</a>.<a href="#90498" title="=&gt; String">version</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="keyword">import</span> <a href="#12679" title="object scales.xml.QNameCharUtils">QNameCharUtils</a>._
+
+<span class="comment">/**
+ * Seperate the notion of a normal Namespace and that of the &quot;empty namespace&quot; - no default namespace
+ */</span> 
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait UnderlyingNamespace extends java.lang.Object with ScalaObject" id="12786">UnderlyingNamespace</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="=&gt; String" id="90828">uri</a> : <span title="String">String</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="90829">hashCode</a> = <a href="#90828" title="=&gt; String">uri</a>.<span title="()Int">hashCode</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="90830">equals</a><span class="delimiter">(</span> <a title="Any" id="90836">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#90836" title="Any">other</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <a title="Boolean" id="90839">ons</a> : <a href="#12786" title="scales.xml.UnderlyingNamespace">UnderlyingNamespace</a> =&gt; 
+      <span class="delimiter">(</span><a href="#12786" title="UnderlyingNamespace.this.type" class="keyword">this</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#90839" title="scales.xml.UnderlyingNamespace">ons</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span> <span class="delimiter">(</span><a href="#90828" title="=&gt; String">uri</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#90839" title="scales.xml.UnderlyingNamespace">ons</a>.<a href="#90828" title="=&gt; String">uri</a><span class="delimiter">)</span> 
+    <span class="keyword">case</span> <span title="Boolean(false)">_</span> =&gt; <span title="Boolean(false)" class="keyword">false</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Represents a XML Namespace spec compliant Namespace.
+ *
+ * NOTE Users are recommended to use the prefixed function and work with prefixes directly for qnames.
+ */</span>
+<span class="keyword">trait</span> <a title="trait Namespace extends java.lang.Object with scales.xml.UnderlyingNamespace with ScalaObject" id="12432">Namespace</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12786" title="scales.xml.UnderlyingNamespace">UnderlyingNamespace</a> <span class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Create an UnprefixedQName 
+   */</span> 
+  <span class="keyword">def</span> <a title="(local: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.UnprefixedQName" id="90845">apply</a><span class="delimiter">(</span> <a title="String" id="90851">local</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90852">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="90853">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="QName.scala.html#90857" title="(locali: String, namespacei: scales.xml.Namespace)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.UnprefixedQName">UnprefixedQName</a><a href="#90852" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#90851" title="String">local</a>, <a href="#12432" title="scales.xml.Namespace" class="keyword">this</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Create a PrefixedQName directly
+   */</span> 
+  <span class="keyword">def</span> <a title="(prefix: String, local: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}" id="90846">apply</a><span class="delimiter">(</span> <a title="String" id="90926">prefix</a> : <span title="String">String</span>, <a title="String" id="90927">local</a> : <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90928">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="90929">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="QName.scala.html#90933" title="(locali: String, prefixedNamespace: scales.xml.PrefixedNamespace)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}">PrefixedQName</a><a href="#90928" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#90927" title="String">local</a>, <a href="#90847" title="(prefix: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.PrefixedNamespace">prefixed</a><a href="#90928" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#90926" title="String">prefix</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Create a PrefixedNamespace
+   */</span> 
+  <span class="keyword">def</span> <a title="(prefix: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.PrefixedNamespace" id="90847">prefixed</a><span class="delimiter">(</span> <a title="String" id="90992">prefix</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90993">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="90994">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="#91005" title="(namespace: scales.xml.Namespace, nsprefix: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.PrefixedNamespace">PrefixedNamespace</a><a href="#90993" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#12432" title="scales.xml.Namespace" class="keyword">this</a>, <a href="#90992" title="String">prefix</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Create a PrefixedQName directly
+   */</span> 
+  <span class="keyword">def</span> <a title="(prefix: String, local: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.PrefixedQName" id="90848">prefixed</a><span class="delimiter">(</span> <a title="String" id="90987">prefix</a> : <span title="String">String</span>, <a title="String" id="90988">local</a> : <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="90989">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="90990">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="QName.scala.html#12525" title="scales.xml.PrefixedQName">PrefixedQName</a> = <a href="QName.scala.html#90933" title="(locali: String, prefixedNamespace: scales.xml.PrefixedNamespace)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}">PrefixedQName</a><a href="#90989" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#90988" title="String">local</a>, <a href="#90847" title="(prefix: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.PrefixedNamespace">prefixed</a><a href="#90989" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#90987" title="String">prefix</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Special case for empty namespaces
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.xml.EmptyNamespace" id="12358">EmptyNamespace</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12786" title="scales.xml.UnderlyingNamespace">UnderlyingNamespace</a> <span class="delimiter">{</span>
+  <span class="keyword">final</span> <span class="keyword">val</span> <a title="java.lang.String(&quot;&quot;)" id="91019">uri</a> = <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.Namespace" id="12433">Namespace</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="java.lang.String" id="91023">xmlnsNS</a> = <span title="java.lang.String(&quot;http://www.w3.org/XML/1998/namespace&quot;)" class="string">&quot;http://www.w3.org/XML/1998/namespace&quot;</span>
+  <span class="keyword">val</span> <a title="java.lang.String" id="91025">xmlNS</a> = <span title="java.lang.String(&quot;http://www.w3.org/2000/xmlns/&quot;)" class="string">&quot;http://www.w3.org/2000/xmlns/&quot;</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span>xml<span class="delimiter">]</span> <span class="keyword">def</span> <a title="(validUri: String)java.lang.String" id="91027">swapForKnown</a><span class="delimiter">(</span> <a title="String" id="91031">validUri</a> : <span title="String">String</span> <span class="delimiter">)</span> =
+    <a href="#91031" title="String">validUri</a> <span title="java.lang.String" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <a href="#91023" title="java.lang.String">`xmlnsNS`</a> =&gt; <a href="#91023" title="=&gt; java.lang.String">xmlnsNS</a>
+      <span class="keyword">case</span> <a href="#91025" title="java.lang.String">`xmlNS`</a> =&gt; <a href="#91025" title="=&gt; java.lang.String">xmlNS</a>
+      <span class="keyword">case</span> <span title="String">_</span> =&gt; <a href="#91031" title="String">validUri</a>
+    <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * parsers we trust, users we protect
+   */</span> 
+  <span class="keyword">def</span> <a title="(validUri: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.Namespace" id="91028">apply</a><span class="delimiter">(</span> <a title="String" id="91034">validUri</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="91035">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="91036">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12432" title="scales.xml.Namespace">Namespace</a> = <a href="#91038" title="java.lang.Object with scales.xml.Namespace{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.Namespace" id="91038">Namespace</a> <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="java.lang.String" id="91042">uri</a> = 
+      <span title="java.lang.String" class="keyword">if</span> <span class="delimiter">(</span><a href="#91036" title="scales.xml.FromParser">fromParser</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15817" title="=&gt; scales.xml.package.NotFromParserO.type">NotFromParser</a><span class="delimiter">)</span> 
+	<span title="java.lang.String" class="keyword">if</span> <span class="delimiter">(</span><a href="#90540" title="(namespace: String)(implicit ver: scales.xml.XmlVersion)Boolean">validXmlNamespace</a><a href="#91035" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#91034" title="String">validUri</a><span class="delimiter">)</span><span class="delimiter">)</span>
+	  <a href="#91027" title="(validUri: String)java.lang.String">swapForKnown</a><span class="delimiter">(</span><a href="#91034" title="String">validUri</a><span class="delimiter">)</span>
+	<span class="keyword">else</span>
+	  <a href="../utils/package.scala.html#15432" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;Namespaces must have valid URIs, \'&quot;)" class="string">&quot;Namespaces must have valid URIs, '&quot;</span><span title="(x$1: Any)java.lang.String">+</span><a href="#91034" title="String">validUri</a><span title="(x$1: Any)java.lang.String">+</span><span title="java.lang.String(&quot;\' is invalid for Xml &quot;)" class="string">&quot;' is invalid for Xml &quot;</span><span title="(x$1: Any)java.lang.String">+</span><a href="#91035" title="scales.xml.XmlVersion">ver</a>.<a href="#90498" title="=&gt; String">version</a><span class="delimiter">)</span>
+      <span class="keyword">else</span>
+	<a href="#91027" title="(validUri: String)java.lang.String">swapForKnown</a><span class="delimiter">(</span><a href="#91034" title="String">validUri</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(n: scales.xml.Namespace)Some[String]" id="91029">unapply</a><span class="delimiter">(</span> <a title="scales.xml.Namespace" id="91046">n</a> : <a href="#12432" title="scales.xml.Namespace">Namespace</a><span class="delimiter">)</span> = <span title="(x: String)Some[String]">Some</span><span class="delimiter">(</span><span class="delimiter">(</span><a href="#91046" title="scales.xml.Namespace">n</a>.<a href="#90828" title="=&gt; String">uri</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait PrefixedNamespace extends java.lang.Object with ScalaObject" id="12516">PrefixedNamespace</a>  <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="=&gt; scales.xml.Namespace" id="90952">ns</a> : <a href="#12432" title="scales.xml.Namespace">Namespace</a>
+  <span class="keyword">val</span> <a title="=&gt; String" id="90953">prefix</a> : <span title="String">String</span>
+  <span class="keyword">def</span> <a title="(local: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}" id="90954">apply</a><span class="delimiter">(</span> <a title="String" id="91054">local</a> : <span title="String">String</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="91055">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="91056">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="QName.scala.html#90933" title="(locali: String, prefixedNamespace: scales.xml.PrefixedNamespace)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}">PrefixedQName</a><a href="#91055" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#91054" title="String">local</a>, <a href="#12516" title="scales.xml.PrefixedNamespace" class="keyword">this</a><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="90955">hashCode</a> = 
+    <span class="delimiter">(</span><a href="#90952" title="=&gt; scales.xml.Namespace">ns</a>.<a href="#90829" title="()Int">hashCode</a> <span title="(x: Int)Int">*</span> <span title="Int(31)" class="int">31</span><span class="delimiter">)</span> <span title="(x: Int)Int">+</span> <a href="#90953" title="=&gt; String">prefix</a>.<span title="()Int">hashCode</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(other: Any)Boolean" id="90956">equals</a><span class="delimiter">(</span> <a title="Any" id="91070">other</a> : <span title="Any">Any</span> <span class="delimiter">)</span> = <a href="#91070" title="Any">other</a> <span title="Boolean" class="keyword">match</span> <span class="delimiter">{</span>
+    <span class="keyword">case</span> <a title="Boolean" id="91073">opns</a> : <a href="#12516" title="scales.xml.PrefixedNamespace">PrefixedNamespace</a> =&gt; <a href="#90952" title="=&gt; scales.xml.Namespace">ns</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#91073" title="scales.xml.PrefixedNamespace">opns</a>.<a href="#90952" title="=&gt; scales.xml.Namespace">ns</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#90953" title="=&gt; String">prefix</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#91073" title="scales.xml.PrefixedNamespace">opns</a>.<a href="#90953" title="=&gt; String">prefix</a>
+    <span class="keyword">case</span> <span title="Boolean(false)">_</span> =&gt; <span title="Boolean(false)" class="keyword">false</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.PrefixedNamespace" id="12517">PrefixedNamespace</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">val</span> <a title="java.lang.String" id="90998">xmlnsPRE</a> = <span title="java.lang.String(&quot;xmlns&quot;)" class="string">&quot;xmlns&quot;</span>
+  <span class="keyword">val</span> <a title="java.lang.String" id="91000">xmlPRE</a> = <span title="java.lang.String(&quot;xml&quot;)" class="string">&quot;xml&quot;</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span>xml<span class="delimiter">]</span> <span class="keyword">def</span> <a title="(nsprefix: String)java.lang.String" id="91002">swapForKnown</a><span class="delimiter">(</span> <a title="String" id="91083">nsprefix</a> : <span title="String">String</span> <span class="delimiter">)</span> = 
+    <a href="#91083" title="String">nsprefix</a> <span title="java.lang.String" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <a href="#90998" title="java.lang.String">`xmlnsPRE`</a> =&gt; <a href="#90998" title="=&gt; java.lang.String">xmlnsPRE</a>
+      <span class="keyword">case</span> <a href="#91000" title="java.lang.String">`xmlPRE`</a> =&gt; <a href="#91000" title="=&gt; java.lang.String">xmlPRE</a>
+      <span class="keyword">case</span> <span title="String">_</span> =&gt; <a href="#91083" title="String">nsprefix</a>
+    <span class="delimiter">}</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span>xml<span class="delimiter">]</span> <span class="keyword">def</span> <a title="(pre: String, ns: scales.xml.Namespace, agpre: String, agns: String)Unit" id="91003">verifyConstraint</a><span class="delimiter">(</span> <a title="String" id="91086">pre</a> : <span title="String">String</span>, <a title="scales.xml.Namespace" id="91087">ns</a> : <a href="#12432" title="scales.xml.Namespace">Namespace</a>, 
+				    <a title="String" id="91088">agpre</a> : <span title="String">String</span>, <a title="String" id="91089">agns</a> : <span title="String">String</span><span class="delimiter">)</span> <span class="delimiter">{</span> 
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span class="delimiter">(</span><span class="delimiter">(</span><a href="#91087" title="scales.xml.Namespace">ns</a>.<a href="#90828" title="=&gt; String">uri</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#91089" title="String">agns</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#91086" title="String">pre</a> <span title="(x$1: AnyRef)Boolean">ne</span> <a href="#91088" title="String">agpre</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span>
+      <span class="delimiter">(</span><span class="delimiter">(</span><a href="#91086" title="String">pre</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#91088" title="String">agpre</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#91087" title="scales.xml.Namespace">ns</a>.<a href="#90828" title="=&gt; String">uri</a> <span title="(x$1: AnyRef)Boolean">ne</span> <a href="#91089" title="String">agns</a><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="../utils/package.scala.html#15432" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;The namespace \'&quot;)" class="string">&quot;The namespace '&quot;</span><span title="(x$1: Any)java.lang.String">+</span><a href="#91089" title="String">agns</a><span title="(x$1: Any)java.lang.String">+</span><span title="java.lang.String(&quot;\' can only be bound to prefix \'&quot;)" class="string">&quot;' can only be bound to prefix '&quot;</span><span title="(x$1: Any)java.lang.String">+</span><a href="#91088" title="String">agpre</a><span title="(x$1: Any)java.lang.String">+</span><span title="java.lang.String(&quot;\'&quot;)" class="string">&quot;'&quot;</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span>xml<span class="delimiter">]</span> <span class="keyword">def</span> <a title="(nsprefix: String, ns: scales.xml.Namespace)(implicit ver: scales.xml.XmlVersion)java.lang.String" id="91004">checkPrefix</a><span class="delimiter">(</span> <a title="String" id="91091">nsprefix</a> : <span title="String">String</span>, <a title="scales.xml.Namespace" id="91092">ns</a> : <a href="#12432" title="scales.xml.Namespace">Namespace</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="91093">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span> = 
+    <span title="java.lang.String" class="keyword">if</span> <span class="delimiter">(</span><a href="#90539" title="(prefix: String)(implicit ver: scales.xml.XmlVersion)Boolean">validXmlPrefix</a><a href="#91093" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#91091" title="String">nsprefix</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="java.lang.String" id="91096">x</a> = <a href="#91002" title="(nsprefix: String)java.lang.String">swapForKnown</a><span class="delimiter">(</span><a href="#91091" title="String">nsprefix</a><span class="delimiter">)</span>
+      <a href="#91003" title="(pre: String, ns: scales.xml.Namespace, agpre: String, agns: String)Unit">verifyConstraint</a><span class="delimiter">(</span><a href="#91096" title="java.lang.String">x</a>, <a href="#91092" title="scales.xml.Namespace">ns</a>, <a href="#91000" title="=&gt; java.lang.String">xmlPRE</a>, <a href="#12433" title="object scales.xml.Namespace">Namespace</a>.<a href="#91025" title="=&gt; java.lang.String">xmlNS</a><span class="delimiter">)</span>
+      <a href="#91003" title="(pre: String, ns: scales.xml.Namespace, agpre: String, agns: String)Unit">verifyConstraint</a><span class="delimiter">(</span><a href="#91096" title="java.lang.String">x</a>, <a href="#91092" title="scales.xml.Namespace">ns</a>, <a href="#90998" title="=&gt; java.lang.String">xmlnsPRE</a>, <a href="#12433" title="object scales.xml.Namespace">Namespace</a>.<a href="#91023" title="=&gt; java.lang.String">xmlnsNS</a><span class="delimiter">)</span>
+      <a href="#91096" title="java.lang.String">x</a>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <a href="../utils/package.scala.html#15432" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;The prefix \'&quot;)" class="string">&quot;The prefix '&quot;</span><span title="(x$1: Any)java.lang.String">+</span><a href="#91091" title="String">nsprefix</a><span title="(x$1: Any)java.lang.String">+</span><span title="java.lang.String(&quot;\' is not valid&quot;)" class="string">&quot;' is not valid&quot;</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="(namespace: scales.xml.Namespace, nsprefix: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.PrefixedNamespace" id="91005">apply</a><span class="delimiter">(</span><a title="scales.xml.Namespace" id="91007">namespace</a> : <a href="#12432" title="scales.xml.Namespace">Namespace</a>, <a title="String" id="91008">nsprefix</a> : <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="91009">ver</a> : <a href="#13095" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="91010">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12399" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12516" title="scales.xml.PrefixedNamespace">PrefixedNamespace</a> = <a href="#91097" title="java.lang.Object with scales.xml.PrefixedNamespace{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.PrefixedNamespace" id="91097">PrefixedNamespace</a> <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.Namespace" id="91101">ns</a> = <a href="#91007" title="scales.xml.Namespace">namespace</a>
+    <span class="keyword">val</span> <a title="java.lang.String" id="91103">prefix</a> =
+      <span title="java.lang.String" class="keyword">if</span> <span class="delimiter">(</span><a href="#91010" title="scales.xml.FromParser">fromParser</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="XmlTypesDefaults.scala.html#15817" title="=&gt; scales.xml.package.NotFromParserO.type">NotFromParser</a><span class="delimiter">)</span> 
+	<a href="#91004" title="(nsprefix: String, ns: scales.xml.Namespace)(implicit ver: scales.xml.XmlVersion)java.lang.String">checkPrefix</a><a href="#91009" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#91008" title="String">nsprefix</a>, <a href="#91007" title="scales.xml.Namespace">namespace</a><span class="delimiter">)</span>
+      <span class="keyword">else</span> 
+	<a href="#91002" title="(nsprefix: String)java.lang.String">swapForKnown</a><span class="delimiter">(</span><a href="#91008" title="String">nsprefix</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(p: scales.xml.PrefixedNamespace)Some[(scales.xml.Namespace, String)]" id="91006">unapply</a><span class="delimiter">(</span> <a title="scales.xml.PrefixedNamespace" id="91107">p</a> : <a href="#12516" title="scales.xml.PrefixedNamespace">PrefixedNamespace</a><span class="delimiter">)</span> = <span title="(x: (scales.xml.Namespace, String))Some[(scales.xml.Namespace, String)]">Some</span><span class="delimiter">(</span><span title="(_1: scales.xml.Namespace, _2: String)(scales.xml.Namespace, String)" class="delimiter">(</span><a href="#91107" title="scales.xml.PrefixedNamespace">p</a>.<a href="#90952" title="=&gt; scales.xml.Namespace">ns</a>, <a href="#91107" title="scales.xml.PrefixedNamespace">p</a>.<a href="#90953" title="=&gt; String">prefix</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.Default" id="12208">Default</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">/**
+   * placeholder for the current element default namespace
+   */</span>
+  <span class="keyword">protected</span><span class="delimiter">[</span>xml<span class="delimiter">]</span> <span class="keyword">val</span> <a title="scales.xml.Namespace" id="91120">namespace</a> = <a href="#91028" title="(validUri: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.Namespace">Namespace</a><span class="delimiter">(</span><span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#90529" title="object scales.xml.Xml10">Xml10</a>,<a href="XmlTypesDefaults.scala.html#15813" title="object scales.xml.package.IsFromParser">IsFromParser</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * The no namespace namespace (xmlns=&quot;&quot;)
+   */</span>
+  <span class="keyword">val</span> <a title="scales.xml.EmptyNamespace.type" id="91122">noNamespace</a> = <a href="#12358" title="object scales.xml.EmptyNamespace">EmptyNamespace</a>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

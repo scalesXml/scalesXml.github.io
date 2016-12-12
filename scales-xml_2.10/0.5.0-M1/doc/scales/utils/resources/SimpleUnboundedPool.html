@@ -1,0 +1,523 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>SimpleUnboundedPool - scales.utils.resources.SimpleUnboundedPool</title>
+          <meta name="description" content="SimpleUnboundedPool - scales.utils.resources.SimpleUnboundedPool" />
+          <meta name="keywords" content="SimpleUnboundedPool scales.utils.resources.SimpleUnboundedPool" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+      <script type="text/javascript" src="../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../lib/diagrams.js" id="diagrams-js"></script>
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../index.html';
+            var hash = 'scales.utils.resources.SimpleUnboundedPool';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img src="../../../lib/trait_big.png" />
+        <p id="owner"><a href="../../package.html" class="extype" name="scales">scales</a>.<a href="../package.html" class="extype" name="scales.utils">utils</a>.<a href="package.html" class="extype" name="scales.utils.resources">resources</a></p>
+        <h1>SimpleUnboundedPool</h1>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SimpleUnboundedPool</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends <a href="Pool.html" class="extype" name="scales.utils.resources.Pool">Pool</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>] with <a href="Loaner.html" class="extype" name="scales.utils.resources.Loaner">Loaner</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>] with <a href="Creator.html" class="extype" name="scales.utils.resources.Creator">Creator</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>]</span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Thread safe unbounded pool, if more objects are required it will simple create them.  The optional parameter reduceSize tries to help clean up a bit when an excessive amount is created but does not act as a semaphore
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="../../../../api.sxr/scales/utils/resource/Resources.scala.html" target="_blank">Resources.scala</a></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a href="Creator.html" class="extype" name="scales.utils.resources.Creator">Creator</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>], <a href="Loaner.html" class="extype" name="scales.utils.resources.Loaner">Loaner</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>], <a href="Pool.html" class="extype" name="scales.utils.resources.Pool">Pool</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div><div class="toggleContainer block">
+          <span class="toggle">Known Subclasses</span>
+          <div class="subClasses hiddenContent"><a href="../../xml/parser/pull/aalto/AsyncXMLInputFactoryPool$.html" class="extype" name="scales.xml.parser.pull.aalto.AsyncXMLInputFactoryPool">AsyncXMLInputFactoryPool</a>, <a href="../io/ByteArrayPool.html" class="extype" name="scales.utils.io.ByteArrayPool">ByteArrayPool</a>, <a href="../io/DefaultBufferPool$.html" class="extype" name="scales.utils.io.DefaultBufferPool">DefaultBufferPool</a>, <a href="../io/DefaultByteArrayPool$.html" class="extype" name="scales.utils.io.DefaultByteArrayPool">DefaultByteArrayPool</a>, <a href="../../xml/impl/DefaultDOMFactoryPool$.html" class="extype" name="scales.xml.impl.DefaultDOMFactoryPool">DefaultDOMFactoryPool</a>, <a href="../../xml/impl/DefaultSAXParserFactoryPool$.html" class="extype" name="scales.xml.impl.DefaultSAXParserFactoryPool">DefaultSAXParserFactoryPool</a>, <a href="../../xml/impl/DefaultStaxInputFactoryPool$.html" class="extype" name="scales.xml.impl.DefaultStaxInputFactoryPool">DefaultStaxInputFactoryPool</a>, <a href="../../xml/impl/DefaultXMLReaderFactoryPool$.html" class="extype" name="scales.xml.impl.DefaultXMLReaderFactoryPool">DefaultXMLReaderFactoryPool</a>, <a href="../../xml/impl/DefaultXSDSchemaFactoryPool$.html" class="extype" name="scales.xml.impl.DefaultXSDSchemaFactoryPool">DefaultXSDSchemaFactoryPool</a>, <a href="../io/DirectBufferPool.html" class="extype" name="scales.utils.io.DirectBufferPool">DirectBufferPool</a>, <a href="../io/JVMBufferPool.html" class="extype" name="scales.utils.io.JVMBufferPool">JVMBufferPool</a>, <a href="../../xml/impl/NoVersionSAXParserFactoryPool$.html" class="extype" name="scales.xml.impl.NoVersionSAXParserFactoryPool">NoVersionSAXParserFactoryPool</a>, <a href="../../xml/impl/NoVersionXmlReaderFactoryPool$.html" class="extype" name="scales.xml.impl.NoVersionXmlReaderFactoryPool">NoVersionXmlReaderFactoryPool</a></div>
+        </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+                <span class="toggle diagram-link">Type Hierarchy</span>
+                <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#diagrams" target="_blank" class="diagram-help">Learn more about scaladoc diagrams</a>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph227" viewBox="0.00 0.00 1925.00 158.00" height="158pt" width="1925pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 154)" class="graph" id="graph1"><polygon points="-4,5 -4,-154 1922,-154 1922,5 -4,5" stroke="white" fill="white"></polygon><g class="cluster" id="graph2"></g><g class="cluster" id="graph3"></g><!-- node0 --><g class="node this trait" id="graph227_0"><a xlink:title="scales.utils.resources.SimpleUnboundedPool (this trait)" xlink:href="#inheritance-diagram"><polygon points="1027.25,-88 872.75,-88 872.75,-62 1027.25,-62 1027.25,-88" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-83" x="883" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-73" x="905" text-anchor="start">SimpleUnboundedPool[T]</text></a></g><!-- node1 --><g class="node object" id="graph227_1"><a xlink:title="scales.xml.parser.pull.aalto.AsyncXMLInputFactoryPool" xlink:href="../../xml/parser/pull/aalto/AsyncXMLInputFactoryPool$.html#inheritance-diagram"><polygon points="166,-26 0,-26 0,-0 166,-0 166,-26" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-21" x="10" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="32" text-anchor="start">AsyncXMLInputFactoryPool</text></a></g><!-- node0&#45;&gt;node1 --><g class="edge inheritance" id="graph227_0_1"><a xlink:title="AsyncXMLInputFactoryPool is a subtype of SimpleUnboundedPool[T]"><path d="M867.192,-70.7177C725.276,-64.6797 426.556,-50.1678 175,-26 172.114,-25.7227 169.179,-25.4251 166.216,-25.1114" stroke="#d4d4d4" fill="none"></path><polygon points="867.518,-72.483 872.588,-70.9464 867.667,-68.9862 867.518,-72.483" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node2 --><g class="node class" id="graph227_2"><a xlink:title="scales.utils.io.ByteArrayPool" xlink:href="../io/ByteArrayPool.html#inheritance-diagram"><polygon points="293.25,-26 184.75,-26 184.75,-0 293.25,-0 293.25,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-21" x="195" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="217" text-anchor="start">ByteArrayPool</text></a></g><!-- node0&#45;&gt;node2 --><g class="edge inheritance" id="graph227_0_2"><a xlink:title="ByteArrayPool is a subtype of SimpleUnboundedPool[T]"><path d="M867.336,-70.9038C743.865,-65.5957 504.146,-52.6501 302,-26 299.24,-25.6362 296.419,-25.229 293.574,-24.7903" stroke="#d4d4d4" fill="none"></path><polygon points="867.333,-72.6552 872.403,-71.1202 867.482,-69.1584 867.333,-72.6552" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node3 --><g class="node object" id="graph227_3"><a xlink:title="scales.xml.impl.DefaultDOMFactoryPool" xlink:href="../../xml/impl/DefaultDOMFactoryPool$.html#inheritance-diagram"><polygon points="462.25,-26 311.75,-26 311.75,-0 462.25,-0 462.25,-26" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-21" x="322" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="344" text-anchor="start">DefaultDOMFactoryPool</text></a></g><!-- node0&#45;&gt;node3 --><g class="edge inheritance" id="graph227_0_3"><a xlink:title="DefaultDOMFactoryPool is a subtype of SimpleUnboundedPool[T]"><path d="M867.673,-66.8098C772.151,-58.2217 609.971,-42.882 471,-26 468.221,-25.6625 465.393,-25.3089 462.536,-24.9436" stroke="#d4d4d4" fill="none"></path><polygon points="867.599,-68.5601 872.736,-67.2643 867.912,-65.0742 867.599,-68.5601" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node4 --><g class="node object" id="graph227_4"><a xlink:title="scales.xml.impl.DefaultSAXParserFactoryPool" xlink:href="../../xml/impl/DefaultSAXParserFactoryPool$.html#inheritance-diagram"><polygon points="655.25,-26 480.75,-26 480.75,-0 655.25,-0 655.25,-26" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-21" x="491" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="513" text-anchor="start">DefaultSAXParserFactoryPool</text></a></g><!-- node0&#45;&gt;node4 --><g class="edge inheritance" id="graph227_0_4"><a xlink:title="DefaultSAXParserFactoryPool is a subtype of SimpleUnboundedPool[T]"><path d="M868.039,-61.1266C801.871,-50.7337 709.45,-36.2172 644.721,-26.0504" stroke="#d4d4d4" fill="none"></path><polygon points="867.945,-62.8832 873.156,-61.9303 868.488,-59.4256 867.945,-62.8832" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node5 --><g class="node object" id="graph227_5"><a xlink:title="scales.xml.impl.DefaultStaxInputFactoryPool" xlink:href="../../xml/impl/DefaultStaxInputFactoryPool$.html#inheritance-diagram"><polygon points="842.25,-26 673.75,-26 673.75,-0 842.25,-0 842.25,-26" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-21" x="684" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="706" text-anchor="start">DefaultStaxInputFactoryPool</text></a></g><!-- node0&#45;&gt;node5 --><g class="edge inheritance" id="graph227_0_5"><a xlink:title="DefaultStaxInputFactoryPool is a subtype of SimpleUnboundedPool[T]"><path d="M906.353,-60.3604C873.262,-50.0194 828.215,-35.9422 796.468,-26.0213" stroke="#d4d4d4" fill="none"></path><polygon points="905.852,-62.037 911.146,-61.8581 906.896,-58.6963 905.852,-62.037" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node6 --><g class="node object" id="graph227_6"><a xlink:title="scales.xml.impl.DefaultXMLReaderFactoryPool" xlink:href="../../xml/impl/DefaultXMLReaderFactoryPool$.html#inheritance-diagram"><polygon points="1039,-26 861,-26 861,-0 1039,-0 1039,-26" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-21" x="871" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="893" text-anchor="start">DefaultXMLReaderFactoryPool</text></a></g><!-- node0&#45;&gt;node6 --><g class="edge inheritance" id="graph227_0_6"><a xlink:title="DefaultXMLReaderFactoryPool is a subtype of SimpleUnboundedPool[T]"><path d="M950,-56.6826C950,-46.8961 950,-34.9026 950,-26.1238" stroke="#d4d4d4" fill="none"></path><polygon points="948.25,-56.8581 950,-61.8581 951.75,-56.8581 948.25,-56.8581" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node7 --><g class="node object" id="graph227_7"><a xlink:title="scales.xml.impl.DefaultXSDSchemaFactoryPool" xlink:href="../../xml/impl/DefaultXSDSchemaFactoryPool$.html#inheritance-diagram"><polygon points="1240.25,-26 1057.75,-26 1057.75,-0 1240.25,-0 1240.25,-26" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-21" x="1068" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="1090" text-anchor="start">DefaultXSDSchemaFactoryPool</text></a></g><!-- node0&#45;&gt;node7 --><g class="edge inheritance" id="graph227_0_7"><a xlink:title="DefaultXSDSchemaFactoryPool is a subtype of SimpleUnboundedPool[T]"><path d="M995.238,-60.3604C1029.54,-50.0194 1076.22,-35.9422 1109.13,-26.0213" stroke="#d4d4d4" fill="none"></path><polygon points="994.553,-58.7392 990.271,-61.8581 995.563,-62.0902 994.553,-58.7392" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node8 --><g class="node class" id="graph227_8"><a xlink:title="scales.utils.io.DirectBufferPool" xlink:href="../io/DirectBufferPool.html#inheritance-diagram"><polygon points="1373.25,-26 1258.75,-26 1258.75,-0 1373.25,-0 1373.25,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-21" x="1269" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="1291" text-anchor="start">DirectBufferPool</text></a></g><!-- node0&#45;&gt;node8 --><g class="edge inheritance" id="graph227_0_8"><a xlink:title="DirectBufferPool is a subtype of SimpleUnboundedPool[T]"><path d="M1032.51,-61.1637C1092.59,-51.7175 1175.9,-38.4131 1249,-26 1252.15,-25.4659 1255.37,-24.9109 1258.63,-24.3455" stroke="#d4d4d4" fill="none"></path><polygon points="1032.17,-59.4461 1027.5,-61.9511 1032.71,-62.9036 1032.17,-59.4461" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node9 --><g class="node class" id="graph227_9"><a xlink:title="scales.utils.io.JVMBufferPool" xlink:href="../io/JVMBufferPool.html#inheritance-diagram"><polygon points="1500.25,-26 1391.75,-26 1391.75,-0 1500.25,-0 1500.25,-26" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../lib/class_diagram.png" y="-21" x="1402" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="1424" text-anchor="start">JVMBufferPool</text></a></g><!-- node0&#45;&gt;node9 --><g class="edge inheritance" id="graph227_0_9"><a xlink:title="JVMBufferPool is a subtype of SimpleUnboundedPool[T]"><path d="M1032.62,-66.6696C1119.75,-58.5079 1260.89,-44.0568 1382,-26 1385.13,-25.5332 1388.34,-25.025 1391.58,-24.49" stroke="#d4d4d4" fill="none"></path><polygon points="1032.3,-64.9423 1027.48,-67.1498 1032.62,-68.4272 1032.3,-64.9423" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node10 --><g class="node object" id="graph227_10"><a xlink:title="scales.xml.impl.NoVersionSAXParserFactoryPool" xlink:href="../../xml/impl/NoVersionSAXParserFactoryPool$.html#inheritance-diagram"><polygon points="1709,-26 1519,-26 1519,-0 1709,-0 1709,-26" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-21" x="1529" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="1551" text-anchor="start">NoVersionSAXParserFactoryPool</text></a></g><!-- node0&#45;&gt;node10 --><g class="edge inheritance" id="graph227_0_10"><a xlink:title="NoVersionSAXParserFactoryPool is a subtype of SimpleUnboundedPool[T]"><path d="M1032.51,-67.6453C1141.63,-59.0736 1339.89,-42.9205 1509,-26 1512.19,-25.6803 1515.44,-25.3483 1518.72,-25.0071" stroke="#d4d4d4" fill="none"></path><polygon points="1032.23,-65.9119 1027.38,-68.0477 1032.5,-69.4012 1032.23,-65.9119" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node11 --><g class="node object" id="graph227_11"><a xlink:title="scales.xml.impl.NoVersionXmlReaderFactoryPool" xlink:href="../../xml/impl/NoVersionXmlReaderFactoryPool$.html#inheritance-diagram"><polygon points="1917,-26 1727,-26 1727,-0 1917,-0 1917,-26" stroke="#102966" fill="#3556a7"></polygon><image xlink:href="../../../lib/object_diagram.png" y="-21" x="1737" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-11" x="1759" text-anchor="start">NoVersionXmlReaderFactoryPool</text></a></g><!-- node0&#45;&gt;node11 --><g class="edge inheritance" id="graph227_0_11"><a xlink:title="NoVersionXmlReaderFactoryPool is a subtype of SimpleUnboundedPool[T]"><path d="M1032.86,-70.2489C1173.77,-63.55 1469.04,-48.1281 1718,-26 1720.9,-25.7425 1723.84,-25.4704 1726.81,-25.1864" stroke="#d4d4d4" fill="none"></path><polygon points="1032.41,-68.518 1027.5,-70.503 1032.58,-72.0141 1032.41,-68.518" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node12 --><g class="node trait" id="graph227_12"><a xlink:title="scales.utils.resources.Pool" xlink:href="Pool.html#inheritance-diagram"><polygon points="889,-150 813,-150 813,-124 889,-124 889,-150" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-145" x="823" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-135" x="845" text-anchor="start">Pool[T]</text></a></g><!-- node12&#45;&gt;node0 --><g class="edge inheritance" id="graph227_12_0"><a xlink:title="SimpleUnboundedPool[T] is a subtype of Pool[T]"><path d="M875.618,-121.08C892.386,-110.917 914.304,-97.6342 929.996,-88.1238" stroke="#d4d4d4" fill="none"></path><polygon points="874.403,-119.77 871.034,-123.858 876.217,-122.763 874.403,-119.77" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node13 --><g class="node trait" id="graph227_13"><a xlink:title="scales.utils.resources.Loaner" xlink:href="Loaner.html#inheritance-diagram"><polygon points="993,-150 907,-150 907,-124 993,-124 993,-150" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-145" x="917" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-135" x="939" text-anchor="start">Loaner[T]</text></a></g><!-- node13&#45;&gt;node0 --><g class="edge inheritance" id="graph227_13_0"><a xlink:title="SimpleUnboundedPool[T] is a subtype of Loaner[T]"><path d="M950,-118.683C950,-108.896 950,-96.9026 950,-88.1238" stroke="#d4d4d4" fill="none"></path><polygon points="948.25,-118.858 950,-123.858 951.75,-118.858 948.25,-118.858" stroke="#d4d4d4" fill="none"></polygon></a></g><!-- node14 --><g class="node trait" id="graph227_14"><a xlink:title="scales.utils.resources.Creator" xlink:href="Creator.html#inheritance-diagram"><polygon points="1099,-150 1011,-150 1011,-124 1099,-124 1099,-150" stroke="#37657d" fill="#498aad"></polygon><image xlink:href="../../../lib/trait_diagram.png" y="-145" x="1021" preserveAspectRatio="xMinYMin meet" height="16px" width="16px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-135" x="1043" text-anchor="start">Creator[T]</text></a></g><!-- node14&#45;&gt;node0 --><g class="edge inheritance" id="graph227_14_0"><a xlink:title="SimpleUnboundedPool[T] is a subtype of Creator[T]"><path d="M1029.35,-121.34C1011.5,-111.145 988.002,-97.7155 971.217,-88.1238" stroke="#d4d4d4" fill="none"></path><polygon points="1028.54,-122.897 1033.75,-123.858 1030.28,-119.858 1028.54,-122.897" stroke="#d4d4d4" fill="none"></polygon></a></g></g></svg></div>
+              </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="scales.utils.resources.SimpleUnboundedPool"><span>SimpleUnboundedPool</span></li><li class="in" name="scales.utils.resources.Creator"><span>Creator</span></li><li class="in" name="scales.utils.resources.Loaner"><span>Loaner</span></li><li class="in" name="scales.utils.resources.Pool"><span>Pool</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show all</span></li>
+            </ol>
+            <a href="http://docs.scala-lang.org/overviews/scaladoc/usage.html#members" target="_blank">Learn more about member selection</a>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Abstract Value Members</h3>
+              <ol><li name="scales.utils.resources.Creator#create" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="create:T"></a>
+      <a id="create:T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">create</span><span class="result">: <span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Creator.html" class="extype" name="scales.utils.resources.Creator">Creator</a></dd></dl></div>
+    </li></ol>
+            </div>
+
+        <div id="values" class="values members">
+              <h3>Concrete Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:AnyRef):Boolean"></a>
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.Any#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:AnyRef):Boolean"></a>
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.Any#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scales.utils.resources.SimpleUnboundedPool#doCreate" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="doCreate:T"></a>
+      <a id="doCreate:T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">doCreate</span><span class="result">: <span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#equals" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="equals(x$1:Any):Boolean"></a>
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<span class="extype" name="java.lang">java.lang</span>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scales.utils.resources.SimpleUnboundedPool#giveBack" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="giveBack(t:T):Unit"></a>
+      <a id="giveBack(T):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">giveBack</span><span class="params">(<span name="t">t: <span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scales.utils.resources.SimpleUnboundedPool">SimpleUnboundedPool</a> → <a href="Pool.html" class="extype" name="scales.utils.resources.Pool">Pool</a></dd></dl></div>
+    </li><li name="scales.utils.resources.SimpleUnboundedPool#grab" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="grab:T"></a>
+      <a id="grab:T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">grab</span><span class="result">: <span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scales.utils.resources.SimpleUnboundedPool">SimpleUnboundedPool</a> → <a href="Pool.html" class="extype" name="scales.utils.resources.Pool">Pool</a></dd></dl></div>
+    </li><li name="scala.AnyRef#hashCode" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="hashCode():Int"></a>
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="scales.utils.resources.SimpleUnboundedPool#loan" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="loan[X](tThunk:T=&gt;X):X"></a>
+      <a id="loan[X]((T)⇒X):X"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">loan</span><span class="tparams">[<span name="X">X</span>]</span><span class="params">(<span name="tThunk">tThunk: (<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>) ⇒ <span class="extype" name="scales.utils.resources.SimpleUnboundedPool.loan.X">X</span></span>)</span><span class="result">: <span class="extype" name="scales.utils.resources.SimpleUnboundedPool.loan.X">X</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Performs a loan for you
+</p><div class="fullcomment"><div class="comment cmt"><p>Performs a loan for you
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="scales.utils.resources.SimpleUnboundedPool">SimpleUnboundedPool</a> → <a href="Loaner.html" class="extype" name="scales.utils.resources.Loaner">Loaner</a></dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scales.utils.resources.SimpleUnboundedPool#reduceSize" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="reduceSize:Int"></a>
+      <a id="reduceSize:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reduceSize</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scales.utils.resources.SimpleUnboundedPool#size" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="size:java.util.concurrent.atomic.AtomicInteger"></a>
+      <a id="size:AtomicInteger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">size</span><span class="result">: <span class="extype" name="java.util.concurrent.atomic.AtomicInteger">AtomicInteger</span></span>
+      </span>
+      </h4>
+      
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="toString():String"></a>
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scales.utils.resources.Creator">
+              <h3>Inherited from <a href="Creator.html" class="extype" name="scales.utils.resources.Creator">Creator</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>]</h3>
+            </div><div class="parent" name="scales.utils.resources.Loaner">
+              <h3>Inherited from <a href="Loaner.html" class="extype" name="scales.utils.resources.Loaner">Loaner</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>]</h3>
+            </div><div class="parent" name="scales.utils.resources.Pool">
+              <h3>Inherited from <a href="Pool.html" class="extype" name="scales.utils.resources.Pool">Pool</a>[<span class="extype" name="scales.utils.resources.SimpleUnboundedPool.T">T</span>]</h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

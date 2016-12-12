@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\io\DataChunk.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.io
+
+<span class="comment">/**
+ * Represents a chunk of data to feed into an async parser.
+ * The instance is deemed &quot;owned&quot; by the asnyc parser until it requires more input. 
+ */</span> 
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait DataChunk extends java.lang.Object with ScalaObject" id="14212">DataChunk</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Array[Byte]" id="58739">array</a>: <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="58740">offset</a>: <span title="Int">Int</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="58741">length</a>: <span title="Int">Int</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="58742">isEOF</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="58743">isEmpty</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Represents the end of a stream, no more Bytes are available
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.utils.io.EOFData" id="14255">EOFData</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14212" title="scales.utils.io.DataChunk">DataChunk</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="Array[Byte]" id="85868">array</a> = <span title="object Array">Array</span>.<span title="[T](implicit evidence$1: scala.reflect.ClassManifest[T])Array[T]">empty</span><span title="(implicit evidence$1: scala.reflect.ClassManifest[Byte])Array[Byte]" class="delimiter">[</span><span title="Byte">Byte</span><span class="delimiter">]</span>
+  <span class="keyword">val</span> <a title="Int" id="85870">offset</a> = <span title="Int(0)" class="int">0</span>
+  <span class="keyword">val</span> <a title="Int" id="85872">length</a> = -<span title="Int(-1)" class="int">1</span>
+
+  <span class="keyword">override</span> <span class="keyword">val</span> <a title="Boolean" id="85874">isEOF</a> = <span title="Boolean(true)" class="keyword">true</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Represents a data stream with no immediate data to return.
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.utils.io.EmptyData" id="14249">EmptyData</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14212" title="scales.utils.io.DataChunk">DataChunk</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="Array[Byte]" id="85880">array</a> = <span title="object Array">Array</span>.<span title="[T](implicit evidence$1: scala.reflect.ClassManifest[T])Array[T]">empty</span><span title="(implicit evidence$1: scala.reflect.ClassManifest[Byte])Array[Byte]" class="delimiter">[</span><span title="Byte">Byte</span><span class="delimiter">]</span>
+  <span class="keyword">val</span> <a title="Int" id="85882">offset</a> = <span title="Int(0)" class="int">0</span>
+  <span class="keyword">val</span> <a title="Int" id="85884">length</a> = <span title="Int(0)" class="int">0</span>
+
+  <span class="keyword">override</span> <span class="keyword">val</span> <a title="Boolean" id="85886">isEmpty</a> = <span title="Boolean(true)" class="keyword">true</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Represents the full array
+ */</span> 
+<span class="keyword">final</span> case <span class="keyword">class</span> <a title="class FullChunk extends java.lang.Object with scales.utils.io.DataChunk with ScalaObject with Product with Serializable" id="86047">FullChunk</a><a href="#86047" title="ScalaObject" class="delimiter">(</a> <a title="Array[Byte]" id="86044">array</a>: <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14212" title="scales.utils.io.DataChunk">DataChunk</a> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="85894">offset</a> = <span title="Int(0)" class="int">0</span>
+  <span class="keyword">def</span> <a title="=&gt; Int" id="85895">length</a> = <a href="#86044" title="=&gt; Array[Byte]">array</a>.<span title="=&gt; Int">length</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * A section of a Byte array
+ */</span> 
+<span class="keyword">final</span> case <span class="keyword">class</span> <a title="class Chunk extends java.lang.Object with scales.utils.io.DataChunk with ScalaObject with Product with Serializable" id="86058">Chunk</a><a href="#86058" title="ScalaObject" class="delimiter">(</a> <a title="Array[Byte]" id="86051">array</a>: <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span>, <a title="Int" id="86052">offset</a>: <span title="Int">Int</span>, <a title="Int" id="86053">length</a>: <span title="Int">Int</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#14212" title="scales.utils.io.DataChunk">DataChunk</a>
+
+
+        </pre>
+    </body>
+</html>

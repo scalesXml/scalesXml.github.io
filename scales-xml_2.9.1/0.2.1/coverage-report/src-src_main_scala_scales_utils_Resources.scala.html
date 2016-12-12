@@ -1,0 +1,809 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;Resources.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">54 %</div>
+        <div class="greenBar" style="width:108px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Class_scales_utils_AppendableWriter"><img src="class.png"></img>AppendableWriter</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Class_scales_utils_CloseOnNeed"><img src="class.png"></img>CloseOnNeed</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Trait_scales_utils_CloseOnNeed"><img src="trait.png"></img>CloseOnNeed</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Trait_scales_utils_Creator"><img src="trait.png"></img>Creator</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Trait_scales_utils_IsClosed"><img src="trait.png"></img>IsClosed</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Trait_scales_utils_Loaner"><img src="trait.png"></img>Loaner</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Trait_scales_utils_Pool"><img src="trait.png"></img>Pool</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Class_scales_utils_ProxiedCloseOnNeedInputStream"><img src="class.png"></img>ProxiedCloseOnNeedInputStream</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Class_scales_utils_ProxiedCloseOnNeedReader"><img src="class.png"></img>ProxiedCloseOnNeedReader</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">36 %</div>
+        <div class="greenBar" style="width:72px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Resources.scala.html#Trait_scales_utils_SimpleUnboundedPool"><img src="trait.png"></img>SimpleUnboundedPool</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">94 %</div>
+        <div class="greenBar" style="width:188px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td><a id="Trait_scales_utils_IsClosed"></a>trait IsClosed {
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>  def isClosed : Boolean
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> * Mostly exists for pulling but it is general
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td> * We want to enable bracketing and a more orderly shutdown of resources from the input streams.
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td> * Whilst the resource is closed automatically its not very helpful if you don't want to close it.
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td> * Due to Sun bug: 6539065 we have to wrap the actual close.  This allows us to decide IF we want to close.
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td><a id="Class_scales_utils_AppendableWriter"></a><a id="Class_scales_utils_ProxiedCloseOnNeedInputStream"></a><a id="Class_scales_utils_ProxiedCloseOnNeedReader"></a> * So we cover three use cases here:
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td> * * Enumeratees can bracket, if so desired
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td> * * Streams of xml can be continuously plied for more xml messages
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td> * * Users who want to manually close early can do so too.
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td> * As a note this fits very closely to the scala-arm stuff, which I happily use in another project.  But it has
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td> * two specific seperate use cases:
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td> * * XmlPulls should be joinable as iterators ++ should ensure that the resources are closed
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td> * * Additionally, however, closing on the resulting XmlPull should close the lot.
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td> * So we either override the ++ to behave differently or we abstract away using of the stream from closing it.
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td><a id="Trait_scales_utils_CloseOnNeed"></a>trait CloseOnNeed extends IsClosed { 
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>  parent =&gt;
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>  protected def doClose : Unit 
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">32</td>
+            <td>  private[utils] var closed = false
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">34</td>
+            <td>  def isClosed = closed
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>   * Close the underlying something, but only do it once.
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>   *
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>   * This allows closing of an xml input stream directly after the end doc, but without disturbing
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>   * the normal model.
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>  def closeResource =
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>    if (!closed) {
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>      closed = true;
+</td>
+          </tr><tr>
+            <td class="green">45</td>
+            <td>      doClose
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>    } else ()
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="green">48</td>
+            <td><a id="Class_scales_utils_CloseOnNeed"></a>  def ++( close2 : CloseOnNeed ) : CloseOnNeed = new CloseOnNeed {
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>    added =&gt;
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>    def doClose = ()
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>     
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>    override def closeResource = 
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>      if (!closed) {
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>  closed = true;
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>  parent.closeResource
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>  close2.closeResource
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>      } else ()
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>    // flip it back to stop from endlessly repeating ourselves
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>    override def ++(close3 : CloseOnNeed) = {
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>      close3 ++ this
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td> * Wrap the Reader to allow better bracketing etc.
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="green">70</td>
+            <td>case class ProxiedCloseOnNeedReader(orig : java.io.Reader) extends java.io.Reader with CloseOnNeed {
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>  override def close() {}//NOOP
+</td>
+          </tr><tr>
+            <td class="red">72</td>
+            <td>  override def mark(rah : Int) = <span class="non">orig.mark(rah)
+</span></td>
+          </tr><tr>
+            <td class="red">73</td>
+            <td>  override def markSupported() = <span class="non">orig.markSupported()
+</span></td>
+          </tr><tr>
+            <td class="red">74</td>
+            <td>  override def read() = <span class="non">orig.read()
+</span></td>
+          </tr><tr>
+            <td class="green">75</td>
+            <td>  override def read(cbuf : Array[Char]) = orig.read(cbuf) 
+</td>
+          </tr><tr>
+            <td class="green">76</td>
+            <td>  override def read(cbuf : Array[Char], off : Int, len : Int) = orig.read(cbuf,off,len) 
+</td>
+          </tr><tr>
+            <td class="red">77</td>
+            <td>  override def read(target : java.nio.CharBuffer) = <span class="non">orig.read(target) 
+</span></td>
+          </tr><tr>
+            <td class="red">78</td>
+            <td>  override def ready() = <span class="non">orig.ready 
+</span></td>
+          </tr><tr>
+            <td class="red">79</td>
+            <td>  override def reset() = <span class="non">orig.reset 
+</span></td>
+          </tr><tr>
+            <td class="red">80</td>
+            <td>  override def skip(n : Long) = <span class="non">orig.skip(n) 
+</span></td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">82</td>
+            <td>  def doClose(){orig.close}
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">86</td>
+            <td> * Wrap the InputStream to allow better bracketing etc.
+</td>
+          </tr><tr>
+            <td class="black">87</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="red">88</td>
+            <td>case class ProxiedCloseOnNeedInputStream<span class="non">(orig : java.io.InputStream) extends java.io.InputStream with CloseOnNeed {
+</span></td>
+          </tr><tr>
+            <td class="black">89</td>
+            <td>  override def close() {}//NOOP
+</td>
+          </tr><tr>
+            <td class="red">90</td>
+            <td>  override def available() = <span class="non">orig.available
+</span></td>
+          </tr><tr>
+            <td class="red">91</td>
+            <td>  override def mark(rah : Int) = <span class="non">orig.mark(rah)
+</span></td>
+          </tr><tr>
+            <td class="red">92</td>
+            <td>  override def markSupported() = <span class="non">orig.markSupported()
+</span></td>
+          </tr><tr>
+            <td class="red">93</td>
+            <td>  override def read() = <span class="non">orig.read()
+</span></td>
+          </tr><tr>
+            <td class="red">94</td>
+            <td>  override def read(cbuf : Array[Byte]) = <span class="non">orig.read(cbuf) 
+</span></td>
+          </tr><tr>
+            <td class="red">95</td>
+            <td>  override def read(cbuf : Array[Byte], off : Int, len : Int) = <span class="non">orig.read(cbuf,off,len) 
+</span></td>
+          </tr><tr>
+            <td class="red">96</td>
+            <td>  override def reset() = <span class="non">orig.reset 
+</span></td>
+          </tr><tr>
+            <td class="red">97</td>
+            <td>  override def skip(n : Long) = <span class="non">orig.skip(n) 
+</span></td>
+          </tr><tr>
+            <td class="black">98</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">99</td>
+            <td>  def doClose(){<span class="non">orig.close}
+</span></td>
+          </tr><tr>
+            <td class="black">100</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">101</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">102</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">103</td>
+            <td> * To provide a writer to LSSerializer (and anything else that wants it ^_^)
+</td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td> * we need to wrap appendables.
+</td>
+          </tr><tr>
+            <td class="black">105</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="red">106</td>
+            <td>case class AppendableWriter<span class="non">( out : Appendable ) extends java.io.Writer {
+</span></td>
+          </tr><tr>
+            <td class="black">107</td>
+            <td>  def close() {}
+</td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>  def flush() {}
+</td>
+          </tr><tr>
+            <td class="black">109</td>
+            <td>  def write(cbuf : Array[Char], off : Int, len : Int) {
+</td>
+          </tr><tr>
+            <td class="red">110</td>
+            <td>    var i = <span class="non">0
+</span></td>
+          </tr><tr>
+            <td class="red">111</td>
+            <td>    while(<span class="non">i &lt; len){
+</span></td>
+          </tr><tr>
+            <td class="red">112</td>
+            <td>      <span class="non">out.append(cbuf(off + i))
+</span></td>
+          </tr><tr>
+            <td class="black">113</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">114</td>
+            <td>  } 
+</td>
+          </tr><tr>
+            <td class="black">115</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">116</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">117</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">118</td>
+            <td> * Simple pool interface
+</td>
+          </tr><tr>
+            <td class="black">119</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">120</td>
+            <td><a id="Trait_scales_utils_Pool"></a>trait Pool[T] {
+</td>
+          </tr><tr>
+            <td class="black">121</td>
+            <td>  def grab : T 
+</td>
+          </tr><tr>
+            <td class="black">122</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">123</td>
+            <td>  def giveBack( t : T ) : Unit
+</td>
+          </tr><tr>
+            <td class="black">124</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">125</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">126</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">127</td>
+            <td> * Thread safe unbounded pool, if more objects are required it will simple create them.  The optional parameter reduceSize tries to help clean up a bit when an excessive amount is created but does not act as a semaphore
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">129</td>
+            <td><a id="Trait_scales_utils_SimpleUnboundedPool"></a>trait SimpleUnboundedPool[T] extends Pool[T] with Loaner[T] with Creator[T] {
+</td>
+          </tr><tr>
+            <td class="green">130</td>
+            <td>  val reduceSize : Int = 30
+</td>
+          </tr><tr>
+            <td class="black">131</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="green">132</td>
+            <td>  val size = new java.util.concurrent.atomic.AtomicInteger(0)
+</td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">134</td>
+            <td>  private[this] val cache = new java.util.concurrent.ConcurrentLinkedQueue[T]();
+</td>
+          </tr><tr>
+            <td class="black">135</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>  def grab = {
+</td>
+          </tr><tr>
+            <td class="green">137</td>
+            <td>    val res = cache.poll
+</td>
+          </tr><tr>
+            <td class="green">138</td>
+            <td>    if (res != null) res
+</td>
+          </tr><tr>
+            <td class="green">139</td>
+            <td>    else doCreate
+</td>
+          </tr><tr>
+            <td class="black">140</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">141</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">142</td>
+            <td>  def giveBack( t : T ) {
+</td>
+          </tr><tr>
+            <td class="yellow">143</td>
+            <td>    if (size.get &gt; reduceSize) <span class="non">size.decrementAndGet
+</span></td>
+          </tr><tr>
+            <td class="green">144</td>
+            <td>    else cache.add(t)
+</td>
+          </tr><tr>
+            <td class="black">145</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">146</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">147</td>
+            <td>  final def doCreate = {
+</td>
+          </tr><tr>
+            <td class="green">148</td>
+            <td>    size.getAndIncrement()
+</td>
+          </tr><tr>
+            <td class="green">149</td>
+            <td>    create
+</td>
+          </tr><tr>
+            <td class="black">150</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">151</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">152</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">153</td>
+            <td>   * Performs a loan for you
+</td>
+          </tr><tr>
+            <td class="black">154</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">155</td>
+            <td>  def loan[X]( tThunk : T =&gt; X ) : X = {
+</td>
+          </tr><tr>
+            <td class="green">156</td>
+            <td>    var t = null.asInstanceOf[T]
+</td>
+          </tr><tr>
+            <td class="black">157</td>
+            <td>    try {
+</td>
+          </tr><tr>
+            <td class="green">158</td>
+            <td>      t = grab // can throw
+</td>
+          </tr><tr>
+            <td class="green">159</td>
+            <td>      tThunk(t)
+</td>
+          </tr><tr>
+            <td class="black">160</td>
+            <td>    } finally {
+</td>
+          </tr><tr>
+            <td class="green">161</td>
+            <td>      if (t != null) giveBack(t)
+</td>
+          </tr><tr>
+            <td class="black">162</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">163</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">164</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">165</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">166</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">167</td>
+            <td><a id="Trait_scales_utils_Loaner"></a>trait Loaner[T] {
+</td>
+          </tr><tr>
+            <td class="black">168</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">169</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">170</td>
+            <td>   * Performs a loan for you
+</td>
+          </tr><tr>
+            <td class="black">171</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="black">172</td>
+            <td>  def loan[X]( tThunk : T =&gt; X ) : X 
+</td>
+          </tr><tr>
+            <td class="black">173</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">174</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">175</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">176</td>
+            <td> * Simple factory interface
+</td>
+          </tr><tr>
+            <td class="black">177</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">178</td>
+            <td><a id="Trait_scales_utils_Creator"></a>trait Creator[T] {
+</td>
+          </tr><tr>
+            <td class="black">179</td>
+            <td>  def create : T
+</td>
+          </tr><tr>
+            <td class="black">180</td>
+            <td>}
+</td>
+          </tr></tbody></table>

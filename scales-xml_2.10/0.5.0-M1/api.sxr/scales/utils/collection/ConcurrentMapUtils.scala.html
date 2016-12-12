@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\collection\ConcurrentMapUtils.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.collection
+
+<span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap
+<span class="keyword">import</span> java.util.concurrent.ConcurrentLinkedQueue
+
+<span class="comment">/**
+ * Only created once and via calcOnce
+ */</span> 
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait Once[T] extends java.lang.Object" id="12717">Once</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="13961">T</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="=&gt; T" id="60306">value</a> : <a href="#13961" title="T">T</a>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Simple helper functions to get and remove ConcurrentLinkedQueues from a ConcurrentHashMap
+ */</span>
+<span class="keyword">trait</span> <a title="trait ConcurrentMapUtils extends java.lang.Object with ScalaObject" id="12642">ConcurrentMapUtils</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="[K, T](key: K, mapToList: java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]])java.util.concurrent.ConcurrentLinkedQueue[T]" id="15533">getList</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15536">K</a>, <a title="&gt;: Nothing &lt;: Any" id="15537">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="K" id="60310">key</a>: <a href="#15536" title="K">K</a>, <a title="java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]]" id="60311">mapToList</a>: <span title="java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]]">ConcurrentHashMap</span><span class="delimiter">[</span>K, ConcurrentLinkedQueue<span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">)</span>: <span title="java.util.concurrent.ConcurrentLinkedQueue[T]">ConcurrentLinkedQueue</span><span class="delimiter">[</span>T<span class="delimiter">]</span> = 
+    <a href="#15553" title="(key: K, map: java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]])(newT: =&gt; java.util.concurrent.ConcurrentLinkedQueue[T])java.util.concurrent.ConcurrentLinkedQueue[T]">valueOf</a><span class="delimiter">(</span><a href="#60310" title="K">key</a>, <a href="#60311" title="java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]]">mapToList</a><span class="delimiter">)</span><span class="delimiter">(</span>
+      <span title="java.util.concurrent.ConcurrentLinkedQueue[T]" class="keyword">new</span> <span title="java.util.concurrent.ConcurrentLinkedQueue[T]">ConcurrentLinkedQueue</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="[K, T](key: K, mapToList: java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]])java.util.concurrent.ConcurrentLinkedQueue[T]" id="15538">removeList</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15541">K</a>, <a title="&gt;: Nothing &lt;: Any" id="15542">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="K" id="60709">key</a>: <a href="#15541" title="K">K</a>, <a title="java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]]" id="60710">mapToList</a>: <span title="java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]]">ConcurrentHashMap</span><span class="delimiter">[</span>K, ConcurrentLinkedQueue<span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">)</span>: <span title="java.util.concurrent.ConcurrentLinkedQueue[T]">ConcurrentLinkedQueue</span><span class="delimiter">[</span>T<span class="delimiter">]</span> = 
+    <a href="#15543" title="(key: K, map: java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]])(newT: =&gt; java.util.concurrent.ConcurrentLinkedQueue[T])java.util.concurrent.ConcurrentLinkedQueue[T]">removeOr</a><span class="delimiter">(</span><a href="#60709" title="K">key</a>,<a href="#60710" title="java.util.concurrent.ConcurrentHashMap[K,java.util.concurrent.ConcurrentLinkedQueue[T]]">mapToList</a><span class="delimiter">)</span><span class="delimiter">(</span><span title="java.util.concurrent.ConcurrentLinkedQueue[T]" class="keyword">new</span> <span title="java.util.concurrent.ConcurrentLinkedQueue[T]">ConcurrentLinkedQueue</span><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Removes the value, returning either it or a new item (stops end code worrying about nulls etc..
+   */</span> 
+  <span class="keyword">def</span> <a title="[K, T](key: K, map: java.util.concurrent.ConcurrentHashMap[K,T])(newT: =&gt; T)T" id="15543">removeOr</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15546">K</a>, <a title="&gt;: Nothing &lt;: Any" id="15547">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="K" id="60714">key</a>: <a href="#15546" title="K">K</a>, <a title="java.util.concurrent.ConcurrentHashMap[K,T]" id="60715">map</a>: <span title="java.util.concurrent.ConcurrentHashMap[K,T]">ConcurrentHashMap</span><span class="delimiter">[</span>K, T<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span><a title="=&gt; T" id="60716">newT</a> : =&gt; T<span class="delimiter">)</span>: <a href="#15547" title="T">T</a> = <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="T" id="60818">res</a> = <a href="#60715" title="java.util.concurrent.ConcurrentHashMap[K,T]">map</a>.<span title="(x$1: Any)T">remove</span><span class="delimiter">(</span><a href="#60714" title="K">key</a><span class="delimiter">)</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#60818" title="T">res</a> <span title="(x$1: Any)Boolean">==</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#60818" title="T">res</a> = <a href="#60716" title="=&gt; T">newT</a>
+    <span class="delimiter">}</span>
+
+    <a href="#60818" title="T">res</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Calculates the value once and only once (using a lazy val), returning the result, use this approach for expensive calculations.
+   */</span>
+  <span class="keyword">def</span> <a title="[K, T](key: K, map: java.util.concurrent.ConcurrentHashMap[K,scales.utils.collection.Once[T]])(calc: =&gt; T)T" id="15548">calcOnce</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15551">K</a>,<a title="&gt;: Nothing &lt;: Any" id="15552">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="K" id="60821">key</a> : <a href="#15551" title="K">K</a>, <a title="java.util.concurrent.ConcurrentHashMap[K,scales.utils.collection.Once[T]]" id="60822">map</a> : <span title="java.util.concurrent.ConcurrentHashMap[K,scales.utils.collection.Once[T]]">ConcurrentHashMap</span><span class="delimiter">[</span>K, Once<span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span> <a title="=&gt; T" id="60823">calc</a> : =&gt; T <span class="delimiter">)</span> : <a href="#15552" title="T">T</a> = 
+    <a href="#15553" title="(key: K, map: java.util.concurrent.ConcurrentHashMap[K,scales.utils.collection.Once[T]])(newT: =&gt; scales.utils.collection.Once[T])scales.utils.collection.Once[T]">valueOf</a><span class="delimiter">(</span><a href="#60821" title="K">key</a>, <a href="#60822" title="java.util.concurrent.ConcurrentHashMap[K,scales.utils.collection.Once[T]]">map</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#60838" title="java.lang.Object with scales.utils.collection.Once[T]{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.utils.collection.Once[T]" id="60838">Once</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">{</span>
+	<span class="keyword">lazy</span> <span class="keyword">val</span> <a title="T" id="60843">value</a> = <a href="#60823" title="=&gt; T">calc</a>
+      <span class="delimiter">}</span><span class="delimiter">)</span>.
+    <span class="comment">// doesn't matter which thread did this</span>
+    <a href="#60306" title="=&gt; T">value</a>
+  
+  <span class="comment">/**
+   * retrieves the value of a concurrent hashmap against a given key, creating if necessary.  Note it makes no gaurantee of once only semantics for the value generation
+   */</span>
+  <span class="keyword">def</span> <a title="[K, T](key: K, map: java.util.concurrent.ConcurrentHashMap[K,T])(newT: =&gt; T)T" id="15553">valueOf</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15556">K</a>,<a title="&gt;: Nothing &lt;: Any" id="15557">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="K" id="60433">key</a> : <a href="#15556" title="K">K</a>, <a title="java.util.concurrent.ConcurrentHashMap[K,T]" id="60434">map</a> : <span title="java.util.concurrent.ConcurrentHashMap[K,T]">ConcurrentHashMap</span><span class="delimiter">[</span>K, T<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span> <a title="=&gt; T" id="60435">newT</a> : =&gt; T <span class="delimiter">)</span> : <a href="#15557" title="T">T</a> = <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="T" id="60846">value</a> = <a href="#60434" title="java.util.concurrent.ConcurrentHashMap[K,T]">map</a>.<span title="(x$1: Any)T">get</span><span class="delimiter">(</span><a href="#60433" title="K">key</a><span class="delimiter">)</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#60846" title="T">value</a> <span title="(x$1: Any)Boolean">==</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#60846" title="T">value</a> = <a href="#60435" title="=&gt; T">newT</a>
+      <span class="keyword">val</span> <a title="T" id="60847">res</a> = <a href="#60434" title="java.util.concurrent.ConcurrentHashMap[K,T]">map</a>.<span title="(x$1: K, x$2: T)T">putIfAbsent</span><span class="delimiter">(</span><a href="#60433" title="K">key</a>, <a href="#60846" title="T">value</a><span class="delimiter">)</span>
+      <a href="#60846" title="T">value</a> = <span title="T" class="keyword">if</span> <span class="delimiter">(</span><a href="#60847" title="T">res</a> <span title="(x$1: Any)Boolean">==</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="#60846" title="T">value</a> <span class="keyword">else</span> <a href="#60847" title="T">res</a>
+    <span class="delimiter">}</span>
+
+    <a href="#60846" title="T">value</a>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

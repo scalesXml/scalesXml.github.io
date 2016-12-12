@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\LocalisationTest.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="keyword">class</span> <a title="class LocalisationTest extends junit.framework.TestCase with ScalaObject" id="11430">LocalisationTest</a> <a href="#11430" title="ScalaObject" class="keyword">extends</a> junit.framework.<span title="junit.framework.TestCase">TestCase</span> <span class="delimiter">{</span></span>
+<a href="l4"></a><span id="l4">  <span class="keyword">import</span> <a href="../../../classes.sxr/scales/utils/ScalesUtils.scala.html#10619" title="object scales.utils.ScalesUtils">ScalesUtils</a>._</span>
+<a href="l5"></a><span id="l5"></span>
+<a href="l6"></a><span id="l6">  <span class="keyword">import</span> junit.framework.<span title="object junit.framework.Assert">Assert</span>._;</span>
+<a href="l7"></a><span id="l7">  </span>
+<a href="l8"></a><span id="l8">  <span class="keyword">import</span> java.util.Locale</span>
+<a href="l9"></a><span id="l9"></span>
+<a href="l10"></a><span id="l10">  <span class="keyword">val</span> <a title="java.util.Locale" id="50587">default</a> = <span title="object java.util.Locale">Locale</span>.<span title="()java.util.Locale">getDefault</span></span>
+<a href="l11"></a><span id="l11">  <span class="keyword">val</span> <a title="java.util.Locale" id="50589">en</a> = <span title="object java.util.Locale">Locale</span>.<span title="java.util.Locale">UK</span></span>
+<a href="l12"></a><span id="l12"></span>
+<a href="l13"></a><span id="l13">  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="50591">setUp</a> = <span class="delimiter">{</span></span>
+<a href="l14"></a><span id="l14">    <span title="object java.util.Locale">Locale</span>.<span title="(x$1: java.util.Locale)Unit">setDefault</span><span class="delimiter">(</span><a href="#50589" title="=&gt; java.util.Locale">en</a><span class="delimiter">)</span></span>
+<a href="l15"></a><span id="l15">  <span class="delimiter">}</span></span>
+<a href="l16"></a><span id="l16"></span>
+<a href="l17"></a><span id="l17">  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="50592">tearDown</a> = <span class="delimiter">{</span></span>
+<a href="l18"></a><span id="l18">    <span title="object java.util.Locale">Locale</span>.<span title="(x$1: java.util.Locale)Unit">setDefault</span><span class="delimiter">(</span><a href="#50587" title="=&gt; java.util.Locale">default</a><span class="delimiter">)</span></span>
+<a href="l19"></a><span id="l19">  <span class="delimiter">}</span></span>
+<a href="l20"></a><span id="l20"></span>
+<a href="l21"></a><span id="l21">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50593">testSimple</a> = <span class="delimiter">{</span></span>
+<a href="l22"></a><span id="l22">    <span class="keyword">val</span> <a title="scales.utils.Resource" id="50613">res</a> = <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#77835" title="(locale: () =&gt; java.util.Locale)(file: (Class[_], Option[String]))scales.utils.Resource">Resource</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">(</span>classOf<a href="../../../classes.sxr/scales/utils/Localisation.scala.html#66486" title="implicit scales.utils.LocalisedImplicits.justClass : (clazz: Class[_])(Class[_], Option[String])" class="delimiter">[</a>LocalisationTest<span class="delimiter">]</span><span class="delimiter">)</span></span>
+<a href="l23"></a><span id="l23">    </span>
+<a href="l24"></a><span id="l24">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;SimpleString&quot;)" class="string">&quot;SimpleString&quot;</span>, <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73648" title="(id: String)String">res</a><span class="delimiter">(</span><span title="java.lang.String(&quot;simple&quot;)" class="string">&quot;simple&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l25"></a><span id="l25">  <span class="delimiter">}</span></span>
+<a href="l26"></a><span id="l26"></span>
+<a href="l27"></a><span id="l27">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50594">testFillerNonId</a> = <span class="delimiter">{</span></span>
+<a href="l28"></a><span id="l28">    <span class="keyword">val</span> <a title="scales.utils.Resource" id="50754">res</a> = <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#77835" title="(locale: () =&gt; java.util.Locale)(file: (Class[_], Option[String]))scales.utils.Resource">Resource</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="../../../classes.sxr/scales/utils/Localisation.scala.html#66487" title="implicit scales.utils.LocalisedImplicits.toClass : (obj: AnyRef)(Class[_], Option[String])" class="keyword">this</a><span class="delimiter">)</span></span>
+<a href="l29"></a><span id="l29">    </span>
+<a href="l30"></a><span id="l30">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Filler 1 with 2 and 3&quot;)" class="string">&quot;Filler 1 with 2 and 3&quot;</span>, <a href="#50754" title="scales.utils.Resource">res</a>.<a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73652" title="(id: String, fillers: Any*)String">get</a><span class="delimiter">(</span><span title="java.lang.String(&quot;filler&quot;)" class="string">&quot;filler&quot;</span>, <span title="Int(1)" class="int">1</span>, <span title="Int(2)" class="int">2</span>, <span title="Int(3)" class="int">3</span>, <span title="Int(4)" class="int">4</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l31"></a><span id="l31">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Filler 1 with 2 and XXX&quot;)" class="string">&quot;Filler 1 with 2 and XXX&quot;</span>, <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73649" title="(id: String, fillers: Any*)String">res</a><span class="delimiter">(</span><span title="java.lang.String(&quot;filler&quot;)" class="string">&quot;filler&quot;</span>, <span title="Int(1)" class="int">1</span>, <span title="Int(2)" class="int">2</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l32"></a><span id="l32">  <span class="delimiter">}</span></span>
+<a href="l33"></a><span id="l33"></span>
+<a href="l34"></a><span id="l34">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50595">testSimpleDE</a> = <span class="delimiter">{</span></span>
+<a href="l35"></a><span id="l35">    <span class="keyword">val</span> <a title="scales.utils.Resource" id="50898">res</a> = <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#77835" title="(locale: () =&gt; java.util.Locale)(file: (Class[_], Option[String]))scales.utils.Resource">Resource</a><span class="delimiter">(</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; <span title="(x$1: java.lang.String)java.util.Locale" class="keyword">new</span> java.util.<span title="java.util.Locale">Locale</span><span class="delimiter">(</span><span title="java.lang.String(&quot;de&quot;)" class="string">&quot;de&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span>classOf<a href="../../../classes.sxr/scales/utils/Localisation.scala.html#66486" title="implicit scales.utils.LocalisedImplicits.justClass : (clazz: Class[_])(Class[_], Option[String])" class="delimiter">[</a>LocalisationTest<span class="delimiter">]</span><span class="delimiter">)</span></span>
+<a href="l36"></a><span id="l36">    </span>
+<a href="l37"></a><span id="l37">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;EinfachString&quot;)" class="string">&quot;EinfachString&quot;</span>, <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73648" title="(id: String)String">res</a><span class="delimiter">(</span><span title="java.lang.String(&quot;simple&quot;)" class="string">&quot;simple&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l38"></a><span id="l38">  <span class="delimiter">}</span></span>
+<a href="l39"></a><span id="l39"></span>
+<a href="l40"></a><span id="l40">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50596">testFillerNonIdDE</a> = <span class="delimiter">{</span></span>
+<a href="l41"></a><span id="l41">    <span class="keyword">val</span> <a title="scales.utils.Resource" id="50937">res</a> = <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#77835" title="(locale: () =&gt; java.util.Locale)(file: (Class[_], Option[String]))scales.utils.Resource">Resource</a><span class="delimiter">(</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; <span title="(x$1: java.lang.String)java.util.Locale" class="keyword">new</span> java.util.<span title="java.util.Locale">Locale</span><span class="delimiter">(</span><span title="java.lang.String(&quot;de&quot;)" class="string">&quot;de&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span>classOf<a href="../../../classes.sxr/scales/utils/Localisation.scala.html#66486" title="implicit scales.utils.LocalisedImplicits.justClass : (clazz: Class[_])(Class[_], Option[String])" class="delimiter">[</a>LocalisationTest<span class="delimiter">]</span><span class="delimiter">)</span></span>
+<a href="l42"></a><span id="l42">    </span>
+<a href="l43"></a><span id="l43">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Füllung 1 mit 2 und 3&quot;)" class="string">&quot;Füllung 1 mit 2 und 3&quot;</span>, <a href="#50937" title="scales.utils.Resource">res</a>.<a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73652" title="(id: String, fillers: Any*)String">get</a><span class="delimiter">(</span><a href="../../../classes.sxr/scales/utils/Localisation.scala.html#66488" title="implicit scales.utils.LocalisedImplicits.symbolToStr : (sym: Symbol)String" class="symbol">'filler</a>, <span title="Int(1)" class="int">1</span>, <span title="Int(2)" class="int">2</span>, <span title="Int(3)" class="int">3</span>, <span title="Int(4)" class="int">4</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l44"></a><span id="l44">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Füllung 1 mit 2 und XXX&quot;)" class="string">&quot;Füllung 1 mit 2 und XXX&quot;</span>, <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73649" title="(id: String, fillers: Any*)String">res</a><span class="delimiter">(</span><span title="java.lang.String(&quot;filler&quot;)" class="string">&quot;filler&quot;</span>, <span title="Int(1)" class="int">1</span>, <span title="Int(2)" class="int">2</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l45"></a><span id="l45">  <span class="delimiter">}</span></span>
+<a href="l46"></a><span id="l46"></span>
+<a href="l47"></a><span id="l47">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50597">testSimpleId</a> = <span class="delimiter">{</span></span>
+<a href="l48"></a><span id="l48">    <span class="keyword">val</span> <a title="scales.utils.Resource" id="50999">res</a> = <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#77835" title="(locale: () =&gt; java.util.Locale)(file: (Class[_], Option[String]))scales.utils.Resource">Resource</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">(</span>classOf<a href="../../../classes.sxr/scales/utils/Localisation.scala.html#66486" title="implicit scales.utils.LocalisedImplicits.justClass : (clazz: Class[_])(Class[_], Option[String])" class="delimiter">[</a>LocalisationTest<span class="delimiter">]</span><span class="delimiter">)</span></span>
+<a href="l49"></a><span id="l49">    </span>
+<a href="l50"></a><span id="l50">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;[simple] SimpleString&quot;)" class="string">&quot;[simple] SimpleString&quot;</span>, <a href="#50999" title="scales.utils.Resource">res</a>.<a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73654" title="(id: String, fillers: Any*)String">getWithId</a><span class="delimiter">(</span><span title="java.lang.String(&quot;simple&quot;)" class="string">&quot;simple&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l51"></a><span id="l51">  <span class="delimiter">}</span></span>
+<a href="l52"></a><span id="l52"></span>
+<a href="l53"></a><span id="l53">  <span class="keyword">def</span> <a title="=&gt; Unit" id="50598">testFillerId</a> = <span class="delimiter">{</span></span>
+<a href="l54"></a><span id="l54">    <span class="keyword">val</span> <a title="scales.utils.Resource" id="51022">res</a> = <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#77835" title="(locale: () =&gt; java.util.Locale)(file: (Class[_], Option[String]))scales.utils.Resource">Resource</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="../../../classes.sxr/scales/utils/Localisation.scala.html#66487" title="implicit scales.utils.LocalisedImplicits.toClass : (obj: AnyRef)(Class[_], Option[String])" class="keyword">this</a><span class="delimiter">)</span></span>
+<a href="l55"></a><span id="l55">    </span>
+<a href="l56"></a><span id="l56">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;[filler] Filler 1 with 2 and 3&quot;)" class="string">&quot;[filler] Filler 1 with 2 and 3&quot;</span>, <a href="#51022" title="scales.utils.Resource">res</a>.<a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73654" title="(id: String, fillers: Any*)String">getWithId</a><span class="delimiter">(</span><span title="java.lang.String(&quot;filler&quot;)" class="string">&quot;filler&quot;</span>, <span title="Int(1)" class="int">1</span>, <span title="Int(2)" class="int">2</span>, <span title="Int(3)" class="int">3</span>, <span title="Int(4)" class="int">4</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l57"></a><span id="l57">    <span title="(x$1: java.lang.String, x$2: java.lang.String)Unit">assertEquals</span><span class="delimiter">(</span><span title="java.lang.String(&quot;[filler] Filler 1 with 2 and XXX&quot;)" class="string">&quot;[filler] Filler 1 with 2 and XXX&quot;</span>, <a href="../../../classes.sxr/scales/utils/Localisation.scala.html#73650" title="(showId: Boolean, id: String, fillers: Any*)String">res</a><span class="delimiter">(</span><span title="Boolean(true)" class="keyword">true</span>, <span title="java.lang.String(&quot;filler&quot;)" class="string">&quot;filler&quot;</span>, <span title="Int(1)" class="int">1</span>, <span title="Int(2)" class="int">2</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l58"></a><span id="l58">  <span class="delimiter">}</span></span>
+<a href="l59"></a><span id="l59"><span class="delimiter">}</span></span>
+<a href="l60"></a><span id="l60"></span>
+<a href="l61"></a><span id="l61">        </span>
+</pre>
+    </body>
+</html>

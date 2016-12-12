@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\TraxSupport.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml
+
+<span class="keyword">import</span> javax.xml.transform.Source
+<span class="keyword">import</span> javax.xml.transform.stax._
+<span class="keyword">import</span> javax.xml.transform.sax._
+
+<span class="keyword">import</span> trax._
+
+<span class="keyword">import</span> scales.utils._
+
+<span class="keyword">import</span> <a href="ScalesXml.scala.html#12739" title="object scales.xml.ScalesXml">ScalesXml</a>._
+
+<span class="comment">/**
+ * A TrAX Result
+ */</span> 
+case <span class="keyword">class</span> <a title="class ScalesResult[Token &lt;: scales.xml.OptimisationToken] extends javax.xml.transform.sax.SAXResult with ScalaObject with Product with Serializable" id="98272">ScalesResult</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="98266">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span><a href="#98272" title="ScalaObject" class="delimiter">(</a><a title="scales.xml.PathOptimisationStrategy[Token]" id="98264">strategy</a> : <a href="OptimisingStrategies.scala.html#12477" title="scales.xml.PathOptimisationStrategy[Token]">PathOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span> = <a href="package.scala.html#15852" title="=&gt; scales.xml.PathOptimisationStrategy[scales.xml.QNameToken]">defaultPathOptimisation</a><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="javax.xml.transform.sax.SAXResult">SAXResult</span><span class="delimiter">(</span><a href="Namespaces.scala.html#90531" title="scales.xml.Handler[Token]" class="keyword">new</a> <a href="XmlParser.scala.html#12414" title="scales.xml.Handler[Token]">scales</a>.xml.Handler<span class="delimiter">[</span>Token<span class="delimiter">]</span><span class="delimiter">(</span><a href="#98264" title="scales.xml.PathOptimisationStrategy[Token]">strategy</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; scales.xml.Doc" id="97188">doc</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scales.xml.Handler[Token]" id="97486">handler</a> = <a href="#98272" title="()org.xml.sax.ContentHandler">getHandler</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.Handler[Token]" class="delimiter">[</span><a href="XmlParser.scala.html#12414" title="scales.xml.Handler[Token]">scales</a>.xml.Handler<span class="delimiter">[</span>Token<span class="delimiter">]</span><span class="delimiter">]</span>
+    <span class="comment">//val tp = handler.buf.proxies(0)</span>
+
+    <a href="XmlTypes.scala.html#97489" title="(rootElem: scales.xml.package.XmlTree, prolog: scales.xml.Prolog, end: scales.xml.EndMisc)scales.xml.Doc">Doc</a><span class="delimiter">(</span><a href="#97486" title="scales.xml.Handler[Token]">handler</a>.<a href="XmlParser.scala.html#97343" title="=&gt; scales.xml.TreeProxies">getBuf</a>.<a href="XmlParser.scala.html#91996" title="=&gt; scales.xml.package.XmlTree">tree</a><span class="comment">//Tree(tp.elem, tp.children.result)//path.tree()</span>
+	, <a href="#97486" title="scales.xml.Handler[Token]">handler</a>.<a href="XmlParser.scala.html#97348" title="=&gt; scales.xml.Prolog">getProlog</a>, <a href="#97486" title="scales.xml.Handler[Token]">handler</a>.<a href="XmlParser.scala.html#97349" title="=&gt; scales.xml.EndMisc">getEnd</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Use as a basis for TrAX or javax.xml.validation and some other services.  Unfortunately XPath isn't one of them, fortunately ScalesXml comes with similar...
+ *
+ * To add to the joy, at time of writing Xalan (2.7.1) uses SAXSource.toInputSource to convert this into a stream, problem is the JVM version (1.6.0_24) doesn't support StAXSource transformation, which is nice.  So until this is fixed users should serialize themselves into a stream and then use for trax if they are using Xalan directly.
+ * 
+ * Only the prolog and endMisc are taken from the document, the rest comes from the stream
+ */</span> 
+case <span class="keyword">class</span> <a title="class ScalesSource extends javax.xml.transform.stax.StAXSource with ScalaObject with Product with Serializable" id="98255">ScalesSource</a><a href="#98255" title="ScalaObject" class="delimiter">(</a><a title="Iterator[scales.xml.package.PullType]" id="97831">stream</a> : <span title="Iterator[scales.xml.package.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span>, <a title="scales.xml.DocLike" id="97832">documentLike</a> : <a href="XmlTypes.scala.html#12231" title="scales.xml.DocLike">DocLike</a> = <a href="XmlTypes.scala.html#97598" title="(prolog: scales.xml.Prolog, end: scales.xml.EndMisc)scales.xml.EmptyDoc">EmptyDoc</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="javax.xml.transform.stax.StAXSource">StAXSource</span> <span class="delimiter">(</span>
+  <a href="#97675" title="java.lang.Object with scales.xml.trax.ScalesStreamReader{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.trax.ScalesStreamReader" id="97675">trax</a>.<a href="trax/ScalesStreamReader.scala.html#14746" title="scales.xml.trax.ScalesStreamReader">ScalesStreamReader</a><span class="delimiter">(</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Iterator[scales.xml.package.PullType]" id="97754">itr</a> = <a href="#97831" title="Iterator[scales.xml.package.PullType]">stream</a>
+    <span class="keyword">val</span> <a title="scales.xml.DocLike" id="97756">docLike</a> = <a href="#97832" title="scales.xml.DocLike">documentLike</a>
+  <span class="delimiter">}</span>
+<span class="delimiter">)</span>
+
+<span class="keyword">trait</span> <a title="trait TraxConversionImplicits extends java.lang.Object with ScalaObject" id="12765">TraxConversionImplicits</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.TraxConversionImplicits.treeToSource : (tree: scales.xml.package.XmlTree)(implicit sf: scales.xml.package.SerializeableXml[scales.xml.package.XmlTree])javax.xml.transform.Source" id="91390">treeToSource</a><span class="delimiter">(</span> <a title="scales.xml.package.XmlTree" id="94453">tree</a> : <a href="../utils/Trees.scala.html#11328" title="scales.xml.package.XmlTree">XmlTree</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.package.SerializeableXml[scales.xml.package.XmlTree]" id="94454">sf</a> : <a href="XmlPrinter.scala.html#15914" title="scales.xml.package.SerializeableXml[scales.xml.package.XmlTree]">SerializeableXml</a><span class="delimiter">[</span>XmlTree<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="javax.xml.transform.Source">Source</span> = 
+    <a href="#97821" title="(xml: scales.xml.package.XmlTree, f: =&gt; javax.xml.transform.Source)(implicit evidence$2: scales.xml.package.SerializeableXml[scales.xml.package.XmlTree])javax.xml.transform.Source">streamOr</a><span class="delimiter">(</span> <a href="#94453" title="scales.xml.package.XmlTree">tree</a>, <a href="#98255" title="(stream: Iterator[scales.xml.package.PullType], documentLike: scales.xml.DocLike)scales.xml.ScalesSource">ScalesSource</a><span class="delimiter">(</span><a href="#15974" title="(tree: scales.xml.package.XmlTree)Iterator[scales.xml.package.PullType]">convertToStream</a><span class="delimiter">(</span><a href="#94453" title="scales.xml.package.XmlTree">tree</a><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#94454" title="scales.xml.package.SerializeableXml[scales.xml.package.XmlTree]">sf</a><span class="delimiter">)</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.TraxConversionImplicits.docToSource : (doc: scales.xml.Doc)(implicit sf: scales.xml.package.SerializeableXml[scales.xml.Doc])javax.xml.transform.Source" id="91391">docToSource</a><span class="delimiter">(</span> <a title="scales.xml.Doc" id="94358">doc</a> : <a href="XmlTypes.scala.html#12228" title="scales.xml.Doc">Doc</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.package.SerializeableXml[scales.xml.Doc]" id="94359">sf</a> : <a href="XmlPrinter.scala.html#15914" title="scales.xml.package.SerializeableXml[scales.xml.Doc]">SerializeableXml</a><span class="delimiter">[</span>Doc<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="javax.xml.transform.Source">Source</span> = 
+    <a href="#97821" title="(xml: scales.xml.Doc, f: =&gt; javax.xml.transform.Source)(implicit evidence$2: scales.xml.package.SerializeableXml[scales.xml.Doc])javax.xml.transform.Source">streamOr</a><span class="delimiter">(</span> <a href="#94358" title="scales.xml.Doc">doc</a>, <a href="#98255" title="(stream: Iterator[scales.xml.package.PullType], documentLike: scales.xml.DocLike)scales.xml.ScalesSource">ScalesSource</a><span class="delimiter">(</span><a href="#15974" title="(tree: scales.xml.package.XmlTree)Iterator[scales.xml.package.PullType]">convertToStream</a><span class="delimiter">(</span><a href="#94358" title="scales.xml.Doc">doc</a>.<a href="XmlTypes.scala.html#95561" title="=&gt; scales.xml.package.XmlTree">rootElem</a><span class="delimiter">)</span>, <a href="#94358" title="scales.xml.Doc">doc</a><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#94359" title="scales.xml.package.SerializeableXml[scales.xml.Doc]">sf</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+
+<span class="keyword">trait</span> <a title="trait TraxSourceConversions extends java.lang.Object with ScalaObject" id="12771">TraxSourceConversions</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(tree: scales.xml.package.XmlTree)Iterator[scales.xml.package.PullType]" id="15974">convertToStream</a><span class="delimiter">(</span><a title="scales.xml.package.XmlTree" id="97841">tree</a> : <a href="../utils/Trees.scala.html#11328" title="scales.xml.package.XmlTree">XmlTree</a><span class="delimiter">)</span> : <span title="Iterator[scales.xml.package.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span> = <span title="scales.xml.trax.TreeIterable" class="keyword">new</span> trax.<a href="trax/TraxSourceConversions.scala.html#14758" title="scales.xml.trax.TreeIterable">TreeIterable</a><span class="delimiter">(</span><a href="#97841" title="scales.xml.package.XmlTree">tree</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * When the user really wants a stream source or there is yet another place that jaxp Source support is not complete.
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](xml: T)(implicit evidence$1: scales.xml.package.SerializeableXml[T])javax.xml.transform.Source" id="97859">asStreamSource</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15977">T</a> : SerializeableXml<span class="delimiter">]</span><span class="delimiter">(</span> <a title="T" id="97858">xml</a> : <a href="#15977" title="T">T</a> <span class="delimiter">)</span> : <span title="javax.xml.transform.Source">Source</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="String" id="97863">str</a> = <a href="XmlPrinter.scala.html#15929" title="(xml: T)(implicit serf: scales.xml.serializers.SerializerFactory, implicit sxml: scales.xml.package.SerializeableXml[T])String">asString</a><a href="XmlPrinter.scala.html#91383" title="=&gt; scales.xml.serializers.SerializerFactory" class="delimiter">(</a><a href="#97858" title="T">xml</a><span class="delimiter">)</span>
+    <span title="(x$1: java.io.Reader)javax.xml.transform.stream.StreamSource" class="keyword">new</span> javax.xml.transform.stream.<span title="javax.xml.transform.stream.StreamSource">StreamSource</span><span class="delimiter">(</span><span title="java.io.StringReader" class="keyword">new</span> java.io.<span title="java.io.StringReader">StringReader</span><span class="delimiter">(</span><a href="#97863" title="String">str</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="[T](xml: T, f: =&gt; javax.xml.transform.Source)(implicit evidence$2: scales.xml.package.SerializeableXml[T])javax.xml.transform.Source" id="97821">streamOr</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15980">T</a> : SerializeableXml<span class="delimiter">]</span><span class="delimiter">(</span> <a title="T" id="97819">xml</a> : <a href="#15980" title="T">T</a> , <a title="=&gt; javax.xml.transform.Source" id="97820">f</a> : =&gt; Source<span class="delimiter">)</span> : <span title="javax.xml.transform.Source">Source</span> =
+    <span title="javax.xml.transform.Source" class="keyword">if</span> <span class="delimiter">(</span><a href="XmlFactories.scala.html#12805" title="object scales.xml.Versions">Versions</a>.<a href="XmlFactories.scala.html#98044" title="=&gt; Boolean">traxSourceShouldSerialize</a><span class="delimiter">)</span>
+      <a href="#97859" title="(xml: T)(implicit evidence$1: scales.xml.package.SerializeableXml[T])javax.xml.transform.Source">asStreamSource</a><a href="#97821" title="scales.xml.package.SerializeableXml[T]" class="delimiter">(</a><a href="#97819" title="T">xml</a><span class="delimiter">)</span>
+    <span class="keyword">else</span> 
+      <a href="#97820" title="=&gt; javax.xml.transform.Source">f</a>
+  
+<span class="delimiter">}</span>
+
+
+        </pre>
+    </body>
+</html>

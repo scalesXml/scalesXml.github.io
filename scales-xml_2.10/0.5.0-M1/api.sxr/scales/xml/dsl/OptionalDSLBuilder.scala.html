@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\dsl\OptionalDSLBuilder.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.dsl
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>
+  XmlTree, Elem, 
+  XCC, XmlItem, 
+  QName, ScalesXml,
+  Attribute, emptyChildren,
+  ItemOrElem, XPath,
+  XmlPath, Text, isEmptyTree
+  <span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.utils.collection.path._
+<span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>AsBoolean, subtree, foldPositions, booleanMatcher, booleanAndTMatcher, top, item<span class="delimiter">}</span>
+
+<span class="keyword">import</span> <a href="../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>.xmlCBF
+
+<span class="keyword">import</span> <a href="../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>.fromParserDefault <span class="comment">// note cannot be in parser here</span>
+
+<span class="comment">/**
+ * Entry point to creating OptionalDslBuilders, can be used without the implicit helpers
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.xml.dsl.OptionalDslBuilder" id="9888">OptionalDslBuilder</a> <span title="ScalaObject" class="delimiter">{</span>
+  
+  <span class="comment">/**
+   * Creates a new tree for the DslBuilder with this @qname for the root elem
+   */</span> 
+  <span class="keyword">def</span> <a title="(qname: scales.xml.QName)scales.xml.dsl.OptionalDslBuilder" id="47894">apply</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="47914">qname</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a> <span class="delimiter">)</span> = <span title="scales.xml.dsl.OptionalDslBuilder" class="keyword">new</span> <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a><span class="delimiter">(</span><a href="DslBuilder.scala.html#9837" title="object scales.xml.dsl.DslBuilder">DslBuilder</a>.<a href="DslBuilder.scala.html#47907" title="(elem: scales.xml.Elem)scales.xml.package.XmlTree">elem2tree</a><span class="delimiter">(</span><a href="../XmlTypes.scala.html#45647" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.impl.FromParser)scales.xml.Elem">Elem</a><a href="../impl/XmlTypesImplicits.scala.html#42889" title="=&gt; scales.xml.impl.FromParser" class="delimiter">(</a><a href="#47914" title="scales.xml.QName">qname</a><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> 
+  <span class="comment">/**
+   * Creates a new tree for the DslBuilder with @elem as the root
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)scales.xml.dsl.OptionalDslBuilder" id="47895">apply</a><span class="delimiter">(</span> <a title="scales.xml.Elem" id="47903">elem</a> : <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> = <span title="scales.xml.dsl.OptionalDslBuilder" class="keyword">new</span> <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a><span class="delimiter">(</span><a href="DslBuilder.scala.html#9837" title="object scales.xml.dsl.DslBuilder">DslBuilder</a>.<a href="DslBuilder.scala.html#47907" title="(elem: scales.xml.Elem)scales.xml.package.XmlTree">elem2tree</a><span class="delimiter">(</span><a href="#47903" title="scales.xml.Elem">elem</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="comment">/**
+   * Uses @tree to directly create the DslBuilder
+   */</span>
+  <span class="keyword">def</span> <a title="(tree: scales.xml.package.XmlTree)scales.xml.dsl.OptionalDslBuilder" id="47896">apply</a><span class="delimiter">(</span> <a title="scales.xml.package.XmlTree" id="47899">tree</a> : <a href="../../utils/collection/Trees.scala.html#12744" title="scales.xml.package.XmlTree">XmlTree</a> <span class="delimiter">)</span> = <span title="scales.xml.dsl.OptionalDslBuilder" class="keyword">new</span> <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a><span class="delimiter">(</span><a href="#47899" title="scales.xml.package.XmlTree">tree</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Represents an optional cascading tree, 
+ * 
+ * NB Must have a starting element, modelled as tree as we need to keep the data around and trees must always have an elem. 
+ */</span>
+<span class="keyword">final</span> <span class="keyword">class</span> <a title="class OptionalDslBuilder extends java.lang.Object with ScalaObject" id="9887">OptionalDslBuilder</a> <a href="#9887" title="ScalaObject" class="keyword">private</a><span class="delimiter">(</span><span class="keyword">val</span> <a title="scales.xml.package.XmlTree" id="47902">tree</a>: <a href="../../utils/collection/Trees.scala.html#12744" title="scales.xml.package.XmlTree">XmlTree</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="keyword">import</span> <a href="../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>._
+
+  <span class="keyword">private</span> <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" id="47860">dslToOptional</a><span class="delimiter">(</span><a title="scales.xml.dsl.DslBuilder" id="95731">dsl</a>: <a href="DslBuilder.scala.html#9836" title="scales.xml.dsl.DslBuilder">DslBuilder</a><span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> =
+    <span title="scales.xml.dsl.OptionalDslBuilder" class="keyword">new</span> <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a><span class="delimiter">(</span><a href="#95731" title="scales.xml.dsl.DslBuilder">dsl</a>.<a href="DslBuilder.scala.html#47095" title="=&gt; scales.xml.package.XmlTree">toTree</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Add attributes
+   */</span> 
+  <span class="keyword">def</span> <a title="(attribs: =&gt; Iterable[scales.xml.Attribute])scales.xml.dsl.OptionalDslBuilder" id="47861">?/@</a><span class="delimiter">(</span><a title="=&gt; Iterable[scales.xml.Attribute]" id="95733">attribs</a> : =&gt; Iterable<span class="delimiter">[</span>Attribute<span class="delimiter">]</span><span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = 
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47071" title="(attribs: =&gt; Iterable[scales.xml.Attribute])scales.xml.dsl.DslBuilder">/@</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#95733" title="=&gt; Iterable[scales.xml.Attribute]">attribs</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Add attributes
+   */</span> 
+  <span class="keyword">def</span> <a title="(attribs: =&gt; Iterable[scales.xml.Attribute])scales.xml.dsl.OptionalDslBuilder" id="47862">addOptionalAttributes</a><span class="delimiter">(</span><a title="=&gt; Iterable[scales.xml.Attribute]" id="95777">attribs</a> : =&gt; Iterable<span class="delimiter">[</span>Attribute<span class="delimiter">]</span><span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = 
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47071" title="(attribs: =&gt; Iterable[scales.xml.Attribute])scales.xml.dsl.DslBuilder">/@</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#95777" title="=&gt; Iterable[scales.xml.Attribute]">attribs</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally add a single attribute, when None no attribute will be added
+   */</span>
+  <span class="keyword">def</span> <a title="(attrib: Option[scales.xml.Attribute])scales.xml.dsl.OptionalDslBuilder" id="47863">?/@</a><span class="delimiter">(</span><a title="Option[scales.xml.Attribute]" id="95811">attrib</a> : <span title="Option[scales.xml.Attribute]">Option</span><span class="delimiter">[</span>Attribute<span class="delimiter">]</span><span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = 
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47072" title="(attrib: Option[scales.xml.Attribute])scales.xml.dsl.DslBuilder">/@</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#95811" title="Option[scales.xml.Attribute]">attrib</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally add a single attribute, when None no attribute will be added
+   */</span>
+  <span class="keyword">def</span> <a title="(attrib: Option[scales.xml.Attribute])scales.xml.dsl.OptionalDslBuilder" id="47864">addOptionalAttribute</a><span class="delimiter">(</span><a title="Option[scales.xml.Attribute]" id="95845">attrib</a> : <span title="Option[scales.xml.Attribute]">Option</span><span class="delimiter">[</span>Attribute<span class="delimiter">]</span><span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = 
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47072" title="(attrib: Option[scales.xml.Attribute])scales.xml.dsl.DslBuilder">/@</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#95845" title="Option[scales.xml.Attribute]">attrib</a><span class="delimiter">)</span>
+
+  <span class="keyword">private</span> <span class="keyword">def</span> <a title="(itemOrElems: Iterable[scales.xml.package.ItemOrElem])scales.xml.dsl.OptionalDslBuilder" id="47865">addNonEmptys</a><span class="delimiter">(</span><a title="Iterable[scales.xml.package.ItemOrElem]" id="95879">itemOrElems</a>: <span title="Iterable[scales.xml.package.ItemOrElem]">Iterable</span><span class="delimiter">[</span>ItemOrElem<span class="delimiter">]</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> =
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47075" title="(itemOrElems: =&gt; Iterable[scales.xml.package.ItemOrElem])scales.xml.dsl.DslBuilder">/</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#95879" title="Iterable[scales.xml.package.ItemOrElem]">itemOrElems</a>.<span title="(p: scales.xml.package.ItemOrElem =&gt; Boolean)Iterable[scales.xml.package.ItemOrElem]">filter</span><span class="delimiter">{</span>
+      <a href="#95948" title="scales.xml.package.ItemOrElem">_</a>.<a href="../../utils/EitherLike.scala.html#45595" title="(fl: scales.xml.XmlItem =&gt; Boolean, fr: scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC] =&gt; Boolean)Boolean">fold</a><span class="delimiter">(</span><a title="scales.xml.XmlItem" id="95955">i</a> =&gt; <span title="Boolean(true)" class="keyword">true</span>, <a title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]" id="95957">t</a> =&gt; <span title="=&gt; Boolean">!</span><a href="../impl/XmlUtils.scala.html#15622" title="(tree: scales.xml.package.XmlTree)Boolean">isEmptyTree</a><span class="delimiter">(</span><a href="#95957" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">t</a><span class="delimiter">)</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Adds items and filters out empty trees.
+   */</span>
+  <span class="keyword">def</span> <a title="(itemOrElems: =&gt; Iterable[scales.xml.package.ItemOrElem])scales.xml.dsl.OptionalDslBuilder" id="47866">addNonEmpty</a><span class="delimiter">(</span> <a title="=&gt; Iterable[scales.xml.package.ItemOrElem]" id="95965">itemOrElems</a>: =&gt; Iterable<span class="delimiter">[</span>ItemOrElem<span class="delimiter">]</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> =
+    <a href="#47865" title="(itemOrElems: Iterable[scales.xml.package.ItemOrElem])scales.xml.dsl.OptionalDslBuilder">addNonEmptys</a><span class="delimiter">(</span><a href="#95965" title="=&gt; Iterable[scales.xml.package.ItemOrElem]">itemOrElems</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Adds items and filters out empty trees.
+   */</span> 
+  <span class="keyword">def</span> <a title="(itemOrElems: scales.xml.package.ItemOrElem*)scales.xml.dsl.OptionalDslBuilder" id="47867">addNonEmpty</a><span class="delimiter">(</span> <a title="scales.xml.package.ItemOrElem*" id="95967">itemOrElems</a>: <span title="scales.xml.package.ItemOrElem*">ItemOrElem</span> * <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> =
+    <a href="#47865" title="(itemOrElems: Iterable[scales.xml.package.ItemOrElem])scales.xml.dsl.OptionalDslBuilder">addNonEmptys</a><span class="delimiter">(</span><a href="#95967" title="scales.xml.package.ItemOrElem*">itemOrElems</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally add a child, when None no child will be added
+   */</span>
+  <span class="keyword">def</span> <a title="(itemOrElem: scales.xml.dsl.OptionalDslBuilder)scales.xml.dsl.OptionalDslBuilder" id="47868">?/</a><span class="delimiter">(</span> <a title="scales.xml.dsl.OptionalDslBuilder" id="95969">itemOrElem</a> : <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = 
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47078" title="(itemOrElem: Option[scales.xml.package.ItemOrElem])scales.xml.dsl.DslBuilder">/</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#95969" title="scales.xml.dsl.OptionalDslBuilder">itemOrElem</a>.<a href="#47879" title="=&gt; Option[scales.xml.package.XmlTree]">toOptionalTree</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally add a child, when None no child will be added
+   */</span>
+  <span class="keyword">def</span> <a title="(itemOrElem: scales.xml.dsl.OptionalDslBuilder)scales.xml.dsl.OptionalDslBuilder" id="47869">addOptionalChild</a><span class="delimiter">(</span> <a title="scales.xml.dsl.OptionalDslBuilder" id="96036">itemOrElem</a> : <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = 
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47078" title="(itemOrElem: Option[scales.xml.package.ItemOrElem])scales.xml.dsl.DslBuilder">/</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#96036" title="scales.xml.dsl.OptionalDslBuilder">itemOrElem</a>.<a href="#47879" title="=&gt; Option[scales.xml.package.XmlTree]">toOptionalTree</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally add a number of children, when empty no child will be added
+   */</span>
+  <span class="keyword">def</span> <a title="(items: =&gt; Iterable[scales.xml.dsl.OptionalDslBuilder])scales.xml.dsl.OptionalDslBuilder" id="47870">addOptionalChildren</a><span class="delimiter">(</span> <a title="=&gt; Iterable[scales.xml.dsl.OptionalDslBuilder]" id="96103">items</a>: =&gt; Iterable<span class="delimiter">[</span>OptionalDslBuilder<span class="delimiter">]</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> =
+    <a href="#47872" title="(items: =&gt; Iterable[scales.xml.dsl.OptionalDslBuilder])scales.xml.dsl.OptionalDslBuilder">addOptionals</a><span class="delimiter">(</span><a href="#96103" title="=&gt; Iterable[scales.xml.dsl.OptionalDslBuilder]">items</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally add a number of children, when empty no child will be added
+   */</span>
+  <span class="keyword">def</span> <a title="(items: scales.xml.dsl.OptionalDslBuilder*)scales.xml.dsl.OptionalDslBuilder" id="47871">addOptionalChildren</a><span class="delimiter">(</span> <a title="scales.xml.dsl.OptionalDslBuilder*" id="96107">items</a>: <span title="scales.xml.dsl.OptionalDslBuilder*">OptionalDslBuilder</span> * <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> =
+    <a href="#47872" title="(items: =&gt; Iterable[scales.xml.dsl.OptionalDslBuilder])scales.xml.dsl.OptionalDslBuilder">addOptionals</a><span class="delimiter">(</span><a href="#96107" title="scales.xml.dsl.OptionalDslBuilder*">items</a><span class="delimiter">)</span>
+
+  <span class="keyword">private</span> <span class="keyword">def</span> <a title="(items: =&gt; Iterable[scales.xml.dsl.OptionalDslBuilder])scales.xml.dsl.OptionalDslBuilder" id="47872">addOptionals</a><span class="delimiter">(</span> <a title="=&gt; Iterable[scales.xml.dsl.OptionalDslBuilder]" id="96105">items</a>: =&gt; Iterable<span class="delimiter">[</span>OptionalDslBuilder<span class="delimiter">]</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> =
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47077" title="(itemOrElems: =&gt; Iterable[Option[scales.xml.package.ItemOrElem]])scales.xml.dsl.DslBuilder">addOptionals</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#96105" title="=&gt; Iterable[scales.xml.dsl.OptionalDslBuilder]">items</a>.<span title="(f: scales.xml.dsl.OptionalDslBuilder =&gt; Option[scales.xml.package.XmlTree])(implicit bf: scala.collection.generic.CanBuildFrom[Iterable[scales.xml.dsl.OptionalDslBuilder],Option[scales.xml.package.XmlTree],Iterable[Option[scales.xml.package.XmlTree]]])Iterable[Option[scales.xml.package.XmlTree]]">map</span><span title="scala.collection.generic.CanBuildFrom[scala.collection.Iterable.Coll,Option[scales.xml.package.XmlTree],Iterable[Option[scales.xml.package.XmlTree]]]" class="delimiter">(</span><a href="#96158" title="scales.xml.dsl.OptionalDslBuilder">_</a>.<a href="#47879" title="=&gt; Option[scales.xml.package.XmlTree]">toOptionalTree</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally add a number of children, when empty no child will be added
+   */</span>
+  <span class="keyword">def</span> <a title="(itemOrElem: scales.xml.dsl.OptionalDslBuilder*)scales.xml.dsl.OptionalDslBuilder" id="47873">?/</a><span class="delimiter">(</span> <a title="scales.xml.dsl.OptionalDslBuilder*" id="96188">itemOrElem</a>: <span title="scales.xml.dsl.OptionalDslBuilder*">OptionalDslBuilder</span> *<span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> =
+    <a href="#47872" title="(items: =&gt; Iterable[scales.xml.dsl.OptionalDslBuilder])scales.xml.dsl.OptionalDslBuilder">addOptionals</a><span class="delimiter">(</span><a href="#96188" title="scales.xml.dsl.OptionalDslBuilder*">itemOrElem</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally add a number of children, when empty no child will be added
+   */</span>
+  <span class="keyword">def</span> <a title="(itemOrElem: =&gt; Iterable[scales.xml.dsl.OptionalDslBuilder])scales.xml.dsl.OptionalDslBuilder" id="47874">?/</a><span class="delimiter">(</span> <a title="=&gt; Iterable[scales.xml.dsl.OptionalDslBuilder]" id="96190">itemOrElem</a> : =&gt; Iterable<span class="delimiter">[</span>OptionalDslBuilder<span class="delimiter">]</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = 
+    <a href="#47872" title="(items: =&gt; Iterable[scales.xml.dsl.OptionalDslBuilder])scales.xml.dsl.OptionalDslBuilder">addOptionals</a><span class="delimiter">(</span><a href="#96190" title="=&gt; Iterable[scales.xml.dsl.OptionalDslBuilder]">itemOrElem</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * sets the tree to a single Text node child, replacing all others, calling this forces the resulting OptionalDslBuilder to be non empty
+   */</span>
+  <span class="keyword">def</span> <a title="(value: String)scales.xml.dsl.OptionalDslBuilder" id="47875">?~&gt;</a><span class="delimiter">(</span> <a title="String" id="96192">value</a> : <span title="String">String</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = <span class="comment">// note ~&gt; is used not -&gt; as it will then get in the way of the tupler</span>
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47090" title="(value: String)scales.xml.dsl.DslBuilder">~&gt;</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#96192" title="String">value</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * see ?~&gt;
+   */</span> 
+  <span class="keyword">def</span> <a title="(value: String)scales.xml.dsl.OptionalDslBuilder" id="47876">setNonOptionalValue</a><span class="delimiter">(</span> <a title="String" id="96225">value</a> : <span title="String">String</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = <a href="#47875" title="(value: String)scales.xml.dsl.OptionalDslBuilder">?~&gt;</a><span class="delimiter">(</span><a href="#96225" title="String">value</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Optionally sets the tree to a single Text node child, replacing all others, None will not change the current node.
+   * 
+   * {{{
+   *    &lt;(Elem(&quot;root&quot;l)) ~&gt; None
+   * }}}
+   *
+   * would leave an empty &lt;root/&gt;
+   */</span>
+  <span class="keyword">def</span> <a title="(value: Option[String])scales.xml.dsl.OptionalDslBuilder" id="47877">?~&gt;</a><span class="delimiter">(</span> <a title="Option[String]" id="96231">value</a> : <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = 
+    <a href="DslImplicits.scala.html#42912" title="implicit scales.xml.dsl.DslImplicits.fromTreeToDsl : (tree: scales.xml.package.XmlTree)scales.xml.dsl.DslBuilder">tree</a>.<a href="DslBuilder.scala.html#47092" title="(value: Option[String])scales.xml.dsl.DslBuilder">~&gt;</a><a href="#47860" title="implicit scales.xml.dsl.OptionalDslBuilder.dslToOptional : (dsl: scales.xml.dsl.DslBuilder)scales.xml.dsl.OptionalDslBuilder" class="delimiter">(</a><a href="#96231" title="Option[String]">value</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * see ~&gt; Option[String]
+   */</span>
+  <span class="keyword">def</span> <a title="(value: Option[String])scales.xml.dsl.OptionalDslBuilder" id="47878">setOptionalValue</a><span class="delimiter">(</span> <a title="Option[String]" id="96264">value</a> : <span title="Option[String]">Option</span><span class="delimiter">[</span>String<span class="delimiter">]</span> <span class="delimiter">)</span>: <a href="#9887" title="scales.xml.dsl.OptionalDslBuilder">OptionalDslBuilder</a> = <a href="#47877" title="(value: Option[String])scales.xml.dsl.OptionalDslBuilder">?~&gt;</a><span class="delimiter">(</span><a href="#96264" title="Option[String]">value</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * If all of the underly Elem is empty - no children or attributes then it returns None.
+   *
+   * NB xsi:nil still counts as an attribute as it has an intended meaning. 
+   */</span> 
+  <span class="keyword">def</span> <a title="=&gt; Option[scales.xml.package.XmlTree]" id="47879">toOptionalTree</a>: <span title="Option[scales.xml.package.XmlTree]">Option</span><span class="delimiter">[</span>XmlTree<span class="delimiter">]</span> = 
+    <span title="Option[scales.xml.package.XmlTree]" class="keyword">if</span> <span class="delimiter">(</span><a href="../impl/XmlUtils.scala.html#15622" title="(tree: scales.xml.package.XmlTree)Boolean">isEmptyTree</a><span class="delimiter">(</span><a href="#47902" title="=&gt; scales.xml.package.XmlTree">tree</a><span class="delimiter">)</span><span class="delimiter">)</span>
+      <span title="object None">None</span>
+    <span class="keyword">else</span>
+      <span title="(x: scales.xml.package.XmlTree)Some[scales.xml.package.XmlTree]">Some</span><span class="delimiter">(</span><a href="#47902" title="=&gt; scales.xml.package.XmlTree">tree</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+
+        </pre>
+    </body>
+</html>

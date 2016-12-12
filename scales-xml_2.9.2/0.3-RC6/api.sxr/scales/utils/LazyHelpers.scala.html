@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\LazyHelpers.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> org.scales.utils;
+
+<span class="comment">/**
+* Collection of functions to aid in creating and using MBeans
+*/</span>
+<span class="keyword">object</span> <a title="object org.scales.utils.LazyHelpers" id="11945">LazyHelpers</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/** &lt;br/&gt; converts =&gt; A to ()=&gt;A, allowing the result to be passed around */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](a: =&gt; A)() =&gt; A" id="74562">delayedXToFnX</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74564">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="=&gt; A" id="74571">a</a>: =&gt; A<span class="delimiter">)</span>: <span class="delimiter">(</span><span class="delimiter">)</span>=&gt; A = <span class="delimiter">{</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt;
+     <a href="#74571" title="=&gt; A">a</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** &lt;br/&gt; converts =&gt; Seq[(A,B)] to ()=&gt;Seq[(A,B)], allowing the result to be passed around */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A, B](a: =&gt; Seq[(A, B)])() =&gt; Seq[(A, B)]" id="74565">delayedSeqMap</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74568">A</a>,<a title="&gt;: Nothing &lt;: Any" id="74569">B</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="=&gt; Seq[(A, B)]" id="74575">a</a>: =&gt; Seq<span class="delimiter">[</span><span class="delimiter">(</span>A,B<span class="delimiter">)</span><span class="delimiter">]</span> <span class="delimiter">)</span>: <span class="delimiter">(</span><span class="delimiter">)</span>=&gt; Seq<span class="delimiter">[</span><span class="delimiter">(</span>A,B<span class="delimiter">)</span><span class="delimiter">]</span> = <span class="delimiter">{</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt;
+    <a href="#74575" title="=&gt; Seq[(A, B)]">a</a>
+  <span class="delimiter">}</span>
+  
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Creates lazy tuples where both _1 and _2 are lazily evaluated
+ */</span>
+<span class="keyword">object</span> <a title="object org.scales.utils.LazyTuplers" id="11966">LazyTuplers</a> <span title="ScalaObject" class="delimiter">{</span>
+ 
+  <span class="comment">/**
+   * &lt;br/&gt;Lazy evaluation to make a tuple, lets us manage nicely when we choose to.
+   * &lt;br/&gt;
+   * NOTE this needs to happen all the way down
+   */</span>
+  <span class="keyword">class</span> <a title="class LazyTupler[A] extends java.lang.Object with ScalaObject" id="74580">LazyTupler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74581">A</a><span class="delimiter">]</span><a href="#74580" title="ScalaObject" class="delimiter">(</a><a title="=&gt; A" id="74594">a</a>: =&gt; A<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="comment">// lazy param here too, otherwise it will get created by the --&gt; itself.</span>
+    <span class="keyword">def</span> <a title="[B](b: =&gt; B)() =&gt; (A, B)" id="74589">--&gt;</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74591">B</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="=&gt; B" id="74595">b</a>: =&gt; B<span class="delimiter">)</span> : <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; <span class="delimiter">(</span>A,B<span class="delimiter">)</span> = <span class="delimiter">{</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt;
+      <span title="(_1: A, _2: B)(A, B)" class="delimiter">(</span><a href="#74594" title="=&gt; A">a</a>, <a href="#74595" title="=&gt; B">b</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+    
+  <span class="comment">/** &lt;br/&gt; converts =&gt; A to LazyTupler, enabling the --&gt; syntax */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](a: =&gt; A)org.scales.utils.LazyTuplers.LazyTupler[A]" id="74582">allToLazyTupler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74584">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="=&gt; A" id="74605">a</a>: =&gt; A <span class="delimiter">)</span>: <a href="#74580" title="org.scales.utils.LazyTuplers.LazyTupler[A]">LazyTupler</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span title="org.scales.utils.LazyTuplers.LazyTupler[A]" class="keyword">new</span> <a href="#74580" title="org.scales.utils.LazyTuplers.LazyTupler[A]">LazyTupler</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span><a href="#74605" title="=&gt; A">a</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+   
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * These lazyhelpers are primarily for function creation
+ */</span>
+<span class="keyword">object</span> <a title="object org.scales.utils.LazyFnHelpers" id="11939">LazyFnHelpers</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">/**
+   * &lt;br/&gt;Lazy evaluation to make a tuple, lets us manage nicely when we choose to.
+   * &lt;br/&gt;  Unlike LazyTupler the actual tuple members are functions.
+   * NOTE this needs to happen all the way down
+   */</span>
+  <span class="keyword">class</span> <a title="class LazyFnTupler[A] extends java.lang.Object with ScalaObject" id="74610">LazyFnTupler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74611">A</a><span class="delimiter">]</span><a href="#74610" title="ScalaObject" class="delimiter">(</a><a title="() =&gt; A" id="74624">a</a>: <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; A<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="comment">// lazy param here too, otherwise it will get created by the --&gt; itself.</span>
+    <span class="keyword">def</span> <a title="[B](b: () =&gt; B)() =&gt; (() =&gt; A, () =&gt; B)" id="74619">--&gt;</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74621">B</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="() =&gt; B" id="74625">b</a>: <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; B<span class="delimiter">)</span> : <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; <span class="delimiter">(</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; A, <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; B<span class="delimiter">)</span> = <span class="delimiter">{</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt;
+      <span title="(_1: () =&gt; A, _2: () =&gt; B)(() =&gt; A, () =&gt; B)" class="delimiter">(</span><a href="#74624" title="() =&gt; A">a</a>, <a href="#74625" title="() =&gt; B">b</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+  
+  <span class="comment">/** &lt;br/&gt; converts =&gt; A to LazyFnTupler, enabling the --&gt; syntax */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](a: =&gt; A)org.scales.utils.LazyFnHelpers.LazyFnTupler[A]" id="74612">allToLazyFnTupler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74614">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="=&gt; A" id="74635">a</a>: =&gt; A <span class="delimiter">)</span>: <a href="#74610" title="org.scales.utils.LazyFnHelpers.LazyFnTupler[A]">LazyFnTupler</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="comment">//import LazyHelpers.delayedXToFnX</span>
+    <span title="org.scales.utils.LazyFnHelpers.LazyFnTupler[A]" class="keyword">new</span> <a href="#74610" title="org.scales.utils.LazyFnHelpers.LazyFnTupler[A]">LazyFnTupler</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; <a href="#74635" title="=&gt; A">a</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * These lazyhelpers are primarily for function creation, e.g. for callFirst or callAll
+ */</span>
+<span class="keyword">object</span> <a title="object org.scales.utils.LazyTupleOfFunctionHelpers" id="11954">LazyTupleOfFunctionHelpers</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">/**
+   * &lt;br/&gt;Lazy evaluation to make a tuple, lets us manage nicely when we choose to.
+   * &lt;br/&gt;  Unlike LazyTupler and LazyFnTupler the actual tuple members are functions without the extra function.
+   * NOTE this needs to happen all the way down
+   */</span>
+  <span class="keyword">class</span> <a title="class LazyTOFTupler[A] extends java.lang.Object with ScalaObject" id="74641">LazyTOFTupler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74642">A</a><span class="delimiter">]</span><a href="#74641" title="ScalaObject" class="delimiter">(</a><a title="() =&gt; A" id="74658">a</a>: <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; A<span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="comment">// lazy param here too, otherwise it will get created by the --&gt; itself.</span>
+    <span class="keyword">def</span> <a title="[B](b: () =&gt; B)(() =&gt; A, () =&gt; B)" id="74653">--&gt;</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74655">B</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="() =&gt; B" id="74659">b</a>: <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; B<span class="delimiter">)</span> : <span title="(() =&gt; A, () =&gt; B)" class="delimiter">(</span> <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; A, <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; B<span class="delimiter">)</span> = <span title="(_1: () =&gt; A, _2: () =&gt; B)(() =&gt; A, () =&gt; B)" class="delimiter">(</span><a href="#74658" title="() =&gt; A">a</a>, <a href="#74659" title="() =&gt; B">b</a><span class="delimiter">)</span>
+    
+  <span class="delimiter">}</span>
+  
+  <span class="comment">/** &lt;br/&gt; converts =&gt; A to LazyTOFTupler, enabling the --&gt; syntax */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](a: () =&gt; A)org.scales.utils.LazyTupleOfFunctionHelpers.LazyTOFTupler[A]" id="74643">allToLazyTOFTupler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74645">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="() =&gt; A" id="74668">a</a>: <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; A <span class="delimiter">)</span>: <a href="#74641" title="org.scales.utils.LazyTupleOfFunctionHelpers.LazyTOFTupler[A]">LazyTOFTupler</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span title="org.scales.utils.LazyTupleOfFunctionHelpers.LazyTOFTupler[A]" class="keyword">new</span> <a href="#74641" title="org.scales.utils.LazyTupleOfFunctionHelpers.LazyTOFTupler[A]">LazyTOFTupler</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span><a href="#74668" title="() =&gt; A">a</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** &lt;br/&gt; converts =&gt; A to LazyTOFTupler, enabling the --&gt; syntax */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](a: =&gt; A)org.scales.utils.LazyTupleOfFunctionHelpers.LazyTOFTupler[A]" id="74646">lazyToLazyTOFTupler</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="74648">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="=&gt; A" id="74672">a</a>:  =&gt; A <span class="delimiter">)</span>: <a href="#74641" title="org.scales.utils.LazyTupleOfFunctionHelpers.LazyTOFTupler[A]">LazyTOFTupler</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span title="org.scales.utils.LazyTupleOfFunctionHelpers.LazyTOFTupler[A]" class="keyword">new</span> <a href="#74641" title="org.scales.utils.LazyTupleOfFunctionHelpers.LazyTOFTupler[A]">LazyTOFTupler</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span><a href="#74672" title="=&gt; A">a</a> _<span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+        </pre>
+    </body>
+</html>

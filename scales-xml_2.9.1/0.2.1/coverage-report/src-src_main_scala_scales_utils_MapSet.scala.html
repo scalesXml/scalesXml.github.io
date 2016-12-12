@@ -1,0 +1,613 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;MapSet.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_MapSet.scala.html#Trait_scales_utils_Key"><img src="trait.png"></img>Key</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_MapSet.scala.html#Class_scales_utils_MapSet"><img src="class.png"></img>MapSet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_MapSet.scala.html#Object_scales_utils_MapSet"><img src="object.png"></img>MapSet</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_MapSet.scala.html#Class_scales_utils_MapSet_DirectKey"><img src="class.png"></img>MapSet.DirectKey</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import scala.collection._
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import immutable.{Set}
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>import scala.math.Ordering
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>import generic._
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>import mutable.{ Builder, SetBuilder }
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td> * Place Holder for equals and hashcode
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td> */ 
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td><a id="Trait_scales_utils_Key"></a>trait Key[A]
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>/** $factoryInfo
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td> *  @define Coll immutable.TreeSet
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td> *  @define coll immutable tree set
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td><a id="Object_scales_utils_MapSet"></a>object MapSet {
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>  def newBuilder[A](implicit conv : A =&gt; Key[A]) : Builder[A, MapSet[A]] =
+</td>
+          </tr><tr>
+            <td class="red">21</td>
+            <td>    <span class="non">new SetBuilder(empty[A])
+</span></td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>  /** The empty set of this type
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">25</td>
+            <td>  def empty[A](implicit conv : A =&gt; Key[A]) = <span class="non">new MapSet[A]()(conv)
+</span></td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">27</td>
+            <td><a id="Class_scales_utils_MapSet_DirectKey"></a>  class DirectKey[A]<span class="non">(val a : A) extends Key[A] {
+</span></td>
+          </tr><tr>
+            <td class="red">28</td>
+            <td>    override def equals( other : Any ) = <span class="non">other match {
+</span></td>
+          </tr><tr>
+            <td class="red">29</td>
+            <td>      case d : DirectKey[A] =&gt; <span class="non">a == d.a
+</span></td>
+          </tr><tr>
+            <td class="red">30</td>
+            <td>      case _ =&gt; <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="red">32</td>
+            <td>    override def hashCode() = <span class="non">a.hashCode
+</span></td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">35</td>
+            <td>  implicit def directKey[A]( a : A ) : Key[A] = <span class="non">new DirectKey(a)
+</span></td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td> * This version of treeset better fits the xml attributes, we also want to be able to get stuff out.  So its A -&gt; A but hidden in a set
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>@serializable 
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>@SerialVersionUID(-234066569778569402L)
+</td>
+          </tr><tr>
+            <td class="red">43</td>
+            <td><a id="Class_scales_utils_MapSet"></a>class MapSet[A]<span class="non">(val map : Map[Key[A],A])
+</span></td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>  (implicit val conv : A =&gt; Key[A])
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>  extends Set[A] with SetLike[A, MapSet[A]] {
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">47</td>
+            <td>  override def stringPrefix = <span class="non">&quot;MapSet&quot;
+</span></td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">49</td>
+            <td>  def this()(implicit conv : A =&gt; Key[A]) = <span class="non">this(Map[Key[A],A]())(conv)
+</span></td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="red">51</td>
+            <td>  private def newSet(m : Map[Key[A],A]) = <span class="non">new MapSet[A](m)(conv)
+</span></td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">53</td>
+            <td>  override def newBuilder : Builder[A, MapSet[A]] = <span class="non">MapSet.newBuilder
+</span></td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>  /** A factory to create empty sets of the same type of keys.
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">57</td>
+            <td>  override def empty = <span class="non">MapSet.empty
+</span></td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">59</td>
+            <td>  override val size = <span class="non">map.size
+</span></td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>   * Look ma now we are a map CTw
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>  def apply[T](a : T)(implicit conv : (T) =&gt; Key[A]) : Option[A] =
+</td>
+          </tr><tr>
+            <td class="red">65</td>
+            <td>    <span class="non">map.get(conv(a))
+</span></td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>   * Convertable contains
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>  def contains[T](elem: T)(implicit conv : (T) =&gt; Key[A] ): Boolean = 
+</td>
+          </tr><tr>
+            <td class="red">71</td>
+            <td>    <span class="non">map.contains(conv(elem))
+</span></td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>   * Convertable --
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>   */ 
+</td>
+          </tr><tr>
+            <td class="red">76</td>
+            <td>  def --[T]( other : Traversable[T] )(implicit conv : (T) =&gt; Key[A]) = <span class="non">other.foldLeft(this)(_ - _)
+</span></td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>   * Convertable -
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>  def -[T]( other : T) (implicit conv : (T) =&gt; Key[A]) = {
+</td>
+          </tr><tr>
+            <td class="red">82</td>
+            <td>    val nm = <span class="non">map - conv(other)
+</span></td>
+          </tr><tr>
+            <td class="red">83</td>
+            <td>    if (<span class="non">nm eq map) this
+</span></td>
+          </tr><tr>
+            <td class="red">84</td>
+            <td>    else <span class="non">newSet(nm)
+</span></td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">86</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">87</td>
+            <td>  /** Creates a new `TreeSet` with the entry added.
+</td>
+          </tr><tr>
+            <td class="black">88</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">89</td>
+            <td>   *  @param elem    a new element to add.
+</td>
+          </tr><tr>
+            <td class="black">90</td>
+            <td>   *  @return        a new $coll containing `elem` and all the elements of this $coll.
+</td>
+          </tr><tr>
+            <td class="black">91</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">92</td>
+            <td>  def + (elem: A): MapSet[A] = {
+</td>
+          </tr><tr>
+            <td class="red">93</td>
+            <td>    val m = <span class="non">map.updated(conv(elem), elem)
+</span></td>
+          </tr><tr>
+            <td class="red">94</td>
+            <td>    if (<span class="non">m eq map) this // highly unlikely though
+</span></td>
+          </tr><tr>
+            <td class="red">95</td>
+            <td>    else <span class="non">newSet(m)
+</span></td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">97</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">98</td>
+            <td>  /** A new `TreeSet` with the entry added is returned,
+</td>
+          </tr><tr>
+            <td class="black">99</td>
+            <td>   *  assuming that elem is &lt;em&gt;not&lt;/em&gt; in the TreeSet.
+</td>
+          </tr><tr>
+            <td class="black">100</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">101</td>
+            <td>   *  @param elem    a new element to add.
+</td>
+          </tr><tr>
+            <td class="black">102</td>
+            <td>   *  @return        a new $coll containing `elem` and all the elements of this $coll.
+</td>
+          </tr><tr>
+            <td class="black">103</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">104</td>
+            <td>  def insert(elem: A): MapSet[A] = {
+</td>
+          </tr><tr>
+            <td class="red">105</td>
+            <td>    val key = <span class="non">conv(elem)
+</span></td>
+          </tr><tr>
+            <td class="red">106</td>
+            <td>    <span class="non">assert(map.get(key).isEmpty)
+</span></td>
+          </tr><tr>
+            <td class="red">107</td>
+            <td>    <span class="non">newSet(map.updated(key, elem))
+</span></td>
+          </tr><tr>
+            <td class="black">108</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">109</td>
+            <td>  
+</td>
+          </tr><tr>
+            <td class="black">110</td>
+            <td>  /** Creates a new `TreeSet` with the entry removed.
+</td>
+          </tr><tr>
+            <td class="black">111</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">112</td>
+            <td>   *  @param elem    a new element to add.
+</td>
+          </tr><tr>
+            <td class="black">113</td>
+            <td>   *  @return        a new $coll containing all the elements of this $coll except `elem`.
+</td>
+          </tr><tr>
+            <td class="black">114</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">115</td>
+            <td>  def - (elem:A): MapSet[A] = {
+</td>
+          </tr><tr>
+            <td class="red">116</td>
+            <td>    val m = <span class="non">map - conv(elem)
+</span></td>
+          </tr><tr>
+            <td class="red">117</td>
+            <td>    if (<span class="non">map eq m) this
+</span></td>
+          </tr><tr>
+            <td class="red">118</td>
+            <td>    else <span class="non">newSet(m)
+</span></td>
+          </tr><tr>
+            <td class="black">119</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">120</td>
+            <td>  /** Checks if this set contains element `elem`.
+</td>
+          </tr><tr>
+            <td class="black">121</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">122</td>
+            <td>   *  @param  elem    the element to check for membership.
+</td>
+          </tr><tr>
+            <td class="black">123</td>
+            <td>   *  @return true, iff `elem` is contained in this set.
+</td>
+          </tr><tr>
+            <td class="black">124</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">125</td>
+            <td>  def contains(elem: A): Boolean = <span class="non">map.contains(conv(elem))
+</span></td>
+          </tr><tr>
+            <td class="black">126</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">127</td>
+            <td>  /** Creates a new iterator over all elements contained in this
+</td>
+          </tr><tr>
+            <td class="black">128</td>
+            <td>   *  object.
+</td>
+          </tr><tr>
+            <td class="black">129</td>
+            <td>   *  
+</td>
+          </tr><tr>
+            <td class="black">130</td>
+            <td>   *  @return the new iterator
+</td>
+          </tr><tr>
+            <td class="black">131</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">132</td>
+            <td>  def iterator: Iterator[A] = <span class="non">map.valuesIterator
+</span></td>
+          </tr><tr>
+            <td class="black">133</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">134</td>
+            <td>  override def toStream: Stream[A] = <span class="non">map.values.toStream
+</span></td>
+          </tr><tr>
+            <td class="black">135</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">136</td>
+            <td>// for some reason the below is whats called but not seen
+</td>
+          </tr><tr>
+            <td class="black">137</td>
+            <td>//  override def foreach[U](f: A =&gt; U) = iterator foreach f
+</td>
+          </tr><tr>
+            <td class="black">138</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">139</td>
+            <td>  override def equals( other : Any ) = <span class="non">other match {
+</span></td>
+          </tr><tr>
+            <td class="red">140</td>
+            <td>    case o : MapSet[A] =&gt; <span class="non">o.map == map // map should be faster directly
+</span></td>
+          </tr><tr>
+            <td class="red">141</td>
+            <td>    case _ =&gt; <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="black">142</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">143</td>
+            <td>}
+</td>
+          </tr></tbody></table>

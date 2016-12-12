@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\iteratee\ResumableIterIterator.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.iteratee
+
+<span class="keyword">import</span> scales.utils._
+  
+<span class="keyword">import</span> scalaz.Enumerator
+
+<span class="comment">/**
+ * Iterates for every Done from a given resumable iteratee
+ */</span> 
+<span class="keyword">final</span> <span class="keyword">class</span> <a title="class ResumableIterIterator[E, A, F[_]] extends AnyRef with Iterator[A]" id="scales.utils.iteratee;ResumableIterIterator">ResumableIterIterator</a><span class="delimiter">[</span><a title="" id="scales.utils.iteratee;ResumableIterIterator;E">E</a>,<a title="" id="scales.utils.iteratee;ResumableIterIterator;A">A</a>,<a title="[_]" id="scales.utils.iteratee;ResumableIterIterator;F">F</a><span class="delimiter">[</span><a title="" id="scales.utils.iteratee;ResumableIterIterator;F;_">_</a><span class="delimiter">]</span><span class="delimiter">]</span><a href="#scales.utils.iteratee;ResumableIterIterator" title="scales.utils.iteratee.ResumableIterIterator[E,A,F]" class="delimiter">(</a> <a title="F[E]" id="scales.utils.iteratee;ResumableIterIterator.it">it</a> : <a href="#scales.utils.iteratee;ResumableIterIterator;F" title="F[E]">F</a><span class="delimiter">[</span>E<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span><a title="scales.utils.ResumableIter[E,A]" id="scales.utils.iteratee;ResumableIterIterator.init">init</a> : <span title="scales.utils.ResumableIter[E,A]">ResumableIter</span><span class="delimiter">[</span>E,A<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scalaz.Enumerator[F]" id="scales.utils.iteratee;ResumableIterIterator.e">e</a> : <span title="scalaz.Enumerator[F]">Enumerator</span><span class="delimiter">[</span>F<span class="delimiter">]</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">import</span> <a href="../ScalesUtils.scala.html#scales.utils.ScalesUtils" title="scales.utils.ScalesUtils.type">ScalesUtils</a>._
+  
+  <span class="keyword">var</span> <a title="scalaz.IterV[E,(A, scalaz.IterV[E, _])]" id="scales.utils.iteratee;ResumableIterIterator.cur_=">cur</a> = <a href="#scales.utils.iteratee;ResumableIterIterator.init" title="(f: F[E])(implicit e: scalaz.Enumerator[F])scalaz.IterV[E,(A, scalaz.IterV[E, _])]">init</a><a href="Iteratees.scala.html#scales.utils.iteratee;IterateeImplicits.toEval" title="(i: scalaz.IterV[E,(A, scalaz.IterV[E, _])])scales.utils.iteratee.Eval[E,(A, scalaz.IterV[E, _])]" class="delimiter">(</a><a href="#scales.utils.iteratee;ResumableIterIterator.it" title="F[E]">it</a><span class="delimiter">)</span>.<a href="Iteratees.scala.html#scales.utils.iteratee;Eval.eval" title="=&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]">eval</a>
+  <span class="keyword">var</span> <a title="Boolean" id="scales.utils.iteratee;ResumableIterIterator.isdone_=">isdone</a> = <a href="Iteratees.scala.html#scales.utils.iteratee;Iteratees.isDone" title="(iter: scalaz.IterV[E,(A, scalaz.IterV[E, _])])Boolean">isDone</a><span class="delimiter">(</span><a href="#scales.utils.iteratee;ResumableIterIterator.cur_=" title="=&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]">cur</a><span class="delimiter">)</span>
+  <span class="keyword">var</span> <a title="Option[A]" id="scales.utils.iteratee;ResumableIterIterator.r_=">r</a> = <a href="Iteratees.scala.html#scales.utils.iteratee;Iteratees.extract" title="(iter: scales.utils.ResumableIter[E,A])Option[A]">extract</a><span class="delimiter">(</span><a href="#scales.utils.iteratee;ResumableIterIterator.cur_=" title="=&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]">cur</a><span class="delimiter">)</span>
+
+  <span class="keyword">def</span> <a title="()A" id="scales.utils.iteratee;ResumableIterIterator.next">next</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Option[A]" id="scales.utils.iteratee;ResumableIterIterator.next.t">t</a> = <a href="#scales.utils.iteratee;ResumableIterIterator.r_=" title="=&gt; Option[A]">r</a>
+    <a href="#scales.utils.iteratee;ResumableIterIterator.cur_=" title="(x$1: scalaz.IterV[E,(A, scalaz.IterV[E, _])])Unit">cur</a> = <a href="Iteratees.scala.html#scales.utils.iteratee;Iteratees.extractCont" title="(iter: scales.utils.ResumableIter[E,A])scales.utils.ResumableIter[E,A]">extractCont</a><span title="(f: F[E])(implicit e: scalaz.Enumerator[F])scalaz.IterV[E,(A, scalaz.IterV[E, _])]" class="delimiter">(</span><a href="#scales.utils.iteratee;ResumableIterIterator.cur_=" title="=&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]">cur</a><span class="delimiter">)</span><a href="Iteratees.scala.html#scales.utils.iteratee;IterateeImplicits.toEval" title="(i: scalaz.IterV[E,(A, scalaz.IterV[E, _])])scales.utils.iteratee.Eval[E,(A, scalaz.IterV[E, _])]" class="delimiter">(</a><a href="#scales.utils.iteratee;ResumableIterIterator.it" title="F[E]">it</a><span class="delimiter">)</span>.<a href="Iteratees.scala.html#scales.utils.iteratee;Eval.eval" title="=&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]">eval</a>
+    <a href="#scales.utils.iteratee;ResumableIterIterator.isdone_=" title="(x$1: Boolean)Unit">isdone</a> = <a href="Iteratees.scala.html#scales.utils.iteratee;Iteratees.isDone" title="(iter: scalaz.IterV[E,(A, scalaz.IterV[E, _])])Boolean">isDone</a><span class="delimiter">(</span><a href="#scales.utils.iteratee;ResumableIterIterator.cur_=" title="=&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]">cur</a><span class="delimiter">)</span>
+    <a href="#scales.utils.iteratee;ResumableIterIterator.r_=" title="(x$1: Option[A])Unit">r</a> = <a href="Iteratees.scala.html#scales.utils.iteratee;Iteratees.extract" title="(iter: scales.utils.ResumableIter[E,A])Option[A]">extract</a><span class="delimiter">(</span><a href="#scales.utils.iteratee;ResumableIterIterator.cur_=" title="=&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]">cur</a><span class="delimiter">)</span>
+    <a href="#scales.utils.iteratee;ResumableIterIterator.next.t" title="Option[A]">t</a>.<span title="=&gt; A">get</span> <span class="comment">// note we check for defined in hasNext</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="scales.utils.iteratee;ResumableIterIterator.hasNext">hasNext</a> = <a href="#scales.utils.iteratee;ResumableIterIterator.isdone_=" title="=&gt; Boolean">isdone</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span title="=&gt; Boolean">!</span><a href="Iteratees.scala.html#scales.utils.iteratee;Iteratees.isEOF" title="(iter: scalaz.IterV[E,(A, scalaz.IterV[E, _])])Boolean">isEOF</a><span class="delimiter">(</span><a href="#scales.utils.iteratee;ResumableIterIterator.cur_=" title="=&gt; scalaz.IterV[E,(A, scalaz.IterV[E, _])]">cur</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#scales.utils.iteratee;ResumableIterIterator.r_=" title="=&gt; Option[A]">r</a>.<span title="=&gt; Boolean">isDefined</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

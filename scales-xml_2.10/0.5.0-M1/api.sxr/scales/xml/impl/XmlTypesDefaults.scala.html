@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\impl\XmlTypesDefaults.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.impl
+
+<span class="keyword">import</span> scala.collection.immutable.Map
+
+<span class="keyword">import</span> scala.collection.generic.CanBuildFrom
+
+<span class="comment">//import scales.utils.collection.path.{Path, Node, Position}</span>
+<span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>TreeCBF, subtree, item, top, 
+		     ItemOrTree, noPath =&gt; fno, 
+		     EitherLike, LeftLike<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.utils.collection.<span class="delimiter">{</span>ListSet, Tree, 
+				ImmutableArrayProxy, ImmutableArrayProxyBuilder <span class="delimiter">}</span>
+<span class="keyword">import</span> scales.utils.collection.path.<span class="delimiter">{</span> Path, Position, Node <span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>XmlItem, Elem, Comment, 
+		   PI, QName, PrefixedQName, 
+		   NoNamespaceQName, Attribute,
+		   ScalesXml<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait XmlTypes extends java.lang.Object with ScalaObject" id="10100">XmlTypes</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">import</span> <a href="EqualsHelpers.scala.html#9978" title="object scales.xml.impl.EqualsHelpers">EqualsHelpers</a>._
+
+  <span class="comment">/**
+   * Alias for the XmlTree CanBuildFrom
+   */</span> 
+  <span class="keyword">type</span> <a title="scales.utils.package.TreeCBF[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" id="15582">XmlCBF</a> = <span title="scales.utils.package.TreeCBF[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">TreeCBF</span><span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * An AttributeQName is either a PrefixedQName or a NoNamespaceQName
+   */</span> 
+  <span class="keyword">type</span> <a title="scales.utils.EitherLike[scales.xml.PrefixedQName,scales.xml.NoNamespaceQName]" id="15583">AttributeQName</a> = <a href="../../utils/EitherLike.scala.html#12558" title="scales.utils.EitherLike[scales.xml.PrefixedQName,scales.xml.NoNamespaceQName]">EitherLike</a><span class="delimiter">[</span>PrefixedQName, NoNamespaceQName<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Alias for a mutable builder of XmlChildren
+   */</span> 
+  <span class="keyword">type</span> <a title="scala.collection.mutable.Builder[XmlTypes.this.ItemOrElem,XmlTypes.this.XmlChildren]" id="15584">XmlBuilder</a> = <span title="scala.collection.mutable.Builder[XmlTypes.this.ItemOrElem,XmlTypes.this.XmlChildren]">collection</span>.mutable.Builder<span class="delimiter">[</span> ItemOrElem, XmlChildren <span class="delimiter">]</span>
+  <span class="comment">/**
+   * Default implementation for constructing an instance of XmlBuilder (ImmutableArrayProxyBuilder)
+   */</span> 
+  <span class="keyword">def</span> <a title="()XmlTypes.this.XmlBuilder" id="15585">XmlBuilder</a><span class="delimiter">(</span><span class="delimiter">)</span> : <span title="XmlTypes.this.XmlBuilder">XmlBuilder</span> = <a href="../../utils/collection/ImmutableArray.scala.html#61442" title="[A]()scales.utils.collection.ImmutableArrayProxyBuilder[A]">ImmutableArrayProxyBuilder</a><span title="()scales.utils.collection.ImmutableArrayProxyBuilder[XmlTypes.this.ItemOrElem]" class="delimiter">[</span><a href="../../utils/EitherLike.scala.html#12558" title="XmlTypes.this.ItemOrElem">ItemOrElem</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Alias for Trees of Elem and XmlItem
+   */</span> 
+  <span class="keyword">type</span> <a title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" id="15586">XmlTree</a> = <a href="../../utils/collection/Trees.scala.html#12744" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">Tree</a><span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Alias for An XML ItemOrTree
+   */</span> 
+  <span class="keyword">type</span> <a title="scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" id="15587">ItemOrElem</a> = <a href="../../utils/EitherLike.scala.html#12558" title="scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">ItemOrTree</a><span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * An Alias for a collection of ItemOrElem, the children of a given tree node
+   */</span> 
+  <span class="keyword">type</span> <a title="XmlTypes.this.XCC[XmlTypes.this.ItemOrElem]" id="15588">XmlChildren</a> = <a href="../../utils/collection/ImmutableArray.scala.html#12669" title="XmlTypes.this.XCC[XmlTypes.this.ItemOrElem]">XCC</a><span class="delimiter">[</span>ItemOrElem<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * XML Collection - an alias for ImmutableArrayProxy 
+   */</span> 
+  <span class="keyword">type</span> <a title="[T]scales.utils.collection.ImmutableArrayProxy[T]" id="15589">XCC</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15590">T</a><span class="delimiter">]</span> = <a href="../../utils/collection/ImmutableArray.scala.html#12669" title="scales.utils.collection.ImmutableArrayProxy[T]">ImmutableArrayProxy</a><span class="delimiter">[</span>T<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Misc is either a Comment or PI, and is used for the Prolog and trailing Misc items in a Doc.
+   */</span> 
+  <span class="keyword">type</span> <a title="Either[scales.xml.Comment,scales.xml.PI]" id="15591">Misc</a> = <span title="Either[scales.xml.Comment,scales.xml.PI]">Either</span><span class="delimiter">[</span>Comment, PI<span class="delimiter">]</span>
+  <span class="comment">/** A collection of Misc */</span>
+  <span class="keyword">type</span> <a title="Seq[XmlTypes.this.Misc]" id="15592">Miscs</a> = <span title="Seq[XmlTypes.this.Misc]">Seq</span><span class="delimiter">[</span>Misc<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * An alias for am immutable ListSet of Attribute 
+   */</span> 
+  <span class="keyword">type</span> <a title="scales.utils.collection.ListSet[scales.xml.Attribute]" id="15593">Attributes</a> = <a href="../../utils/collection/ListSet.scala.html#12714" title="scales.utils.collection.ListSet[scales.xml.Attribute]">ListSet</a><span class="delimiter">[</span>Attribute<span class="delimiter">]</span>
+
+  <span class="comment">/** An empty collection of Misc */</span> 
+  <span class="keyword">val</span> <a title="XmlTypes.this.Miscs" id="15594">emptyMiscs</a>: <span title="XmlTypes.this.Miscs">Miscs</span> = List<span class="delimiter">[</span>Misc<span class="delimiter">]</span><span title="object Nil" class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/** An empty collection of Attribute */</span>
+  <span class="keyword">val</span> <a title="XmlTypes.this.Attributes" id="15596">emptyAttributes</a>: <a href="../../utils/collection/ListSet.scala.html#12714" title="XmlTypes.this.Attributes">Attributes</a> = <a href="../../utils/collection/ListSet.scala.html#12715" title="object scales.utils.collection.ListSet">ListSet</a>.<a href="../../utils/collection/ListSet.scala.html#75115" title="[A](implicit evidence$1: scalaz.Equal[A])scales.utils.collection.ListSet[A]">empty</a><a href="EqualsHelpers.scala.html#42863" title="(implicit evidence$1: scalaz.Equal[scales.xml.Attribute])scales.utils.collection.ListSet[scales.xml.Attribute]" class="delimiter">[</a><a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a><span class="delimiter">]</span>
+  <span class="comment">/** An empty Map of String -&gt; String representing prefix -&gt; namespace */</span> 
+  <span class="keyword">val</span> <a title="scala.collection.immutable.Map[String,String]" id="15598">emptyNamespaces</a>: <span title="scala.collection.immutable.Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span> = <span title="[A, B](elems: (A, B)*)scala.collection.immutable.Map[A,B]">Map</span><span title="(elems: (String, String)*)scala.collection.immutable.Map[String,String]" class="delimiter">[</span><span title="String">String</span>, <span title="String">String</span><span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/** An empty collection of ItemOrElem */</span> 
+  <span class="keyword">val</span> <a title="XmlTypes.this.XmlChildren" id="15600">emptyChildren</a>: <a href="../../utils/collection/ImmutableArray.scala.html#12669" title="XmlTypes.this.XmlChildren">XmlChildren</a> = <a href="../../utils/collection/ImmutableArray.scala.html#12670" title="[A](elems: A*)scales.utils.collection.ImmutableArrayProxy[A]">ImmutableArrayProxy</a><span title="(elems: XmlTypes.this.ItemOrElem*)scales.utils.collection.ImmutableArrayProxy[XmlTypes.this.ItemOrElem]" class="delimiter">[</span><a href="../../utils/EitherLike.scala.html#12558" title="XmlTypes.this.ItemOrElem">ItemOrElem</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Use to signify a &quot;null object&quot;, tree/path shouldn't work like this its a smell
+   */</span>
+  <span class="keyword">val</span> <a title="XmlTypes.this.XmlPath" id="15602">noXmlPath</a>: <a href="../../utils/collection/path/Paths.scala.html#13360" title="XmlTypes.this.XmlPath">XmlPath</a> = <a href="../../utils/collection/path/PathFunctions.scala.html#15362" title="[Item &lt;: scales.utils.LeftLike[Item,scales.utils.collection.Tree[Item,Section,CC]], Section, CC[X] &lt;: scala.collection.IndexedSeqLike[X,CC[X]]](implicit cbf: scales.utils.package.TreeCBF[Item,Section,CC])scales.utils.collection.path.Path[Item,Section,CC]">fno</a><a href="../../utils/collection/ImmutableArray.scala.html#45670" title="(implicit cbf: scales.utils.package.TreeCBF[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC])scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="delimiter">[</a><a href="../XmlTypes.scala.html#9699" title="scales.xml.XmlItem">XmlItem</a>, <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a>, <a href="../../utils/collection/ImmutableArray.scala.html#12669" title="XmlTypes.this.XCC">XCC</a><span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * An alias for a Path over XmlTree
+   */</span> 
+  <span class="keyword">type</span> <a title="scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" id="15604">XmlPath</a> = <a href="../../utils/collection/path/Paths.scala.html#13360" title="scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">Path</a><span class="delimiter">[</span>XmlItem, Elem, XCC<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Will match if the QNames are the same =:= and if the attributes are present (not requiring that these are the only attributes).
+   * What is returned is either a Seq of attribute values or a simple boolean
+   */</span>
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, attributes: XmlTypes.this.AttributeQName*)java.lang.Object{def matchAttribs(elem: scales.xml.Elem): Seq[scales.xml.Attribute]; def unapply(elem: scales.xml.Elem): Option[(scales.xml.Elem, List[scales.xml.Attribute])]}" id="15605">ElemMatcher</a><span class="delimiter">(</span><a title="scales.xml.QName" id="105344">name</a>: <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a>, <a title="XmlTypes.this.AttributeQName*" id="105345">attributes</a>: <span title="XmlTypes.this.AttributeQName*">AttributeQName</span>*<span class="delimiter">)</span> = <a href="#105348" title="java.lang.Object{def matchAttribs(elem: scales.xml.Elem): Seq[scales.xml.Attribute]; def unapply(elem: scales.xml.Elem): Option[(scales.xml.Elem, List[scales.xml.Attribute])]}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object" id="105348" class="delimiter">{</a>
+    <span class="keyword">import</span> <a href="ExtendedTypes.scala.html#9987" title="object scales.xml.impl.ExtraTypesImplicits">ExtraTypesImplicits</a>._
+
+    <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)Seq[scales.xml.Attribute]" id="105351">matchAttribs</a><span class="delimiter">(</span><a title="scales.xml.Elem" id="105353">elem</a>: <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a><span class="delimiter">)</span> = <span class="keyword">for</span> <span class="delimiter">(</span><a title="XmlTypes.this.AttributeQName" id="105370">attribute</a> &lt;- <a href="#105345" title="(f: XmlTypes.this.AttributeQName =&gt; scala.collection.GenTraversableOnce[scales.xml.Attribute])(implicit bf: scala.collection.generic.CanBuildFrom[Seq[XmlTypes.this.AttributeQName],scales.xml.Attribute,Seq[scales.xml.Attribute]])Seq[scales.xml.Attribute]">attributes</a>; <a title="scales.xml.Attribute" id="105407">matches</a> &lt;- <a href="#105353" title="scales.xml.Elem">elem</a>.<a href="../../utils/collection/ListSet.scala.html#47037" title="(b: XmlTypes.this.AttributeQName)(implicit equiv: scales.utils.Equiv[scales.xml.QName], implicit viewA: scales.xml.Attribute =&gt; scales.xml.QName, implicit viewB: XmlTypes.this.AttributeQName =&gt; scales.xml.QName)Option[scales.xml.Attribute]">attributes</a><a href="EqualsHelpers.scala.html#42865" title="(f: scales.xml.Attribute =&gt; scales.xml.Attribute)Option[scales.xml.Attribute]" class="delimiter">(</a><a href="#105370" title="XmlTypes.this.AttributeQName">attribute</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="keyword">yield</span> <a href="#105407" title="scales.xml.Attribute">matches</a>
+
+    <span class="keyword">def</span> <a title="(elem: scales.xml.Elem)Option[(scales.xml.Elem, List[scales.xml.Attribute])]" id="105352">unapply</a><span class="delimiter">(</span><a title="scales.xml.Elem" id="105469">elem</a>: <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a><span class="delimiter">)</span>: <span title="Option[(scales.xml.Elem, List[scales.xml.Attribute])]">Option</span><span class="delimiter">[</span><span class="delimiter">(</span>Elem, List<span class="delimiter">[</span>Attribute<span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">]</span> = <span class="delimiter">{</span>
+      <span class="keyword">val</span> <a title="Seq[scales.xml.Attribute]" id="105471">matched</a> = <a href="#105351" title="(elem: scales.xml.Elem)Seq[scales.xml.Attribute]">matchAttribs</a><span class="delimiter">(</span><a href="#105469" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+      <span title="Option[(scales.xml.Elem, List[scales.xml.Attribute])]" class="keyword">if</span> <span class="delimiter">(</span><a href="#105469" title="scales.xml.Elem">elem</a>.<a href="../XmlTypes.scala.html#45650" title="=&gt; scales.xml.QName">name</a> <a href="../QName.scala.html#42837" title="(other: scales.xml.QName)Boolean">=:=</a> <a href="#105344" title="scales.xml.QName">name</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#105471" title="Seq[scales.xml.Attribute]">matched</a>.<span title="=&gt; Int">size</span> <span title="(x: Int)Boolean">==</span> <a href="#105345" title="XmlTypes.this.AttributeQName*">attributes</a>.<span title="=&gt; Int">size</span><span class="delimiter">)</span>
+        <span title="(x: (scales.xml.Elem, List[scales.xml.Attribute]))Some[(scales.xml.Elem, List[scales.xml.Attribute])]">Some</span><span class="delimiter">(</span><span title="(_1: scales.xml.Elem, _2: List[scales.xml.Attribute])(scales.xml.Elem, List[scales.xml.Attribute])" class="delimiter">(</span><a href="#105469" title="scales.xml.Elem">elem</a>, <a href="#105471" title="Seq[scales.xml.Attribute]">matched</a>.<span title="=&gt; List[scales.xml.Attribute]">toList</span><span class="delimiter">)</span><span class="delimiter">)</span>
+      <span class="keyword">else</span>
+        <span title="object None">None</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Adds a subtree to this given path and returns a path focussed on the new subtree.
+   * 
+   * The Tree is constructed from the elem and optional children.
+   */</span>
+  <span class="keyword">final</span> <span class="keyword">def</span> <a title="(path: XmlTypes.this.XmlPath, elem: scales.xml.Elem, dchildren: XmlTypes.this.XmlChildren)scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" id="15606">addAndFocus</a><span class="delimiter">(</span><a title="XmlTypes.this.XmlPath" id="103240">path</a>: <a href="../../utils/collection/path/Paths.scala.html#13360" title="XmlTypes.this.XmlPath">XmlPath</a>, <a title="scales.xml.Elem" id="103241">elem</a>: <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a>, <a title="XmlTypes.this.XmlChildren" id="103245">dchildren</a> : <a href="../../utils/collection/ImmutableArray.scala.html#12669" title="XmlTypes.this.XmlChildren">XmlChildren</a> = <a href="#15600" title="=&gt; XmlTypes.this.XmlChildren">emptyChildren</a><span class="delimiter">)</span> =
+    <span class="comment">// start it off</span>
+    <span title="scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="keyword">if</span> <span class="delimiter">(</span><a href="#103240" title="XmlTypes.this.XmlPath">path</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#15602" title="=&gt; XmlTypes.this.XmlPath">noXmlPath</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="../../utils/collection/path/PathFunctions.scala.html#15455" title="(tree: scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC])(implicit cbf: scales.utils.package.TreeCBF[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC])scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">top</a><a href="../../utils/collection/ImmutableArray.scala.html#45670" title="(implicit ma: ClassManifest[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]])scala.collection.generic.CanBuildFrom[scales.utils.collection.ImmutableArrayProxy[_],scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC],scales.utils.collection.ImmutableArrayProxy[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]]" class="delimiter">(</a><a href="../../utils/collection/Trees.scala.html#45603" title="(isection: scales.xml.Elem, ichildren: XmlTypes.this.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]])scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">Tree</a><span class="delimiter">(</span>
+        <a href="#103241" title="scales.xml.Elem">elem</a>, <a href="#103245" title="XmlTypes.this.XmlChildren">dchildren</a><span class="delimiter">)</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="keyword">import</span> <a href="../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>.xmlCBF
+
+      <span class="comment">// using a Function1 causes 2% of the cost for init alone</span>
+      
+      <span class="comment">// cache it here as we are going to fudge the path</span>
+      <span class="keyword">val</span> <a title="XmlTypes.this.ItemOrElem" id="103375">n</a> : <a href="../../utils/EitherLike.scala.html#12558" title="XmlTypes.this.ItemOrElem">ItemOrElem</a> = <a href="../../utils/package.scala.html#15175" title="(section: scales.xml.Elem, children: XmlTypes.this.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]])(implicit cbf: scales.utils.package.TreeCBF[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC])scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">subtree</a><a href="XmlTypesImplicits.scala.html#42885" title="=&gt; scales.xml.package.XmlCBF" class="delimiter">(</a><a href="#103241" title="scales.xml.Elem">elem</a>, <a href="#103245" title="XmlTypes.this.XmlChildren">dchildren</a><span class="delimiter">)</span>
+      <span class="keyword">var</span> <a title="Int" id="103376">size</a> = <span title="Int(0)" class="int">0</span>
+
+      <span class="keyword">import</span> <a href="#103240" title="XmlTypes.this.XmlPath">path</a>.<a href="../../utils/collection/path/Paths.scala.html#46942" title="=&gt; scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">node</a>.focus
+      <span class="keyword">val</span> <a title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" id="103378">parent</a> = <a href="../../utils/collection/path/Paths.scala.html#80586" title="=&gt; scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">focus</a>.<a href="../../utils/EitherLike.scala.html#45601" title="=&gt; scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">getRight</a>
+      <span class="keyword">val</span> <a title="XmlTypes.this.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]" id="103379">c</a> = <a href="#103378" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">parent</a>.<a href="../../utils/collection/Trees.scala.html#45632" title="=&gt; XmlTypes.this.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]">children</a>
+      <a href="#103376" title="Int">size</a> = <a href="#103379" title="XmlTypes.this.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]">c</a>.<span title="=&gt; Int">length</span>
+      
+      <span class="comment">// add a child, focus on it</span>
+      <span class="keyword">val</span> <a title="scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]" id="103380">tpath</a> = <a href="../../utils/collection/path/Paths.scala.html#80541" title="(top: scales.utils.EitherLike[scales.utils.collection.path.Top[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC],scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]], node: scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC])(implicit cbf: scala.collection.generic.CanBuildFrom[scales.xml.package.XCC[_],scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC],scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]]])scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Path</a><a href="XmlTypesImplicits.scala.html#42885" title="=&gt; scales.xml.package.XmlCBF" class="delimiter">(</a> <a href="#103240" title="XmlTypes.this.XmlPath">path</a>.<a href="../../utils/collection/path/Paths.scala.html#46940" title="=&gt; scales.utils.EitherLike[scales.utils.collection.path.Top[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC],scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]">top</a>, 
+		       <a href="../../utils/collection/path/Paths.scala.html#80575" title="(index: Int, focus: scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC])scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Node</a><span class="delimiter">(</span> <a href="#103240" title="XmlTypes.this.XmlPath">path</a>.<a href="../../utils/collection/path/Paths.scala.html#46942" title="=&gt; scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">node</a>.<a href="../../utils/collection/path/Paths.scala.html#80584" title="=&gt; Int">index</a>, 
+			    <a href="../../utils/collection/Trees.scala.html#45603" title="(isection: scales.xml.Elem, ichildren: scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]])scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">(</span><a href="#103378" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">parent</a>.<a href="../../utils/collection/Trees.scala.html#45631" title="=&gt; scales.xml.Elem">section</a>,
+				       <a href="#103379" title="XmlTypes.this.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]">c</a> <a href="XmlTypesImplicits.scala.html#42885" title="(elem: scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC])(implicit bf: scala.collection.generic.CanBuildFrom[scales.utils.collection.ImmutableArrayProxy[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]],scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC],scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]]])scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]]">:+</a> <a href="#103375" title="XmlTypes.this.ItemOrElem">n</a><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">)</span>
+
+      <span class="comment">// drill down to last child</span>
+      <a href="../../utils/collection/path/Paths.scala.html#80541" title="(top: scales.utils.EitherLike[scales.utils.collection.path.Top[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC],scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]], node: scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC])(implicit cbf: scala.collection.generic.CanBuildFrom[XmlTypes.this.XCC[_],scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC],XmlTypes.this.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]])scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">Path</a><a href="XmlTypesImplicits.scala.html#42885" title="=&gt; scales.xml.package.XmlCBF" class="delimiter">(</a><a href="#103380" title="scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">tpath</a>, <a href="../../utils/collection/path/Paths.scala.html#80575" title="(index: Int, focus: scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC])scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">Node</a><span class="delimiter">(</span><a href="#103376" title="Int">size</a>, <a href="#103375" title="XmlTypes.this.ItemOrElem">n</a><span class="delimiter">)</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Adds a child to the given subpath, however focus remains on the newly modified path
+   */</span> 
+  <span class="keyword">final</span> <span class="keyword">def</span> <a title="(path: XmlTypes.this.XmlPath, child: scales.xml.XmlItem)scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]" id="15607">addChild</a><span class="delimiter">(</span><a title="XmlTypes.this.XmlPath" id="105511">path</a>: <a href="../../utils/collection/path/Paths.scala.html#13360" title="XmlTypes.this.XmlPath">XmlPath</a>, <a title="scales.xml.XmlItem" id="105512">child</a>: <a href="../XmlTypes.scala.html#9699" title="scales.xml.XmlItem">XmlItem</a><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">import</span> <a href="../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>.xmlCBF
+    <span class="keyword">import</span> <a href="#105511" title="XmlTypes.this.XmlPath">path</a>.<a href="../../utils/collection/path/Paths.scala.html#46942" title="=&gt; scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">node</a>.focus
+
+    <span class="keyword">val</span> <a title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" id="105517">parent</a> = <a href="../../utils/collection/path/Paths.scala.html#80586" title="=&gt; scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">focus</a>.<a href="../../utils/EitherLike.scala.html#45601" title="=&gt; scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">getRight</a>
+    <a href="../../utils/collection/path/Paths.scala.html#80541" title="(top: scales.utils.EitherLike[scales.utils.collection.path.Top[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC],scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]], node: scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC])(implicit cbf: scala.collection.generic.CanBuildFrom[scales.xml.package.XCC[_],scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC],scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]]])scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Path</a><a href="XmlTypesImplicits.scala.html#42885" title="=&gt; scales.xml.package.XmlCBF" class="delimiter">(</a> <a href="#105511" title="XmlTypes.this.XmlPath">path</a>.<a href="../../utils/collection/path/Paths.scala.html#46940" title="=&gt; scales.utils.EitherLike[scales.utils.collection.path.Top[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC],scales.utils.collection.path.Path[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]">top</a>, 
+	       <a href="../../utils/collection/path/Paths.scala.html#80575" title="(index: Int, focus: scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC])scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Node</a><span class="delimiter">(</span> <a href="#105511" title="XmlTypes.this.XmlPath">path</a>.<a href="../../utils/collection/path/Paths.scala.html#46942" title="=&gt; scales.utils.collection.path.Node[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">node</a>.<a href="../../utils/collection/path/Paths.scala.html#80584" title="=&gt; Int">index</a>,
+		     <a href="../../utils/collection/Trees.scala.html#45603" title="(isection: scales.xml.Elem, ichildren: scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]])scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">Tree</a><span class="delimiter">(</span><a href="#105517" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">parent</a>.<a href="../../utils/collection/Trees.scala.html#45631" title="=&gt; scales.xml.Elem">section</a>,
+        <a href="#105517" title="scales.utils.collection.Tree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]">parent</a>.<a href="../../utils/collection/Trees.scala.html#45632" title="=&gt; XmlTypes.this.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]]">children</a> <a href="XmlTypesImplicits.scala.html#42885" title="(elem: scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC])(implicit bf: scala.collection.generic.CanBuildFrom[scales.utils.collection.ImmutableArrayProxy[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]],scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC],scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]]])scales.xml.package.XCC[scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]]">:+</a> <a href="../../utils/package.scala.html#15168" title="[Item &lt;: scales.utils.LeftLike[Item,scales.utils.collection.Tree[Item,Section,CC]], Section, CC[X] &lt;: scala.collection.IndexedSeqLike[X,CC[X]]](item: Item)scales.utils.package.ItemOrTree[Item,Section,CC]">item</a><span title="(item: scales.xml.XmlItem)scales.utils.package.ItemOrTree[scales.xml.XmlItem,scales.xml.Elem,XmlTypes.this.XCC]" class="delimiter">[</span><a href="../XmlTypes.scala.html#9699" title="scales.xml.XmlItem">XmlItem</a>, <a href="../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a>, <a href="../../utils/collection/ImmutableArray.scala.html#12669" title="XmlTypes.this.XCC">XCC</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#105512" title="scales.xml.XmlItem">child</a><span class="delimiter">)</span><span class="delimiter">)</span>
+			       <span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+
+        </pre>
+    </body>
+</html>

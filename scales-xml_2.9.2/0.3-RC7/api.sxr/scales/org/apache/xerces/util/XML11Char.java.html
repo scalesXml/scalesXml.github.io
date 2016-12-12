@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\org\apache\xerces\util\XML11Char.java</title>
+        <script type="text/javascript" src="../../../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the &quot;License&quot;); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */</span>
+
+<span class="keyword">package</span> scales.org.apache.xerces.util;
+
+<span class="keyword">import</span> java.util.Arrays;
+
+<span class="comment">/**
+ * This class defines the basic properties of characters in XML 1.1. The data
+ * in this class can be used to verify that a character is a valid
+ * XML 1.1 character or if the character is a space, name start, or name
+ * character.
+ * &lt;p&gt;
+ * A series of convenience methods are supplied to ease the burden
+ * of the developer.  Using the character as an index into the &lt;code&gt;XML11CHARS&lt;/code&gt;
+ * array and applying the appropriate mask flag (e.g.
+ * &lt;code&gt;MASK_VALID&lt;/code&gt;), yields the same results as calling the
+ * convenience methods. There is one exception: check the comments
+ * for the &lt;code&gt;isValid&lt;/code&gt; method for details.
+ *
+ * @author Glenn Marcy, IBM
+ * @author Andy Clark, IBM
+ * @author Arnaud  Le Hors, IBM
+ * @author Neil Graham, IBM
+ * @author Michael Glavassevich, IBM
+ *
+ * @version $Id: XML11Char.java 406 2011-04-18 19:56:39Z chris.twiner $
+ */</span>
+public <span class="keyword">class</span> <a title="object scales.org.apache.xerces.util.XML11Char" id="9925">XML11Char</a> <span class="delimiter">{</span>
+
+    <span class="comment">//</span>
+    <span class="comment">// Constants</span>
+    <span class="comment">//</span>
+
+    <span class="comment">/** Character flags for XML 1.1. */</span>
+    <span class="keyword">private</span> static <span class="keyword">final</span> byte <a title="Array[Byte]" id="92252">XML11CHARS</a> <span class="delimiter">[</span><span title="Array" class="delimiter">]</span> = <span class="keyword">new</span> byte <span class="delimiter">[</span><span class="int">1</span> &lt;&lt; <span class="int">16</span><span class="delimiter">]</span>;
+
+    <span class="comment">/** XML 1.1 Valid character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92253">MASK_XML11_VALID</a> = <span class="int">0x01</span>;
+
+    <span class="comment">/** XML 1.1 Space character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92254">MASK_XML11_SPACE</a> = <span class="int">0x02</span>;
+
+    <span class="comment">/** XML 1.1 Name start character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92255">MASK_XML11_NAME_START</a> = <span class="int">0x04</span>;
+
+    <span class="comment">/** XML 1.1 Name character mask. */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92256">MASK_XML11_NAME</a> = <span class="int">0x08</span>;
+
+    <span class="comment">/** XML 1.1 control character mask */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92257">MASK_XML11_CONTROL</a> = <span class="int">0x10</span>;
+
+    <span class="comment">/** XML 1.1 content for external entities (valid - &quot;special&quot; chars - control chars) */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92258">MASK_XML11_CONTENT</a> = <span class="int">0x20</span>;
+
+    <span class="comment">/** XML namespaces 1.1 NCNameStart */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92259">MASK_XML11_NCNAME_START</a> = <span class="int">0x40</span>;
+
+    <span class="comment">/** XML namespaces 1.1 NCName */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92260">MASK_XML11_NCNAME</a> = <span class="int">0x80</span>;
+    
+    <span class="comment">/** XML 1.1 content for internal entities (valid - &quot;special&quot; chars) */</span>
+    public static <span class="keyword">final</span> int <a title="Int" id="92261">MASK_XML11_CONTENT_INTERNAL</a> = MASK_XML11_CONTROL | MASK_XML11_CONTENT; 
+
+    <span class="comment">//</span>
+    <span class="comment">// Static initialization</span>
+    <span class="comment">//</span>
+
+    static <span class="delimiter">{</span>
+    	
+        <span class="comment">// Initializing the Character Flag Array</span>
+        <span class="comment">// Code generated by: XML11CharGenerator.</span>
+        
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">1</span>, <span class="int">9</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">17</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) 17</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">9</span><span class="delimiter">]</span> = <span class="int">35</span>;
+        XML11CHARS<span class="delimiter">[</span><span class="int">10</span><span class="delimiter">]</span> = <span class="int">3</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">11</span>, <span class="int">13</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">17</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 17</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">13</span><span class="delimiter">]</span> = <span class="int">3</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">14</span>, <span class="int">32</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">17</span> <span class="delimiter">)</span>; <span class="comment">// Fill 18 of value (byte) 17</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">32</span><span class="delimiter">]</span> = <span class="int">35</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">33</span>, <span class="int">38</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 5 of value (byte) 33</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">38</span><span class="delimiter">]</span> = <span class="int">1</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">39</span>, <span class="int">45</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">45</span>, <span class="int">47</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">47</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">48</span>, <span class="int">58</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 10 of value (byte) -87</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">58</span><span class="delimiter">]</span> = <span class="int">45</span>;
+        XML11CHARS<span class="delimiter">[</span><span class="int">59</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        XML11CHARS<span class="delimiter">[</span><span class="int">60</span><span class="delimiter">]</span> = <span class="int">1</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">61</span>, <span class="int">65</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">65</span>, <span class="int">91</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 26 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">91</span>, <span class="int">93</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) 33</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">93</span><span class="delimiter">]</span> = <span class="int">1</span>;
+        XML11CHARS<span class="delimiter">[</span><span class="int">94</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        XML11CHARS<span class="delimiter">[</span><span class="int">95</span><span class="delimiter">]</span> = -<span class="int">19</span>;
+        XML11CHARS<span class="delimiter">[</span><span class="int">96</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">97</span>, <span class="int">123</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 26 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">123</span>, <span class="int">127</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 4 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">127</span>, <span class="int">133</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">17</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6 of value (byte) 17</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">133</span><span class="delimiter">]</span> = <span class="int">35</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">134</span>, <span class="int">160</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">17</span> <span class="delimiter">)</span>; <span class="comment">// Fill 26 of value (byte) 17</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">160</span>, <span class="int">183</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 23 of value (byte) 33</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">183</span><span class="delimiter">]</span> = -<span class="int">87</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">184</span>, <span class="int">192</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 8 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">192</span>, <span class="int">215</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 23 of value (byte) -19</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">215</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">216</span>, <span class="int">247</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 31 of value (byte) -19</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">247</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">248</span>, <span class="int">768</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 520 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">768</span>, <span class="int">880</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 112 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">880</span>, <span class="int">894</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 14 of value (byte) -19</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">894</span><span class="delimiter">]</span> = <span class="int">33</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">895</span>, <span class="int">8192</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 7297 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">8192</span>, <span class="int">8204</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 12 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">8204</span>, <span class="int">8206</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">8206</span>, <span class="int">8232</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 26 of value (byte) 33</span>
+        XML11CHARS<span class="delimiter">[</span><span class="int">8232</span><span class="delimiter">]</span> = <span class="int">35</span>;
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">8233</span>, <span class="int">8255</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 22 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">8255</span>, <span class="int">8257</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">87</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2 of value (byte) -87</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">8257</span>, <span class="int">8304</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 47 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">8304</span>, <span class="int">8592</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 288 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">8592</span>, <span class="int">11264</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 2672 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">11264</span>, <span class="int">12272</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 1008 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">12272</span>, <span class="int">12289</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 17 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">12289</span>, <span class="int">55296</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 43007 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">57344</span>, <span class="int">63744</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 6400 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">63744</span>, <span class="int">64976</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 1232 of value (byte) -19</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">64976</span>, <span class="int">65008</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> <span class="int">33</span> <span class="delimiter">)</span>; <span class="comment">// Fill 32 of value (byte) 33</span>
+        Arrays.fill<span class="delimiter">(</span>XML11CHARS, <span class="int">65008</span>, <span class="int">65534</span>, <span class="delimiter">(</span>byte<span class="delimiter">)</span> -<span class="int">19</span> <span class="delimiter">)</span>; <span class="comment">// Fill 526 of value (byte) -19</span>
+
+    <span class="delimiter">}</span> <span class="comment">// &lt;clinit&gt;()</span>
+
+    <span class="comment">//</span>
+    <span class="comment">// Public static methods</span>
+    <span class="comment">//</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a space character
+     * as amdended in the XML 1.1 specification.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92262">isXML11Space</a><span class="delimiter">(</span>int <a title="Int" id="133182">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_SPACE<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11Space(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is valid. This method
+     * also checks the surrogate character range from 0x10000 to 0x10FFFF.
+     * &lt;p&gt;
+     * If the program chooses to apply the mask directly to the
+     * &lt;code&gt;XML11CHARS&lt;/code&gt; array, then they are responsible for checking
+     * the surrogate character range.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92263">isXML11Valid</a><span class="delimiter">(</span>int <a title="Int" id="133184">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_VALID<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span> 
+                || <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0x10FFFF</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11Valid(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is invalid.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92264">isXML11Invalid</a><span class="delimiter">(</span>int <a title="Int" id="133186">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> !isXML11Valid<span class="delimiter">(</span>c<span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11Invalid(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is valid and permitted outside
+     * of a character reference.  
+     * That is, this method will return false for the same set as
+     * isXML11Valid, except it also reports false for &quot;control characters&quot;.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92265">isXML11ValidLiteral</a><span class="delimiter">(</span>int <a title="Int" id="133188">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span><span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span><span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_VALID<span class="delimiter">)</span> != <span class="int">0</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_CONTROL<span class="delimiter">)</span> == <span class="int">0</span><span class="delimiter">)</span><span class="delimiter">)</span>
+            || <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0x10FFFF</span><span class="delimiter">)</span><span class="delimiter">)</span>; 
+    <span class="delimiter">}</span> <span class="comment">// isXML11ValidLiteral(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character can be considered 
+     * content in an external parsed entity.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92266">isXML11Content</a><span class="delimiter">(</span>int <a title="Int" id="133190">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_CONTENT<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span> ||
+               <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0x10FFFF</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11Content(int):boolean</span>
+    
+    <span class="comment">/**
+     * Returns true if the specified character can be considered 
+     * content in an internal parsed entity.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92267">isXML11InternalEntityContent</a><span class="delimiter">(</span>int <a title="Int" id="133192">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_CONTENT_INTERNAL<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span> ||
+               <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0x10FFFF</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11InternalEntityContent(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid name start
+     * character as defined by production [4] in the XML 1.1
+     * specification.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92268">isXML11NameStart</a><span class="delimiter">(</span>int <a title="Int" id="133194">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_NAME_START<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span>
+            || <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt; <span class="int">0xF0000</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11NameStart(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid name
+     * character as defined by production [4a] in the XML 1.1
+     * specification.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92269">isXML11Name</a><span class="delimiter">(</span>int <a title="Int" id="133196">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_NAME<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span> 
+            || <span class="delimiter">(</span>c &gt;= <span class="int">0x10000</span> &amp;&amp; c &lt; <span class="int">0xF0000</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11Name(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid NCName start
+     * character as defined by production [4] in Namespaces in XML
+     * 1.1 recommendation.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92270">isXML11NCNameStart</a><span class="delimiter">(</span>int <a title="Int" id="133198">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_NCNAME_START<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span>
+            || <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt; <span class="int">0xF0000</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11NCNameStart(int):boolean</span>
+
+    <span class="comment">/**
+     * Returns true if the specified character is a valid NCName
+     * character as defined by production [5] in Namespaces in XML
+     * 1.1 recommendation.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92271">isXML11NCName</a><span class="delimiter">(</span>int <a title="Int" id="133200">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span>c &lt; <span class="int">0x10000</span> &amp;&amp; <span class="delimiter">(</span>XML11CHARS<span class="delimiter">[</span>c<span class="delimiter">]</span> &amp; MASK_XML11_NCNAME<span class="delimiter">)</span> != <span class="int">0</span><span class="delimiter">)</span>
+            || <span class="delimiter">(</span><span class="int">0x10000</span> &lt;= c &amp;&amp; c &lt; <span class="int">0xF0000</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11NCName(int):boolean</span>
+    
+    <span class="comment">/**
+     * Returns whether the given character is a valid 
+     * high surrogate for a name character. This includes
+     * all high surrogates for characters [0x10000-0xEFFFF].
+     * In other words everything excluding planes 15 and 16.
+     *
+     * @param c The character to check.
+     */</span>
+    public static boolean <a title="(c: Int)Boolean" id="92272">isXML11NameHighSurrogate</a><span class="delimiter">(</span>int <a title="Int" id="133202">c</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="delimiter">(</span><span class="int">0xD800</span> &lt;= c &amp;&amp; c &lt;= <span class="int">0xDB7F</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    <span class="comment">/*
+     * [5] Name ::= NameStartChar NameChar*
+     */</span>
+    <span class="comment">/**
+     * Check to see if a string is a valid Name according to [5]
+     * in the XML 1.1 Recommendation
+     *
+     * @param name string to check
+     * @return true if name is a valid Name
+     */</span>
+    public static boolean <a title="(name: java.lang.String)Boolean" id="92273">isXML11ValidName</a><span class="delimiter">(</span>String <a title="java.lang.String" id="92276">name</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">final</span> int length = name.length<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>length == <span class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="delimiter">}</span>
+        int i = <span class="int">1</span>;
+        char ch = name.charAt<span class="delimiter">(</span><span class="int">0</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>!isXML11NameStart<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">if</span> <span class="delimiter">(</span>length &gt; <span class="int">1</span> &amp;&amp; isXML11NameHighSurrogate<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                char ch2 = name.charAt<span class="delimiter">(</span><span class="int">1</span><span class="delimiter">)</span>;
+                <span class="keyword">if</span> <span class="delimiter">(</span>!XMLChar.isLowSurrogate<span class="delimiter">(</span>ch2<span class="delimiter">)</span> || 
+                    !isXML11NameStart<span class="delimiter">(</span>XMLChar.supplemental<span class="delimiter">(</span>ch, ch2<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                <span class="delimiter">}</span>
+                i = <span class="int">2</span>;
+            <span class="delimiter">}</span>
+            <span class="keyword">else</span> <span class="delimiter">{</span>
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span>i &lt; length<span class="delimiter">)</span> <span class="delimiter">{</span>
+            ch = name.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>!isXML11Name<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="keyword">if</span> <span class="delimiter">(</span>++i &lt; length &amp;&amp; isXML11NameHighSurrogate<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                    char ch2 = name.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+                    <span class="keyword">if</span> <span class="delimiter">(</span>!XMLChar.isLowSurrogate<span class="delimiter">(</span>ch2<span class="delimiter">)</span> || 
+                        !isXML11Name<span class="delimiter">(</span>XMLChar.supplemental<span class="delimiter">(</span>ch, ch2<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                        <span class="keyword">return</span> <span class="keyword">false</span>;
+                    <span class="delimiter">}</span>
+                <span class="delimiter">}</span>
+                <span class="keyword">else</span> <span class="delimiter">{</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                <span class="delimiter">}</span>
+            <span class="delimiter">}</span>
+            ++i;
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11ValidName(String):boolean</span>
+    
+    <span class="comment">/*
+     * from the namespace 1.1 rec
+     * [4] NCName ::= NCNameStartChar NCNameChar*
+     */</span>
+    <span class="comment">/**
+     * Check to see if a string is a valid NCName according to [4]
+     * from the XML Namespaces 1.1 Recommendation
+     *
+     * @param ncName string to check
+     * @return true if name is a valid NCName
+     */</span>
+    public static boolean <a title="(ncName: java.lang.String)Boolean" id="92274">isXML11ValidNCName</a><span class="delimiter">(</span>String <a title="java.lang.String" id="133204">ncName</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">final</span> int length = ncName.length<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>length == <span class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="delimiter">}</span>
+        int i = <span class="int">1</span>;
+        char ch = ncName.charAt<span class="delimiter">(</span><span class="int">0</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>!isXML11NCNameStart<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">if</span> <span class="delimiter">(</span>length &gt; <span class="int">1</span> &amp;&amp; isXML11NameHighSurrogate<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                char ch2 = ncName.charAt<span class="delimiter">(</span><span class="int">1</span><span class="delimiter">)</span>;
+                <span class="keyword">if</span> <span class="delimiter">(</span>!XMLChar.isLowSurrogate<span class="delimiter">(</span>ch2<span class="delimiter">)</span> || 
+                    !isXML11NCNameStart<span class="delimiter">(</span>XMLChar.supplemental<span class="delimiter">(</span>ch, ch2<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                <span class="delimiter">}</span>
+                i = <span class="int">2</span>;
+            <span class="delimiter">}</span>
+            <span class="keyword">else</span> <span class="delimiter">{</span>
+                <span class="keyword">return</span> <span class="keyword">false</span>;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">while</span> <span class="delimiter">(</span>i &lt; length<span class="delimiter">)</span> <span class="delimiter">{</span>
+            ch = ncName.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>!isXML11NCName<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="keyword">if</span> <span class="delimiter">(</span>++i &lt; length &amp;&amp; isXML11NameHighSurrogate<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                    char ch2 = ncName.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+                    <span class="keyword">if</span> <span class="delimiter">(</span>!XMLChar.isLowSurrogate<span class="delimiter">(</span>ch2<span class="delimiter">)</span> || 
+                        !isXML11NCName<span class="delimiter">(</span>XMLChar.supplemental<span class="delimiter">(</span>ch, ch2<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                        <span class="keyword">return</span> <span class="keyword">false</span>;
+                    <span class="delimiter">}</span>
+                <span class="delimiter">}</span>
+                <span class="keyword">else</span> <span class="delimiter">{</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                <span class="delimiter">}</span>
+            <span class="delimiter">}</span>
+            ++i;
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11ValidNCName(String):boolean</span>
+
+    <span class="comment">/*
+     * [7] Nmtoken ::= (NameChar)+
+     */</span>
+    <span class="comment">/**
+     * Check to see if a string is a valid Nmtoken according to [7]
+     * in the XML 1.1 Recommendation
+     *
+     * @param nmtoken string to check
+     * @return true if nmtoken is a valid Nmtoken 
+     */</span>
+    public static boolean <a title="(nmtoken: java.lang.String)Boolean" id="92275">isXML11ValidNmtoken</a><span class="delimiter">(</span>String <a title="java.lang.String" id="133206">nmtoken</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span class="keyword">final</span> int length = nmtoken.length<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">if</span> <span class="delimiter">(</span>length == <span class="int">0</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">for</span> <span class="delimiter">(</span>int i = <span class="int">0</span>; i &lt; length; ++i<span class="delimiter">)</span> <span class="delimiter">{</span>
+            char ch = nmtoken.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>!isXML11Name<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                <span class="keyword">if</span> <span class="delimiter">(</span>++i &lt; length &amp;&amp; isXML11NameHighSurrogate<span class="delimiter">(</span>ch<span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                    char ch2 = nmtoken.charAt<span class="delimiter">(</span>i<span class="delimiter">)</span>;
+                    <span class="keyword">if</span> <span class="delimiter">(</span>!XMLChar.isLowSurrogate<span class="delimiter">(</span>ch2<span class="delimiter">)</span> || 
+                        !isXML11Name<span class="delimiter">(</span>XMLChar.supplemental<span class="delimiter">(</span>ch, ch2<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+                        <span class="keyword">return</span> <span class="keyword">false</span>;
+                    <span class="delimiter">}</span>
+                <span class="delimiter">}</span>
+                <span class="keyword">else</span> <span class="delimiter">{</span>
+                    <span class="keyword">return</span> <span class="keyword">false</span>;
+                <span class="delimiter">}</span>
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    <span class="delimiter">}</span> <span class="comment">// isXML11ValidName(String):boolean</span>
+
+<span class="delimiter">}</span> <span class="comment">// class XML11Char</span>
+
+
+        </pre>
+    </body>
+</html>

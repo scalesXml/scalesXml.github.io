@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\impl\XmlTypesImplicits.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.impl
+
+<span class="keyword">import</span> scala.collection.immutable.Map
+
+<span class="keyword">import</span> scala.collection.generic.CanBuildFrom
+
+<span class="comment">//import scales.utils.collection.path.{Path, Node, Position}</span>
+<span class="keyword">import</span> scales.utils.<span class="delimiter">{</span>TreeCBF, subtree, item, top, ItemOrTree, noPath =&gt; fno, EitherLike, LeftLike<span class="delimiter">}</span>
+<span class="keyword">import</span> scales.utils.collection.<span class="delimiter">{</span>ListSet, Tree, ImmutableArrayProxy, ImmutableArrayProxyBuilder <span class="delimiter">}</span>
+<span class="keyword">import</span> scales.utils.collection.path.<span class="delimiter">{</span> Path, Position, Node <span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>NoNamespaceQName, PrefixedQName, AttributeQName, Attribute, XmlTree, Doc, XmlVersion, XmlCBF, XmlPath, Elem, XCC, XmlItem, QName<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scalaz._
+<span class="keyword">import</span> <span title="object scalaz.Scalaz">Scalaz</span>._
+
+<span class="keyword">import</span> java.nio.charset.Charset
+
+<span class="keyword">trait</span> <a title="trait XmlTypesImplicits extends java.lang.Object with ScalaObject" id="10103">XmlTypesImplicits</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">import</span> <a href="EqualsHelpers.scala.html#9978" title="object scales.xml.impl.EqualsHelpers">EqualsHelpers</a>.aqnameEqual
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.impl.XmlTypesImplicits.toAttrQNameN : (nons: scales.xml.NoNamespaceQName)scales.xml.package.AttributeQName" id="42872">toAttrQNameN</a><span class="delimiter">(</span><a title="scales.xml.NoNamespaceQName" id="57498">nons</a>: <a href="../QName.scala.html#9594" title="scales.xml.NoNamespaceQName">NoNamespaceQName</a><span class="delimiter">)</span>: <a href="../../utils/EitherLike.scala.html#12558" title="scales.xml.package.AttributeQName">AttributeQName</a> = <a href="#57498" title="scales.xml.NoNamespaceQName">nons</a>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.impl.XmlTypesImplicits.toAttrQNameP : (prens: scales.xml.PrefixedQName)scales.xml.package.AttributeQName" id="42873">toAttrQNameP</a><span class="delimiter">(</span><a title="scales.xml.PrefixedQName" id="57500">prens</a>: <a href="../QName.scala.html#9636" title="scales.xml.PrefixedQName">PrefixedQName</a><span class="delimiter">)</span>: <a href="../../utils/EitherLike.scala.html#12558" title="scales.xml.package.AttributeQName">AttributeQName</a> = <a href="#57500" title="scales.xml.PrefixedQName">prens</a>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.impl.XmlTypesImplicits.toAttr : (pair: (String, String))(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)scales.xml.Attribute" id="42874">toAttr</a><span class="delimiter">(</span><a title="(String, String)" id="57502">pair</a>: <span title="(String, String)" class="delimiter">(</span>String, String<span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="57503">ver</a>: <a href="../Namespaces.scala.html#9702" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.impl.FromParser" id="57504">fromParser</a> : <a href="FromParser.scala.html#9989" title="scales.xml.impl.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="../XmlTypes.scala.html#57509" title="(name: scales.xml.package.AttributeQName, value: String)scales.xml.Attribute">Attribute</a><span class="delimiter">(</span><a href="../QName.scala.html#57521" title="(locali: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)java.lang.Object with scales.xml.NoNamespaceQName">NoNamespaceQName</a><span class="delimiter">(</span><a href="#57502" title="(String, String)">pair</a>.<span title="=&gt; String">_1</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#57503" title="scales.xml.XmlVersion">ver</a>, <a href="#57504" title="scales.xml.impl.FromParser">fromParser</a><span class="delimiter">)</span>, <a href="#57502" title="(String, String)">pair</a>.<span title="=&gt; String">_2</span><span class="delimiter">)</span>
+
+<span class="comment">// these was a mistake to directly expose</span>
+<span class="comment">//  implicit val aqnameEqual = EqualsHelpers.aqnameEqual</span>
+<span class="comment">//  implicit val toAQNameF = (a: Attribute) =&gt; { a.name }</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scalaz.Equal[scales.xml.QName]" id="42875">qnameEqual</a> = <a href="EqualsHelpers.scala.html#9978" title="object scales.xml.impl.EqualsHelpers">EqualsHelpers</a>.<a href="../equals/XmlComparisons.scala.html#42859" title="=&gt; scalaz.Equal[scales.xml.QName]">qnameEqual</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.Attribute =&gt; scales.xml.QName" id="42877">toQNameF</a> = <a href="EqualsHelpers.scala.html#9978" title="object scales.xml.impl.EqualsHelpers">EqualsHelpers</a>.<a href="EqualsHelpers.scala.html#42868" title="=&gt; scales.xml.Attribute =&gt; scales.xml.QName">toQNameF</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.utils.Equiv[scales.xml.QName]" id="42879">qnameEquiv</a> : <a href="../../utils/Equiv.scala.html#12561" title="scales.utils.Equiv[scales.xml.QName]">scales</a>.utils.Equiv<span class="delimiter">[</span>QName<span class="delimiter">]</span> = <a href="EqualsHelpers.scala.html#9978" title="object scales.xml.impl.EqualsHelpers">EqualsHelpers</a>.<a href="EqualsHelpers.scala.html#42865" title="=&gt; scales.utils.Equiv[scales.xml.QName]">qnameEquiv</a>
+
+  <span class="comment">/**
+   * which ever it is, is still a qname
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.impl.XmlTypesImplicits.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName" id="42881">toQName</a><span class="delimiter">(</span><a title="scales.xml.package.AttributeQName" id="57745">attribQName</a>: <a href="../../utils/EitherLike.scala.html#12558" title="scales.xml.package.AttributeQName">AttributeQName</a><span class="delimiter">)</span>: <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a> = <a href="EqualsHelpers.scala.html#9978" title="object scales.xml.impl.EqualsHelpers">EqualsHelpers</a>.<a href="EqualsHelpers.scala.html#42867" title="implicit scales.xml.impl.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">toQName</a><span class="delimiter">(</span><a href="#57745" title="scales.xml.package.AttributeQName">attribQName</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Converts AQN -&gt; String into an attribute
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.impl.XmlTypesImplicits.aqpairToAttribute : (pair: (scales.xml.package.AttributeQName, String))scales.xml.Attribute" id="42882">aqpairToAttribute</a><span class="delimiter">(</span><a title="(scales.xml.package.AttributeQName, String)" id="57747">pair</a> : <span title="(scales.xml.package.AttributeQName, String)" class="delimiter">(</span>AttributeQName, String<span class="delimiter">)</span><span class="delimiter">)</span> = <a href="../XmlTypes.scala.html#57509" title="(name: scales.xml.package.AttributeQName, value: String)scales.xml.Attribute">Attribute</a><span class="delimiter">(</span><a href="#57747" title="(scales.xml.package.AttributeQName, String)">pair</a>.<span title="=&gt; scales.xml.package.AttributeQName">_1</span>, <a href="#57747" title="(scales.xml.package.AttributeQName, String)">pair</a>.<span title="=&gt; String">_2</span><span class="delimiter">)</span>
+
+  <span class="keyword">import</span> scales.utils._
+
+  <span class="comment">/**
+   * Provided for those who don't care about the rest
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.impl.XmlTypesImplicits.docToTree : (doc: scales.xml.Doc)scales.xml.package.XmlTree" id="42884">docToTree</a><span class="delimiter">(</span><a title="scales.xml.Doc" id="57754">doc</a>: <a href="../XmlTypes.scala.html#9489" title="scales.xml.Doc">Doc</a><span class="delimiter">)</span>: <a href="../../utils/collection/Trees.scala.html#12744" title="scales.xml.package.XmlTree">XmlTree</a> = <a href="#57754" title="scales.xml.Doc">doc</a>.<a href="../XmlTypes.scala.html#47626" title="=&gt; scales.xml.package.XmlTree">rootElem</a>
+
+  <span class="comment">/**
+   * Default cbf for xml trees
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.package.XmlCBF" id="42885">xmlCBF</a> = <span title="[T](implicit e: T)T">implicitly</span><a href="../../utils/collection/ImmutableArray.scala.html#45670" title="(implicit e: scales.xml.package.XmlCBF)scales.xml.package.XmlCBF" class="delimiter">[</a><span title="scales.xml.package.XmlCBF">XmlCBF</span><span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Implicit manifest for sorting positions, big silent cpu eater otherwise, just like the builders.
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="ClassManifest[(scales.utils.collection.path.Position[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC], scales.xml.package.XmlPath)]" id="42887">xpathSortingClassManifest</a> = <span title="[T](implicit e: T)T">implicitly</span><span title="(implicit e: ClassManifest[(scales.utils.collection.path.Position[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC], scales.xml.package.XmlPath)])ClassManifest[(scales.utils.collection.path.Position[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC], scales.xml.package.XmlPath)]" class="delimiter">[</span><span title="ClassManifest[(scales.utils.collection.path.Position[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC], scales.xml.package.XmlPath)]">ClassManifest</span><span class="delimiter">[</span><span class="delimiter">(</span>Position<span class="delimiter">[</span>XmlItem,Elem,XCC<span class="delimiter">]</span>, XmlPath<span class="delimiter">)</span><span class="delimiter">]</span><span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Defaults to NotFromParser
+   */</span> 
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.impl.FromParser" id="42889">fromParserDefault</a> : <a href="FromParser.scala.html#9989" title="scales.xml.impl.FromParser">FromParser</a> = <a href="FromParser.scala.html#10020" title="object scales.xml.impl.NotFromParser">NotFromParser</a>
+
+  <span class="comment">/**
+   * Only used for lookups
+   */</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.impl.XmlTypesImplicits.toAttrS : (local: String)(implicit ver: scales.xml.XmlVersion)scales.xml.Attribute" id="42891">toAttrS</a><span class="delimiter">(</span><a title="String" id="57756">local</a>: <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="57757">ver</a>: <a href="../Namespaces.scala.html#9702" title="scales.xml.XmlVersion">XmlVersion</a><span class="delimiter">)</span>: <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a> = <a href="../XmlTypes.scala.html#57509" title="(name: scales.xml.package.AttributeQName, value: String)scales.xml.Attribute">Attribute</a><span class="delimiter">(</span><a href="#42872" title="implicit scales.xml.impl.XmlTypesImplicits.toAttrQNameN : (nons: scales.xml.NoNamespaceQName)scales.xml.package.AttributeQName">toAttrQNameN</a><span class="delimiter">(</span><a href="../QName.scala.html#57521" title="(locali: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)java.lang.Object with scales.xml.NoNamespaceQName">NoNamespaceQName</a><a href="#57757" title="scales.xml.XmlVersion" class="delimiter">(</a><a href="#57756" title="String">local</a><span class="delimiter">)</span><span class="delimiter">)</span>, <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

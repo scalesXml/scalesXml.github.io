@@ -1,0 +1,927 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>scales.xml.equals</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../../lib/template.css" />
+      <script type="text/javascript" src="../../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="value">
+      <div id="definition">
+        <img src="../../../lib/package_big.png" />
+        <p id="owner"><a name="scales" class="extype" href="../../package.html">scales</a>.<a name="scales.xml" class="extype" href="../package.html">xml</a></p>
+        <h1>equals</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equals</span>
+      </span>
+      </h4>
+      
+      <div class="fullcommenttop" id="comment"></div>
+    
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="scales.xml.equals.AttributeComparison" data-isabs="false">
+      <a id="AttributeComparison:AttributeComparison"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="AttributeComparison.html"><span class="name">AttributeComparison</span></a><span class="result"> extends XmlComparison[Attribute]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Comparison between attributes, requires an Equal type class for QNames
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.AttributeDifference" data-isabs="true">
+      <a id="AttributeDifference:AttributeDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="AttributeDifference.html"><span class="name">AttributeDifference</span></a><span class="result"> extends XmlDifference[Attribute]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.AttributeNameDifference" data-isabs="false">
+      <a id="AttributeNameDifference:AttributeNameDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AttributeNameDifference.html"><span class="name">AttributeNameDifference</span></a><span class="params">(<span name="left">left: Attribute</span>, <span name="right">right: Attribute</span>)</span><span class="result"> extends AttributeDifference with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.AttributeValueDifference" data-isabs="false">
+      <a id="AttributeValueDifference:AttributeValueDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AttributeValueDifference.html"><span class="name">AttributeValueDifference</span></a><span class="params">(<span name="left">left: Attribute</span>, <span name="right">right: Attribute</span>)</span><span class="result"> extends AttributeDifference with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.AttributesComparison" data-isabs="false">
+      <a id="AttributesComparison:AttributesComparison"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="AttributesComparison.html"><span class="name">AttributesComparison</span></a><span class="result"> extends XmlComparison[Attributes]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Comparison for attributes, requires a comparison for individual attributes, allowing flexible definitions of equality
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.AttributesDifference" data-isabs="true">
+      <a id="AttributesDifference:AttributesDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="AttributesDifference.html"><span class="name">AttributesDifference</span></a><span class="result"> extends XmlDifference[Attributes]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ComparisonContext" data-isabs="false">
+      <a id="ComparisonContext:ComparisonContext"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ComparisonContext.html"><span class="name">ComparisonContext</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">ComparisonContext represents both the path to a given comparison and the namespace declarations which are relevant for it.</p>
+    </li><li visbl="pub" name="scales.xml.equals.ComparisonContextImplicits" data-isabs="true">
+      <a id="ComparisonContextImplicits:ComparisonContextImplicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ComparisonContextImplicits.html"><span class="name">ComparisonContextImplicits</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Provides an immplicit to easily access the head QName in a path
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.DefaultAttributeEquals" data-isabs="true">
+      <a id="DefaultAttributeEquals:DefaultAttributeEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultAttributeEquals.html"><span class="name">DefaultAttributeEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultAttributesEquals" data-isabs="true">
+      <a id="DefaultAttributesEquals:DefaultAttributesEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultAttributesEquals.html"><span class="name">DefaultAttributesEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultDocLikeEquals" data-isabs="true">
+      <a id="DefaultDocLikeEquals:DefaultDocLikeEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultDocLikeEquals.html"><span class="name">DefaultDocLikeEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultElemEquals" data-isabs="true">
+      <a id="DefaultElemEquals:DefaultElemEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultElemEquals.html"><span class="name">DefaultElemEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultItemEquals" data-isabs="true">
+      <a id="DefaultItemEquals:DefaultItemEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultItemEquals.html"><span class="name">DefaultItemEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultQNameEquals" data-isabs="true">
+      <a id="DefaultQNameEquals:DefaultQNameEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultQNameEquals.html"><span class="name">DefaultQNameEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultQNameToken" data-isabs="true">
+      <a id="DefaultQNameToken:DefaultQNameToken"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultQNameToken.html"><span class="name">DefaultQNameToken</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultStreamEquals" data-isabs="true">
+      <a id="DefaultStreamEquals:DefaultStreamEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultStreamEquals.html"><span class="name">DefaultStreamEquals</span></a><span class="result"> extends StreamEquals</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Streams compared after transforming via joinTextAndCData
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.DefaultXmlEquals" data-isabs="true">
+      <a id="DefaultXmlEquals:DefaultXmlEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultXmlEquals.html"><span class="name">DefaultXmlEquals</span></a><span class="result"> extends DefaultItemEquals with DefaultAttributeEquals with DefaultAttributesEquals with DefaultElemEquals with DefaultStreamEquals with QNameEquals with DefaultQNameToken with DefaultDocLikeEquals</span>
+      </span>
+      </h4>
+      <p class="comment cmt">All CData nodes are converted to text nodes, adjoining Text nodes (including CData) are joined.</p>
+    </li><li visbl="pub" name="scales.xml.equals.DifferentNumberOfAttributes" data-isabs="false">
+      <a id="DifferentNumberOfAttributes:DifferentNumberOfAttributes"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="DifferentNumberOfAttributes.html"><span class="name">DifferentNumberOfAttributes</span></a><span class="params">(<span name="left">left: Attributes</span>, <span name="right">right: Attributes</span>)</span><span class="result"> extends AttributesDifference with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Their size is different
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.DifferentNumberOfMiscs" data-isabs="false">
+      <a id="DifferentNumberOfMiscs:DifferentNumberOfMiscs"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="DifferentNumberOfMiscs.html"><span class="name">DifferentNumberOfMiscs</span></a><span class="params">(<span name="left">left: Miscs</span>, <span name="right">right: Miscs</span>, <span name="isProlog">isProlog: Boolean</span>)</span><span class="result"> extends XmlDifference[Miscs] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DifferentTypes" data-isabs="false">
+      <a id="DifferentTypes:DifferentTypes"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="DifferentTypes.html"><span class="name">DifferentTypes</span></a><span class="params">(<span name="left">left: PullType</span>, <span name="right">right: PullType</span>)</span><span class="result"> extends XmlDifference[PullType] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">When types are different, or an end element vs XmlEvent
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.DifferentValueAttributes" data-isabs="false">
+      <a id="DifferentValueAttributes:DifferentValueAttributes"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="DifferentValueAttributes.html"><span class="name">DifferentValueAttributes</span></a><span class="params">(<span name="left">left: Attributes</span>, <span name="right">right: Attributes</span>, <span name="differentValue">differentValue: Attribute</span>)</span><span class="result"> extends AttributesDifference with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Re-packs the AttributeValueDifference, but will only occur when the attributes QName is present
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.DocLikeComparison" data-isabs="false">
+      <a id="DocLikeComparison:DocLikeComparison[T, B]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DocLikeComparison.html"><span class="name">DocLikeComparison</span></a><span class="tparams">[<span name="T">T</span>, <span name="B">B</span>]</span><span class="result"> extends XmlComparison[T]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Compares neither of the version, DTD nor encoding of a document, but prolog and end misc.</p>
+    </li><li visbl="pub" name="scales.xml.equals.DocLikeWrapper" data-isabs="true">
+      <a id="DocLikeWrapper:DocLikeWrapper[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DocLikeWrapper.html"><span class="name">DocLikeWrapper</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Wrap the creation of doclike things
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.DocLikeWrapperBase" data-isabs="false">
+      <a id="DocLikeWrapperBase:DocLikeWrapperBase[T, B]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DocLikeWrapperBase.html"><span class="name">DocLikeWrapperBase</span></a><span class="tparams">[<span name="T">T</span>, <span name="B">B</span>]</span><span class="result"> extends DocLikeWrapper[T]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base wrapper for most usecases, extra type is here to keep lookup working
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.ElemAttributeDifference" data-isabs="false">
+      <a id="ElemAttributeDifference:ElemAttributeDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ElemAttributeDifference.html"><span class="name">ElemAttributeDifference</span></a><span class="params">(<span name="left">left: Elem</span>, <span name="right">right: Elem</span>, <span name="attributesDifference">attributesDifference: AttributesDifference</span>)</span><span class="result"> extends ElemDifference with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">If the difference is due to an attribute thats included as well
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.ElemComparison" data-isabs="false">
+      <a id="ElemComparison:ElemComparison"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ElemComparison.html"><span class="name">ElemComparison</span></a><span class="result"> extends XmlComparison[Elem]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Namespaces by default are not compared.</p>
+    </li><li visbl="pub" name="scales.xml.equals.ElemDifference" data-isabs="true">
+      <a id="ElemDifference:ElemDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ElemDifference.html"><span class="name">ElemDifference</span></a><span class="result"> extends XmlDifference[Elem]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ElemNameDifference" data-isabs="false">
+      <a id="ElemNameDifference:ElemNameDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ElemNameDifference.html"><span class="name">ElemNameDifference</span></a><span class="params">(<span name="left">left: Elem</span>, <span name="right">right: Elem</span>)</span><span class="result"> extends ElemDifference with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ElemNamespacesDifference" data-isabs="false">
+      <a id="ElemNamespacesDifference:ElemNamespacesDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ElemNamespacesDifference.html"><span class="name">ElemNamespacesDifference</span></a><span class="params">(<span name="left">left: Elem</span>, <span name="right">right: Elem</span>)</span><span class="result"> extends ElemDifference with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">This can only be returned when an ElemComparisom has been suplied with a custom namespaces implementation.</p>
+    </li><li visbl="pub" name="scales.xml.equals.EndElemNameDifference" data-isabs="false">
+      <a id="EndElemNameDifference:EndElemNameDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="EndElemNameDifference.html"><span class="name">EndElemNameDifference</span></a><span class="params">(<span name="left">left: EndElem</span>, <span name="right">right: EndElem</span>)</span><span class="result"> extends XmlDifference[EndElem] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ExactQName" data-isabs="true">
+      <a id="ExactQName:ExactQName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ExactQName.html"><span class="name">ExactQName</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ExactStreamEquals" data-isabs="true">
+      <a id="ExactStreamEquals:ExactStreamEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ExactStreamEquals.html"><span class="name">ExactStreamEquals</span></a><span class="result"> extends StreamEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ExactXmlEquals" data-isabs="true">
+      <a id="ExactXmlEquals:ExactXmlEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ExactXmlEquals.html"><span class="name">ExactXmlEquals</span></a><span class="result"> extends DefaultItemEquals with DefaultAttributeEquals with DefaultAttributesEquals with DefaultElemEquals with ExactStreamEquals with QNameEquals with DefaultQNameToken</span>
+      </span>
+      </h4>
+      <p class="comment cmt">All default exact Xml Equal and XmlComparison trait instances.</p>
+    </li><li visbl="pub" name="scales.xml.equals.FromEqualsImplicit" data-isabs="true">
+      <a id="FromEqualsImplicit:FromEqualsImplicit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="FromEqualsImplicit.html"><span class="name">FromEqualsImplicit</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ItemDifference" data-isabs="false">
+      <a id="ItemDifference:ItemDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ItemDifference.html"><span class="name">ItemDifference</span></a><span class="params">(<span name="left">left: XmlItem</span>, <span name="right">right: XmlItem</span>)</span><span class="result"> extends XmlDifference[XmlItem] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.JoinTextAndCData" data-isabs="false">
+      <a id="JoinTextAndCData:JoinTextAndCData"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="JoinTextAndCData.html"><span class="name">JoinTextAndCData</span></a><span class="result"> extends Iterator[PullType]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Modifies the stream to turn CData nodes into Text nodes and join all adjacent Text nodes togeter i.</p>
+    </li><li visbl="pub" name="scales.xml.equals.MiscDifference" data-isabs="false">
+      <a id="MiscDifference:MiscDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="MiscDifference.html"><span class="name">MiscDifference</span></a><span class="params">(<span name="left">left: Misc</span>, <span name="right">right: Misc</span>, <span name="isProlog">isProlog: Boolean</span>)</span><span class="result"> extends XmlDifference[Misc] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.MiscDifferentTypes" data-isabs="false">
+      <a id="MiscDifferentTypes:MiscDifferentTypes"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="MiscDifferentTypes.html"><span class="name">MiscDifferentTypes</span></a><span class="params">(<span name="left">left: Misc</span>, <span name="right">right: Misc</span>, <span name="isProlog">isProlog: Boolean</span>)</span><span class="result"> extends XmlDifference[Misc] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.MissingAttributes" data-isabs="false">
+      <a id="MissingAttributes:MissingAttributes"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="MissingAttributes.html"><span class="name">MissingAttributes</span></a><span class="params">(<span name="left">left: Attributes</span>, <span name="right">right: Attributes</span>, <span name="missing">missing: Attribute</span>)</span><span class="result"> extends AttributesDifference with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">The size is the same but one of lefts qnames is not present in right
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.PathAsPullTypeIterable" data-isabs="false">
+      <a id="PathAsPullTypeIterable:PathAsPullTypeIterable"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="PathAsPullTypeIterable.html"><span class="name">PathAsPullTypeIterable</span></a><span class="result"> extends AbstractPathIterator[XmlItem, Elem, XCC, PullType]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Makes the given path the top path
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.QNameComparison" data-isabs="false">
+      <a id="QNameComparison:QNameComparison"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="QNameComparison.html"><span class="name">QNameComparison</span></a><span class="result"> extends XmlComparison[QName]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Only added to provide a complete <code>compare</code> set
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.QNameDifference" data-isabs="false">
+      <a id="QNameDifference:QNameDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="QNameDifference.html"><span class="name">QNameDifference</span></a><span class="params">(<span name="left">left: QName</span>, <span name="right">right: QName</span>)</span><span class="result"> extends XmlDifference[QName] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.QNameEquals" data-isabs="true">
+      <a id="QNameEquals:QNameEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="QNameEquals.html"><span class="name">QNameEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.StreamComparable" data-isabs="false">
+      <a id="StreamComparable:StreamComparable[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="StreamComparable.html"><span class="name">StreamComparable</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">This interface allows for non xml matching, for example a forward Iterator from a Text child.</p>
+    </li><li visbl="pub" name="scales.xml.equals.StreamComparableImplicits" data-isabs="true">
+      <a id="StreamComparableImplicits:StreamComparableImplicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="StreamComparableImplicits.html"><span class="name">StreamComparableImplicits</span></a><span class="result"> extends TheyReallyAreIterators</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Collection of all implicit conversions to StreamComparables.</p>
+    </li><li visbl="pub" name="scales.xml.equals.StreamComparison" data-isabs="false">
+      <a id="StreamComparison:StreamComparison"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="StreamComparison.html"><span class="name">StreamComparison</span></a><span class="result"> extends XmlComparison[scales.xml.equals.StreamComparable[_]]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Compares based on streams.</p>
+    </li><li visbl="pub" name="scales.xml.equals.StreamComparisonWrapper" data-isabs="false">
+      <a id="StreamComparisonWrapper:StreamComparisonWrapper[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="StreamComparisonWrapper.html"><span class="name">StreamComparisonWrapper</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends XmlComparison[T]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Wraps a given T with a conversion from T to an xml stream
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.StreamEquals" data-isabs="true">
+      <a id="StreamEquals:StreamEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="StreamEquals.html"><span class="name">StreamEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.TheyReallyAreIterators" data-isabs="true">
+      <a id="TheyReallyAreIterators:TheyReallyAreIterators"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="TheyReallyAreIterators.html"><span class="name">TheyReallyAreIterators</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">For Iterator[PullType]s that actually are, lets help the inference and implicit lookup out
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.XmlComparison" data-isabs="true">
+      <a id="XmlComparison:XmlComparison[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="XmlComparison.html"><span class="name">XmlComparison</span></a><span class="tparams">[<span name="T">-T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Like Equals but also gives a path in addition to the fun reason</p>
+    </li><li visbl="pub" name="scales.xml.equals.XmlDifference" data-isabs="true">
+      <a id="XmlDifference:XmlDifference[X]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="XmlDifference.html"><span class="name">XmlDifference</span></a><span class="tparams">[<span name="X">X</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Why did equality fail, pattern match fun
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.XmlEquals" data-isabs="true">
+      <a id="XmlEquals:XmlEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="XmlEquals.html"><span class="name">XmlEquals</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Base functions for equality
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.XmlItemComparison" data-isabs="false">
+      <a id="XmlItemComparison:XmlItemComparison"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="XmlItemComparison.html"><span class="name">XmlItemComparison</span></a><span class="result"> extends XmlComparison[XmlItem]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Compares XmlItems, providing Some qnameTokenComparison will force that to be used to decide if qname comparison should be used or not
+</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="scales.xml.equals.AttributeEquals" data-isabs="false">
+      <a id="AttributeEquals:AttributeEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="AttributeEquals$.html"><span class="name">AttributeEquals</span></a><span class="result"> extends DefaultAttributeEquals with DefaultQNameEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.AttributesEquals" data-isabs="false">
+      <a id="AttributesEquals:AttributesEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="AttributesEquals$.html"><span class="name">AttributesEquals</span></a><span class="result"> extends DefaultAttributesEquals with DefaultAttributeEquals with DefaultQNameEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.BasicPaths" data-isabs="false">
+      <a id="BasicPaths:BasicPaths"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="BasicPaths$.html"><span class="name">BasicPaths</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ComparisonContext" data-isabs="false">
+      <a id="ComparisonContext:ComparisonContext"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ComparisonContext$.html"><span class="name">ComparisonContext</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultStreamEquals" data-isabs="false">
+      <a id="DefaultStreamEquals:DefaultStreamEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultStreamEquals$.html"><span class="name">DefaultStreamEquals</span></a><span class="result"> extends DefaultStreamEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.DefaultXmlEquals" data-isabs="false">
+      <a id="DefaultXmlEquals:DefaultXmlEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="DefaultXmlEquals$.html"><span class="name">DefaultXmlEquals</span></a><span class="result"> extends DefaultXmlEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ElemEqualHelpers" data-isabs="false">
+      <a id="ElemEqualHelpers:ElemEqualHelpers"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ElemEqualHelpers$.html"><span class="name">ElemEqualHelpers</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ElemEquals" data-isabs="false">
+      <a id="ElemEquals:ElemEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ElemEquals$.html"><span class="name">ElemEquals</span></a><span class="result"> extends DefaultElemEquals with DefaultAttributesEquals with DefaultAttributeEquals with DefaultQNameEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ExactQName" data-isabs="false">
+      <a id="ExactQName:ExactQName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ExactQName$.html"><span class="name">ExactQName</span></a><span class="result"> extends ExactQName</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Comparisoms built on exact qname comparisom, prefixes can be important for some systems
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.ExactStreamEquals" data-isabs="false">
+      <a id="ExactStreamEquals:ExactStreamEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ExactStreamEquals$.html"><span class="name">ExactStreamEquals</span></a><span class="result"> extends ExactStreamEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.ExactXmlEquals" data-isabs="false">
+      <a id="ExactXmlEquals:ExactXmlEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ExactXmlEquals$.html"><span class="name">ExactXmlEquals</span></a><span class="result"> extends ExactXmlEquals</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Provides simple access to ExactXmlEquals
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.ItemEquals" data-isabs="false">
+      <a id="ItemEquals:ItemEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ItemEquals$.html"><span class="name">ItemEquals</span></a><span class="result"> extends DefaultItemEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.LogicalFilters" data-isabs="false">
+      <a id="LogicalFilters:LogicalFilters"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="LogicalFilters$.html"><span class="name">LogicalFilters</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">A collection of stream filters to help with equality
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.QNameEquals" data-isabs="false">
+      <a id="QNameEquals:QNameEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="QNameEquals$.html"><span class="name">QNameEquals</span></a><span class="result"> extends DefaultQNameEquals with QNameEquals</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.equals.SomeDifference" data-isabs="false">
+      <a id="SomeDifference:SomeDifference"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="SomeDifference$.html"><span class="name">SomeDifference</span></a><span class="result"> extends XmlDifference[AnyRef]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Magik object for when we aren't attempting to calculate whats wrong
+</p>
+    </li><li visbl="pub" name="scales.xml.equals.XmlEquals" data-isabs="false">
+      <a id="XmlEquals:XmlEquals"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="XmlEquals$.html"><span class="name">XmlEquals</span></a><span class="result"> extends XmlEquals</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Make it available without dragging the rest of the world in
+</p>
+    </li></ol>
+            </div>
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

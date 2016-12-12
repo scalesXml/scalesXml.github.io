@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\OptimisingStrategies.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml
+
+<span class="keyword">import</span> scales.utils._
+
+<span class="keyword">trait</span> <a title="trait OptimisingStrategiesImplicits extends java.lang.Object" id="12531">OptimisingStrategiesImplicits</a> <span title="java.lang.Object" class="delimiter">{</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Simple marker for per parse optimisation oppurtunties
+ */</span>
+<span class="keyword">trait</span> <a title="trait OptimisationToken extends java.lang.Object" id="12528">OptimisationToken</a> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="=&gt; scales.xml.XmlVersion" id="92135">ver</a> : <a href="Namespaces.scala.html#13146" title="scales.xml.XmlVersion">XmlVersion</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="=&gt; scales.xml.FromParser" id="92136">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">class</span> <a title="class BaseToken extends java.lang.Object with scales.xml.OptimisationToken with ScalaObject" id="12228">BaseToken</a><a href="#12228" title="ScalaObject" class="delimiter">(</a><span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.XmlVersion" id="92148">ver</a> : <a href="Namespaces.scala.html#13146" title="scales.xml.XmlVersion">XmlVersion</a>, <span class="keyword">val</span> <a title="scales.xml.FromParser" id="92149">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#12528" title="scales.xml.OptimisationToken">OptimisationToken</a>
+
+<span class="comment">/**
+ * Memory usage in DOMs is often dominated by repeated elements.  Xerces and co use string tables to optimise memory usage, with DTM a key example.
+ *
+ * Performing lookups is expensive so the strategys have selective levels of lookup.  Developers may therefore choose appropriate levels that best fit their trade-off between space and time.
+ *
+ * There will, of course, be temporary garbage created for such a scheme but it should pay off for larger messages.
+ *
+ */</span> 
+<span class="keyword">trait</span> <a title="trait MemoryOptimisationStrategy[Token &lt;: scales.xml.OptimisationToken] extends java.lang.Object with ScalaObject" id="12495">MemoryOptimisationStrategy</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="13611">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)Token" id="92151">createToken</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="92159">ver</a> : <a href="Namespaces.scala.html#13146" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="92160">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#13611" title="Token">Token</a>
+
+<span class="comment">//  def createToken(implicit ver : XmlVersion, fromParser : FromParser) : Token = new BaseToken()</span>
+
+  <span class="comment">/**
+   * It is expected that certain attributes have fixed values, ie. booleans or based on schema enums etc, this function allows such optimisations.
+   *
+   * The qname will have been obtained via qName, so any optimisations provided by it can be leveraged.
+   *
+   */</span> 
+  <span class="keyword">def</span> <a title="(qname: scales.xml.package.AttributeQName, value: String, token: Token)scales.xml.Attribute" id="92152">attribute</a><span class="delimiter">(</span> <a title="scales.xml.package.AttributeQName" id="92162">qname</a> : <a href="../utils/EitherLike.scala.html#10426" title="scales.xml.package.AttributeQName">AttributeQName</a>, <a title="String" id="92163">value</a> : <span title="String">String</span>, <a title="Token" id="92164">token</a> : <a href="#13611" title="Token">Token</a><span class="delimiter">)</span> : <a href="XmlTypes.scala.html#12126" title="scales.xml.Attribute">Attribute</a> = <a href="XmlTypes.scala.html#92180" title="(name: scales.xml.package.AttributeQName, value: String)scales.xml.Attribute">Attribute</a><span class="delimiter">(</span><a href="#92162" title="scales.xml.package.AttributeQName">qname</a>,<a href="#92163" title="String">value</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * The creation costs can also be reduced
+   */</span> 
+  <span class="keyword">def</span> <a title="(local: String, token: Token)scales.xml.NoNamespaceQName" id="92153">noNamespaceQName</a><span class="delimiter">(</span> <a title="String" id="92189">local</a> : <span title="String">String</span>, <a title="Token" id="92190">token</a> : <a href="#13611" title="Token">Token</a><span class="delimiter">)</span> : <a href="QName.scala.html#12519" title="scales.xml.NoNamespaceQName">NoNamespaceQName</a> = <span class="delimiter">{</span>
+    <span class="keyword">import</span> <a href="#92190" title="Token">token</a>._
+    <a href="QName.scala.html#92199" title="(locali: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.NoNamespaceQName">NoNamespaceQName</a><a href="#92135" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92189" title="String">local</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(local: String, uri: String, token: Token)scales.xml.UnprefixedQName" id="92154">unprefixedQName</a><span class="delimiter">(</span> <a title="String" id="92229">local</a> : <span title="String">String</span>, <a title="String" id="92230">uri</a> : <span title="String">String</span>, <a title="Token" id="92231">token</a> : <a href="#13611" title="Token">Token</a><span class="delimiter">)</span> : <a href="QName.scala.html#12843" title="scales.xml.UnprefixedQName">UnprefixedQName</a> =  <span class="delimiter">{</span>
+    <span class="keyword">import</span> <a href="#92231" title="Token">token</a>._
+    <a href="QName.scala.html#91860" title="(locali: String, namespacei: scales.xml.Namespace)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.UnprefixedQName">UnprefixedQName</a><a href="#92135" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92229" title="String">local</a>, <a href="Namespaces.scala.html#92023" title="(validUri: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.Namespace">Namespace</a><a href="#92135" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92230" title="String">uri</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(local: String, uri: String, prefix: String, token: Token)scales.xml.PrefixedQName" id="92155">prefixedQName</a><span class="delimiter">(</span> <a title="String" id="92235">local</a> : <span title="String">String</span>, <a title="String" id="92236">uri</a> : <span title="String">String</span>, <a title="String" id="92237">prefix</a> : <span title="String">String</span>, <a title="Token" id="92238">token</a> : <a href="#13611" title="Token">Token</a><span class="delimiter">)</span> : <a href="QName.scala.html#12585" title="scales.xml.PrefixedQName">PrefixedQName</a> =  <span class="delimiter">{</span>
+    <span class="keyword">import</span> <a href="#92238" title="Token">token</a>._
+    <a href="QName.scala.html#91932" title="(locali: String, prefixedNamespace: scales.xml.PrefixedNamespace)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}">PrefixedQName</a><a href="#92135" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92235" title="String">local</a>, <a href="Namespaces.scala.html#92023" title="(validUri: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.Namespace">Namespace</a><a href="#92135" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92236" title="String">uri</a><span class="delimiter">)</span>.<a href="Namespaces.scala.html#91850" title="(prefix: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.PrefixedNamespace">prefixed</a><a href="#92135" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92237" title="String">prefix</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * For files without large (and varied) attribute counts per repeated element it may represent significant space savings to optimise against the entire Elem itself.
+   *
+   * The Elements QName is garaunteed to be the last QName evaluated via the QName functions (i.e. Attributes are done first then the Elems QName)  
+   */</span> 
+  <span class="keyword">def</span> <a title="(name: scales.xml.QName, attributes: scales.xml.package.Attributes, namespaces: Map[String,String], token: Token)scales.xml.Elem" id="92156">elem</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="92244">name</a> : <a href="QName.scala.html#12720" title="scales.xml.QName">QName</a>, <a title="scales.xml.package.Attributes" id="92245">attributes</a> : <a href="../utils/ListSet.scala.html#10948" title="scales.xml.package.Attributes">Attributes</a>, <a title="Map[String,String]" id="92246">namespaces</a> : <span title="Map[String,String]">Map</span><span class="delimiter">[</span>String, String<span class="delimiter">]</span>, <a title="Token" id="92247">token</a> : <a href="#13611" title="Token">Token</a><span class="delimiter">)</span> : <a href="XmlTypes.scala.html#12423" title="scales.xml.Elem">Elem</a> =  <span class="delimiter">{</span>
+    <span class="keyword">import</span> <a href="#92247" title="Token">token</a>._
+    <a href="XmlTypes.scala.html#92262" title="(namei: scales.xml.QName, attributesi: scales.xml.package.Attributes, namespacesi: scala.collection.immutable.Map[String,String])(implicit fromParser: scales.xml.FromParser)scales.xml.Elem">Elem</a><a href="#92136" title="=&gt; scales.xml.FromParser" class="delimiter">(</a><a href="#92244" title="scales.xml.QName">name</a>, <a href="#92245" title="scales.xml.package.Attributes">attributes</a>, <a href="#92246" title="Map[String,String]">namespaces</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait BaseTokenF extends java.lang.Object with ScalaObject" id="12234">BaseTokenF</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.BaseToken" id="92873">createToken</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="92876">ver</a> : <a href="Namespaces.scala.html#13146" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="92877">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> : <a href="#12228" title="scales.xml.BaseToken">BaseToken</a> = <a href="#92876" title="scales.xml.BaseToken" class="keyword">new</a> <a href="#12228" title="scales.xml.BaseToken">BaseToken</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Default optimisation strategy, performing no optimisation at all
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.xml.NoOptimisation" id="12526">NoOptimisation</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12543" title="scales.xml.PathOptimisationStrategy[scales.xml.BaseToken]">PathOptimisationStrategy</a><span class="delimiter">[</span>BaseToken<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#12234" title="scales.xml.BaseTokenF">BaseTokenF</a>
+
+<span class="comment">/**
+ * Certain paths may be repeated (based on QNames of parents etc) and known to be by the developer, its also possible that the developer simply is not interested in this path.
+ *
+ * Developers may also customise the creation of paths (for example adding starting children or replacing the XmlChildren implementation.
+ */</span>
+<span class="keyword">trait</span> <a title="trait PathOptimisationStrategy[Token &lt;: scales.xml.OptimisationToken] extends java.lang.Object with scales.xml.MemoryOptimisationStrategy[Token] with ScalaObject" id="12543">PathOptimisationStrategy</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.OptimisationToken" id="13612">Token</a> &lt;: OptimisationToken<span class="delimiter">]</span> <span title="ScalaObject" class="keyword">extends</span> <a href="#12495" title="scales.xml.MemoryOptimisationStrategy[Token]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span> <span class="delimiter">{</span>
+  
+  <span class="comment">/**
+   * Any elementEnd implementation must perform either an xml.zipUp
+   * or removeAndUp.  The default performs a zipUp
+   */</span> 
+  <span class="keyword">def</span> <a title="(xml: scales.xml.TreeProxies, token: Token)Unit" id="92880">elementEnd</a><span class="delimiter">(</span> <a title="scales.xml.TreeProxies" id="92886">xml</a> : <a href="XmlParser.scala.html#12822" title="scales.xml.TreeProxies">TreeProxies</a>, <a title="Token" id="92887">token</a> : <a href="#13612" title="Token">Token</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#92886" title="scales.xml.TreeProxies">xml</a>.<a href="XmlParser.scala.html#92906" title="()Unit">elementEnd</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Start a new tree, defaults to addAndFocus.
+   */</span> 
+  <span class="keyword">def</span> <a title="(stack: scales.xml.TreeProxies, elem: scales.xml.Elem, token: Token)Unit" id="92881">beginSubTree</a><span class="delimiter">(</span> <a title="scales.xml.TreeProxies" id="92910">stack</a> : <a href="XmlParser.scala.html#12822" title="scales.xml.TreeProxies">TreeProxies</a>, <a title="scales.xml.Elem" id="92911">elem</a> : <a href="XmlTypes.scala.html#12423" title="scales.xml.Elem">Elem</a>, <a title="Token" id="92912">token</a> : <a href="#13612" title="Token">Token</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <a href="#92910" title="scales.xml.TreeProxies">stack</a>.<a href="XmlParser.scala.html#92907" title="(elem: scales.xml.Elem, children: scales.xml.package.XmlChildren)Unit">beginSub</a><span class="delimiter">(</span><a href="#92911" title="scales.xml.Elem">elem</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">class</span> <a title="class QNameToken extends java.lang.Object with scales.xml.OptimisationToken with ScalaObject" id="12756">QNameToken</a><a href="#12756" title="ScalaObject" class="delimiter">(</a><span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.XmlVersion" id="92970">ver</a> : <a href="Namespaces.scala.html#13146" title="scales.xml.XmlVersion">XmlVersion</a>, <span class="keyword">val</span> <a title="scales.xml.FromParser" id="92971">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#12528" title="scales.xml.OptimisationToken">OptimisationToken</a> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="scales.xml.FullEqualQNameKey" id="92927">qkey</a> = <span title="scales.xml.FullEqualQNameKey" class="keyword">new</span> <a href="QNameKey.scala.html#12489" title="scales.xml.FullEqualQNameKey">FullEqualQNameKey</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">// the following reduce init costs was 6% of garbage and 3% of runtime on avg</span>
+
+  <span class="keyword">val</span> <a title="scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.NoNamespaceQName" id="92929">noNsQ</a> = <span class="delimiter">(</span>k : <a href="QNameKey.scala.html#12489" title="scales.xml.FullEqualQNameKey">FullEqualQNameKey</a><span class="delimiter">)</span> =&gt; <a href="QName.scala.html#92199" title="(locali: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.NoNamespaceQName">NoNamespaceQName</a><a href="#92970" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92960" title="scales.xml.FullEqualQNameKey">k</a>.<a href="QNameKey.scala.html#92942" title="=&gt; String">local</a><span class="delimiter">)</span>
+  <span class="keyword">val</span> <a title="scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.UnprefixedQName" id="92931">unQ</a> = <span class="delimiter">(</span>k : <a href="QNameKey.scala.html#12489" title="scales.xml.FullEqualQNameKey">FullEqualQNameKey</a><span class="delimiter">)</span> =&gt; <a href="QName.scala.html#91860" title="(locali: String, namespacei: scales.xml.Namespace)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.UnprefixedQName">UnprefixedQName</a><a href="#92970" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92965" title="scales.xml.FullEqualQNameKey">k</a>.<a href="QNameKey.scala.html#92942" title="=&gt; String">local</a>, <a href="Namespaces.scala.html#92023" title="(validUri: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.Namespace">Namespace</a><a href="#92970" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92965" title="scales.xml.FullEqualQNameKey">k</a>.<a href="QNameKey.scala.html#92945" title="=&gt; String">namespace</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="keyword">val</span> <a title="scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}" id="92933">pQ</a> = <span class="delimiter">(</span>k : <a href="QNameKey.scala.html#12489" title="scales.xml.FullEqualQNameKey">FullEqualQNameKey</a><span class="delimiter">)</span> =&gt; <a href="QName.scala.html#91932" title="(locali: String, prefixedNamespace: scales.xml.PrefixedNamespace)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}">PrefixedQName</a><a href="#92970" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92967" title="scales.xml.FullEqualQNameKey">k</a>.<a href="QNameKey.scala.html#92942" title="=&gt; String">local</a>, <a href="Namespaces.scala.html#92023" title="(validUri: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.Namespace">Namespace</a><a href="#92970" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92967" title="scales.xml.FullEqualQNameKey">k</a>.<a href="QNameKey.scala.html#92945" title="=&gt; String">namespace</a><span class="delimiter">)</span>.<a href="Namespaces.scala.html#91850" title="(prefix: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.PrefixedNamespace">prefixed</a><a href="#92970" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="#92967" title="scales.xml.FullEqualQNameKey">k</a>.<a href="QNameKey.scala.html#92939" title="=&gt; String">prefix</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait QNameTokenF extends java.lang.Object with ScalaObject" id="12762">QNameTokenF</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)scales.xml.QNameToken" id="92973">createToken</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlVersion" id="92976">ver</a> : <a href="Namespaces.scala.html#13146" title="scales.xml.XmlVersion">XmlVersion</a>, <a title="scales.xml.FromParser" id="92977">fromParser</a> : <a href="XmlTypesDefaults.scala.html#12483" title="scales.xml.FromParser">FromParser</a><span class="delimiter">)</span> = <a href="#92976" title="scales.xml.QNameToken" class="keyword">new</a> <a href="#12756" title="scales.xml.QNameToken">QNameToken</a><span class="delimiter">(</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Threadsafe global cache, assumption is most applications would benefit from this 
+ */</span>
+<span class="keyword">trait</span> <a title="trait QNameOptimisationT[Token &lt;: scales.xml.QNameToken] extends java.lang.Object with scales.xml.MemoryOptimisationStrategy[Token] with ScalaObject" id="12744">QNameOptimisationT</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.QNameToken" id="13613">Token</a> &lt;: QNameToken<span class="delimiter">]</span> <span title="ScalaObject" class="keyword">extends</span> <a href="#12495" title="scales.xml.MemoryOptimisationStrategy[Token]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>Token<span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap
+
+  <span class="keyword">val</span> <a title="java.util.concurrent.ConcurrentHashMap[scales.xml.FullEqualQNameKey,scales.xml.QName]" id="92982">qNameCache</a> = <span title="()java.util.concurrent.ConcurrentHashMap[scales.xml.FullEqualQNameKey,scales.xml.QName]" class="keyword">new</span> <span title="java.util.concurrent.ConcurrentHashMap[scales.xml.FullEqualQNameKey,scales.xml.QName]">ConcurrentHashMap</span><span class="delimiter">[</span> FullEqualQNameKey, QName <span class="delimiter">]</span>
+  
+  <span class="comment">/**
+   * The creation costs can also be reduced
+   */</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(local: String, token: Token)scales.xml.NoNamespaceQName" id="92984">noNamespaceQName</a><span class="delimiter">(</span> <a title="String" id="93096">local</a> : <span title="String">String</span>, <a title="Token" id="93097">token</a> : <a href="#13613" title="Token">Token</a><span class="delimiter">)</span> : <a href="QName.scala.html#12519" title="scales.xml.NoNamespaceQName">NoNamespaceQName</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Token" id="93101">qt</a> = <a href="#93097" title="Token">token</a>
+    <span class="keyword">import</span> <a href="#93101" title="Token">qt</a>._
+    <a href="#92987" title="(key: scales.xml.FullEqualQNameKey)(newT: scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.NoNamespaceQName)java.lang.Object with scales.xml.NoNamespaceQName">value</a><span class="delimiter">(</span> <a href="#92927" title="=&gt; scales.xml.FullEqualQNameKey">qkey</a>.<a href="QNameKey.scala.html#92950" title="(nlocal: String)scales.xml.FullEqualQNameKey">setNoNamespaceQName</a><span class="delimiter">(</span><a href="#93096" title="String">local</a><span class="delimiter">)</span> <span class="delimiter">)</span><span class="delimiter">(</span> <a href="#92929" title="=&gt; scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.NoNamespaceQName">noNsQ</a> <span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(local: String, uri: String, token: Token)scales.xml.UnprefixedQName" id="92985">unprefixedQName</a><span class="delimiter">(</span> <a title="String" id="93121">local</a> : <span title="String">String</span>, <a title="String" id="93122">uri</a> : <span title="String">String</span>, <a title="Token" id="93123">token</a> : <a href="#13613" title="Token">Token</a><span class="delimiter">)</span> : <a href="QName.scala.html#12843" title="scales.xml.UnprefixedQName">UnprefixedQName</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Token" id="93128">qt</a> = <a href="#93123" title="Token">token</a>
+    <span class="keyword">import</span> <a href="#93128" title="Token">qt</a>._
+    <a href="#92987" title="(key: scales.xml.FullEqualQNameKey)(newT: scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.UnprefixedQName)java.lang.Object with scales.xml.UnprefixedQName">value</a><span class="delimiter">(</span> <a href="#92927" title="=&gt; scales.xml.FullEqualQNameKey">qkey</a>.<a href="QNameKey.scala.html#92951" title="(nlocal: String, nnamespace: String)scales.xml.FullEqualQNameKey">setUnprefixedQName</a><span class="delimiter">(</span><a href="#93121" title="String">local</a>, <a href="#93122" title="String">uri</a><span class="delimiter">)</span> <span class="delimiter">)</span><span class="delimiter">(</span> <a href="#92931" title="=&gt; scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.UnprefixedQName">unQ</a> <span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(local: String, uri: String, prefix: String, token: Token)scales.xml.PrefixedQName" id="92986">prefixedQName</a><span class="delimiter">(</span> <a title="String" id="93140">local</a> : <span title="String">String</span>, <a title="String" id="93141">uri</a> : <span title="String">String</span>, <a title="String" id="93142">prefix</a> : <span title="String">String</span>, <a title="Token" id="93143">token</a> : <a href="#13613" title="Token">Token</a><span class="delimiter">)</span> : <a href="QName.scala.html#12585" title="scales.xml.PrefixedQName">PrefixedQName</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Token" id="93149">qt</a> = <a href="#93143" title="Token">token</a>
+    <span class="keyword">import</span> <a href="#93149" title="Token">qt</a>._
+    <a href="#92987" title="(key: scales.xml.FullEqualQNameKey)(newT: scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]})java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}">value</a><span class="delimiter">(</span> <a href="#92927" title="=&gt; scales.xml.FullEqualQNameKey">qkey</a>.<a href="QNameKey.scala.html#92952" title="(nlocal: String, nnamespace: String, nprefix: String)scales.xml.FullEqualQNameKey">setPrefixedQName</a><span class="delimiter">(</span> <a href="#93140" title="String">local</a>, <a href="#93141" title="String">uri</a>, <a href="#93142" title="String">prefix</a><span class="delimiter">)</span> <span class="delimiter">)</span><span class="delimiter">(</span> <a href="#92933" title="=&gt; scales.xml.FullEqualQNameKey =&gt; java.lang.Object with scales.xml.PrefixedQName{final val prefix: Some[String]}">pQ</a> <span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="[T &lt;: scales.xml.QName](key: scales.xml.FullEqualQNameKey)(newT: scales.xml.FullEqualQNameKey =&gt; T)T" id="92987">value</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.QName" id="92989">T</a> &lt;: QName<span class="delimiter">]</span><span class="delimiter">(</span><a title="scales.xml.FullEqualQNameKey" id="93103">key</a> : <a href="QNameKey.scala.html#12489" title="scales.xml.FullEqualQNameKey">FullEqualQNameKey</a><span class="delimiter">)</span><span class="delimiter">(</span> <a title="scales.xml.FullEqualQNameKey =&gt; T" id="93104">newT</a> : FullEqualQNameKey =&gt; T <span class="delimiter">)</span> : <a href="#92989" title="T">T</a> = <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="scales.xml.QName" id="93162">value</a> = <a href="#92982" title="=&gt; java.util.concurrent.ConcurrentHashMap[scales.xml.FullEqualQNameKey,scales.xml.QName]">qNameCache</a>.<span title="(x$1: Any)scales.xml.QName">get</span><span class="delimiter">(</span><a href="#93103" title="scales.xml.FullEqualQNameKey">key</a><span class="delimiter">)</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#93162" title="scales.xml.QName">value</a> <span title="(x$1: AnyRef)Boolean">==</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#93162" title="scales.xml.QName">value</a> = <a href="#93104" title="(v1: scales.xml.FullEqualQNameKey)T">newT</a><span class="delimiter">(</span><a href="#93103" title="scales.xml.FullEqualQNameKey">key</a><span class="delimiter">)</span>
+      <span class="keyword">val</span> <a title="scales.xml.QName" id="93168">res</a> = <a href="#92982" title="=&gt; java.util.concurrent.ConcurrentHashMap[scales.xml.FullEqualQNameKey,scales.xml.QName]">qNameCache</a>.<span title="(x$1: scales.xml.FullEqualQNameKey, x$2: scales.xml.QName)scales.xml.QName">putIfAbsent</span><span class="delimiter">(</span><a href="#93103" title="scales.xml.FullEqualQNameKey">key</a>.<a href="QNameKey.scala.html#92948" title="=&gt; scales.xml.FullEqualQNameKey">copy</a>, <a href="#93162" title="scales.xml.QName">value</a><span class="delimiter">)</span><span class="comment">// copy because now it needs to be frozen</span>
+      <a href="#93162" title="scales.xml.QName">value</a> = <span title="scales.xml.QName" class="keyword">if</span> <span class="delimiter">(</span><a href="#93168" title="scales.xml.QName">res</a> <span title="(x$1: AnyRef)Boolean">==</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="#93162" title="scales.xml.QName">value</a> <span class="keyword">else</span> <a href="#93168" title="scales.xml.QName">res</a>
+    <span class="delimiter">}</span>
+    <a href="#93162" title="scales.xml.QName">value</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#92989" title="T">T</a><span class="delimiter">]</span>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+<span class="keyword">import</span> strategies._
+
+<span class="comment">/**
+ * The default as it will equal or better Scala Xml memory consumption at a performance gain.
+ *
+ * For the lowest memory consumption possible, for example where memory is more important than raw performance, see MemoryAndSpeedierStrategy
+ *
+ */</span>
+<span class="keyword">object</span> <a title="object scales.xml.QNameMemoryOptimisation" id="12739">QNameMemoryOptimisation</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#12543" title="scales.xml.PathOptimisationStrategy[scales.xml.QNameToken]">PathOptimisationStrategy</a><span class="delimiter">[</span>QNameToken<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#12744" title="scales.xml.QNameOptimisationT[scales.xml.QNameToken]">QNameOptimisationT</a><span class="delimiter">[</span>QNameToken<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#12762" title="scales.xml.QNameTokenF">QNameTokenF</a>
+
+        </pre>
+    </body>
+</html>

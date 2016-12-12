@@ -1,0 +1,365 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;DuplicateFilter.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_DuplicateFilter.scala.html#Class_scales_utils_DuplicateFilter"><img src="class.png"></img>DuplicateFilter</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_DuplicateFilter.scala.html#Trait_scales_utils_DuplicateImplicits"><img src="trait.png"></img>DuplicateImplicits</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td> * Default implicits for duplicate detection, one for AnyRef and one for AnvVal
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td> * @author Chris
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td><a id="Trait_scales_utils_DuplicateImplicits"></a>trait DuplicateImplicits {
+</td>
+          </tr><tr>
+            <td class="green">10</td>
+            <td>  implicit val sameRef: (AnyRef, AnyRef) =&gt; Boolean = _ eq _
+</td>
+          </tr><tr>
+            <td class="green">11</td>
+            <td>  implicit val sameVal: (AnyVal, AnyVal) =&gt; Boolean = _ == _
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td> * Remove neighbouring duplicates based on a given predicate (defaults to _ eq _).
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td> * For example (1,2,2,3) would be converted to (1,2,3)
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td> * @author Chris
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">22</td>
+            <td><a id="Class_scales_utils_DuplicateFilter"></a>case class DuplicateFilter[T](orig: Iterable[T])(
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>  implicit predicate: (T, T) =&gt; Boolean) extends Iterable[T] {
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>   * Provide iterator to the path of the children
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="green">28</td>
+            <td>  def iterator() = new Iterator[T]() {
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>    val itr = orig.iterator
+</td>
+          </tr><tr>
+            <td class="green">30</td>
+            <td>    var nextPair: (Boolean, T) = getNext
+</td>
+          </tr><tr>
+            <td class="green">31</td>
+            <td>    var isFirst = true
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>    def getNext: (Boolean, T) =
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>      if (itr.hasNext)
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>        (true, itr.next)
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>      else
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>        null: (Boolean, T)
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>    /**
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>     * 1, 2, 2, 3
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>     * 
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>     *         nextPair  cur
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>     * construct    1
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>     * hasNext      1    -
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>     * hasNext.getNext  2    1
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>     *   - true // pred == false
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>     * hasNext      2    -
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>     * hasNext.getNext  2    2
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>     *   // pred == false
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>     * hasNext      2    -
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>     * hasNext.getNext  3    2
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>     *   - true // pred == false
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>     * hasNext      3    -
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>     * hasNext.getNext  null  3
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>     *   - false // nextPair eq null
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>     * 
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>     */
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>    def hasNext = if (isFirst) {
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>      //error(&quot;oops I iz testing init&quot;)
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>      isFirst = false
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>      (nextPair ne null)
+</td>
+          </tr><tr>
+            <td class="black">61</td>
+            <td>    } else {
+</td>
+          </tr><tr>
+            <td class="black">62</td>
+            <td>      if (nextPair ne null) {
+</td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>        val cur = nextPair
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>        nextPair = getNext
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>        if (nextPair ne null) {
+</td>
+          </tr><tr>
+            <td class="black">66</td>
+            <td>          // are they different?
+</td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>          if (predicate(cur._2, nextPair._2)) {
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>            // get again, recurse
+</td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>            hasNext
+</td>
+          </tr><tr>
+            <td class="black">70</td>
+            <td>          } else {
+</td>
+          </tr><tr>
+            <td class="black">71</td>
+            <td>            true
+</td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>        } else {
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>          false
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>        }
+</td>
+          </tr><tr>
+            <td class="black">76</td>
+            <td>      } else false
+</td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">79</td>
+            <td>    def next(): T =
+</td>
+          </tr><tr>
+            <td class="black">80</td>
+            <td>      if (nextPair ne null) {
+</td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>        nextPair._2
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>      } else throw new NoSuchElementException(&quot;next on empty iterator&quot;)
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>}
+</td>
+          </tr></tbody></table>

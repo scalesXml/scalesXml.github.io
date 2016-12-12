@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\package.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales
+
+<span class="keyword">package</span> <a title="object scales.xml.package" id="9601" class="keyword">object</a> xml <span title="ScalaObject" class="keyword">extends</span> dsl.<a href="dsl/Matchers.scala.html#9899" title="scales.xml.dsl.XPathMatcher">XPathMatcher</a>
+  <span class="keyword">with</span> impl.<a href="impl/XmlTypesDefaults.scala.html#10100" title="scales.xml.impl.XmlTypes">XmlTypes</a> 
+  <span class="keyword">with</span> impl.<a href="impl/XmlUtils.scala.html#10079" title="scales.xml.impl.Whitespace">Whitespace</a> 
+  <span class="keyword">with</span> impl.<a href="impl/XmlFactories.scala.html#10085" title="scales.xml.impl.XmlFactories">XmlFactories</a> 
+  <span class="keyword">with</span> impl.<a href="impl/XmlUtils.scala.html#10115" title="scales.xml.impl.XmlUtils">XmlUtils</a>
+  <span class="keyword">with</span> parser.sax.<a href="parser/sax/XmlParser.scala.html#10152" title="scales.xml.parser.sax.XmlParser">XmlParser</a> 
+  <span class="keyword">with</span> parser.pull.<a href="parser/pull/XmlPull.scala.html#10350" title="scales.xml.parser.pull.XmlPulls">XmlPulls</a> 
+  <span class="keyword">with</span> parser.pull.<a href="parser/pull/PullIteratees.scala.html#10308" title="scales.xml.parser.pull.PullIteratees">PullIteratees</a>
+  <span class="keyword">with</span> trax.<a href="trax/TraxSupport.scala.html#10475" title="scales.xml.trax.TraxSourceConversions">TraxSourceConversions</a>
+  <span class="keyword">with</span> serializers.<a href="serializers/XmlPrinter.scala.html#10940" title="scales.xml.serializers.XmlPrinter">XmlPrinter</a> 
+  <span class="keyword">with</span> serializers.<a href="serializers/SerializingIter.scala.html#10826" title="scales.xml.serializers.SerializingIter">SerializingIter</a>
+  <span class="keyword">with</span> equals.<a href="equals/XmlEquals.scala.html#11396" title="scales.xml.equals.XmlEquals">XmlEquals</a>
+  <span class="keyword">with</span> xpath.<a href="xpath/XmlPaths.scala.html#11858" title="scales.xml.xpath.XmlPaths">XmlPaths</a>
+  <span class="keyword">with</span> xpath.<a href="xpath/Functions.scala.html#11687" title="scales.xml.xpath.Functions">Functions</a> <span class="delimiter">{</span>
+
+  <span class="keyword">import</span> scales.xml.parser.strategies.<span class="delimiter">{</span>QNameMemoryOptimisation, PathOptimisationStrategy, QNameToken, MemoryOptimisationStrategy<span class="delimiter">}</span>
+
+  <span class="keyword">val</span> <a title="scales.xml.parser.strategies.PathOptimisationStrategy[scales.xml.parser.strategies.QNameToken]" id="15568">defaultPathOptimisation</a> : <a href="parser/strategies/OptimisingStrategies.scala.html#14748" title="scales.xml.parser.strategies.PathOptimisationStrategy[scales.xml.parser.strategies.QNameToken]">PathOptimisationStrategy</a><span class="delimiter">[</span>QNameToken<span class="delimiter">]</span> = <a href="parser/strategies/OptimisingStrategies.scala.html#14761" title="object scales.xml.parser.strategies.QNameMemoryOptimisation">QNameMemoryOptimisation</a>
+  <span class="keyword">val</span> <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[scales.xml.parser.strategies.QNameToken]" id="15570">defaultOptimisation</a> : <a href="parser/strategies/OptimisingStrategies.scala.html#14727" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[scales.xml.parser.strategies.QNameToken]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>QNameToken<span class="delimiter">]</span> = <a href="parser/strategies/OptimisingStrategies.scala.html#14761" title="object scales.xml.parser.strategies.QNameMemoryOptimisation">QNameMemoryOptimisation</a>
+
+  @deprecated<span class="delimiter">(</span>message=<span class="string">&quot;Functions - since 0.3 - imports are provided via the xml package object&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">val</span> <a title="java.lang.Object" id="15572">Functions</a> = <span title="java.lang.Object" class="keyword">new</span> <span title="java.lang.Object">Object</span><span class="delimiter">(</span><span class="delimiter">)</span>
+
+  <span class="comment">// forwarders</span>
+
+  <span class="comment">/**
+   * XPath type, provides all XPath Axe against a given collection of XmlPaths 
+   * @see [xpath.XPath]
+   */</span> 
+  <span class="keyword">type</span> <a title="[PT &lt;: Iterable[scales.xml.package.XmlPath]]scales.xml.xpath.XPath[PT]" id="15574">XPath</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Iterable[scales.xml.package.XmlPath]" id="15575">PT</a> &lt;: Iterable<span class="delimiter">[</span>XmlPath<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="xpath/XPathTypes.scala.html#11888" title="scales.xml.xpath.XPath[PT]">xpath</a>.XPath<span class="delimiter">[</span>PT<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * AttributePath provides access to the parent XmlPath
+   */</span>
+  <span class="keyword">type</span> <a title="scales.xml.xpath.AttributePath" id="15576">AttributePath</a> = xpath.<a href="xpath/XPathTypes.scala.html#11450" title="scales.xml.xpath.AttributePath">AttributePath</a>
+
+  <span class="comment">/**
+   * AttributePaths provides all XPath Axe that are attribute relevant against a given collection of attributes on a colletion of XmlPaths
+   * @see [xpath.AttributePaths]
+   */</span> 
+  <span class="keyword">type</span> <a title="[PT &lt;: Iterable[scales.xml.package.XmlPath]]scales.xml.xpath.AttributePaths[PT]" id="15577">AttributePaths</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Iterable[scales.xml.package.XmlPath]" id="15578">PT</a> &lt;: Iterable<span class="delimiter">[</span>XmlPath<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="xpath/XPathTypes.scala.html#11483" title="scales.xml.xpath.AttributePaths[PT]">xpath</a>.AttributePaths<span class="delimiter">[</span>PT<span class="delimiter">]</span>
+
+  <span class="comment">/**
+   * Basis for xmlpulls, an Iterator[PullType]
+   */</span>
+  <span class="keyword">type</span> <a title="scales.xml.parser.pull.XmlPull" id="15579">XmlPull</a> = scales.xml.parser.pull.<a href="parser/pull/PullIterator.scala.html#10329" title="scales.xml.parser.pull.XmlPull">XmlPull</a>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

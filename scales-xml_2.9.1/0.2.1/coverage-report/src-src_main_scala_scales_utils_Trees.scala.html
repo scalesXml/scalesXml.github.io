@@ -1,0 +1,257 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;Trees.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Trees.scala.html#Class_scales_utils_SectionWalk"><img src="class.png"></img>SectionWalk</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Trees.scala.html#Class_scales_utils_Tree"><img src="class.png"></img>Tree</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_Trees.scala.html#Trait_scales_utils_Trees"><img src="trait.png"></img>Trees</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">100 %</div>
+        <div class="greenBar" style="width:200px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>import scala.collection.IndexedSeqLike
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td>import scala.collection.generic.CanBuildFrom
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td><a id="Trait_scales_utils_Trees"></a>trait Trees {
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>  type ItemOrTree[Item &lt;: LeftLike[Item, Tree[Item, Section, CC]], Section, CC[X] &lt;: IndexedSeqLike[X, CC[X]]] = EitherLike[Item, Tree[Item, Section, CC]]
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td>  /** badly named the boolean should indicate if it has any children */
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>  type ItemOrSectionWalk[Item, Section] = Either[Item, SectionWalk[Section]]
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td><a id="Class_scales_utils_Tree"></a><a id="Class_scales_utils_SectionWalk"></a>  type TreeCBF[Item &lt;: LeftLike[Item, Tree[Item, Section, CC]], Section, CC[X] &lt;: IndexedSeqLike[X, CC[X]]] = CanBuildFrom[CC[_], ItemOrTree[Item, Section, CC], CC[ItemOrTree[Item, Section, CC]]]
+</td>
+          </tr><tr>
+            <td class="black">14</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>  final def fold[Item &lt;: LeftLike[Item, Tree[Item, Section, CC]], Section, CC[X] &lt;: IndexedSeqLike[X, CC[X]], A](a: A)(folder: (ItemOrSectionWalk[Item, Section], A) =&gt; A)(tree: Tree[Item, Section, CC]): A =
+</td>
+          </tr><tr>
+            <td class="green">16</td>
+            <td>    tree.fold(a)(folder)
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td> * IF hasChildren then isStart indicates that this particular occurence
+</td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td> * is the start of the element or the end
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td> * @author Chris
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td> *
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="green">27</td>
+            <td>case class SectionWalk[Section](section: Section, hasChildren: Boolean = false, isStart: Boolean = true)
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="green">29</td>
+            <td>case class Tree[Item &lt;: LeftLike[Item, Tree[Item, Section, CC]], Section, CC[C] &lt;: IndexedSeqLike[C, CC[C]]](section: Section, children: CC[ItemOrTree[Item, Section, CC]]) extends RightLike[Item, Tree[Item, Section, CC]]
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>//    (implicit cbf : TreeCBF[Item, Section, CC]) 
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>{
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>  def fold[A](a: A)(folder: (ItemOrSectionWalk[Item, Section], A) =&gt; A): A = {
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>    // @scala.annotation.tailrec can't optimize
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>    def ifold(a: A, folder: (ItemOrSectionWalk[Item, Section], A) =&gt; A,
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>      tree: Tree[Item, Section, CC]): A =
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>      // match against
+</td>
+          </tr><tr>
+            <td class="green">37</td>
+            <td>      tree match {
+</td>
+          </tr><tr>
+            <td class="green">38</td>
+            <td>        case Tree(top, x) if (x.isEmpty) =&gt; folder(Right(SectionWalk(top)), a)
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>        case Tree(top, children) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">40</td>
+            <td>          val temp = folder(Right(SectionWalk(top, hasChildren = true)), a)
+</td>
+          </tr><tr>
+            <td class="green">41</td>
+            <td>          val fres = children.foldLeft(temp) { (foldeda, iort) =&gt;
+</td>
+          </tr><tr>
+            <td class="green">42</td>
+            <td>            iort.fold( 
+</td>
+          </tr><tr>
+            <td class="green">43</td>
+            <td>        (item : Item) =&gt; folder(Left(item), foldeda), 
+</td>
+          </tr><tr>
+            <td class="green">44</td>
+            <td>        (rtree : Tree[Item,Section,CC]) =&gt; ifold(foldeda, folder, rtree)
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>      )
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>      /*iort match {
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>              case Left(item : Item) =&gt; folder(Left(item), foldeda)
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>              // recurse
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>              case Right(rtree : Tree[Item,Section,CC]) =&gt; ifold(foldeda, folder, rtree)
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td>            }*/
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td>          }
+</td>
+          </tr><tr>
+            <td class="green">52</td>
+            <td>          folder(Right(SectionWalk(top, hasChildren = true, isStart = false)), fres)
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>      }
+</td>
+          </tr><tr>
+            <td class="green">54</td>
+            <td>    ifold(a, folder, this)
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>}
+</td>
+          </tr></tbody></table>

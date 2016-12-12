@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\io\Buffers.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils.io
+
+<span class="keyword">import</span> scales.utils.resources._
+<span class="keyword">import</span> java.nio.ByteBuffer
+
+<span class="comment">/**
+ * ByteBuffer.allocate(bufferSize) backed pool
+ * 
+ * 8k default buffer size with a pool reduction of 30.
+ */</span> 
+<span class="keyword">class</span> <a title="class JVMBufferPool extends AnyRef with scales.utils.resources.SimpleUnboundedPool[java.nio.ByteBuffer]" id="scales.utils.io.JVMBufferPool">JVMBufferPool</a><a href="#scales.utils.io.JVMBufferPool" title="scales.utils.io.JVMBufferPool" class="delimiter">(</a> <span class="keyword">val</span> <a title="Int" id="scales.utils.io.JVMBufferPool.<init>$default$1">bufferSize</a> : <span title="Int">Int</span> = <span title="Int(8192)" class="int">8192</span>, <span class="keyword">override</span> <span class="keyword">val</span> <a title="Int" id="scales.utils.io.JVMBufferPool.<init>$default$2">reduceSize</a> : <span title="Int">Int</span> = <span title="Int(30)" class="int">30</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../resources/Resources.scala.html#scales.utils.resources;SimpleUnboundedPool" title="scales.utils.resources.SimpleUnboundedPool[java.nio.ByteBuffer]">SimpleUnboundedPool</a><span class="delimiter">[</span>ByteBuffer<span class="delimiter">]</span> <span class="delimiter">{</span>
+  
+  <span class="keyword">def</span> <a title="=&gt; java.nio.ByteBuffer" id="scales.utils.io;JVMBufferPool.create">create</a> =
+    <span title="java.nio.ByteBuffer.type">ByteBuffer</span>.<span title="(x$1: Int)java.nio.ByteBuffer">allocate</span><span class="delimiter">(</span><a href="#scales.utils.io.JVMBufferPool.<init>$default$1" title="=&gt; Int">bufferSize</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * ByteBuffer.allocateDirect(bufferSize) backed pool
+ * 
+ * 8k default buffer size with a pool reduction of 30
+ */</span> 
+<span class="keyword">class</span> <a title="class DirectBufferPool extends AnyRef with scales.utils.resources.SimpleUnboundedPool[java.nio.ByteBuffer]" id="scales.utils.io.DirectBufferPool">DirectBufferPool</a><a href="#scales.utils.io.DirectBufferPool" title="scales.utils.io.DirectBufferPool" class="delimiter">(</a> <span class="keyword">val</span> <a title="Int" id="scales.utils.io.DirectBufferPool.<init>$default$1">bufferSize</a> : <span title="Int">Int</span> = <span title="Int(8192)" class="int">8192</span>, <span class="keyword">override</span> <span class="keyword">val</span> <a title="Int" id="scales.utils.io.DirectBufferPool.<init>$default$2">reduceSize</a> : <span title="Int">Int</span> = <span title="Int(30)" class="int">30</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../resources/Resources.scala.html#scales.utils.resources;SimpleUnboundedPool" title="scales.utils.resources.SimpleUnboundedPool[java.nio.ByteBuffer]">SimpleUnboundedPool</a><span class="delimiter">[</span>ByteBuffer<span class="delimiter">]</span> <span class="delimiter">{</span>
+  
+  <span class="keyword">def</span> <a title="=&gt; java.nio.ByteBuffer" id="scales.utils.io;DirectBufferPool.create">create</a> =
+    <span title="java.nio.ByteBuffer.type">ByteBuffer</span>.<span title="(x$1: Int)java.nio.ByteBuffer">allocateDirect</span><span class="delimiter">(</span><a href="#scales.utils.io.DirectBufferPool.<init>$default$1" title="=&gt; Int">bufferSize</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Pools byte arrays
+ */</span> 
+<span class="keyword">class</span> <a title="class ByteArrayPool extends AnyRef with scales.utils.resources.SimpleUnboundedPool[Array[Byte]]" id="scales.utils.io;ByteArrayPool">ByteArrayPool</a><a href="#scales.utils.io;ByteArrayPool" title="scales.utils.io.ByteArrayPool" class="delimiter">(</a> <span class="keyword">val</span> <a title="Int" id="scales.utils.io;ByteArrayPool.byteArraySize">byteArraySize</a>: <span title="Int">Int</span> <span class="delimiter">)</span> <span class="keyword">extends</span> <a href="../resources/Resources.scala.html#scales.utils.resources;SimpleUnboundedPool" title="scales.utils.resources.SimpleUnboundedPool[Array[Byte]]">SimpleUnboundedPool</a><span class="delimiter">[</span>Array<span class="delimiter">[</span>Byte<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">{</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Array[Byte]" id="scales.utils.io;ByteArrayPool.create">create</a> = 
+    <span title="Array.type">Array</span>.<span title="[T](n1: Int)(implicit evidence$3: scala.reflect.ClassTag[T])Array[T]">ofDim</span><span title="(n1: Int)(implicit evidence$3: scala.reflect.ClassTag[Byte])Array[Byte]" class="delimiter">[</span><span title="Byte">Byte</span><span class="delimiter">]</span><span title="=&gt; scala.reflect.ClassTag[Byte]" class="delimiter">(</span><a href="#scales.utils.io;ByteArrayPool.byteArraySize" title="=&gt; Int">byteArraySize</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Default buffer pool backed by byte arrays
+ */</span> 
+<span class="keyword">object</span> <a title="scales.utils.io.DefaultBufferPool.type" id="scales.utils.io.DefaultBufferPool">DefaultBufferPool</a> <a href="#scales.utils.io.DefaultBufferPool" title="scales.utils.io.DefaultBufferPool.type" class="keyword">extends</a> <a href="#scales.utils.io.JVMBufferPool" title="scales.utils.io.JVMBufferPool">JVMBufferPool</a> <span class="delimiter">{</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Default Byte Array pool with 8k chunks
+ */</span> 
+<span class="keyword">object</span> <a title="scales.utils.io.DefaultByteArrayPool.type" id="scales.utils.io.DefaultByteArrayPool">DefaultByteArrayPool</a> <a href="#scales.utils.io.DefaultByteArrayPool" title="scales.utils.io.DefaultByteArrayPool.type" class="keyword">extends</a> <a href="#scales.utils.io;ByteArrayPool" title="scales.utils.io.ByteArrayPool">ByteArrayPool</a><span class="delimiter">(</span><span title="Int(8192)" class="int">8192</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

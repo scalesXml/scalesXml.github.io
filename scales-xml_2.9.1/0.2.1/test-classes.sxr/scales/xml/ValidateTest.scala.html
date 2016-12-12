@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\ValidateTest.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.xml</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="comment">/**</span>
+<a href="l4"></a><span id="l4"> * Test jaxp validation code via the TraxSupport</span>
+<a href="l5"></a><span id="l5"> */</span> </span>
+<a href="l6"></a><span id="l6"><span class="keyword">class</span> <a title="class ValidateTest extends junit.framework.TestCase with ScalaObject" id="14142">ValidateTest</a> <a href="#14142" title="ScalaObject" class="keyword">extends</a> junit.framework.<span title="junit.framework.TestCase">TestCase</span> <span class="delimiter">{</span></span>
+<a href="l7"></a><span id="l7"></span>
+<a href="l8"></a><span id="l8">  <span class="keyword">import</span> junit.framework.<span title="object junit.framework.Assert">Assert</span>._</span>
+<a href="l9"></a><span id="l9">  <span class="keyword">import</span> java.io._</span>
+<a href="l10"></a><span id="l10"></span>
+<a href="l11"></a><span id="l11">  <span class="keyword">import</span> scales.utils._</span>
+<a href="l12"></a><span id="l12">  <span class="keyword">import</span> <a href="../../../classes.sxr/scales/utils/ScalesUtils.scala.html#10619" title="object scales.utils.ScalesUtils">ScalesUtils</a>._</span>
+<a href="l13"></a><span id="l13"></span>
+<a href="l14"></a><span id="l14">  <span class="keyword">import</span> <a href="../utils/TestUtils.scala.html#11479" title="object scales.utils.TestUtils">TestUtils</a>._</span>
+<a href="l15"></a><span id="l15"></span>
+<a href="l16"></a><span id="l16">  <span class="keyword">import</span> <a href="../../../classes.sxr/scales/xml/ScalesXml.scala.html#11813" title="object scales.xml.ScalesXml">ScalesXml</a>._</span>
+<a href="l17"></a><span id="l17"></span>
+<a href="l18"></a><span id="l18">  <span class="keyword">def</span> <a title="=&gt; Unit" id="132642">testSimpleValidation</a> = <span class="delimiter">{</span></span>
+<a href="l19"></a><span id="l19">    <span class="keyword">val</span> <a title="scales.xml.Doc" id="132652">xsd</a> = <a href="../../../classes.sxr/scales/xml/XmlParser.scala.html#12442" title="(source: org.xml.sax.InputSource, strategy: scales.xml.PathOptimisationStrategy[scales.xml.ElemToken], parsers: scales.utils.Loaner[javax.xml.parsers.SAXParser])(implicit xmlVer: scales.xml.XmlVersion)scales.xml.Doc">loadXml</a><a href="../../../classes.sxr/scales/xml/QName.scala.html#87868" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="../../../classes.sxr/scales/xml/XmlParser.scala.html#87866" title="implicit scales.xml.XmlParserImplicits.readerToSource : (source: java.io.Reader)org.xml.sax.InputSource" class="keyword">new</a> <span title="java.io.FileReader">FileReader</span><span class="delimiter">(</span><span title="java.lang.String(&quot;./src/test/data/personal.xsd&quot;)" class="string">&quot;./src/test/data/personal.xsd&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l20"></a><span id="l20">    <span class="keyword">val</span> <a title="javax.xml.validation.Schema" id="132653">schema</a> = <a href="../../../classes.sxr/scales/xml/XmlFactories.scala.html#12550" title="(source: javax.xml.transform.Source, factory: scales.utils.Loaner[javax.xml.validation.SchemaFactory])javax.xml.validation.Schema">newSchema</a><span class="delimiter">(</span><a href="../../../classes.sxr/scales/xml/TraxSupport.scala.html#87895" title="implicit scales.xml.TraxConversionImplicits.docToSource : (doc: scales.xml.Doc)(implicit sf: scales.xml.package.SerializeableXml[scales.xml.Doc])javax.xml.transform.Source">xsd</a><span class="delimiter">)</span></span>
+<a href="l21"></a><span id="l21"></span>
+<a href="l22"></a><span id="l22">    <span class="keyword">val</span> <a title="scales.xml.Doc" id="132654">doc</a> = <a href="../../../classes.sxr/scales/xml/XmlParser.scala.html#12442" title="(source: org.xml.sax.InputSource, strategy: scales.xml.PathOptimisationStrategy[scales.xml.ElemToken], parsers: scales.utils.Loaner[javax.xml.parsers.SAXParser])(implicit xmlVer: scales.xml.XmlVersion)scales.xml.Doc">loadXml</a><a href="../../../classes.sxr/scales/xml/QName.scala.html#87868" title="=&gt; scales.xml.XmlVersion" class="delimiter">(</a><a href="../../../classes.sxr/scales/xml/XmlParser.scala.html#87866" title="implicit scales.xml.XmlParserImplicits.readerToSource : (source: java.io.Reader)org.xml.sax.InputSource" class="keyword">new</a> <span title="java.io.FileReader">FileReader</span><span class="delimiter">(</span><span title="java.lang.String(&quot;./src/test/data/personal-schema.xml&quot;)" class="string">&quot;./src/test/data/personal-schema.xml&quot;</span><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l23"></a><span id="l23">    <a href="#132653" title="javax.xml.validation.Schema">schema</a>.<span title="()javax.xml.validation.Validator">newValidator</span>.<span title="(x$1: javax.xml.transform.Source)Unit">validate</span><span class="delimiter">(</span><a href="../../../classes.sxr/scales/xml/TraxSupport.scala.html#87895" title="implicit scales.xml.TraxConversionImplicits.docToSource : (doc: scales.xml.Doc)(implicit sf: scales.xml.package.SerializeableXml[scales.xml.Doc])javax.xml.transform.Source">doc</a><span class="delimiter">)</span></span>
+<a href="l24"></a><span id="l24">  <span class="delimiter">}</span></span>
+<a href="l25"></a><span id="l25"></span>
+<a href="l26"></a><span id="l26"><span class="delimiter">}</span></span>
+<a href="l27"></a><span id="l27"></span>
+<a href="l28"></a><span id="l28">        </span>
+</pre>
+    </body>
+</html>

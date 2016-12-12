@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\package.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="keyword">package</span> <span class="keyword">object</span> <a title="object scales.xml.package" id="10604">xml</a> <span title="ScalaObject" class="keyword">extends</span> <a href="XmlTypes.scala.html#10549" title="scales.xml.XmlTypes">XmlTypes</a> </span>
+<a href="l4"></a><span id="l4">  <span class="keyword">with</span> <a href="XmlParser.scala.html#10442" title="scales.xml.XmlParser">XmlParser</a> </span>
+<a href="l5"></a><span id="l5">  <span class="keyword">with</span> <a href="XmlPaths.scala.html#10463" title="scales.xml.XmlPaths">XmlPaths</a></span>
+<a href="l6"></a><span id="l6">  <span class="keyword">with</span> <a href="XmlDSL.scala.html#10418" title="scales.xml.XPathMatcher">XPathMatcher</a> </span>
+<a href="l7"></a><span id="l7">  <span class="keyword">with</span> <a href="XmlPrinter.scala.html#10523" title="scales.xml.XmlPrinter">XmlPrinter</a> </span>
+<a href="l8"></a><span id="l8">  <span class="keyword">with</span> <a href="XmlUtils.scala.html#10598" title="scales.xml.Whitespace">Whitespace</a> </span>
+<a href="l9"></a><span id="l9">  <span class="keyword">with</span> <a href="XmlPull.scala.html#10529" title="scales.xml.XmlPulls">XmlPulls</a> </span>
+<a href="l10"></a><span id="l10">  <span class="keyword">with</span> <a href="XmlFactories.scala.html#10431" title="scales.xml.XmlFactories">XmlFactories</a> </span>
+<a href="l11"></a><span id="l11">  <span class="keyword">with</span> <a href="TraxSupport.scala.html#10408" title="scales.xml.TraxSourceConversions">TraxSourceConversions</a></span>
+<a href="l12"></a><span id="l12">  <span class="keyword">with</span> <a href="XmlUtils.scala.html#10599" title="scales.xml.XmlUtils">XmlUtils</a> <span class="delimiter">{</span></span>
+<a href="l13"></a><span id="l13"></span>
+<a href="l14"></a><span id="l14">  <span class="keyword">val</span> <a title="scales.xml.PathOptimisationStrategy[scales.xml.ElemToken]" id="10961">defaultPathOptimisation</a> : <a href="OptimisingStrategies.scala.html#9245" title="scales.xml.PathOptimisationStrategy[scales.xml.ElemToken]">PathOptimisationStrategy</a><span class="delimiter">[</span>ElemToken<span class="delimiter">]</span> = <a href="OptimisingStrategies.scala.html#9271" title="object scales.xml.QNameAndSpeedierStrategy">QNameAndSpeedierStrategy</a></span>
+<a href="l15"></a><span id="l15">  <span class="keyword">val</span> <a title="scales.xml.MemoryOptimisationStrategy[scales.xml.ElemToken]" id="10963">defaultOptimisation</a> : <a href="OptimisingStrategies.scala.html#9240" title="scales.xml.MemoryOptimisationStrategy[scales.xml.ElemToken]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>ElemToken<span class="delimiter">]</span> = <a href="OptimisingStrategies.scala.html#9271" title="object scales.xml.QNameAndSpeedierStrategy">QNameAndSpeedierStrategy</a></span>
+<a href="l16"></a><span id="l16"></span>
+<a href="l17"></a><span id="l17"><span class="delimiter">}</span></span>
+<a href="l18"></a><span id="l18"></span>
+<a href="l19"></a><span id="l19">        </span>
+</pre>
+    </body>
+</html>

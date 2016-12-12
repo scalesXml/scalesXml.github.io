@@ -1,0 +1,421 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;StackedThreadLocal.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_StackedThreadLocal.scala.html#Class_scales_utils_StackedThreadLocal"><img src="class.png"></img>StackedThreadLocal</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_StackedThreadLocal.scala.html#Object_scales_utils_StackedThreadLocal"><img src="object.png"></img>StackedThreadLocal</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td><a id="Object_scales_utils_StackedThreadLocal"></a>object StackedThreadLocal {
+</td>
+          </tr><tr>
+            <td class="red">4</td>
+            <td>  def apply[T]() = <span class="non">new StackedThreadLocal[T](None)
+</span></td>
+          </tr><tr>
+            <td class="red">5</td>
+            <td>  def apply[T](init: T) = <span class="non">new StackedThreadLocal[T](Some(init))
+</span></td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td> * Mimics ThreadLocalStorage except that the current tls value is the head of a stack.
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">12</td>
+            <td> * Stack items can be pushed and popped to allow tls nesting of values
+</td>
+          </tr><tr>
+            <td class="black">13</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="red">14</td>
+            <td><a id="Class_scales_utils_StackedThreadLocal"></a>class StackedThreadLocal[T] <span class="non">private (init: Option[T]) {
+</span></td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">17</td>
+            <td>   * If we have a default then we work from the default value not from the empty list.
+</td>
+          </tr><tr>
+            <td class="black">18</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="red">19</td>
+            <td>  private[this] val haveDefault = <span class="non">init.isDefined
+</span></td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">21</td>
+            <td>  private[this] val tls = <span class="non">new java.lang.ThreadLocal[java.util.ArrayList[T]]() {
+</span></td>
+          </tr><tr>
+            <td class="black">22</td>
+            <td>    override def initialValue = {
+</td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>      // create a value regardless == no null checks.
+</td>
+          </tr><tr>
+            <td class="black">24</td>
+            <td>      val c = new java.util.ArrayList[T]()
+</td>
+          </tr><tr>
+            <td class="black">25</td>
+            <td>      if (init.isDefined)
+</td>
+          </tr><tr>
+            <td class="black">26</td>
+            <td>        c.add(init.get.asInstanceOf[T with AnyRef])
+</td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>      c
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">29</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">30</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>   * 
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>   * @return the size of the current thread local.
+</td>
+          </tr><tr>
+            <td class="black">34</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>  def stackSize() = {
+</td>
+          </tr><tr>
+            <td class="red">36</td>
+            <td>    var c = <span class="non">tls.get()
+</span></td>
+          </tr><tr>
+            <td class="red">37</td>
+            <td>    <span class="non">c.size()
+</span></td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td>   * Get the current stacked thread local.
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>   * Use getStackSize() to see if the stack contains
+</td>
+          </tr><tr>
+            <td class="black">43</td>
+            <td>   * items.
+</td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>   * @return the variable
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>  def get() = {
+</td>
+          </tr><tr>
+            <td class="red">47</td>
+            <td>    var c = <span class="non">tls.get()
+</span></td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>    // can only return null here
+</td>
+          </tr><tr>
+            <td class="red">49</td>
+            <td>    if (<span class="non">c.size() == 0) {
+</span></td>
+          </tr><tr>
+            <td class="red">50</td>
+            <td>      <span class="non">None
+</span></td>
+          </tr><tr>
+            <td class="red">51</td>
+            <td>    } else <span class="non">Some(c.get(c.size() - 1))
+</span></td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">55</td>
+            <td>   * Removes an item from the stack.  
+</td>
+          </tr><tr>
+            <td class="black">56</td>
+            <td>   * 
+</td>
+          </tr><tr>
+            <td class="black">57</td>
+            <td>   * Note if the tls was given a default value then pushing and popping are still balanced.  If you push 3 times, popping 3 times will remove the tls, regardless of default values.
+</td>
+          </tr><tr>
+            <td class="black">58</td>
+            <td>   * @return true when it the last stack item has been removed
+</td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>  def pop(): Boolean = {
+</td>
+          </tr><tr>
+            <td class="red">61</td>
+            <td>    val c = <span class="non">tls.get()
+</span></td>
+          </tr><tr>
+            <td class="red">62</td>
+            <td>    <span class="non">c.remove(c.size() - 1)
+</span></td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">64</td>
+            <td>    val size = <span class="non">c.size()
+</span></td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">66</td>
+            <td>    if ((<span class="non">size == 1 &amp;&amp; haveDefault) || (size == 0 &amp;&amp; !haveDefault)) {
+</span></td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>      // really remove it
+</td>
+          </tr><tr>
+            <td class="red">68</td>
+            <td>      <span class="non">tls remove
+</span></td>
+          </tr><tr>
+            <td class="black">69</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">70</td>
+            <td>      <span class="non">true
+</span></td>
+          </tr><tr>
+            <td class="red">71</td>
+            <td>    } else <span class="non">false
+</span></td>
+          </tr><tr>
+            <td class="black">72</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">73</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">74</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">75</td>
+            <td>   * Add an item to the stack
+</td>
+          </tr><tr>
+            <td class="black">76</td>
+            <td>   * @param value
+</td>
+          </tr><tr>
+            <td class="black">77</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">78</td>
+            <td>  def push(value: T) {
+</td>
+          </tr><tr>
+            <td class="red">79</td>
+            <td>    var c = <span class="non">tls.get()
+</span></td>
+          </tr><tr>
+            <td class="red">80</td>
+            <td>    <span class="non">c.add(value)
+</span></td>
+          </tr><tr>
+            <td class="black">81</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">82</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">83</td>
+            <td>  /**
+</td>
+          </tr><tr>
+            <td class="black">84</td>
+            <td>   * Override the value
+</td>
+          </tr><tr>
+            <td class="black">85</td>
+            <td>   * 
+</td>
+          </tr><tr>
+            <td class="black">86</td>
+            <td>   * @param value
+</td>
+          </tr><tr>
+            <td class="black">87</td>
+            <td>   */
+</td>
+          </tr><tr>
+            <td class="black">88</td>
+            <td>  def reset(value: T) {
+</td>
+          </tr><tr>
+            <td class="red">89</td>
+            <td>    var c = <span class="non">tls.get()
+</span></td>
+          </tr><tr>
+            <td class="red">90</td>
+            <td>    if (<span class="non">c == null) {
+</span></td>
+          </tr><tr>
+            <td class="red">91</td>
+            <td>      <span class="non">c = new java.util.ArrayList[T]()
+</span></td>
+          </tr><tr>
+            <td class="red">92</td>
+            <td>      <span class="non">c.add(value)
+</span></td>
+          </tr><tr>
+            <td class="red">93</td>
+            <td>      <span class="non">tls.set(c)
+</span></td>
+          </tr><tr>
+            <td class="black">94</td>
+            <td>    } else {
+</td>
+          </tr><tr>
+            <td class="red">95</td>
+            <td>      <span class="non">c.set(c.size() - 1, value)
+</span></td>
+          </tr><tr>
+            <td class="black">96</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">97</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">98</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">99</td>
+            <td>}
+</td>
+          </tr></tbody></table>

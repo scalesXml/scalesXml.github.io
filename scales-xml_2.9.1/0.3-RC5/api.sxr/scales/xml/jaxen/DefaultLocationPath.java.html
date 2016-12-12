@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\jaxen\DefaultLocationPath.java</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="comment">/*
+ * $Header$
+ * $Revision: 1345 $
+ * $Date: 2009-10-22 07:25:23 -0400 (Thu, 22 Oct 2009) $
+ *
+ * ====================================================================
+ *
+ * Copyright 2000-2002 bob mcwhirter &amp; James Strachan.
+ * All rights reserved.
+ *
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ * 
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ * 
+ *   * Neither the name of the Jaxen Project nor the names of its
+ *     contributors may be used to endorse or promote products derived 
+ *     from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS
+ * IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ====================================================================
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Jaxen Project and was originally
+ * created by bob mcwhirter &lt;bob@werken.com&gt; and
+ * James Strachan &lt;jstrachan@apache.org&gt;.  For more information on the
+ * Jaxen Project, please see &lt;http://www.jaxen.org/&gt;.
+ *
+ * $Id: DefaultLocationPath.java 1345 2009-10-22 11:25:23Z elharo $
+ */</span>
+<span class="comment">/*
+ * $Header$
+ * $Revision: 1345 $
+ * $Date: 2009-10-22 07:25:23 -0400 (Thu, 22 Oct 2009) $
+ *
+ * ====================================================================
+ *
+ * Copyright 2000-2002 bob mcwhirter &amp; James Strachan.
+ * All rights reserved.
+ *
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ * 
+ *   * Redistributions of source code must retain the above copyright
+ *     notice, this list of conditions and the following disclaimer.
+ * 
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the
+ *     documentation and/or other materials provided with the distribution.
+ * 
+ *   * Neither the name of the Jaxen Project nor the names of its
+ *     contributors may be used to endorse or promote products derived 
+ *     from this software without specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS
+ * IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+ * OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * ====================================================================
+ * This software consists of voluntary contributions made by many
+ * individuals on behalf of the Jaxen Project and was originally
+ * created by bob mcwhirter &lt;bob@werken.com&gt; and
+ * James Strachan &lt;jstrachan@apache.org&gt;.  For more information on the
+ * Jaxen Project, please see &lt;http://www.jaxen.org/&gt;.
+ *
+ * $Id: DefaultLocationPath.java 1345 2009-10-22 11:25:23Z elharo $
+ */</span>
+<span class="keyword">package</span> scales.xml.jaxen;
+
+<span class="keyword">import</span> org.jaxen.*;
+<span class="keyword">import</span> org.jaxen.expr.*;
+<span class="keyword">import</span> java.util.List;
+<span class="keyword">import</span> java.util.ArrayList;
+<span class="keyword">import</span> java.util.LinkedList;
+<span class="keyword">import</span> java.util.Iterator;
+
+<span class="keyword">abstract</span> <span class="keyword">class</span> <a title="object scales.xml.jaxen.DefaultLocationPath" id="14655">DefaultLocationPath</a> <span class="keyword">extends</span> DefaultExpr implements LocationPath
+<span class="delimiter">{</span>
+    <span class="keyword">private</span> List <a title="java.util.List" id="122483">steps</a>;
+    
+    <span class="comment">/**
+     * Create a new empty location path.
+     */</span>
+    DefaultLocationPath<a href="#14655" title="scales.xml.jaxen.DefaultLocationPath" class="delimiter">(</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">this</span>.steps = <span class="keyword">new</span> LinkedList<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    public void <a title="(step: org.jaxen.expr.Step)Unit" id="122485">addStep</a><span class="delimiter">(</span>Step <a title="org.jaxen.expr.Step" id="128103">step</a><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        getSteps<span class="delimiter">(</span><span class="delimiter">)</span>.add<span class="delimiter">(</span>step<span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    public List <a title="()java.util.List[_]" id="122486">getSteps</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>.steps;
+    <span class="delimiter">}</span>
+
+    public Expr <a title="()org.jaxen.expr.Expr" id="122487">simplify</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        Iterator stepIter = getSteps<span class="delimiter">(</span><span class="delimiter">)</span>.iterator<span class="delimiter">(</span><span class="delimiter">)</span>;
+        Step eachStep = <span class="keyword">null</span>;
+        <span class="keyword">while</span> <span class="delimiter">(</span>stepIter.hasNext<span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            eachStep = <span class="delimiter">(</span>Step<span class="delimiter">)</span> stepIter.next<span class="delimiter">(</span><span class="delimiter">)</span>;
+            eachStep.simplify<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> <span class="keyword">this</span>;
+    <span class="delimiter">}</span>
+
+    public String <a title="()java.lang.String" id="122488">getText</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        StringBuffer buf = <span class="keyword">new</span> StringBuffer<span class="delimiter">(</span><span class="delimiter">)</span>;
+        Iterator stepIter = getSteps<span class="delimiter">(</span><span class="delimiter">)</span>.iterator<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">while</span> <span class="delimiter">(</span>stepIter.hasNext<span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            buf.append<span class="delimiter">(</span><span class="delimiter">(</span><span class="delimiter">(</span>Step<span class="delimiter">)</span> stepIter.next<span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>.getText<span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>stepIter.hasNext<span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+            <span class="delimiter">{</span>
+                buf.append<span class="delimiter">(</span><span class="string">&quot;/&quot;</span><span class="delimiter">)</span>;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> buf.toString<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    public String <a title="()java.lang.String" id="122489">toString</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        StringBuffer buf = <span class="keyword">new</span> StringBuffer<span class="delimiter">(</span><span class="delimiter">)</span>;
+        Iterator stepIter = getSteps<span class="delimiter">(</span><span class="delimiter">)</span>.iterator<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">while</span> <span class="delimiter">(</span>stepIter.hasNext<span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+        <span class="delimiter">{</span>
+            buf.append<span class="delimiter">(</span>stepIter.next<span class="delimiter">(</span><span class="delimiter">)</span>.toString<span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>;
+            <span class="keyword">if</span> <span class="delimiter">(</span>stepIter.hasNext<span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span>
+            <span class="delimiter">{</span>
+                buf.append<span class="delimiter">(</span><span class="string">&quot;/&quot;</span><span class="delimiter">)</span>;
+            <span class="delimiter">}</span>
+        <span class="delimiter">}</span>
+        <span class="keyword">return</span> buf.toString<span class="delimiter">(</span><span class="delimiter">)</span>;
+    <span class="delimiter">}</span>
+
+    public boolean <a title="()Boolean" id="122490">isAbsolute</a><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span class="delimiter">{</span>
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+    <span class="delimiter">}</span>
+
+    <span class="keyword">abstract</span> public Object <a title="(context: org.jaxen.Context)java.lang.Object" id="122491">evaluate</a><span class="delimiter">(</span>Context <a title="org.jaxen.Context" id="122503">context</a><span class="delimiter">)</span> throws JaxenException;
+
+    <span class="keyword">private</span> boolean <a title="(step: org.jaxen.expr.Step)Boolean" id="122492">isReverseAxis</a><span class="delimiter">(</span>Step <a title="org.jaxen.expr.Step" id="128109">step</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+
+        int axis = step.getAxis<span class="delimiter">(</span><span class="delimiter">)</span>;
+        <span class="keyword">return</span> axis == org.jaxen.saxpath.Axis.PRECEDING
+          || axis == org.jaxen.saxpath.Axis.PRECEDING_SIBLING
+          || axis == org.jaxen.saxpath.Axis.ANCESTOR
+          || axis == org.jaxen.saxpath.Axis.ANCESTOR_OR_SELF;
+    <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+
+
+        </pre>
+    </body>
+</html>

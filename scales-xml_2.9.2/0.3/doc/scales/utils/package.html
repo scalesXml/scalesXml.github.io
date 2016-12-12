@@ -1,0 +1,2325 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>scales.utils</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../lib/template.css" />
+      <script type="text/javascript" src="../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="value">
+      <div id="definition">
+        <img src="../../lib/package_big.png" />
+        <p id="owner"><a name="scales" class="extype" href="../package.html">scales</a></p>
+        <h1>utils</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">utils</span>
+      </span>
+      </h4>
+      
+      <div class="fullcommenttop" id="comment"></div>
+    
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="scales.utils.AbstractPathIterator" data-isabs="true">
+      <a id="AbstractPathIterator:AbstractPathIterator[Item, Section, CC, T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="AbstractPathIterator.html"><span class="name">AbstractPathIterator</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>, <span name="T">T</span>]</span><span class="result"> extends Iterator[T]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Provides an Iterator from a given initial path that traverses the entire tree, allows both forwards and backwards iteration.</p>
+    </li><li visbl="pub" name="scales.utils.AddAfter" data-isabs="false">
+      <a id="AddAfter:AddAfter[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AddAfter.html"><span class="name">AddAfter</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">(<span name="newPath">newPath: ItemOrTree[Item, Section, CC]</span>, <span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result"> extends FoldOperation[Item, Section, CC] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.AddBefore" data-isabs="false">
+      <a id="AddBefore:AddBefore[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AddBefore.html"><span class="name">AddBefore</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">(<span name="newPath">newPath: ItemOrTree[Item, Section, CC]</span>, <span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result"> extends FoldOperation[Item, Section, CC] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.AppendableWriter" data-isabs="false">
+      <a id="AppendableWriter:AppendableWriter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AppendableWriter.html"><span class="name">AppendableWriter</span></a><span class="params">(<span name="out">out: Appendable</span>)</span><span class="result"> extends Writer with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">To provide a writer to LSSerializer (and anything else that wants it <sup>_</sup>)
+we need to wrap appendables.</p>
+    </li><li visbl="pub" name="scales.utils.AsBooleanTrait#AsBoolean" data-isabs="false">
+      <a id="AsBoolean:(T) ⇒ Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">AsBoolean</span><span class="tparams">[<span name="T">T</span>]</span><span class="result"> = (T) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.AsBooleanTrait" class="extype" href="AsBooleanTrait.html">AsBooleanTrait</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.AsBooleanTrait" data-isabs="true">
+      <a id="AsBooleanTrait:AsBooleanTrait"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="AsBooleanTrait.html"><span class="name">AsBooleanTrait</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Provides the conversion type class AsBoolean, and simple matchers (extractor builders) to
+use them.</p>
+    </li><li visbl="pub" name="scales.utils.AsIs" data-isabs="false">
+      <a id="AsIs:AsIs[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AsIs.html"><span class="name">AsIs</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">()</span><span class="result"> extends FoldOperation[Item, Section, CC] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Use to make it easier to filter out large sets (for those that aren't interesting simply asis them, see tests for use case)
+</p>
+    </li><li visbl="pub" name="scales.utils.AsBooleanTrait.BooleanAndTMatcher" data-isabs="false">
+      <a id="BooleanAndTMatcher:BooleanAndTMatcher[X, T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="AsBooleanTrait$BooleanAndTMatcher.html"><span class="name">BooleanAndTMatcher</span></a><span class="tparams">[<span name="X">X</span>, <span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.AsBooleanTrait.BooleanMatcher" data-isabs="false">
+      <a id="BooleanMatcher:BooleanMatcher[X, T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="AsBooleanTrait$BooleanMatcher.html"><span class="name">BooleanMatcher</span></a><span class="tparams">[<span name="X">X</span>, <span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.CapturedIterator" data-isabs="false">
+      <a id="CapturedIterator:CapturedIterator[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="CapturedIterator.html"><span class="name">CapturedIterator</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends Iterator[A]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Array backed buffer, restart returns the captured data and then rejoins the original iterator
+</p>
+    </li><li visbl="pub" name="scales.utils.CloseOnNeed" data-isabs="true">
+      <a id="CloseOnNeed:CloseOnNeed"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="CloseOnNeed.html"><span class="name">CloseOnNeed</span></a><span class="result"> extends IsClosed</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Mostly exists for pulling but it is general</p>
+    </li><li visbl="pub" name="scales.utils.ConcurrentMapUtils" data-isabs="true">
+      <a id="ConcurrentMapUtils:ConcurrentMapUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ConcurrentMapUtils.html"><span class="name">ConcurrentMapUtils</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Simple helper functions to get and remove ConcurrentLinkedQueues from a ConcurrentHashMap
+</p>
+    </li><li visbl="pub" name="scales.utils.Creator" data-isabs="true">
+      <a id="Creator:Creator[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Creator.html"><span class="name">Creator</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Simple factory interface
+</p>
+    </li><li visbl="pub" name="scales.utils.DirectionIterator" data-isabs="false">
+      <a id="DirectionIterator:DirectionIterator[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DirectionIterator.html"><span class="name">DirectionIterator</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="result"> extends AbstractPathIterator[Item, Section, CC, Path[Item, Section, CC]]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Iterates over paths using the document order it skips over EndElemS events when going forward and StartElem when reversing, returning just the path.</p>
+    </li><li visbl="pub" name="scales.utils.DuplicateFilter" data-isabs="false">
+      <a id="DuplicateFilter:DuplicateFilter[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="DuplicateFilter.html"><span class="name">DuplicateFilter</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="orig">orig: Iterable[T]</span>, <span name="predicate">predicate: Equal[T]</span>)</span><span class="result"> extends Iterable[T] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Remove neighbouring duplicates based on a given predicate (defaults to _ eq _).</p>
+    </li><li visbl="pub" name="scales.utils.DynVariable" data-isabs="false">
+      <a id="DynVariable:DynVariable[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="DynVariable.html"><span class="name">DynVariable</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Similar to the scala DynamicVariable except that StackedThreadLocal is used and therefore remove is performed after the last pop.</p>
+    </li><li visbl="pub" name="scales.utils.EitherLike" data-isabs="true">
+      <a id="EitherLike:EitherLike[L, R]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="EitherLike.html"><span class="name">EitherLike</span></a><span class="tparams">[<span name="L">+L</span>, <span name="R">+R</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Either is great, perfect for what is needed, except for the indirection and the added memory and cpu costs thereof.</p>
+    </li><li visbl="pub" name="scales.utils.Equiv" data-isabs="false">
+      <a id="Equiv:Equiv[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Equiv.html"><span class="name">Equiv</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt"></p>
+    </li><li visbl="pub" name="scales.utils.Eval" data-isabs="true">
+      <a id="Eval:Eval[WHAT, RETURN]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Eval.html"><span class="name">Eval</span></a><span class="tparams">[<span name="WHAT">WHAT</span>, <span name="RETURN">RETURN</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Evals once, the developer must check its Done, equivalent to a .</p>
+    </li><li visbl="pub" name="scales.utils.FlatMapImplicits" data-isabs="true">
+      <a id="FlatMapImplicits:FlatMapImplicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="FlatMapImplicits.html"><span class="name">FlatMapImplicits</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.FlatMapIterator" data-isabs="true">
+      <a id="FlatMapIterator:FlatMapIterator[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="FlatMapIterator.html"><span class="name">FlatMapIterator</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="result"> extends Iterator[A]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Backwards compat for 2.</p>
+    </li><li visbl="pub" name="scales.utils.FoldError" data-isabs="true">
+      <a id="FoldError:FoldError"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="FoldError.html"><span class="name">FoldError</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.FoldOperation" data-isabs="true">
+      <a id="FoldOperation:FoldOperation[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="FoldOperation.html"><span class="name">FoldOperation</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Represents the base for operations that fold over a list of paths
+</p>
+    </li><li visbl="pub" name="scales.utils.Paths#FoldR" data-isabs="false">
+      <a id="FoldR:FoldR[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">FoldR</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="result"> = <span name="scala.Either" class="extype">Either</span>[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC], <a name="scales.utils.FoldError" class="extype" href="FoldError.html">FoldError</a>]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.IAEmpty" data-isabs="false">
+      <a id="IAEmpty:IAEmpty[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="IAEmpty.html"><span class="name">IAEmpty</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="params">()</span><span class="result"> extends ImmutableArrayProxy[A] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.IAOne" data-isabs="false">
+      <a id="IAOne:IAOne[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="IAOne.html"><span class="name">IAOne</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="params">(<span name="one">one: A</span>)</span><span class="result"> extends ImmutableArrayProxy[A] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.IAThree" data-isabs="false">
+      <a id="IAThree:IAThree[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="IAThree.html"><span class="name">IAThree</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="params">(<span name="one">one: A</span>, <span name="two">two: A</span>, <span name="three">three: A</span>)</span><span class="result"> extends ImmutableArrayProxy[A] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.IATwo" data-isabs="false">
+      <a id="IATwo:IATwo[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="IATwo.html"><span class="name">IATwo</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="params">(<span name="one">one: A</span>, <span name="two">two: A</span>)</span><span class="result"> extends ImmutableArrayProxy[A] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.ImmutableArray" data-isabs="false">
+      <a id="ImmutableArray:ImmutableArray[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArray.html"><span class="name">ImmutableArray</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="params">(<span name="base">base: Array[AnyRef]</span>, <span name="offset">offset: Int</span>, <span name="len">len: Int</span>)</span><span class="result"> extends ImmutableArrayT[A] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Object arrays are just faster, System.</p>
+    </li><li visbl="pub" name="scales.utils.ImmutableArrayAll" data-isabs="false">
+      <a id="ImmutableArrayAll:ImmutableArrayAll[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArrayAll.html"><span class="name">ImmutableArrayAll</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="params">(<span name="base">base: Array[AnyRef]</span>)</span><span class="result"> extends ImmutableArrayT[A] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Don't add the offset and length, for building a dom this save 8 per elem, only matters for large docs (can save 4mb from 54mb), but can't hurt small ones.</p>
+    </li><li visbl="pub" name="scales.utils.ImmutableArrayBuilder" data-isabs="false">
+      <a id="ImmutableArrayBuilder:ImmutableArrayBuilder[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArrayBuilder.html"><span class="name">ImmutableArrayBuilder</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends Builder[A, ImmutableArray[A]]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Behaves like an ArrayList/ArrayBuffer, growing an internal array as necessary
+</p>
+    </li><li visbl="pub" name="scales.utils.ImmutableArrayProxy" data-isabs="true">
+      <a id="ImmutableArrayProxy:ImmutableArrayProxy[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArrayProxy.html"><span class="name">ImmutableArrayProxy</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="result"> extends IndexedSeq[A] with IndexedSeqOptimized[A, ImmutableArrayProxy[A]] with GenericTraversableTemplate[A, ImmutableArrayProxy]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Wraps behaviour of ImmutableArray like objects, when the array is greater than 31 it will be swapped to Vector.</p>
+    </li><li visbl="pub" name="scales.utils.ImmutableArrayProxyBuilder" data-isabs="false">
+      <a id="ImmutableArrayProxyBuilder:ImmutableArrayProxyBuilder[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArrayProxyBuilder.html"><span class="name">ImmutableArrayProxyBuilder</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="params">()</span><span class="result"> extends Builder[A, ImmutableArrayProxy[A]] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Build array first then vector as needed
+</p>
+    </li><li visbl="pub" name="scales.utils.ImmutableArrayT" data-isabs="true">
+      <a id="ImmutableArrayT:ImmutableArrayT[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArrayT.html"><span class="name">ImmutableArrayT</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="result"> extends ImmutableArrayProxy[A]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Object arrays are just faster, System.</p>
+    </li><li visbl="pub" name="scales.utils.IsClosed" data-isabs="true">
+      <a id="IsClosed:IsClosed"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="IsClosed.html"><span class="name">IsClosed</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Trees#ItemOrSectionWalk" data-isabs="false">
+      <a id="ItemOrSectionWalk:ItemOrSectionWalk[Item, Section]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ItemOrSectionWalk</span><span class="tparams">[<span name="Item">Item</span>, <span name="Section">Section</span>]</span><span class="result"> = <span name="scala.Either" class="extype">Either</span>[Item, <a name="scales.utils.SectionWalk" class="extype" href="SectionWalk.html">SectionWalk</a>[Section]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">badly named the boolean should indicate if it has any children</p><div class="fullcomment"><div class="comment cmt"><p>badly named the boolean should indicate if it has any children</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Trees" class="extype" href="Trees.html">Trees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Trees#ItemOrTree" data-isabs="false">
+      <a id="ItemOrTree:ItemOrTree[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ItemOrTree</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="result"> = <a name="scales.utils.EitherLike" class="extype" href="EitherLike.html">EitherLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Trees" class="extype" href="Trees.html">Trees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.IterableUtils" data-isabs="true">
+      <a id="IterableUtils:IterableUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="IterableUtils.html"><span class="name">IterableUtils</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.IterableUtilsImplicits" data-isabs="true">
+      <a id="IterableUtilsImplicits:IterableUtilsImplicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="IterableUtilsImplicits.html"><span class="name">IterableUtilsImplicits</span></a><span class="result"> extends FlatMapImplicits</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.IterateeImplicits" data-isabs="true">
+      <a id="IterateeImplicits:IterateeImplicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="IterateeImplicits.html"><span class="name">IterateeImplicits</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Iteratees" data-isabs="true">
+      <a id="Iteratees:Iteratees"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Iteratees.html"><span class="name">Iteratees</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Collection of iterateees
+</p>
+    </li><li visbl="pub" name="scales.utils.LeftLike" data-isabs="true">
+      <a id="LeftLike:LeftLike[L, R]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="LeftLike.html"><span class="name">LeftLike</span></a><span class="tparams">[<span name="L">+L</span>, <span name="R">+R</span>]</span><span class="result"> extends LeftLikeProjection[L] with EitherLike[L, R]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.LeftLikeProjection" data-isabs="true">
+      <a id="LeftLikeProjection:LeftLikeProjection[L]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="LeftLikeProjection.html"><span class="name">LeftLikeProjection</span></a><span class="tparams">[<span name="L">+L</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.ListSet" data-isabs="false">
+      <a id="ListSet:ListSet[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="ListSet.html"><span class="name">ListSet</span></a><span class="tparams">[<span name="A">A</span>]</span><span class="result"> extends Iterable[A]</span>
+      </span>
+      </h4>
+      <p class="comment cmt"> Based on Scala ListSet, users provide the
+ comparisom operator and comparisom type for lookups.</p>
+    </li><li visbl="pub" name="scales.utils.Loaner" data-isabs="true">
+      <a id="Loaner:Loaner[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Loaner.html"><span class="name">Loaner</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Localised" data-isabs="false">
+      <a id="Localised:Localised"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Localised.html"><span class="name">Localised</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions" data-isabs="true">
+      <a id="LocalisedFunctions:LocalisedFunctions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="LocalisedFunctions.html"><span class="name">LocalisedFunctions</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.LocalisedImplicits" data-isabs="true">
+      <a id="LocalisedImplicits:LocalisedImplicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="LocalisedImplicits.html"><span class="name">LocalisedImplicits</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.LogLevel" data-isabs="true">
+      <a id="LogLevel:LogLevel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="LogLevel.html"><span class="name">LogLevel</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Simple loglevel marker trait
+</p>
+    </li><li visbl="pub" name="scales.utils.Logger" data-isabs="true">
+      <a id="Logger:Logger"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Logger.html"><span class="name">Logger</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Very simple logger, matches scala more.</p>
+    </li><li visbl="pub" name="scales.utils.Logs" data-isabs="true">
+      <a id="Logs:Logs"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Logs.html"><span class="name">Logs</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Simple trait for logging.</p>
+    </li><li visbl="pub" name="scales.utils.Node" data-isabs="false">
+      <a id="Node:Node[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Node.html"><span class="name">Node</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">(<span name="index">index: Int</span>, <span name="focus">focus: ItemOrTree[Item, Section, CC]</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Position in a parent Paths children
+</p>
+    </li><li visbl="pub" name="scales.utils.ConcurrentMapUtils.Once" data-isabs="true">
+      <a id="Once:Once[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">sealed </span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ConcurrentMapUtils$Once.html"><span class="name">Once</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Only created once and via calcOnce
+</p>
+    </li><li visbl="pub" name="scales.utils.Path" data-isabs="false">
+      <a id="Path:Path[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Path.html"><span class="name">Path</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">(<span name="top">top: EitherLike[Top[Item, Section, CC], Path[Item, Section, CC]]</span>, <span name="node">node: Node[Item, Section, CC]</span>, <span name="cbf">cbf: CanBuildFrom[CC[_], ItemOrTree[Item, Section, CC], CC[ItemOrTree[Item, Section, CC]]]</span>)</span><span class="result"> extends Iterable[Path[Item, Section, CC]] with RightLike[Top[Item, Section, CC], Path[Item, Section, CC]] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.PathFoldCombiner" data-isabs="false">
+      <a id="PathFoldCombiner:PathFoldCombiner[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="PathFoldCombiner.html"><span class="name">PathFoldCombiner</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Provide &amp; combinator to pass the result of one fold onto the other,
+in the case of failure no further joined functions will be called.</p>
+    </li><li visbl="pub" name="scales.utils.Paths#PathFoldR" data-isabs="false">
+      <a id="PathFoldR:(Path[Item, Section, CC]) ⇒ FoldR[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">PathFoldR</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="result"> = (<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]) ⇒ FoldR[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.PathImplicits" data-isabs="true">
+      <a id="PathImplicits:PathImplicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="PathImplicits.html"><span class="name">PathImplicits</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Paths" data-isabs="true">
+      <a id="Paths:Paths"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Paths.html"><span class="name">Paths</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Utility functions for Paths, sorting, moving between Paths, getting to the root etc.</p>
+    </li><li visbl="pub" name="scales.utils.Pool" data-isabs="true">
+      <a id="Pool:Pool[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Pool.html"><span class="name">Pool</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Simple pool interface
+</p>
+    </li><li visbl="pub" name="scales.utils.Position" data-isabs="true">
+      <a id="Position:Position[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Position.html"><span class="name">Position</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Positions only have meaning for a given Path(s).</p>
+    </li><li visbl="pub" name="scales.utils.ProxiedCloseOnNeedInputStream" data-isabs="false">
+      <a id="ProxiedCloseOnNeedInputStream:ProxiedCloseOnNeedInputStream"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ProxiedCloseOnNeedInputStream.html"><span class="name">ProxiedCloseOnNeedInputStream</span></a><span class="params">(<span name="orig">orig: InputStream</span>)</span><span class="result"> extends InputStream with CloseOnNeed with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Wrap the InputStream to allow better bracketing etc.</p>
+    </li><li visbl="pub" name="scales.utils.ProxiedCloseOnNeedReader" data-isabs="false">
+      <a id="ProxiedCloseOnNeedReader:ProxiedCloseOnNeedReader"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ProxiedCloseOnNeedReader.html"><span class="name">ProxiedCloseOnNeedReader</span></a><span class="params">(<span name="orig">orig: Reader</span>)</span><span class="result"> extends Reader with CloseOnNeed with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Wrap the Reader to allow better bracketing etc.</p>
+    </li><li visbl="pub" name="scales.utils.Remove" data-isabs="false">
+      <a id="Remove:Remove[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Remove.html"><span class="name">Remove</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">(<span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result"> extends FoldOperation[Item, Section, CC] with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Replace" data-isabs="false">
+      <a id="Replace:Replace[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Replace.html"><span class="name">Replace</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">(<span name="replaceWith">replaceWith: Iterable[ItemOrTree[Item, Section, CC]]</span>, <span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result"> extends FoldOperation[Item, Section, CC] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Allows replacing one path with many, may be easier to use the * version however
+</p>
+    </li><li visbl="pub" name="scales.utils.ReplaceWith" data-isabs="false">
+      <a id="ReplaceWith:ReplaceWith[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="ReplaceWith.html"><span class="name">ReplaceWith</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">(<span name="f">f: (Path[Item, Section, CC]) ⇒ FoldR[Item, Section, CC]</span>, <span name="wholeTree">wholeTree: Boolean</span>, <span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result"> extends FoldOperation[Item, Section, CC] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Allows foldPositions to be nested, only replace and delete makes sense here (afaict).</p>
+    </li><li visbl="pub" name="scales.utils.Resource" data-isabs="false">
+      <a id="Resource:Resource"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Resource.html"><span class="name">Resource</span></a><span class="params">(<span name="locale">locale: () ⇒ Locale</span>, <span name="file">file: (Class[_], Option[String])</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Based on the approach taken by Muse and others giving paramaterized messages using XXX as a token to replace.</p>
+    </li><li visbl="pub" name="scales.utils.Iteratees#ResumableIter" data-isabs="false">
+      <a id="ResumableIter:ResumableIter[E, A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ResumableIter</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="result"> = <span name="scalaz.IterV" class="extype">IterV</span>[E, (A, scalaz.IterV[E, _])]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees.ResumableIterIterator" data-isabs="false">
+      <a id="ResumableIterIterator:ResumableIterIterator[E, A, F]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="Iteratees$ResumableIterIterator.html"><span class="name">ResumableIterIterator</span></a><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>, <span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="result"> extends Iterator[A]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Iteratees#ResumableIterList" data-isabs="false">
+      <a id="ResumableIterList:ResumableIterList[E, A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ResumableIterList</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="result"> = <span name="scalaz.IterV" class="extype">IterV</span>[E, (Iterable[A], scalaz.IterV[E, _])]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.RightLike" data-isabs="true">
+      <a id="RightLike:RightLike[L, R]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="RightLike.html"><span class="name">RightLike</span></a><span class="tparams">[<span name="L">+L</span>, <span name="R">+R</span>]</span><span class="result"> extends RightLikeProjection[R] with EitherLike[L, R]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.RightLikeProjection" data-isabs="true">
+      <a id="RightLikeProjection:RightLikeProjection[R]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="RightLikeProjection.html"><span class="name">RightLikeProjection</span></a><span class="tparams">[<span name="R">+R</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.ScalesUtilsImplicits" data-isabs="true">
+      <a id="ScalesUtilsImplicits:ScalesUtilsImplicits"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesUtilsImplicits.html"><span class="name">ScalesUtilsImplicits</span></a><span class="result"> extends PathImplicits with LocalisedImplicits with IterateeImplicits with IterableUtilsImplicits</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Allows the user to extend a user package object with the scales.</p>
+    </li><li visbl="pub" name="scales.utils.SectionWalk" data-isabs="false">
+      <a id="SectionWalk:SectionWalk[Section]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="SectionWalk.html"><span class="name">SectionWalk</span></a><span class="tparams">[<span name="Section">Section</span>]</span><span class="params">(<span name="section">section: Section</span>, <span name="hasChildren">hasChildren: Boolean</span>, <span name="isStart">isStart: Boolean</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">IF hasChildren then isStart indicates that this particular occurence
+is the start of the element or the end
+</p>
+    </li><li visbl="pub" name="scales.utils.SimpleUnboundedPool" data-isabs="true">
+      <a id="SimpleUnboundedPool:SimpleUnboundedPool[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="SimpleUnboundedPool.html"><span class="name">SimpleUnboundedPool</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends Pool[T] with Loaner[T] with Creator[T]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Thread safe unbounded pool, if more objects are required it will simple create them.</p>
+    </li><li visbl="pub" name="scales.utils.StackUtils" data-isabs="true">
+      <a id="StackUtils:StackUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="StackUtils.html"><span class="name">StackUtils</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.StackedThreadLocal" data-isabs="false">
+      <a id="StackedThreadLocal:StackedThreadLocal[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="StackedThreadLocal.html"><span class="name">StackedThreadLocal</span></a><span class="tparams">[<span name="T">T</span>]</span><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Mimics ThreadLocalStorage except that the current tls value is the head of a stack.</p>
+    </li><li visbl="pub" name="scales.utils.Top" data-isabs="false">
+      <a id="Top:Top[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Top.html"><span class="name">Top</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: IndexedSeqLike[X, CC[X]]</span>]</span><span class="params">()</span><span class="result"> extends LeftLike[Top[Item, Section, CC], Path[Item, Section, CC]] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Represents the Top for a given Path, there isn't a tree above this
+</p>
+    </li><li visbl="pub" name="scales.utils.Tree" data-isabs="true">
+      <a id="Tree:Tree[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Tree.html"><span class="name">Tree</span></a><span class="tparams">[<span name="Item">Item &lt;: LeftLike[Item, Tree[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="C">C</span>]</span> &lt;: IndexedSeqLike[C, CC[C]]</span>]</span><span class="result"> extends RightLike[Item, Tree[Item, Section, CC]]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Trees#TreeCBF" data-isabs="false">
+      <a id="TreeCBF:TreeCBF[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TreeCBF</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="result"> = <span name="scala.collection.generic.CanBuildFrom" class="extype">CanBuildFrom</span>[CC[_], ItemOrTree[Item, Section, CC], CC[ItemOrTree[Item, Section, CC]]]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Trees" class="extype" href="Trees.html">Trees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Trees" data-isabs="true">
+      <a id="Trees:Trees"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="Trees.html"><span class="name">Trees</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.VectorImpl" data-isabs="false">
+      <a id="VectorImpl:VectorImpl[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="VectorImpl.html"><span class="name">VectorImpl</span></a><span class="tparams">[<span name="A">+A</span>]</span><span class="params">(<span name="ar">ar: Vector[A]</span>)</span><span class="result"> extends ImmutableArrayProxy[A] with Product with Serializable</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Proxy Vector.</p>
+    </li></ol>
+            </div>
+
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="scales.utils.LocalisedFunctions#$" data-isabs="false">
+      <a id="$(() ⇒ Locale):NumberFormat"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">$</span><span class="params">(<span class="implicit">implicit </span><span name="locale">locale: () ⇒ <span name="java.util.Locale" class="extype">Locale</span></span>)</span><span class="result">: <span name="java.text.NumberFormat" class="extype">NumberFormat</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#%" data-isabs="false">
+      <a id="%(() ⇒ Locale):NumberFormat"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name" title="gt4s: $percent">%</span><span class="params">(<span class="implicit">implicit </span><span name="locale">locale: () ⇒ <span name="java.util.Locale" class="extype">Locale</span></span>)</span><span class="result">: <span name="java.text.NumberFormat" class="extype">NumberFormat</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.IterableUtils#ALREADY_RESTARTED" data-isabs="false">
+      <a id="ALREADY_RESTARTED:String"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ALREADY_RESTARTED</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.IterableUtils" class="extype" href="IterableUtils.html">IterableUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.AddedBeforeOrAfterRoot" data-isabs="false">
+      <a id="AddedBeforeOrAfterRoot:AddedBeforeOrAfterRoot"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="AddedBeforeOrAfterRoot$.html"><span class="name">AddedBeforeOrAfterRoot</span></a><span class="result"> extends FoldError with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Debug" data-isabs="false">
+      <a id="Debug:Debug"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Debug$.html"><span class="name">Debug</span></a><span class="result"> extends LogLevel with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Error" data-isabs="false">
+      <a id="Error:Error"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Error$.html"><span class="name">Error</span></a><span class="result"> extends LogLevel with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.ImmutableArray" data-isabs="false">
+      <a id="ImmutableArray:ImmutableArray"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArray$.html"><span class="name">ImmutableArray</span></a><span class="result"> extends Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.ImmutableArrayProxy" data-isabs="false">
+      <a id="ImmutableArrayProxy:ImmutableArrayProxy"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArrayProxy$.html"><span class="name">ImmutableArrayProxy</span></a><span class="result"> extends SeqFactory[ImmutableArrayProxy]</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Starts an ImmutableArrayProxy and provides the CanBuildFrom
+</p>
+    </li><li visbl="pub" name="scales.utils.ImmutableArrayProxyBuilder" data-isabs="false">
+      <a id="ImmutableArrayProxyBuilder:ImmutableArrayProxyBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ImmutableArrayProxyBuilder$.html"><span class="name">ImmutableArrayProxyBuilder</span></a><span class="result"> extends Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Info" data-isabs="false">
+      <a id="Info:Info"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Info$.html"><span class="name">Info</span></a><span class="result"> extends LogLevel with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.IterableConversions" data-isabs="false">
+      <a id="IterableConversions:IterableConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="IterableConversions$.html"><span class="name">IterableConversions</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Alot of this has since been included in the Scala standard lib, as such its pretty much unused, included incase.</p>
+    </li><li visbl="pub" name="scales.utils.JavaEnumerationConversions" data-isabs="false">
+      <a id="JavaEnumerationConversions:JavaEnumerationConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaEnumerationConversions$.html"><span class="name">JavaEnumerationConversions</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">See normal Scala lib, its got alot more in nowadays.</p>
+    </li><li visbl="pub" name="scales.utils.JavaIterableConversions" data-isabs="false">
+      <a id="JavaIterableConversions:JavaIterableConversions"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="JavaIterableConversions$.html"><span class="name">JavaIterableConversions</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">General Scala to Iterable converters, allowing for java use.</p>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#LATIN" data-isabs="false">
+      <a id="LATIN:Charset"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">LATIN</span><span class="result">: <span name="java.nio.charset.Charset" class="extype">Charset</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.ListSet" data-isabs="false">
+      <a id="ListSet:ListSet"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ListSet$.html"><span class="name">ListSet</span></a><span class="result"> extends Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Loggers" data-isabs="false">
+      <a id="Loggers:Loggers"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Loggers$.html"><span class="name">Loggers</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Contains the logic for getting a logger
+</p>
+    </li><li visbl="pub" name="scales.utils.NoPaths" data-isabs="false">
+      <a id="NoPaths:NoPaths"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NoPaths$.html"><span class="name">NoPaths</span></a><span class="result"> extends FoldError with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.NoSingleRoot" data-isabs="false">
+      <a id="NoSingleRoot:NoSingleRoot"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NoSingleRoot$.html"><span class="name">NoSingleRoot</span></a><span class="result"> extends FoldError with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.NonLeftP" data-isabs="false">
+      <a id="NonLeftP:NonLeftP"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NonLeftP$.html"><span class="name">NonLeftP</span></a><span class="result"> extends LeftLikeProjection[Nothing]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.NonRightP" data-isabs="false">
+      <a id="NonRightP:NonRightP"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="NonRightP$.html"><span class="name">NonRightP</span></a><span class="result"> extends RightLikeProjection[Nothing]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Paths#NotSameRoot" data-isabs="false">
+      <a id="NotSameRoot:Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">NotSameRoot</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.PathFold" data-isabs="false">
+      <a id="PathFold:PathFold"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="PathFold$.html"><span class="name">PathFold</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.RandomSequence" data-isabs="false">
+      <a id="RandomSequence:RandomSequence"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RandomSequence$.html"><span class="name">RandomSequence</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Currently thread safe, java doc issue pending http://bugs.</p>
+    </li><li visbl="pub" name="scales.utils.RemovedRoot" data-isabs="false">
+      <a id="RemovedRoot:RemovedRoot"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="RemovedRoot$.html"><span class="name">RemovedRoot</span></a><span class="result"> extends FoldError with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Replace" data-isabs="false">
+      <a id="Replace:Replace"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Replace$.html"><span class="name">Replace</span></a><span class="result"> extends Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.ScalesUtils" data-isabs="false">
+      <a id="ScalesUtils:ScalesUtils"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ScalesUtils$.html"><span class="name">ScalesUtils</span></a><span class="result"> extends ScalesUtilsImplicits</span>
+      </span>
+      </h4>
+      <p class="comment cmt">Allows importing all scales.</p>
+    </li><li visbl="pub" name="scales.utils.StackedThreadLocal" data-isabs="false">
+      <a id="StackedThreadLocal:StackedThreadLocal"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="StackedThreadLocal$.html"><span class="name">StackedThreadLocal</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Trace" data-isabs="false">
+      <a id="Trace:Trace"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Trace$.html"><span class="name">Trace</span></a><span class="result"> extends LogLevel with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Tree" data-isabs="false">
+      <a id="Tree:Tree"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Tree$.html"><span class="name">Tree</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#US_ASCII" data-isabs="false">
+      <a id="US_ASCII:Charset"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">US_ASCII</span><span class="result">: <span name="java.nio.charset.Charset" class="extype">Charset</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#UTF_16" data-isabs="false">
+      <a id="UTF_16:Charset"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">UTF_16</span><span class="result">: <span name="java.nio.charset.Charset" class="extype">Charset</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#UTF_32" data-isabs="false">
+      <a id="UTF_32:Charset"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">UTF_32</span><span class="result">: <span name="java.nio.charset.Charset" class="extype">Charset</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#UTF_8" data-isabs="false">
+      <a id="UTF_8:Charset"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">UTF_8</span><span class="result">: <span name="java.nio.charset.Charset" class="extype">Charset</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Warn" data-isabs="false">
+      <a id="Warn:Warn"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="Warn$.html"><span class="name">Warn</span></a><span class="result"> extends LogLevel with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.utils.Iteratees#appendTo" data-isabs="false">
+      <a id="appendTo(Appendable):IterV[CharSequence, CharSequence]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">appendTo</span><span class="params">(<span name="to">to: <span name="java.lang.Appendable" class="extype">Appendable</span></span>)</span><span class="result">: <span name="scalaz.IterV" class="extype">IterV</span>[<span name="java.lang.CharSequence" class="extype">CharSequence</span>, <span name="java.lang.CharSequence" class="extype">CharSequence</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Append to an appendable, always returns Done for a line, cont for
+everything else
+TODO - should it be a pair including the appendable?
+</p><div class="fullcomment"><div class="comment cmt"><p>Append to an appendable, always returns Done for a line, cont for
+everything else
+TODO - should it be a pair including the appendable?
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.AsBooleanTrait#boolean" data-isabs="false">
+      <a id="boolean[T](T)((T) ⇒ Boolean):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">boolean</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="it">it: T</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (T) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.AsBooleanTrait" class="extype" href="AsBooleanTrait.html">AsBooleanTrait</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.AsBooleanTrait#booleanAndTMatcher" data-isabs="false">
+      <a id="booleanAndTMatcher[X, T]((X) ⇒ T)((T) ⇒ Boolean):BooleanAndTMatcher[X, T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">booleanAndTMatcher</span><span class="tparams">[<span name="X">X</span>, <span name="T">T</span>]</span><span class="params">(<span name="eval">eval: (X) ⇒ T</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (T) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="scales.utils.AsBooleanTrait.BooleanAndTMatcher" class="extype" href="AsBooleanTrait$BooleanAndTMatcher.html">BooleanAndTMatcher</a>[X, T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Calls eval to return a T t'.</p><div class="fullcomment"><div class="comment cmt"><p>Calls eval to return a T t'.  This T is then evaluated with the AsBoolean type class.</p><p>When evaluated to true (t',x) is returned.
+val Matcher = booleanMatcher( (x) =&gt; T ); val Matcher(t,x) = x
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.AsBooleanTrait" class="extype" href="AsBooleanTrait.html">AsBooleanTrait</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.AsBooleanTrait#booleanMatcher" data-isabs="false">
+      <a id="booleanMatcher[X, T]((X) ⇒ T)((T) ⇒ Boolean):BooleanMatcher[X, T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">booleanMatcher</span><span class="tparams">[<span name="X">X</span>, <span name="T">T</span>]</span><span class="params">(<span name="eval">eval: (X) ⇒ T</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (T) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="scales.utils.AsBooleanTrait.BooleanMatcher" class="extype" href="AsBooleanTrait$BooleanMatcher.html">BooleanMatcher</a>[X, T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Calls eval to return a T t'.</p><div class="fullcomment"><div class="comment cmt"><p>Calls eval to return a T t'.  This T is then evaluated with the AsBoolean type class.</p><p>When evaluated to true t' is returned.
+val Matcher = booleanMatcher( (x) =&gt; T ); val Matcher(t) = x
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.AsBooleanTrait" class="extype" href="AsBooleanTrait.html">AsBooleanTrait</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.ConcurrentMapUtils#calcOnce" data-isabs="false">
+      <a id="calcOnce[K, T](K,ConcurrentHashMap[K, Once[T]])(⇒ T):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">calcOnce</span><span class="tparams">[<span name="K">K</span>, <span name="T">T</span>]</span><span class="params">(<span name="key">key: K</span>, <span name="map">map: <span name="java.util.concurrent.ConcurrentHashMap" class="extype">ConcurrentHashMap</span>[K, <a name="scales.utils.ConcurrentMapUtils.Once" class="extype" href="ConcurrentMapUtils$Once.html">Once</a>[T]]</span>)</span><span class="params">(<span name="calc">calc: ⇒ T</span>)</span><span class="result">: T</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Calculates the value once and only once (using a lazy val), returning the result, use this approach for expensive calculations.</p><div class="fullcomment"><div class="comment cmt"><p>Calculates the value once and only once (using a lazy val), returning the result, use this approach for expensive calculations.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.ConcurrentMapUtils" class="extype" href="ConcurrentMapUtils.html">ConcurrentMapUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.IterableUtils#capture" data-isabs="false">
+      <a id="capture[A](Iterator[A]):CapturedIterator[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">capture</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="orig">orig: Iterator[A]</span>)</span><span class="result">: <a name="scales.utils.CapturedIterator" class="extype" href="CapturedIterator.html">CapturedIterator</a>[A]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.IterableUtils" class="extype" href="IterableUtils.html">IterableUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.IterableUtils#collectFirst" data-isabs="false">
+      <a id="collectFirst[A, B](Iterable[A])((A) ⇒ Option[B]):Option[B]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">collectFirst</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>]</span><span class="params">(<span name="in">in: Iterable[A]</span>)</span><span class="params">(<span name="f">f: (A) ⇒ <span name="scala.Option" class="extype">Option</span>[B]</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[B]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Collects the first Some
+</p><div class="fullcomment"><div class="comment cmt"><p>Collects the first Some
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.IterableUtils" class="extype" href="IterableUtils.html">IterableUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#comparePathPositions" data-isabs="false">
+      <a id="comparePathPositions[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Position[Item, Section, CC],Position[Item, Section, CC]):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">comparePathPositions</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path1">path1: <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC]</span>, <span name="path2">path2: <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC]</span>)</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">When paths are not in the same root, they are compared based on the identity hash of the given roots.</p><div class="fullcomment"><div class="comment cmt"><p>When paths are not in the same root, they are compared based on the identity hash of the given roots.  Of course this relies on that function
+having a decent vm implementation.
+</p></div><dl class="paramcmts block"><dt class="param">path1</dt><dd class="cmt"></dd><dt class="param">path2</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>1 if path1 is before path2, -1 if path2 is before path1, 0 if they are the same and NotSameRoot+-1 if they are not in the same root
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#comparePaths" data-isabs="false">
+      <a id="comparePaths[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Path[Item, Section, CC],Path[Item, Section, CC]):(Int, Position[Item, Section, CC], Position[Item, Section, CC])"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">comparePaths</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path1">path1: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>, <span name="path2">path2: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>)</span><span class="result">: (<span name="scala.Int" class="extype">Int</span>, <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC])</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">When paths are not in the same root, they are compared based on the identity hash of the given roots.</p><div class="fullcomment"><div class="comment cmt"><p>When paths are not in the same root, they are compared based on the identity hash of the given roots.  Of course this relies on that function
+having a decent vm implementation. See http://www.w3.org/TR/2007/REC-xpath20-20070123/#dt-document-order, tree order must remain constant.  Its
+also a pretty sensible approach for non xml trees.
+</p></div><dl class="paramcmts block"><dt class="param">path1</dt><dd class="cmt"></dd><dt class="param">path2</dt><dd class="cmt"></dd><dt>returns</dt><dd class="cmt"><p>1 if path1 is before path2, -1 if path2 is before path1, 0 if they are the same and NotSameRoot+-1 if they are not in the same root
+</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#comparePathsDirect" data-isabs="false">
+      <a id="comparePathsDirect[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Path[Item, Section, CC],Path[Item, Section, CC]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">comparePathsDirect</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path1">path1: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>, <span name="path2">path2: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Helper for comparePaths, will not evaluate position if the paths are equal
+</p><div class="fullcomment"><div class="comment cmt"><p>Helper for comparePaths, will not evaluate position if the paths are equal
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#comparePathsP" data-isabs="false">
+      <a id="comparePathsP[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]]((Position[Item, Section, CC], Path[Item, Section, CC]),(Position[Item, Section, CC], Path[Item, Section, CC])):(Int, Position[Item, Section, CC], Position[Item, Section, CC])"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">comparePathsP</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path1">path1: (<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])</span>, <span name="path2">path2: (<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])</span>)</span><span class="result">: (<span name="scala.Int" class="extype">Int</span>, <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC])</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#comparePathsT" data-isabs="false">
+      <a id="comparePathsT[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]], T]((Position[Item, Section, CC], (T, Path[Item, Section, CC])),(Position[Item, Section, CC], (T, Path[Item, Section, CC]))):(Int, Position[Item, Section, CC], Position[Item, Section, CC])"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">comparePathsT</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>, <span name="T">T</span>]</span><span class="params">(<span name="path1">path1: (<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], (T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]))</span>, <span name="path2">path2: (<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], (T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]))</span>)</span><span class="result">: (<span name="scala.Int" class="extype">Int</span>, <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC])</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.StackUtils#compareStack" data-isabs="false">
+      <a id="compareStack(Stack[Int],Stack[Int]):Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">compareStack</span><span class="params">(<span name="p1">p1: <span name="scala.collection.immutable.Stack" class="extype">Stack</span>[<span name="scala.Int" class="extype">Int</span>]</span>, <span name="p2">p2: <span name="scala.collection.immutable.Stack" class="extype">Stack</span>[<span name="scala.Int" class="extype">Int</span>]</span>)</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.StackUtils" class="extype" href="StackUtils.html">StackUtils</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@tailrec</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#deepestLast" data-isabs="false">
+      <a id="deepestLast[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Path[Item, Section, CC]):Path[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">deepestLast</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path">path: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>)</span><span class="result">: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Deepest last child
+</p><div class="fullcomment"><div class="comment cmt"><p>Deepest last child
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#defaultCharset" data-isabs="false">
+      <a id="defaultCharset:Charset"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">defaultCharset</span><span class="result">: <span name="java.nio.charset.Charset" class="extype">Charset</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">A usable default of UTF8 NOT the vm's Charset.</p><div class="fullcomment"><div class="comment cmt"><p>A usable default of UTF8 NOT the vm's Charset.defaultCharset based on its locale, use vmDefaultCharset for that
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#dropWhile" data-isabs="false">
+      <a id="dropWhile[E]((E) ⇒ Boolean):IterV[E, Option[E]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">dropWhile</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="f">f: (E) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="scalaz.IterV" class="extype">IterV</span>[E, <span name="scala.Option" class="extype">Option</span>[E]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">drop while iteratee</p><div class="fullcomment"><div class="comment cmt"><p>drop while iteratee</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.package#equivalent" data-isabs="false">
+      <a id="equivalent[A, B, C](A,B)(Equiv[C],(A) ⇒ C,(B) ⇒ C):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">equivalent</span><span class="tparams">[<span name="A">A</span>, <span name="B">B</span>, <span name="C">C</span>]</span><span class="params">(<span name="a">a: A</span>, <span name="b">b: B</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="equiv">equiv: <a name="scales.utils.Equiv" class="extype" href="Equiv.html">Equiv</a>[C]</span>, <span name="viewA">viewA: (A) ⇒ C</span>, <span name="viewB">viewB: (B) ⇒ C</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Are these two parameters (convertable to a C) equal for a given Equiv[C] instance
+</p><div class="fullcomment"><div class="comment cmt"><p>Are these two parameters (convertable to a C) equal for a given Equiv[C] instance
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.package" class="extype" href="package$.html">package</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.package#error" data-isabs="false">
+      <a id="error(String):Nothing"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">error</span><span class="params">(<span name="str">str: String</span>)</span><span class="result">: <span name="scala.Nothing" class="extype">Nothing</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.package" class="extype" href="package$.html">package</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#evalWith" data-isabs="false">
+      <a id="evalWith[FROM, TO]((FROM) ⇒ TO):IterV[FROM, TO]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">evalWith</span><span class="tparams">[<span name="FROM">FROM</span>, <span name="TO">TO</span>]</span><span class="params">(<span name="f">f: (FROM) ⇒ TO</span>)</span><span class="result">: <span name="scalaz.IterV" class="extype">IterV</span>[FROM, TO]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Calls the function param with the fed data and returns its
+result
+</p><div class="fullcomment"><div class="comment cmt"><p>Calls the function param with the fed data and returns its
+result
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#extract" data-isabs="false">
+      <a id="extract[E, A](ResumableIter[E, A]):Option[A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extract</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="iter">iter: ResumableIter[E, A]</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[A]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Extract the Some(value) from a Done or None if it was not Done.</p><div class="fullcomment"><div class="comment cmt"><p>Extract the Some(value) from a Done or None if it was not Done.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#extractCont" data-isabs="false">
+      <a id="extractCont[E, A](ResumableIter[E, A]):ResumableIter[E, A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractCont</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="iter">iter: ResumableIter[E, A]</span>)</span><span class="result">: ResumableIter[E, A]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Extract the continuation from a Done
+</p><div class="fullcomment"><div class="comment cmt"><p>Extract the continuation from a Done
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#filter" data-isabs="false">
+      <a id="filter[E]((E) ⇒ Boolean):IterV[E, Iterable[E]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">filter</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="f">f: (E) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="scalaz.IterV" class="extype">IterV</span>[E, Iterable[E]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">filter iteratee, greedily taking all content until eof</p><div class="fullcomment"><div class="comment cmt"><p>filter iteratee, greedily taking all content until eof</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#find" data-isabs="false">
+      <a id="find[E]((E) ⇒ Boolean):IterV[E, Option[E]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">find</span><span class="tparams">[<span name="E">E</span>]</span><span class="params">(<span name="f">f: (E) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <span name="scalaz.IterV" class="extype">IterV</span>[E, <span name="scala.Option" class="extype">Option</span>[E]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">&quot;find&quot; iteratee, finds Some(first) or None</p><div class="fullcomment"><div class="comment cmt"><p>&quot;find&quot; iteratee, finds Some(first) or None</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Trees#fold" data-isabs="false">
+      <a id="fold[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]], A](A)((ItemOrSectionWalk[Item, Section], A) ⇒ A)(Tree[Item, Section, CC]):A"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fold</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>, <span name="A">A</span>]</span><span class="params">(<span name="a">a: A</span>)</span><span class="params">(<span name="folder">folder: (ItemOrSectionWalk[Item, Section], A) ⇒ A</span>)</span><span class="params">(<span name="tree">tree: <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]</span>)</span><span class="result">: A</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Trees" class="extype" href="Trees.html">Trees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#foldI" data-isabs="false">
+      <a id="foldI[E, A]((E, A) ⇒ A)(A):ResumableIter[E, A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foldI</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="f">f: (E, A) ⇒ A</span>)</span><span class="params">(<span name="init">init: A</span>)</span><span class="result">: ResumableIter[E, A]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Stepwise fold, each element is evaluated but each one is returned as a result+resumable iter.</p><div class="fullcomment"><div class="comment cmt"><p>Stepwise fold, each element is evaluated but each one is returned as a result+resumable iter.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#foldOnDone" data-isabs="false">
+      <a id="foldOnDone[E, A, ACC, F](F[E])(ACC,ResumableIter[E, A])((ACC, A) ⇒ ACC)(Enumerator[F]):ACC"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foldOnDone</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>, <span name="ACC">ACC</span>, <span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span name="it">it: F[E]</span>)</span><span class="params">(<span name="initAcc">initAcc: ACC</span>, <span name="initResumable">initResumable: ResumableIter[E, A]</span>)</span><span class="params">(<span name="f">f: (ACC, A) ⇒ ACC</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="e">e: <span name="scalaz.Enumerator" class="extype">Enumerator</span>[F]</span>)</span><span class="result">: ACC</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Folds over the Iteratee with Cont or Done and Empty, returning with Done and EOF.</p><div class="fullcomment"><div class="comment cmt"><p>Folds over the Iteratee with Cont or Done and Empty, returning with Done and EOF.
+If there is a ping pong on enumerator -&gt; Cont -&gt; enumerator then we'll of course get an infinite loop.</p><p>foldI returns a ResumableIter that performs a fold until a done, this folds over the enumerator to return a value.</p><p>combine with onDone to get through chunks of data.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#foldPositions" data-isabs="false">
+      <a id="foldPositions[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Iterable[Path[Item, Section, CC]])((Path[Item, Section, CC]) ⇒ FoldOperation[Item, Section, CC])(TreeCBF[Item, Section, CC],ClassManifest[(Position[Item, Section, CC], Path[Item, Section, CC])]):FoldR[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foldPositions</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="locations">locations: Iterable[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>)</span><span class="params">(<span name="folder">folder: (<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]) ⇒ <a name="scales.utils.FoldOperation" class="extype" href="FoldOperation.html">FoldOperation</a>[Item, Section, CC]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>, <span name="cm">cm: ClassManifest[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>)</span><span class="result">: FoldR[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Folds over positions within a single path, for example all given children.</p><div class="fullcomment"><div class="comment cmt"><p>Folds over positions within a single path, for example all given children.  As such positions must be calculated.</p><p>Takes the first root, returning Right(NoSingleRoot) if any of the subsequent roots don't match.</p><p>folder retrieves the current path</p><p>Each iteration folds the resulting tree back into the path. As this function must maintain the Path it does not expose the new path root until the result.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#foldPositions" data-isabs="false">
+      <a id="foldPositions[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]], ACC](Iterable[Path[Item, Section, CC]],ACC)((ACC, Path[Item, Section, CC]) ⇒ (ACC, FoldOperation[Item, Section, CC]))(TreeCBF[Item, Section, CC],ClassManifest[(Position[Item, Section, CC], Path[Item, Section, CC])]):Either[(ACC, Path[Item, Section, CC]), FoldError]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">foldPositions</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>, <span name="ACC">ACC</span>]</span><span class="params">(<span name="locations">locations: Iterable[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>, <span name="accumulator">accumulator: ACC</span>)</span><span class="params">(<span name="folder">folder: (ACC, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]) ⇒ (ACC, <a name="scales.utils.FoldOperation" class="extype" href="FoldOperation.html">FoldOperation</a>[Item, Section, CC])</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>, <span name="cm">cm: ClassManifest[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>)</span><span class="result">: <span name="scala.Either" class="extype">Either</span>[(ACC, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]), <a name="scales.utils.FoldError" class="extype" href="FoldError.html">FoldError</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">As per the non accumalating version, folds over positions within a given tree but allows for an additional accumalation.</p><div class="fullcomment"><div class="comment cmt"><p>As per the non accumalating version, folds over positions within a given tree but allows for an additional accumalation.</p><p>The progress through the document is in reverse document order.  This ensures that transformations can always be safely composed, e.g. a delete of a path won't stop changes below it.  This, however, implies the developer must also handle any accumalation in &quot;reverse&quot;.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#following" data-isabs="false">
+      <a id="following[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Path[Item, Section, CC]):Option[Path[Item, Section, CC]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">following</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path">path: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">gets the next following:: sibling in document order
+</p><div class="fullcomment"><div class="comment cmt"><p>gets the next following:: sibling in document order
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.ConcurrentMapUtils#getList" data-isabs="false">
+      <a id="getList[K, T](K,ConcurrentHashMap[K, ConcurrentLinkedQueue[T]]):ConcurrentLinkedQueue[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getList</span><span class="tparams">[<span name="K">K</span>, <span name="T">T</span>]</span><span class="params">(<span name="key">key: K</span>, <span name="mapToList">mapToList: <span name="java.util.concurrent.ConcurrentHashMap" class="extype">ConcurrentHashMap</span>[K, <span name="java.util.concurrent.ConcurrentLinkedQueue" class="extype">ConcurrentLinkedQueue</span>[T]]</span>)</span><span class="result">: <span name="java.util.concurrent.ConcurrentLinkedQueue" class="extype">ConcurrentLinkedQueue</span>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.ConcurrentMapUtils" class="extype" href="ConcurrentMapUtils.html">ConcurrentMapUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#isDone" data-isabs="false">
+      <a id="isDone[E, A](IterV[E, A]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isDone</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="iter">iter: <span name="scalaz.IterV" class="extype">IterV</span>[E, A]</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Helper to identify dones
+</p><div class="fullcomment"><div class="comment cmt"><p>Helper to identify dones
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#isEOF" data-isabs="false">
+      <a id="isEOF[E, A](IterV[E, A]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isEOF</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="iter">iter: <span name="scalaz.IterV" class="extype">IterV</span>[E, A]</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Helper for done and eof
+</p><div class="fullcomment"><div class="comment cmt"><p>Helper for done and eof
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#isEmpty" data-isabs="false">
+      <a id="isEmpty[E, A](IterV[E, A]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isEmpty</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="iter">iter: <span name="scalaz.IterV" class="extype">IterV</span>[E, A]</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Helper for done and empty
+</p><div class="fullcomment"><div class="comment cmt"><p>Helper for done and empty
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.package#item" data-isabs="false">
+      <a id="item[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Item):ItemOrTree[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">item</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="item">item: Item</span>)</span><span class="result">: ItemOrTree[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.package" class="extype" href="package$.html">package</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#localised" data-isabs="false">
+      <a id="localised(() ⇒ Locale):Localised"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">localised</span><span class="params">(<span class="implicit">implicit </span><span name="locale">locale: () ⇒ <span name="java.util.Locale" class="extype">Locale</span></span>)</span><span class="result">: <a name="scales.utils.Localised" class="extype" href="Localised.html">Localised</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#localisedITexts" data-isabs="false">
+      <a id="localisedITexts(Iterable[(String, Seq[Any])])(Resource):Iterable[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">localisedITexts</span><span class="params">(<span name="texts">texts: Iterable[(String, Seq[<span name="scala.Any" class="extype">Any</span>])]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="resource">resource: <a name="scales.utils.Resource" class="extype" href="Resource.html">Resource</a></span>)</span><span class="result">: <span name="scala.collection.Iterable" class="extype">Iterable</span>[String]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#localisedTexts" data-isabs="false">
+      <a id="localisedTexts(Iterable[(String, Seq[Any])])(Resource):Iterable[String]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">localisedTexts</span><span class="params">(<span name="texts">texts: Iterable[(String, Seq[<span name="scala.Any" class="extype">Any</span>])]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="resource">resource: <a name="scales.utils.Resource" class="extype" href="Resource.html">Resource</a></span>)</span><span class="result">: <span name="scala.collection.Iterable" class="extype">Iterable</span>[String]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.IterableUtils#mkString" data-isabs="false">
+      <a id="mkString[A](Iterable[A],StringBuilder,String)((A) ⇒ String):StringBuilder"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">mkString</span><span class="tparams">[<span name="A">A</span>]</span><span class="params">(<span name="itr">itr: Iterable[A]</span>, <span name="builder">builder: <span name="java.lang.StringBuilder" class="extype">StringBuilder</span></span>, <span name="separator">separator: String</span>)</span><span class="params">(<span name="thunk">thunk: (A) ⇒ String</span>)</span><span class="result">: <span name="java.lang.StringBuilder" class="extype">StringBuilder</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Makes a StringBuilder from an iterable using the builder parameter.</p><div class="fullcomment"><div class="comment cmt"><p>Makes a StringBuilder from an iterable using the builder parameter.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.IterableUtils" class="extype" href="IterableUtils.html">IterableUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#moveTo" data-isabs="false">
+      <a id="moveTo[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Path[Item, Section, CC],Position[Item, Section, CC])(TreeCBF[Item, Section, CC]):Path[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">moveTo</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path">path: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>, <span name="newPos">newPos: <a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result">: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Navigates the path until the new position is reached, throws if either its a new root or the position is not reachable
+</p><div class="fullcomment"><div class="comment cmt"><p>Navigates the path until the new position is reached, throws if either its a new root or the position is not reachable
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#noPath" data-isabs="false">
+      <a id="noPath[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](TreeCBF[Item, Section, CC]):Path[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">noPath</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result">: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#onDone" data-isabs="false">
+      <a id="onDone[E, A](List[ResumableIter[E, A]]):ResumableIterList[E, A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">onDone</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="originalList">originalList: List[ResumableIter[E, A]]</span>)</span><span class="result">: ResumableIterList[E, A]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">onDone, iterates over the list of iteratees applying
+the element, when the resulting list contains a Done
+then the list of Dones is returned.</p><div class="fullcomment"><div class="comment cmt"><p>onDone, iterates over the list of iteratees applying
+the element, when the resulting list contains a Done
+then the list of Dones is returned.</p><p>One can use tuples or pattern matching to discern which
+of the original lists iteratees have matched.</p><p>Due to the return type of this iteratee all items
+in the list must return the same type and must return
+both an A and an IterV with the same interface to continue
+with the next and maintain state.</p><p>In the case of EOF, an empty list is returned
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.package#one" data-isabs="false">
+      <a id="one[T](T):List[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">one</span><span class="tparams">[<span name="T">T</span>]</span><span class="params">(<span name="i">i: T</span>)</span><span class="result">: List[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.package" class="extype" href="package$.html">package</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#positions" data-isabs="false">
+      <a id="positions[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Iterable[Path[Item, Section, CC]]):Iterable[(Position[Item, Section, CC], Path[Item, Section, CC])]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">positions</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="paths">paths: Iterable[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>)</span><span class="result">: Iterable[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Obtain the positions for the paths
+</p><div class="fullcomment"><div class="comment cmt"><p>Obtain the positions for the paths
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#positionsT" data-isabs="false">
+      <a id="positionsT[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]], T](Iterable[(T, Path[Item, Section, CC])]):Iterable[(Position[Item, Section, CC], (T, Path[Item, Section, CC]))]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">positionsT</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>, <span name="T">T</span>]</span><span class="params">(<span name="paths">paths: Iterable[(T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>)</span><span class="result">: Iterable[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], (T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]))]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">positions with tuples (T, Path)
+</p><div class="fullcomment"><div class="comment cmt"><p>positions with tuples (T, Path)
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#preceding" data-isabs="false">
+      <a id="preceding[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Path[Item, Section, CC]):Option[Path[Item, Section, CC]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">preceding</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path">path: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>)</span><span class="result">: <span name="scala.Option" class="extype">Option</span>[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">gets the next preceding:: sibling equivalent in document order, unlike XPath preceding:: it does not exclude parents
+</p><div class="fullcomment"><div class="comment cmt"><p>gets the next preceding:: sibling equivalent in document order, unlike XPath preceding:: it does not exclude parents
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.ConcurrentMapUtils#removeList" data-isabs="false">
+      <a id="removeList[K, T](K,ConcurrentHashMap[K, ConcurrentLinkedQueue[T]]):ConcurrentLinkedQueue[T]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeList</span><span class="tparams">[<span name="K">K</span>, <span name="T">T</span>]</span><span class="params">(<span name="key">key: K</span>, <span name="mapToList">mapToList: <span name="java.util.concurrent.ConcurrentHashMap" class="extype">ConcurrentHashMap</span>[K, <span name="java.util.concurrent.ConcurrentLinkedQueue" class="extype">ConcurrentLinkedQueue</span>[T]]</span>)</span><span class="result">: <span name="java.util.concurrent.ConcurrentLinkedQueue" class="extype">ConcurrentLinkedQueue</span>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.ConcurrentMapUtils" class="extype" href="ConcurrentMapUtils.html">ConcurrentMapUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.ConcurrentMapUtils#removeOr" data-isabs="false">
+      <a id="removeOr[K, T](K,ConcurrentHashMap[K, T])(⇒ T):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">removeOr</span><span class="tparams">[<span name="K">K</span>, <span name="T">T</span>]</span><span class="params">(<span name="key">key: K</span>, <span name="map">map: <span name="java.util.concurrent.ConcurrentHashMap" class="extype">ConcurrentHashMap</span>[K, T]</span>)</span><span class="params">(<span name="newT">newT: ⇒ T</span>)</span><span class="result">: T</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Removes the value, returning either it or a new item (stops end code worrying about nulls etc.</p><div class="fullcomment"><div class="comment cmt"><p>Removes the value, returning either it or a new item (stops end code worrying about nulls etc..
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.ConcurrentMapUtils" class="extype" href="ConcurrentMapUtils.html">ConcurrentMapUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.package#resource" data-isabs="false">
+      <a id="resource(AnyRef,String):URL"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resource</span><span class="params">(<span name="a">a: AnyRef</span>, <span name="path">path: String</span>)</span><span class="result">: <span name="java.net.URL" class="extype">URL</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Simple grabber of resources
+</p><div class="fullcomment"><div class="comment cmt"><p>Simple grabber of resources
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.package" class="extype" href="package$.html">package</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#rootPath" data-isabs="false">
+      <a id="rootPath[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Path[Item, Section, CC]):Path[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rootPath</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="path">path: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>)</span><span class="result">: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Returns the root path for its input, uses zipUp to ensure changes are kept
+</p><div class="fullcomment"><div class="comment cmt"><p>Returns the root path for its input, uses zipUp to ensure changes are kept
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#runningCount" data-isabs="false">
+      <a id="runningCount[E]:ResumableIter[E, Long]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">runningCount</span><span class="tparams">[<span name="E">E</span>]</span><span class="result">: ResumableIter[E, <span name="scala.Long" class="extype">Long</span>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">keeps a running count of each element, probably not of much use
+unless combined but acts as a good poc for ResumableIter
+</p><div class="fullcomment"><div class="comment cmt"><p>keeps a running count of each element, probably not of much use
+unless combined but acts as a good poc for ResumableIter
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.StackUtils#sameBase" data-isabs="false">
+      <a id="sameBase(Stack[Int],Stack[Int]):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sameBase</span><span class="params">(<span name="test">test: <span name="scala.collection.immutable.Stack" class="extype">Stack</span>[<span name="scala.Int" class="extype">Int</span>]</span>, <span name="against">against: <span name="scala.collection.immutable.Stack" class="extype">Stack</span>[<span name="scala.Int" class="extype">Int</span>]</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.StackUtils" class="extype" href="StackUtils.html">StackUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#sort" data-isabs="false">
+      <a id="sort[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Iterable[Path[Item, Section, CC]],Boolean)(ClassManifest[(Position[Item, Section, CC], Path[Item, Section, CC])]):Iterable[Path[Item, Section, CC]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sort</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="paths">paths: Iterable[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>, <span name="isDescending">isDescending: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cm">cm: ClassManifest[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>)</span><span class="result">: Iterable[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Sorts according to position of each path item, descending or descending based on a depth first then rightwise order.</p><div class="fullcomment"><div class="comment cmt"><p>Sorts according to position of each path item, descending or descending based on a depth first then rightwise order.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#sortPositions" data-isabs="false">
+      <a id="sortPositions[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Iterable[Path[Item, Section, CC]],Boolean)(ClassManifest[(Position[Item, Section, CC], Path[Item, Section, CC])]):Iterable[(Position[Item, Section, CC], Path[Item, Section, CC])]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sortPositions</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="paths">paths: Iterable[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>, <span name="isDescending">isDescending: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cm">cm: ClassManifest[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>)</span><span class="result">: Iterable[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Sorts according to position of each path item, descending or descending based on a depth first then rightwise order.</p><div class="fullcomment"><div class="comment cmt"><p>Sorts according to position of each path item, descending or descending based on a depth first then rightwise order.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#sortPositionsT" data-isabs="false">
+      <a id="sortPositionsT[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]], T](Iterable[(T, Path[Item, Section, CC])],Boolean)(ClassManifest[(Position[Item, Section, CC], (T, Path[Item, Section, CC]))]):Iterable[(Position[Item, Section, CC], (T, Path[Item, Section, CC]))]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sortPositionsT</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>, <span name="T">T</span>]</span><span class="params">(<span name="paths">paths: Iterable[(T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>, <span name="isDescending">isDescending: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cm">cm: ClassManifest[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], (T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]))]</span>)</span><span class="result">: Iterable[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], (T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]))]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">sortPositions with a  tuple T, Path
+</p><div class="fullcomment"><div class="comment cmt"><p>sortPositions with a  tuple T, Path
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#sortT" data-isabs="false">
+      <a id="sortT[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]], T](Iterable[(T, Path[Item, Section, CC])],Boolean)(ClassManifest[(Position[Item, Section, CC], (T, Path[Item, Section, CC]))]):Iterable[(T, Path[Item, Section, CC])]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sortT</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>, <span name="T">T</span>]</span><span class="params">(<span name="paths">paths: Iterable[(T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>, <span name="isDescending">isDescending: <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cm">cm: ClassManifest[(<a name="scales.utils.Position" class="extype" href="Position.html">Position</a>[Item, Section, CC], (T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]))]</span>)</span><span class="result">: Iterable[(T, <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC])]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">sort with a tuple T, Path
+</p><div class="fullcomment"><div class="comment cmt"><p>sort with a tuple T, Path
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.package#subtree" data-isabs="false">
+      <a id="subtree[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[A, CC[A]]](Section,CC[ItemOrTree[Item, Section, CC]])(TreeCBF[Item, Section, CC]):ItemOrTree[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">subtree</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="A">A</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[A, CC[A]]</span>]</span><span class="params">(<span name="section">section: Section</span>, <span name="children">children: CC[ItemOrTree[Item, Section, CC]]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result">: ItemOrTree[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.package" class="extype" href="package$.html">package</a></dd><dt>Annotations</dt><dd>
+                <span class="name">@inline</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#toPositionalEqual" data-isabs="false">
+      <a id="toPositionalEqual[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]]:Equal[Path[Item, Section, CC]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toPositionalEqual</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="result">: <span name="scalaz.Equal" class="extype">Equal</span>[<a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Provides an instance of the Equal type class for positional Equality
+</p><div class="fullcomment"><div class="comment cmt"><p>Provides an instance of the Equal type class for positional Equality
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#toResumableIter" data-isabs="false">
+      <a id="toResumableIter[E, A](IterV[E, A]):ResumableIter[E, A]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">implicit </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">toResumableIter</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>]</span><span class="params">(<span name="oiter">oiter: <span name="scalaz.IterV" class="extype">IterV</span>[E, A]</span>)</span><span class="result">: ResumableIter[E, A]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Converts a normal IterV[E,A] to a ResumableIter.</p><div class="fullcomment"><div class="comment cmt"><p>Converts a normal IterV[E,A] to a ResumableIter.</p><p>Does so by folding over the iter once for an input
+and when its Done starting again
+with the original iter.  This is close to restarting the iter on
+a new &quot;stream&quot;, otherwise all attempts to keep the Cont will be made.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Paths#top" data-isabs="false">
+      <a id="top[Item&lt;:LeftLike[Item, Tree[Item, Section, CC]], Section, CC&lt;:IndexedSeqLike[X, CC[X]]](Tree[Item, Section, CC])(TreeCBF[Item, Section, CC]):Path[Item, Section, CC]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">top</span><span class="tparams">[<span name="Item">Item &lt;: <a name="scales.utils.LeftLike" class="extype" href="LeftLike.html">LeftLike</a>[Item, <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]]</span>, <span name="Section">Section</span>, <span name="CC">CC<span class="tparams">[<span name="X">X</span>]</span> &lt;: <span name="scala.collection.IndexedSeqLike" class="extype">IndexedSeqLike</span>[X, CC[X]]</span>]</span><span class="params">(<span name="tree">tree: <a name="scales.utils.Tree" class="extype" href="Tree.html">Tree</a>[Item, Section, CC]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="cbf">cbf: TreeCBF[Item, Section, CC]</span>)</span><span class="result">: <a name="scales.utils.Path" class="extype" href="Path.html">Path</a>[Item, Section, CC]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Paths" class="extype" href="Paths.html">Paths</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.ConcurrentMapUtils#valueOf" data-isabs="false">
+      <a id="valueOf[K, T](K,ConcurrentHashMap[K, T])(⇒ T):T"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">valueOf</span><span class="tparams">[<span name="K">K</span>, <span name="T">T</span>]</span><span class="params">(<span name="key">key: K</span>, <span name="map">map: <span name="java.util.concurrent.ConcurrentHashMap" class="extype">ConcurrentHashMap</span>[K, T]</span>)</span><span class="params">(<span name="newT">newT: ⇒ T</span>)</span><span class="result">: T</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">retrieves the value of a concurrent hashmap against a given key, creating if necessary.</p><div class="fullcomment"><div class="comment cmt"><p>retrieves the value of a concurrent hashmap against a given key, creating if necessary.  Note it makes no gaurantee of once only semantics for the value generation
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.ConcurrentMapUtils" class="extype" href="ConcurrentMapUtils.html">ConcurrentMapUtils</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.LocalisedFunctions#vmDefaultCharset" data-isabs="false">
+      <a id="vmDefaultCharset:Charset"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">vmDefaultCharset</span><span class="result">: <span name="java.nio.charset.Charset" class="extype">Charset</span></span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">The jvm's default charset, based on system/machine/locale
+</p><div class="fullcomment"><div class="comment cmt"><p>The jvm's default charset, based on system/machine/locale
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.LocalisedFunctions" class="extype" href="LocalisedFunctions.html">LocalisedFunctions</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.utils.Iteratees#withIter" data-isabs="false">
+      <a id="withIter[E, A, F](F[E])(ResumableIter[E, A])(Enumerator[F]):ResumableIterIterator[E, A, F]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">withIter</span><span class="tparams">[<span name="E">E</span>, <span name="A">A</span>, <span name="F">F<span class="tparams">[<span name="_">_</span>]</span></span>]</span><span class="params">(<span name="it">it: F[E]</span>)</span><span class="params">(<span name="initResumable">initResumable: ResumableIter[E, A]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="e">e: <span name="scalaz.Enumerator" class="extype">Enumerator</span>[F]</span>)</span><span class="result">: <a name="scales.utils.Iteratees.ResumableIterIterator" class="extype" href="Iteratees$ResumableIterIterator.html">ResumableIterIterator</a>[E, A, F]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Converts the iteratee/enumerator/source triple into a Iterator
+</p><div class="fullcomment"><div class="comment cmt"><p>Converts the iteratee/enumerator/source triple into a Iterator
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.utils.Iteratees" class="extype" href="Iteratees.html">Iteratees</a></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\parser\pull\XmlPull.scala</title>
+        <script type="text/javascript" src="../../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.parser.pull
+
+<span class="keyword">import</span> javax.xml.stream._
+<span class="keyword">import</span> scales.utils.io.<span class="delimiter">{</span>ProxiedCloseOnNeedReader, ProxiedCloseOnNeedInputStream<span class="delimiter">}</span>
+<span class="keyword">import</span> scales.utils.resources.<span class="delimiter">{</span>CloseOnNeed, IsClosed, Pool<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.xml.impl
+<span class="keyword">import</span> impl.<span class="delimiter">{</span>FromParser, IsFromParser<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>
+  ScalesXml,
+  defaultOptimisation,
+  defaultPathOptimisation,
+  Doc,
+  XmlItem,
+  Elem, EndElem,
+  Xml10,
+  XmlEvent
+  <span class="delimiter">}</span>
+
+<span class="keyword">import</span> scales.xml.parser.strategies.<span class="delimiter">{</span>MemoryOptimisationStrategy, PathOptimisationStrategy, OptimisationToken<span class="delimiter">}</span>
+
+<span class="keyword">import</span> java.io._
+
+<span class="comment">/**
+ * We should give the stax what it needs to work best, especially with encoding issues, converting streams to readers etc is teh suxor
+ */</span>
+<span class="keyword">sealed</span> <span class="keyword">trait</span> <a title="trait SourceUser extends java.lang.Object with scales.utils.resources.CloseOnNeed" id="10323">SourceUser</a> <span class="keyword">extends</span> <a href="../../../utils/resource/Resources.scala.html#14380" title="scales.utils.resources.CloseOnNeed">CloseOnNeed</a> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(xf: javax.xml.stream.XMLInputFactory)javax.xml.stream.XMLStreamReader" id="108091">getReader</a><span class="delimiter">(</span> <a title="javax.xml.stream.XMLInputFactory" id="108093">xf</a> : <span title="javax.xml.stream.XMLInputFactory">XMLInputFactory</span> <span class="delimiter">)</span> : <span title="javax.xml.stream.XMLStreamReader">XMLStreamReader</span>
+<span class="delimiter">}</span>
+
+case <span class="keyword">class</span> <a title="class CharacterSourceUser extends java.lang.Object with scales.xml.parser.pull.SourceUser with ScalaObject with Product with Serializable" id="108974">CharacterSourceUser</a><a href="#108974" title="ScalaObject" class="delimiter">(</a><a title="scales.utils.io.ProxiedCloseOnNeedReader" id="108235">reader</a> : <a href="../../../utils/io/Proxied.scala.html#14284" title="scales.utils.io.ProxiedCloseOnNeedReader">ProxiedCloseOnNeedReader</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10323" title="scales.xml.parser.pull.SourceUser">SourceUser</a> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(xf: javax.xml.stream.XMLInputFactory)javax.xml.stream.XMLStreamReader" id="108099">getReader</a><span class="delimiter">(</span> <a title="javax.xml.stream.XMLInputFactory" id="108105">xf</a> : <span title="javax.xml.stream.XMLInputFactory">XMLInputFactory</span> <span class="delimiter">)</span> = <a href="#108105" title="javax.xml.stream.XMLInputFactory">xf</a>.<span title="(x$1: java.io.Reader)javax.xml.stream.XMLStreamReader">createXMLStreamReader</span><span class="delimiter">(</span><a href="#108235" title="=&gt; scales.utils.io.ProxiedCloseOnNeedReader">reader</a><span class="delimiter">)</span>
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="108100">doClose</a> = <a href="#108235" title="=&gt; scales.utils.io.ProxiedCloseOnNeedReader">reader</a>.<a href="../../../utils/resource/Resources.scala.html#29009" title="=&gt; Unit">closeResource</a>
+<span class="delimiter">}</span>
+
+case <span class="keyword">class</span> <a title="class ByteSourceUser extends java.lang.Object with scales.xml.parser.pull.SourceUser with ScalaObject with Product with Serializable" id="108978">ByteSourceUser</a><a href="#108978" title="ScalaObject" class="delimiter">(</a><a title="scales.utils.io.ProxiedCloseOnNeedInputStream" id="108229">stream</a> : <a href="../../../utils/io/Proxied.scala.html#14275" title="scales.utils.io.ProxiedCloseOnNeedInputStream">ProxiedCloseOnNeedInputStream</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#10323" title="scales.xml.parser.pull.SourceUser">SourceUser</a> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(xf: javax.xml.stream.XMLInputFactory)javax.xml.stream.XMLStreamReader" id="108163">getReader</a><span class="delimiter">(</span> <a title="javax.xml.stream.XMLInputFactory" id="108169">xf</a> : <span title="javax.xml.stream.XMLInputFactory">XMLInputFactory</span> <span class="delimiter">)</span> = <a href="#108169" title="javax.xml.stream.XMLInputFactory">xf</a>.<span title="(x$1: java.io.InputStream)javax.xml.stream.XMLStreamReader">createXMLStreamReader</span><span class="delimiter">(</span><a href="#108229" title="=&gt; scales.utils.io.ProxiedCloseOnNeedInputStream">stream</a><span class="delimiter">)</span>
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="108164">doClose</a> = <a href="#108229" title="=&gt; scales.utils.io.ProxiedCloseOnNeedInputStream">stream</a>.<a href="../../../utils/resource/Resources.scala.html#29009" title="=&gt; Unit">closeResource</a>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Wraps the stax cursor inteface (iterator just adds weight here).
+ *
+ * scala.xml.pull uses a thread based on stax approach to push/pull events.
+ *
+ * This code uses stax only, extra iteratee goodness will appear curtousy of scalaz....
+ *
+ */</span>
+<span class="keyword">trait</span> <a title="trait XmlPulls extends java.lang.Object with ScalaObject" id="10350">XmlPulls</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Provides proxied sources to the pull parsers, the stream provided is the stream used
+   */</span> 
+  <span class="keyword">def</span> <a title="(source: org.xml.sax.InputSource)scales.xml.parser.pull.SourceUser with Product with Serializable" id="15637">sourceUser</a><span class="delimiter">(</span> <a title="org.xml.sax.InputSource" id="108225">source</a> : org.xml.sax.<span title="org.xml.sax.InputSource">InputSource</span> <span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="comment">// use character stream in preference</span>
+    <span class="keyword">val</span> <a title="java.io.Reader" id="108228">cs</a> = <a href="#108225" title="org.xml.sax.InputSource">source</a>.<span title="()java.io.Reader">getCharacterStream</span><span class="delimiter">(</span><span class="delimiter">)</span>
+    <span title="&lt;none&gt; extends scales.xml.parser.pull.SourceUser with Product with Serializable" class="keyword">if</span> <span class="delimiter">(</span><a href="#108228" title="java.io.Reader">cs</a> <span title="(x$1: AnyRef)Boolean">eq</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> 
+      <a href="#108978" title="(stream: scales.utils.io.ProxiedCloseOnNeedInputStream)scales.xml.parser.pull.ByteSourceUser">ByteSourceUser</a><span class="delimiter">(</span><a href="../../../utils/io/Proxied.scala.html#86400" title="(orig: java.io.InputStream)scales.utils.io.ProxiedCloseOnNeedInputStream">ProxiedCloseOnNeedInputStream</a><span class="delimiter">(</span><a href="#108225" title="org.xml.sax.InputSource">source</a>.<span title="()java.io.InputStream">getByteStream</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span><span class="delimiter">)</span>
+    <span class="keyword">else</span> 
+      <a href="#108974" title="(reader: scales.utils.io.ProxiedCloseOnNeedReader)scales.xml.parser.pull.CharacterSourceUser">CharacterSourceUser</a><span class="delimiter">(</span><a href="../../../utils/io/Proxied.scala.html#86296" title="(orig: java.io.Reader)scales.utils.io.ProxiedCloseOnNeedReader">ProxiedCloseOnNeedReader</a><span class="delimiter">(</span><a href="#108228" title="java.io.Reader">cs</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+
+  <span class="comment">/**
+   * Load xml via pull parsing
+   */</span> 
+  <span class="keyword">def</span> <a title="[RToken &lt;: scales.xml.parser.strategies.OptimisationToken](source: org.xml.sax.InputSource, strategy: scales.xml.parser.strategies.PathOptimisationStrategy[RToken], parserFactoryPool: scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory], closeAfterUse: Boolean)scales.xml.Doc" id="15638">pullXmlCompletely</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.parser.strategies.OptimisationToken" id="108260">RToken</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span> <a title="org.xml.sax.InputSource" id="108253">source</a> : org.xml.sax.<span title="org.xml.sax.InputSource">InputSource</span>, <a title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]" id="108258">strategy</a> : <a href="../strategies/OptimisingStrategies.scala.html#14748" title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]">PathOptimisationStrategy</a><span class="delimiter">[</span>RToken<span class="delimiter">]</span> = <a href="../../package.scala.html#15568" title="=&gt; scales.xml.parser.strategies.PathOptimisationStrategy[scales.xml.parser.strategies.QNameToken]">defaultPathOptimisation</a>, <a title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]" id="108261">parserFactoryPool</a> : <a href="../../../utils/resource/Resources.scala.html#14392" title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]">Pool</a><span class="delimiter">[</span>XMLInputFactory<span class="delimiter">]</span> = impl.<a href="../../impl/XmlFactories.scala.html#9936" title="object scales.xml.impl.DefaultStaxInputFactoryPool">DefaultStaxInputFactoryPool</a>, <a title="Boolean" id="108264">closeAfterUse</a> : <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span> : <a href="../../XmlTypes.scala.html#9489" title="scales.xml.Doc">Doc</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="XmlPulls extends scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed" id="108271">pull</a> = <a href="#15647" title="[RToken &lt;: scales.xml.parser.strategies.OptimisationToken](source: org.xml.sax.InputSource, optimisationStrategy: scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken], parserFactoryPool: scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory], closeAfterUse: Boolean)scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed">pullXml</a><span title="(source: org.xml.sax.InputSource, optimisationStrategy: scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken], parserFactoryPool: scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory], closeAfterUse: Boolean)scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed" class="delimiter">[</span><a href="#108260" title="RToken">RToken</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#108253" title="org.xml.sax.InputSource">source</a>, <a href="#108258" title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]">strategy</a>, <a href="#108261" title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]">parserFactoryPool</a>, <a href="#108264" title="Boolean">closeAfterUse</a><span class="delimiter">)</span>
+    
+    <a href="../../XmlTypes.scala.html#94317" title="(rootElem: scales.xml.package.XmlTree, prolog: scales.xml.Prolog, end: scales.xml.EndMisc)scales.xml.Doc">Doc</a><span class="delimiter">(</span><a href="#15641" title="(pull: Iterator[XmlPulls.this.PullType], strategy: scales.xml.parser.strategies.PathOptimisationStrategy[RToken])scales.xml.package.XmlTree">toTree</a><span class="delimiter">(</span><a href="#108271" title="XmlPulls extends scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed">pull</a>, <a href="#108258" title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]">strategy</a><span class="delimiter">)</span>, <a href="#108271" title="XmlPulls extends scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed">pull</a>.<a href="PullIterator.scala.html#46896" title="=&gt; scales.xml.Prolog">prolog</a>, <a href="#108271" title="XmlPulls extends scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed">pull</a>.<a href="PullIterator.scala.html#46897" title="=&gt; scales.xml.EndMisc">end</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Attempts to convert a stream to a tree
+   */</span> 
+  <span class="keyword">def</span> <a title="[RToken &lt;: scales.xml.parser.strategies.OptimisationToken](pull: Iterator[XmlPulls.this.PullType], strategy: scales.xml.parser.strategies.PathOptimisationStrategy[RToken])scales.xml.package.XmlTree" id="15641">toTree</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.parser.strategies.OptimisationToken" id="108307">RToken</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span> <a title="Iterator[XmlPulls.this.PullType]" id="108301">pull</a> : <span title="Iterator[XmlPulls.this.PullType]">Iterator</span><span class="delimiter">[</span>PullType<span class="delimiter">]</span>, <a title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]" id="108305">strategy</a> : <a href="../strategies/OptimisingStrategies.scala.html#14748" title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]">PathOptimisationStrategy</a><span class="delimiter">[</span>RToken<span class="delimiter">]</span> = <a href="../../package.scala.html#15568" title="=&gt; scales.xml.parser.strategies.PathOptimisationStrategy[scales.xml.parser.strategies.QNameToken]">defaultPathOptimisation</a> <span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="RToken" id="108308">token</a> = <a href="#108305" title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]">strategy</a>.<a href="../strategies/OptimisingStrategies.scala.html#32815" title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)RToken">createToken</a><span class="delimiter">(</span><a href="../../Namespaces.scala.html#9688" title="object scales.xml.Xml10">Xml10</a>, <a href="../../impl/FromParser.scala.html#10002" title="object scales.xml.impl.IsFromParser">IsFromParser</a><span class="delimiter">)</span>
+    <span class="comment">// start with nothing</span>
+    <span class="keyword">val</span> <a title="scales.xml.impl.TreeProxies" id="108309">buf</a> = <span title="scales.xml.impl.TreeProxies" class="keyword">new</span> impl.<a href="../../impl/TreeProxies.scala.html#10064" title="scales.xml.impl.TreeProxies">TreeProxies</a><span class="delimiter">(</span><span class="delimiter">)</span>
+
+    <span title="Unit" class="keyword">while</span><span class="delimiter">(</span> <a href="#108301" title="Iterator[XmlPulls.this.PullType]">pull</a>.<span title="=&gt; Boolean">hasNext</span> <span class="delimiter">)</span><span class="delimiter">{</span>
+      <a href="#108301" title="Iterator[XmlPulls.this.PullType]">pull</a>.<span title="()XmlPulls.this.PullType">next</span> <span title="Unit" class="keyword">match</span> <span class="delimiter">{</span>
+	<span class="keyword">case</span> <span title="Unit">Left</span><span class="delimiter">(</span> <a title="scales.xml.XmlItem" id="108312">i</a> : <a href="../../XmlTypes.scala.html#9699" title="scales.xml.XmlItem">XmlItem</a> <span class="delimiter">)</span> =&gt; 
+	  <a href="#108309" title="scales.xml.impl.TreeProxies">buf</a>.<a href="../../impl/TreeProxies.scala.html#103164" title="(i: scales.xml.XmlItem)Unit">addChild</a><span class="delimiter">(</span><a href="#108312" title="scales.xml.XmlItem">i</a><span class="delimiter">)</span>
+	<span class="keyword">case</span> <span title="Unit">Left</span><span class="delimiter">(</span> <a title="scales.xml.Elem" id="108314">e</a> : <a href="../../XmlTypes.scala.html#9537" title="scales.xml.Elem">Elem</a> <span class="delimiter">)</span> =&gt; 
+	  <a href="#108305" title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]">strategy</a>.<a href="../strategies/OptimisingStrategies.scala.html#105858" title="(stack: scales.xml.impl.TreeProxies, elem: scales.xml.Elem, token: RToken)Unit">beginSubTree</a><span class="delimiter">(</span><a href="#108309" title="scales.xml.impl.TreeProxies">buf</a>, <a href="#108314" title="scales.xml.Elem">e</a>, <a href="#108308" title="RToken">token</a><span class="delimiter">)</span>
+	<span class="keyword">case</span> <span title="Unit">Right</span><span class="delimiter">(</span><a title="scales.xml.EndElem" id="108323">endElem</a><span class="delimiter">)</span> =&gt; 
+	  <a href="#108305" title="scales.xml.parser.strategies.PathOptimisationStrategy[RToken]">strategy</a>.<a href="../strategies/OptimisingStrategies.scala.html#105857" title="(xml: scales.xml.impl.TreeProxies, token: RToken)Unit">elementEnd</a><span class="delimiter">(</span><a href="#108309" title="scales.xml.impl.TreeProxies">buf</a>, <a href="#108308" title="RToken">token</a><span class="delimiter">)</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+    <a href="#108309" title="scales.xml.impl.TreeProxies">buf</a>.<a href="../../impl/TreeProxies.scala.html#103167" title="=&gt; scales.xml.package.XmlTree">tree</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Creates a new XmlPull based on source for direct handling of the stream.  Note to close the stream you must bracket.
+   * The individual XmlPull will be closed after the document end but the stream will remain open
+   */</span>
+  <span class="keyword">def</span> <a title="[RToken &lt;: scales.xml.parser.strategies.OptimisationToken](source: org.xml.sax.InputSource, optimisationStrategy: scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken], parserFactoryPool: scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory])(scales.utils.resources.CloseOnNeed, scales.xml.parser.pull.XmlPull)" id="15644">pullXmlResource</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.parser.strategies.OptimisationToken" id="108342">RToken</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span><a title="org.xml.sax.InputSource" id="108336">source</a>: org.xml.sax.<span title="org.xml.sax.InputSource">InputSource</span>, <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]" id="108340">optimisationStrategy</a> : <a href="../strategies/OptimisingStrategies.scala.html#14727" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>RToken<span class="delimiter">]</span> = <a href="../../package.scala.html#15570" title="=&gt; scales.xml.parser.strategies.MemoryOptimisationStrategy[scales.xml.parser.strategies.QNameToken]">defaultOptimisation</a>, <a title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]" id="108343">parserFactoryPool</a>: <a href="../../../utils/resource/Resources.scala.html#14392" title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]">Pool</a><span class="delimiter">[</span>XMLInputFactory<span class="delimiter">]</span> = impl.<a href="../../impl/XmlFactories.scala.html#9936" title="object scales.xml.impl.DefaultStaxInputFactoryPool">DefaultStaxInputFactoryPool</a><span class="delimiter">)</span> : <span title="(scales.utils.resources.CloseOnNeed, scales.xml.parser.pull.XmlPull)" class="delimiter">(</span>CloseOnNeed, XmlPull<span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="&lt;none&gt; extends scales.xml.parser.pull.SourceUser with Product with Serializable" id="108349">stream</a> = <a href="#15637" title="(source: org.xml.sax.InputSource)scales.xml.parser.pull.SourceUser with Product with Serializable">sourceUser</a><span class="delimiter">(</span><a href="#108336" title="org.xml.sax.InputSource">source</a><span class="delimiter">)</span>
+
+    <span class="keyword">val</span> <a title="javax.xml.stream.XMLInputFactory" id="108350">pf</a> = <a href="#108343" title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]">parserFactoryPool</a>.<a href="../../../utils/resource/Resources.scala.html#58924" title="=&gt; javax.xml.stream.XMLInputFactory">grab</a>
+    
+    <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.impl.FromParser" id="108351">weAreInAParser</a> : <a href="../../impl/FromParser.scala.html#9989" title="scales.xml.impl.FromParser">FromParser</a> = <a href="../../impl/FromParser.scala.html#10002" title="object scales.xml.impl.IsFromParser">IsFromParser</a>
+
+    <span class="keyword">import</span> <a href="../../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>.defaultVersion
+
+    <span title="(_1: scales.xml.parser.pull.SourceUser with Product with Serializable, _2: java.lang.Object with scales.xml.parser.pull.XmlPull{type Token = RToken})(scales.xml.parser.pull.SourceUser with Product with Serializable, java.lang.Object with scales.xml.parser.pull.XmlPull{type Token = RToken})" class="delimiter">(</span><a href="#108349" title="&lt;none&gt; extends scales.xml.parser.pull.SourceUser with Product with Serializable">stream</a>,
+      <a href="#108357" title="java.lang.Object with scales.xml.parser.pull.XmlPull{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.parser.pull.XmlPull" id="108357">XmlPull</a> <span class="delimiter">{</span>
+	<span class="keyword">type</span> <a title="RToken" id="108528">Token</a> = <a href="#108342" title="RToken">RToken</a>
+	
+	<span class="keyword">val</span> <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]" id="108529">strategy</a> = <a href="#108340" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">optimisationStrategy</a>
+	<span class="keyword">implicit</span> <span class="keyword">val</span> <a title="RToken" id="108531">token</a> = <a href="#108340" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">optimisationStrategy</a>.<a href="../strategies/OptimisingStrategies.scala.html#32815" title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)RToken">createToken</a>
+
+        <span class="keyword">val</span> <a title="javax.xml.stream.XMLStreamReader" id="108533">parser</a> = <a href="#108349" title="&lt;none&gt; extends scales.xml.parser.pull.SourceUser with Product with Serializable">stream</a>.<a href="#108091" title="(xf: javax.xml.stream.XMLInputFactory)javax.xml.stream.XMLStreamReader">getReader</a><span class="delimiter">(</span><a href="#108350" title="javax.xml.stream.XMLInputFactory">pf</a><span class="delimiter">)</span>
+        <span class="keyword">val</span> <a title="() =&gt; Unit" id="108535">resourceCloser</a> = <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; <span class="delimiter">{</span> <a href="#108343" title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]">parserFactoryPool</a>.<a href="../../../utils/resource/Resources.scala.html#58925" title="(t: javax.xml.stream.XMLInputFactory)Unit">giveBack</a><span class="delimiter">(</span><a href="#108350" title="javax.xml.stream.XMLInputFactory">pf</a><span class="delimiter">)</span> <span class="delimiter">}</span> <span class="comment">//noop its now the CloseOnNeeds job</span>
+
+        <a href="PullIterator.scala.html#46904" title="=&gt; Unit">start</a>
+      <span class="delimiter">}</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Creates a new XmlPull based on source.  By default it will close the stream after use.
+   */</span>
+  <span class="keyword">def</span> <a title="[RToken &lt;: scales.xml.parser.strategies.OptimisationToken](source: org.xml.sax.InputSource, optimisationStrategy: scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken], parserFactoryPool: scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory], closeAfterUse: Boolean)scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed" id="15647">pullXml</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.parser.strategies.OptimisationToken" id="108280">RToken</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span><a title="org.xml.sax.InputSource" id="108272">source</a>: org.xml.sax.<span title="org.xml.sax.InputSource">InputSource</span>, <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]" id="108278">optimisationStrategy</a> : <a href="../strategies/OptimisingStrategies.scala.html#14727" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>RToken<span class="delimiter">]</span> = <a href="../../package.scala.html#15570" title="=&gt; scales.xml.parser.strategies.MemoryOptimisationStrategy[scales.xml.parser.strategies.QNameToken]">defaultOptimisation</a>, <a title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]" id="108281">parserFactoryPool</a>: <a href="../../../utils/resource/Resources.scala.html#14392" title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]">Pool</a><span class="delimiter">[</span>XMLInputFactory<span class="delimiter">]</span> = impl.<a href="../../impl/XmlFactories.scala.html#9936" title="object scales.xml.impl.DefaultStaxInputFactoryPool">DefaultStaxInputFactoryPool</a>, <a title="Boolean" id="108284">closeAfterUse</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span><span class="delimiter">)</span> : <a href="#108276" title="XmlPulls extends scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed">XmlPull</a> <span class="keyword">with</span> java.io.Closeable <span class="keyword">with</span> IsClosed = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="&lt;none&gt; extends scales.xml.parser.pull.SourceUser with Product with Serializable" id="108553">stream</a> = <a href="#15637" title="(source: org.xml.sax.InputSource)scales.xml.parser.pull.SourceUser with Product with Serializable">sourceUser</a><span class="delimiter">(</span><a href="#108272" title="org.xml.sax.InputSource">source</a><span class="delimiter">)</span>
+
+    <span class="keyword">val</span> <a title="javax.xml.stream.XMLInputFactory" id="108554">pf</a> = <a href="#108281" title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]">parserFactoryPool</a>.<a href="../../../utils/resource/Resources.scala.html#58924" title="=&gt; javax.xml.stream.XMLInputFactory">grab</a>
+
+    <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.impl.FromParser" id="108555">weAreInAParser</a> : <a href="../../impl/FromParser.scala.html#9989" title="scales.xml.impl.FromParser">FromParser</a> = <a href="../../impl/FromParser.scala.html#10002" title="object scales.xml.impl.IsFromParser">IsFromParser</a>
+    
+    <span class="keyword">import</span> <a href="../../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>.defaultVersion
+
+    <a href="#108557" title="java.lang.Object with scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.parser.pull.XmlPull with java.io.Closeable with scales.utils.resources.IsClosed" id="108557">XmlPull</a> <span class="keyword">with</span> java.io.<span title="java.io.Closeable">Closeable</span> <span class="keyword">with</span> <a href="../../../utils/resource/Resources.scala.html#14386" title="scales.utils.resources.IsClosed">IsClosed</a> <span class="delimiter">{</span>
+      <span class="keyword">type</span> <a title="RToken" id="108727">Token</a> = <a href="#108280" title="RToken">RToken</a>
+
+      <span class="keyword">val</span> <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]" id="108728">strategy</a> = <a href="#108278" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">optimisationStrategy</a>
+      <span class="keyword">val</span> <a title="RToken" id="108730">token</a> = <a href="#108278" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">optimisationStrategy</a>.<a href="../strategies/OptimisingStrategies.scala.html#32815" title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)RToken">createToken</a>
+
+      <span class="keyword">val</span> <a title="javax.xml.stream.XMLStreamReader" id="108732">parser</a> = <a href="#108553" title="&lt;none&gt; extends scales.xml.parser.pull.SourceUser with Product with Serializable">stream</a>.<a href="#108091" title="(xf: javax.xml.stream.XMLInputFactory)javax.xml.stream.XMLStreamReader">getReader</a><span class="delimiter">(</span><a href="#108554" title="javax.xml.stream.XMLInputFactory">pf</a><span class="delimiter">)</span>
+      <span class="keyword">val</span> <a title="() =&gt; Unit" id="108734">resourceCloser</a> = <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; <span class="delimiter">{</span> <a href="#108281" title="scales.utils.resources.Pool[javax.xml.stream.XMLInputFactory]">parserFactoryPool</a>.<a href="../../../utils/resource/Resources.scala.html#58925" title="(t: javax.xml.stream.XMLInputFactory)Unit">giveBack</a><span class="delimiter">(</span><a href="#108554" title="javax.xml.stream.XMLInputFactory">pf</a><span class="delimiter">)</span>; <a href="#108553" title="&lt;none&gt; extends scales.xml.parser.pull.SourceUser with Product with Serializable">stream</a>.<a href="../../../utils/resource/Resources.scala.html#29009" title="=&gt; Unit">closeResource</a> <span class="delimiter">}</span> <span class="comment">// bug: 6539065 javadocs say does not close, implementation seems to close :&lt; calling it twice should be safe - especially with CloseOnNeed</span>
+
+      <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">var</span> <a title="Boolean" id="108736">closed</a> = <span title="Boolean(false)" class="keyword">false</span>
+      <span class="keyword">def</span> <a title="=&gt; Boolean" id="108737">isClosed</a> = <a href="#108736" title="Boolean">closed</a>
+
+      <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="108738">internalClose</a> <span class="delimiter">{</span> <a href="#108739" title="()Unit">close</a> <span class="delimiter">}</span>
+
+      <span class="keyword">def</span> <a title="()Unit" id="108739">close</a> <span class="delimiter">{</span>
+        <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#108736" title="Boolean">closed</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+          <a href="#108732" title="=&gt; javax.xml.stream.XMLStreamReader">parser</a>.<span title="()Unit">close</span>
+          <a href="#108734" title="()Unit">resourceCloser</a><span class="delimiter">(</span><span class="delimiter">)</span> <span class="comment">// parser close doesn't close the resource</span>
+          <a href="#108736" title="Boolean">closed</a> = <span title="Boolean(true)" class="keyword">true</span>
+        <span class="delimiter">}</span>
+      <span class="delimiter">}</span>
+
+      <a href="PullIterator.scala.html#46904" title="=&gt; Unit">start</a>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Allows plugging in other feeds, non source based, as such not closeable
+   */</span> 
+  <span class="keyword">def</span> <a title="[RToken &lt;: scales.xml.parser.strategies.OptimisationToken](reader: javax.xml.stream.XMLStreamReader, defaultOptimisationStrategy: scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken])scales.xml.parser.pull.XmlPull" id="15650">pullXmlReader</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.xml.parser.strategies.OptimisationToken" id="108756">RToken</a> &lt;: OptimisationToken<span class="delimiter">]</span><span class="delimiter">(</span> <a title="javax.xml.stream.XMLStreamReader" id="108751">reader</a>  : <span title="javax.xml.stream.XMLStreamReader">XMLStreamReader</span>, <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]" id="108754">defaultOptimisationStrategy</a> : <a href="../strategies/OptimisingStrategies.scala.html#14727" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">MemoryOptimisationStrategy</a><span class="delimiter">[</span>RToken<span class="delimiter">]</span> = <a href="../../package.scala.html#15570" title="=&gt; scales.xml.parser.strategies.MemoryOptimisationStrategy[scales.xml.parser.strategies.QNameToken]">defaultOptimisation</a><span class="delimiter">)</span> : <a href="PullIterator.scala.html#10329" title="scales.xml.parser.pull.XmlPull">XmlPull</a> = <a href="#108759" title="java.lang.Object with scales.xml.parser.pull.XmlPull{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.xml.parser.pull.XmlPull" id="108759">XmlPull</a> <span class="delimiter">{</span>
+    <span class="keyword">type</span> <a title="RToken" id="108930">Token</a> = <a href="#108756" title="RToken">RToken</a>
+
+    <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.impl.FromParser" id="108931">eweAreInAParser</a> : <a href="../../impl/FromParser.scala.html#9989" title="scales.xml.impl.FromParser">FromParser</a> = <a href="../../impl/FromParser.scala.html#10002" title="object scales.xml.impl.IsFromParser">IsFromParser</a>
+
+    <span class="keyword">import</span> <a href="../../ScalesXml.scala.html#9664" title="object scales.xml.ScalesXml">ScalesXml</a>.defaultVersion
+
+    <span class="keyword">val</span> <a title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]" id="108934">strategy</a> = <a href="#108754" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">defaultOptimisationStrategy</a>
+    <span class="keyword">val</span> <a title="RToken" id="108936">token</a> = <a href="#108754" title="scales.xml.parser.strategies.MemoryOptimisationStrategy[RToken]">defaultOptimisationStrategy</a>.<a href="../strategies/OptimisingStrategies.scala.html#32815" title="(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.impl.FromParser)RToken">createToken</a>
+
+    <span class="keyword">val</span> <a title="javax.xml.stream.XMLStreamReader" id="108938">parser</a> = <a href="#108751" title="javax.xml.stream.XMLStreamReader">reader</a>
+    <span class="keyword">val</span> <a title="() =&gt; Unit" id="108940">resourceCloser</a> = <span class="delimiter">(</span><span class="delimiter">)</span> =&gt; <span title="Unit" class="delimiter">{</span><span class="delimiter">}</span>
+
+    <a href="PullIterator.scala.html#46904" title="=&gt; Unit">start</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">type</span> <a title="Either[scales.xml.XmlEvent,scales.xml.EndElem]" id="15653">PullType</a> = <span title="Either[scales.xml.XmlEvent,scales.xml.EndElem]">Either</span><span class="delimiter">[</span>XmlEvent, EndElem<span class="delimiter">]</span>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.parser.pull.XmlPulls.toLeft : (ev: scales.xml.XmlEvent)Left[scales.xml.XmlEvent,Nothing]" id="15654">toLeft</a><span class="delimiter">(</span><a title="scales.xml.XmlEvent" id="36381">ev</a>: <a href="../../XmlTypes.scala.html#9696" title="scales.xml.XmlEvent">XmlEvent</a><span class="delimiter">)</span> = <span title="(a: scales.xml.XmlEvent)Left[scales.xml.XmlEvent,Nothing]">Left</span><span class="delimiter">(</span><a href="#36381" title="scales.xml.XmlEvent">ev</a><span class="delimiter">)</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.parser.pull.XmlPulls.toRight : (ev: scales.xml.EndElem)Right[Nothing,scales.xml.EndElem]" id="15655">toRight</a><span class="delimiter">(</span><a title="scales.xml.EndElem" id="36330">ev</a>: <a href="../../XmlTypes.scala.html#9555" title="scales.xml.EndElem">EndElem</a><span class="delimiter">)</span> = <span title="(b: scales.xml.EndElem)Right[Nothing,scales.xml.EndElem]">Right</span><span class="delimiter">(</span><a href="#36330" title="scales.xml.EndElem">ev</a><span class="delimiter">)</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

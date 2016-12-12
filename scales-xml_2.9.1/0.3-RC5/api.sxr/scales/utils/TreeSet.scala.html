@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\TreeSet.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="keyword">import</span> scala.collection._
+<span class="keyword">import</span> immutable.<span class="delimiter">{</span>SortedSet, RedBlack<span class="delimiter">}</span>
+
+<span class="keyword">import</span> scala.math.Ordering
+<span class="keyword">import</span> generic._
+<span class="keyword">import</span> mutable.<span class="delimiter">{</span> Builder, SetBuilder <span class="delimiter">}</span>
+
+<span class="comment">/** $factoryInfo
+ *  @define Coll immutable.TreeSet
+ *  @define coll immutable tree set
+ */</span>
+<span class="keyword">object</span> <a title="object scales.utils.TreeSet" id="90339">TreeSet</a> <span title="ScalaObject" class="keyword">extends</span> <span title="scala.collection.generic.ImmutableSortedSetFactory[scales.utils.TreeSet]">ImmutableSortedSetFactory</span><span class="delimiter">[</span>TreeSet<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[A](implicit ordering: scala.math.Ordering[A])scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]" id="89717">implicitBuilder</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="89719">A</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scala.math.Ordering[A]" id="90181">ordering</a>: <span title="scala.math.Ordering[A]">Ordering</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]">Builder</span><span class="delimiter">[</span>A, TreeSet<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="#89720" title="[A](implicit ordering: scala.math.Ordering[A])scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]">newBuilder</a><span title="(implicit ordering: scala.math.Ordering[A])scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]" class="delimiter">[</span><a href="#89719" title="A">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#90181" title="scala.math.Ordering[A]">ordering</a><span class="delimiter">)</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="[A](implicit ordering: scala.math.Ordering[A])scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]" id="89720">newBuilder</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="89722">A</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scala.math.Ordering[A]" id="90184">ordering</a>: <span title="scala.math.Ordering[A]">Ordering</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]">Builder</span><span class="delimiter">[</span>A, TreeSet<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span> =
+    <span title="scala.collection.mutable.SetBuilder[A,scales.utils.TreeSet[A]]" class="keyword">new</span> <span title="scala.collection.mutable.SetBuilder[A,scales.utils.TreeSet[A]]">SetBuilder</span><span class="delimiter">(</span><a href="#89723" title="[A](implicit ordering: scala.math.Ordering[A])scales.utils.TreeSet[A]">empty</a><span title="(implicit ordering: scala.math.Ordering[A])scales.utils.TreeSet[A]" class="delimiter">[</span><a href="#89722" title="A">A</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#90184" title="scala.math.Ordering[A]">ordering</a><span class="delimiter">)</span><span class="delimiter">)</span>
+
+  <span class="comment">/** The empty set of this type
+   */</span>
+  <span class="keyword">def</span> <a title="[A](implicit ordering: scala.math.Ordering[A])scales.utils.TreeSet[A]" id="89723">empty</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="89725">A</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scala.math.Ordering[A]" id="90238">ordering</a>: <span title="scala.math.Ordering[A]">Ordering</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#90028" title="()(implicit ordering: scala.math.Ordering[A])scales.utils.TreeSet[A]" class="keyword">new</a> <a href="#11353" title="scales.utils.TreeSet[A]">TreeSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * This version of treeset better fits the xml attributes, we also want to be able to get stuff out.  So its A -&gt; A but hidden in a set
+ */</span>
+@serializable
+@SerialVersionUID<span class="delimiter">(</span>-<span class="long">234066569443569402L</span><span class="delimiter">)</span>
+<span class="keyword">class</span> <a title="class TreeSet[A] extends scala.collection.immutable.RedBlack[A] with scala.collection.immutable.SortedSet[A] with scala.collection.SortedSetLike[A,scales.utils.TreeSet[A]] with ScalaObject" id="11353">TreeSet</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="12089">A</a><span class="delimiter">]</span><a href="#11353" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="Int" id="90148">size</a>: <span title="Int">Int</span>, <a title="scala.collection.immutable.RedBlack[A]#Tree[A]" id="90149">t</a>: <span title="scala.collection.immutable.RedBlack[A]#Tree[A]">RedBlack</span><span class="delimiter">[</span>A<span class="delimiter">]</span>#Tree<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>
+                <span class="delimiter">(</span><span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scala.math.Ordering[A]" id="90150">ordering</a>: <span title="scala.math.Ordering[A]">Ordering</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>
+  <span class="keyword">extends</span> <span title="scala.collection.immutable.RedBlack[A]">RedBlack</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="keyword">with</span> <span title="scala.collection.immutable.SortedSet[A]">SortedSet</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="keyword">with</span> <span title="scala.collection.SortedSetLike[A,scales.utils.TreeSet[A]]">SortedSetLike</span><span class="delimiter">[</span>A, TreeSet<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span> <span class="delimiter">{</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; java.lang.String" id="90026">stringPrefix</a> = <span title="java.lang.String(&quot;TreeSet&quot;)" class="string">&quot;TreeSet&quot;</span>
+
+  <span class="keyword">def</span> <a title="(x: A, y: A)Boolean" id="90027">isSmaller</a><span class="delimiter">(</span><a title="A" id="90362">x</a>: <a href="#12089" title="A">A</a>, <a title="A" id="90363">y</a>: <a href="#12089" title="A">A</a><span class="delimiter">)</span> = <a href="#11353" title="(k0: A, k1: A)Int">compare</a><span class="delimiter">(</span><a href="#90362" title="A">x</a>,<a href="#90363" title="A">y</a><span class="delimiter">)</span> <span title="(x: Int)Boolean">&lt;</span> <span title="Int(0)" class="int">0</span>
+
+  <span class="keyword">def</span> <a title="()(implicit ordering: scala.math.Ordering[A])scales.utils.TreeSet[A]" id="90028" class="keyword">this</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scala.math.Ordering[A]" id="90153">ordering</a>: <span title="scala.math.Ordering[A]">Ordering</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#11353" title="TreeSet.this.type" class="keyword">this</a><span class="delimiter">(</span><span title="Int(0)" class="int">0</span>, <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="#90153" title="scala.math.Ordering[A]">ordering</a><span class="delimiter">)</span>
+  
+  <span class="keyword">protected</span> <span class="keyword">val</span> <a title="scala.collection.immutable.RedBlack[A]#Tree[A]" id="90029">tree</a>: <span title="scala.collection.immutable.RedBlack[A]#Tree[A]">RedBlack</span><span class="delimiter">[</span>A<span class="delimiter">]</span>#Tree<span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="scala.collection.immutable.RedBlack[A]#Tree[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#90148" title="=&gt; Int">size</a> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <a href="#11353" title="object TreeSet.this.Empty">Empty</a> <span class="keyword">else</span> <a href="#90149" title="scala.collection.immutable.RedBlack[A]#Tree[A]">t</a>
+
+  <span class="keyword">private</span> <span class="keyword">def</span> <a title="(s: Int, t: scala.collection.immutable.RedBlack[A]#Tree[A])scales.utils.TreeSet[A]" id="90031">newSet</a><span class="delimiter">(</span><a title="Int" id="90387">s</a>: <span title="Int">Int</span>, <a title="scala.collection.immutable.RedBlack[A]#Tree[A]" id="90388">t</a>: <span title="scala.collection.immutable.RedBlack[A]#Tree[A]">RedBlack</span><span class="delimiter">[</span>A<span class="delimiter">]</span>#Tree<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#90150" title="scales.utils.TreeSet[A]" class="keyword">new</a> <a href="#11353" title="scales.utils.TreeSet[A]">TreeSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">(</span><a href="#90387" title="Int">s</a>, <a href="#90388" title="scala.collection.immutable.RedBlack[A]#Tree[A]">t</a><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]" id="90032">newBuilder</a> : <span title="scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]">Builder</span><span class="delimiter">[</span>A, TreeSet<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="#90339" title="object scales.utils.TreeSet">TreeSet</a>.<a href="#89720" title="(implicit ordering: scala.math.Ordering[A])scala.collection.mutable.Builder[A,scales.utils.TreeSet[A]]">newBuilder</a>
+
+  <span class="comment">/** A factory to create empty sets of the same type of keys.
+   */</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.TreeSet[A]" id="90033">empty</a> = <a href="#90339" title="object scales.utils.TreeSet">TreeSet</a>.<a href="#89723" title="(implicit ordering: scala.math.Ordering[A])scales.utils.TreeSet[A]">empty</a>
+
+  <span class="comment">/**
+   * Look ma now we are a map CTw
+   */</span>
+  <span class="keyword">def</span> <a title="[T](a: T)(implicit conv: T =&gt; A)Option[A]" id="90034">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="90036">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="90435">a</a> : <a href="#90036" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T =&gt; A" id="90436">conv</a> : <span class="delimiter">(</span>T<span class="delimiter">)</span> =&gt; A<span class="delimiter">)</span> : <span title="Option[A]">Option</span><span class="delimiter">[</span>A<span class="delimiter">]</span> =
+    <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(x: A)scala.collection.immutable.RedBlack[A]#Tree[A]">lookup</span><span class="delimiter">(</span><a href="#90436" title="(v1: T)A">conv</a><span class="delimiter">(</span><a href="#90435" title="T">a</a><span class="delimiter">)</span><span class="delimiter">)</span> <span title="Option[A]" class="keyword">match</span> <span class="delimiter">{</span>
+      <span class="keyword">case</span> <a title="Option[A]" id="90455">n</a>: <span title="TreeSet.this.NonEmpty[a]">NonEmpty</span><span class="delimiter">[</span>a<span class="delimiter">]</span> =&gt; <span title="(x: a)Some[a]">Some</span><span title="Option[A]" class="delimiter">(</span><a href="#90455" title="TreeSet.this.NonEmpty[a]">n</a>.<span title="=&gt; a">value</span><span class="delimiter">)</span>
+      <span class="keyword">case</span> <span title="None.type">_</span> =&gt; <span title="object None">None</span>
+    <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Convertable contains
+   */</span>
+  <span class="keyword">def</span> <a title="[T](elem: T)(implicit conv: T =&gt; A)Boolean" id="90037">contains</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="90039">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="90460">elem</a>: <a href="#90039" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T =&gt; A" id="90461">conv</a> : <span class="delimiter">(</span>T<span class="delimiter">)</span> =&gt; A <span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = <span title="=&gt; Boolean">!</span><a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(x: A)scala.collection.immutable.RedBlack[A]#Tree[A]">lookup</span><span class="delimiter">(</span><a href="#90461" title="(v1: T)A">conv</a><span class="delimiter">(</span><a href="#90460" title="T">elem</a><span class="delimiter">)</span><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span>
+
+  <span class="comment">/**
+   * Convertable --
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](other: Traversable[T])(implicit conv: T =&gt; A)scales.utils.TreeSet[A]" id="90040">--</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="90042">T</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="Traversable[T]" id="90471">other</a> : <span title="Traversable[T]">Traversable</span><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T =&gt; A" id="90472">conv</a> : <span class="delimiter">(</span>T<span class="delimiter">)</span> =&gt; A<span class="delimiter">)</span> = <a href="#90471" title="Traversable[T]">other</a>.<span title="(z: scales.utils.TreeSet[A])(op: (scales.utils.TreeSet[A], T) =&gt; scales.utils.TreeSet[A])scales.utils.TreeSet[A]">foldLeft</span><span class="delimiter">(</span><a href="#11353" title="scales.utils.TreeSet[A]" class="keyword">this</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#90492" title="scales.utils.TreeSet[A]">_</a> <a href="#90043" title="(other: T)(implicit conv: T =&gt; A)scales.utils.TreeSet[A]">-</a> <a href="#90493" title="T">_</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Convertable -
+   */</span>
+  <span class="keyword">def</span> <a title="[T](other: T)(implicit conv: T =&gt; A)scales.utils.TreeSet[A]" id="90043">-</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="90045">T</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="T" id="90497">other</a> : <a href="#90045" title="T">T</a><span class="delimiter">)</span> <span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T =&gt; A" id="90498">conv</a> : <span class="delimiter">(</span>T<span class="delimiter">)</span> =&gt; A<span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="A" id="90531">elem</a> = <a href="#90498" title="(v1: T)A">conv</a><span class="delimiter">(</span><a href="#90497" title="T">other</a><span class="delimiter">)</span>
+
+    <span title="scales.utils.TreeSet[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(x: A)scala.collection.immutable.RedBlack[A]#Tree[A]">lookup</span><span class="delimiter">(</span><a href="#90531" title="A">elem</a><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <a href="#11353" title="scales.utils.TreeSet[A]" class="keyword">this</a>
+    <span class="keyword">else</span> <a href="#90031" title="(s: Int, t: scala.collection.immutable.RedBlack[A]#Tree[A])scales.utils.TreeSet[A]">newSet</a><span class="delimiter">(</span><a href="#90148" title="=&gt; Int">size</a> <span title="(x: Int)Int">-</span> <span title="Int(1)" class="int">1</span>, <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a> <span title="(k: A)scala.collection.immutable.RedBlack[A]#Tree[A]">delete</span> <a href="#90531" title="A">elem</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** Creates a new `TreeSet` with the entry added.
+   *  
+   *  @param elem    a new element to add.
+   *  @return        a new $coll containing `elem` and all the elements of this $coll.
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: A)scales.utils.TreeSet[A]" id="90046">+</a> <span class="delimiter">(</span><a title="A" id="90625">elem</a>: <a href="#12089" title="A">A</a><span class="delimiter">)</span>: <a href="#11353" title="scales.utils.TreeSet[A]">TreeSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Int" id="90634">newsize</a> = <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(x: A)scala.collection.immutable.RedBlack[A]#Tree[A]">lookup</span><span class="delimiter">(</span><a href="#90625" title="A">elem</a><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <a href="#90148" title="=&gt; Int">size</a> <span title="(x: Int)Int">+</span> <span title="Int(1)" class="int">1</span> <span class="keyword">else</span> <a href="#90148" title="=&gt; Int">size</a>
+    <a href="#90031" title="(s: Int, t: scala.collection.immutable.RedBlack[A]#Tree[A])scales.utils.TreeSet[A]">newSet</a><span class="delimiter">(</span><a href="#90634" title="Int">newsize</a>, <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(k: A, v: A)scala.collection.immutable.RedBlack[A]#Tree[A]">update</span><span class="delimiter">(</span><a href="#90625" title="A">elem</a>, <a href="#90625" title="A">elem</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/** A new `TreeSet` with the entry added is returned,
+   *  assuming that elem is &lt;em&gt;not&lt;/em&gt; in the TreeSet.
+   *  
+   *  @param elem    a new element to add.
+   *  @return        a new $coll containing `elem` and all the elements of this $coll.
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: A)scales.utils.TreeSet[A]" id="90047">insert</a><span class="delimiter">(</span><a title="A" id="90651">elem</a>: <a href="#12089" title="A">A</a><span class="delimiter">)</span>: <a href="#11353" title="scales.utils.TreeSet[A]">TreeSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span title="(assertion: Boolean)Unit">assert</span><span class="delimiter">(</span><a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(x: A)scala.collection.immutable.RedBlack[A]#Tree[A]">lookup</span><span class="delimiter">(</span><a href="#90651" title="A">elem</a><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span>
+    <a href="#90031" title="(s: Int, t: scala.collection.immutable.RedBlack[A]#Tree[A])scales.utils.TreeSet[A]">newSet</a><span class="delimiter">(</span><a href="#90148" title="=&gt; Int">size</a> <span title="(x: Int)Int">+</span> <span title="Int(1)" class="int">1</span>, <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(k: A, v: A)scala.collection.immutable.RedBlack[A]#Tree[A]">update</span><span class="delimiter">(</span><a href="#90651" title="A">elem</a>, <a href="#90651" title="A">elem</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  
+  <span class="comment">/** Creates a new `TreeSet` with the entry removed.
+   *  
+   *  @param elem    a new element to add.
+   *  @return        a new $coll containing all the elements of this $coll except `elem`.
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: A)scales.utils.TreeSet[A]" id="90048">-</a> <span class="delimiter">(</span><a title="A" id="90542">elem</a>:<a href="#12089" title="A">A</a><span class="delimiter">)</span>: <a href="#11353" title="scales.utils.TreeSet[A]">TreeSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = 
+    <span title="scales.utils.TreeSet[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(x: A)scala.collection.immutable.RedBlack[A]#Tree[A]">lookup</span><span class="delimiter">(</span><a href="#90542" title="A">elem</a><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <a href="#11353" title="scales.utils.TreeSet[A]" class="keyword">this</a>
+    <span class="keyword">else</span> <a href="#90031" title="(s: Int, t: scala.collection.immutable.RedBlack[A]#Tree[A])scales.utils.TreeSet[A]">newSet</a><span class="delimiter">(</span><a href="#90148" title="=&gt; Int">size</a> <span title="(x: Int)Int">-</span> <span title="Int(1)" class="int">1</span>, <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a> <span title="(k: A)scala.collection.immutable.RedBlack[A]#Tree[A]">delete</span> <a href="#90542" title="A">elem</a><span class="delimiter">)</span>
+
+  <span class="comment">/** Checks if this set contains element `elem`.
+   *  
+   *  @param  elem    the element to check for membership.
+   *  @return true, iff `elem` is contained in this set.
+   */</span>
+  <span class="keyword">def</span> <a title="(elem: A)Boolean" id="90049">contains</a><span class="delimiter">(</span><a title="A" id="90668">elem</a>: <a href="#12089" title="A">A</a><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = <span title="=&gt; Boolean">!</span><a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(x: A)scala.collection.immutable.RedBlack[A]#Tree[A]">lookup</span><span class="delimiter">(</span><a href="#90668" title="A">elem</a><span class="delimiter">)</span>.<span title="=&gt; Boolean">isEmpty</span>
+
+  <span class="comment">/** Creates a new iterator over all elements contained in this
+   *  object.
+   *  
+   *  @return the new iterator
+   */</span>
+  <span class="keyword">def</span> <a title="=&gt; Iterator[A]" id="90050">iterator</a>: <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="=&gt; scala.collection.immutable.Stream[(A, A)]">toStream</span>.<span title="=&gt; Iterator[(A, A)]">iterator</span> <span title="(f: (A, A) =&gt; A)Iterator[A]">map</span> <span class="delimiter">(</span><a href="#90705" title="(A, A)">_</a>.<span title="=&gt; A">_1</span><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Stream[A]" id="90051">toStream</a>: <span title="Stream[A]">Stream</span><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="=&gt; scala.collection.immutable.Stream[(A, A)]">toStream</span> <span title="(f: (A, A) =&gt; A)(implicit bf: scala.collection.generic.CanBuildFrom[scala.collection.immutable.Stream[(A, A)],A,Stream[A]])Stream[A]">map</span> <span class="delimiter">(</span><a href="#90769" title="(A, A)">_</a>.<span title="=&gt; A">_1</span><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="[U](f: A =&gt; U)Unit" id="90052">foreach</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="90054">U</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="A =&gt; U" id="90823">f</a>: A =&gt;  U<span class="delimiter">)</span> = <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a> <span title="(f: (A, A) =&gt; U)Unit">foreach</span> <span class="delimiter">{</span> <span class="delimiter">(</span><a title="A" id="90879">x</a>, <a title="A" id="90880">y</a><a href="#12089" title="A" class="delimiter">)</a> =&gt; <a href="#90823" title="(v1: A)U">f</a><span class="delimiter">(</span><a href="#90879" title="A">x</a><span class="delimiter">)</span> <span class="delimiter">}</span> 
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(from: Option[A], until: Option[A])scales.utils.TreeSet[A]" id="90055">rangeImpl</a><span class="delimiter">(</span><a title="Option[A]" id="90884">from</a>: <span title="Option[A]">Option</span><span class="delimiter">[</span>A<span class="delimiter">]</span>, <a title="Option[A]" id="90885">until</a>: <span title="Option[A]">Option</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">)</span>: <a href="#11353" title="scales.utils.TreeSet[A]">TreeSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="scala.collection.immutable.RedBlack[A]#Tree[A]" id="90893">tree</a> = <a href="#11353" title="TreeSet.this.type" class="keyword">this</a>.<a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="(from: Option[A], until: Option[A])scala.collection.immutable.RedBlack[A]#Tree[A]">range</span><span class="delimiter">(</span><a href="#90884" title="Option[A]">from</a>, <a href="#90885" title="Option[A]">until</a><span class="delimiter">)</span>
+    <a href="#90031" title="(s: Int, t: scala.collection.immutable.RedBlack[A]#Tree[A])scales.utils.TreeSet[A]">newSet</a><span class="delimiter">(</span><a href="#90893" title="scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="=&gt; Int">count</span>, <a href="#90893" title="scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; A" id="90056">firstKey</a> = <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="=&gt; A">first</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; A" id="90057">lastKey</a> = <a href="#90029" title="=&gt; scala.collection.immutable.RedBlack[A]#Tree[A]">tree</a>.<span title="=&gt; A">last</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

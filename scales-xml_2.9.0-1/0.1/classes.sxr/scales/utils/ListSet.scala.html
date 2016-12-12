@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\ListSet.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    
+<style id="linesStyle">
+.lineHighlight {
+  background-color: #a5a5a5;
+}
+</style>
+<script type="text/javascript">
+function selectedLine() {
+    var loca = /^.*#l(.*)/.exec(location.href);
+    return loca ? loca[1] : '0';
+}
+
+function highlightLine(ln){
+  $('#l'+ln).toggleClass('lineHighlight');
+}
+
+function gotoLine(ln){
+  $('#l'+ln).focus();
+}
+
+$(function(){
+  var line = selectedLine();
+  if (line != '0') highlightLine(line)
+});
+</script></head>
+    <body>
+        <pre>
+<!-- SXR_LINES --><a href="l1"></a><span id="l1"><span class="keyword">package</span> scales.utils</span>
+<a href="l2"></a><span id="l2"></span>
+<a href="l3"></a><span id="l3"><span class="keyword">import</span> annotation.tailrec</span>
+<a href="l4"></a><span id="l4"></span>
+<a href="l5"></a><span id="l5"><span class="keyword">import</span> scalaz._</span>
+<a href="l6"></a><span id="l6"><span class="keyword">import</span> <span title="object scalaz.Scalaz">Scalaz</span>._</span>
+<a href="l7"></a><span id="l7"></span>
+<a href="l8"></a><span id="l8"><span class="comment">//TODO also integrate the non quadratic add/apply from PaulPs fixes, tough as we can't use hashCode or == directly we can't re-use hashset....</span></span>
+<a href="l9"></a><span id="l9"></span>
+<a href="l10"></a><span id="l10"><span class="keyword">object</span> <a title="object scales.utils.ListSet" id="71228">ListSet</a> <span title="ScalaObject" class="delimiter">{</span></span>
+<a href="l11"></a><span id="l11">  <span class="keyword">def</span> <a title="[A](implicit evidence$1: scalaz.Equal[A])scales.utils.ListSet[A]" id="71063">empty</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="70816">A</a> : Equal<span class="delimiter">]</span> = <a href="#70864" title="scales.utils.ListSet[A]" class="keyword">new</a> <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span></span>
+<a href="l12"></a><span id="l12">  <span class="keyword">def</span> <a title="[A](a: A*)(implicit evidence$2: scalaz.Equal[A])scales.utils.ListSet[A]" id="71087">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="70819">A</a> : Equal<span class="delimiter">]</span><span class="delimiter">(</span> <a title="A*" id="71086">a</a> : <span title="A*">A</span>*<span class="delimiter">)</span> = <a href="#71063" title="[A](implicit evidence$1: scalaz.Equal[A])scales.utils.ListSet[A]">empty</a><a href="#71087" title="(implicit evidence$1: scalaz.Equal[A])scales.utils.ListSet[A]" class="delimiter">[</a><a href="#70819" title="A">A</a><span class="delimiter">]</span> <a href="#70829" title="(other: Traversable[A])scales.utils.ListSet[A]">++</a> <span class="delimiter">(</span><a href="#71086" title="A*">a</a><span class="delimiter">)</span></span>
+<a href="l13"></a><span id="l13"><span class="delimiter">}</span></span>
+<a href="l14"></a><span id="l14"></span>
+<a href="l15"></a><span id="l15"><span class="comment">/**</span>
+<a href="l16"></a><span id="l16"> * @author Derek Williams</span>
+<a href="l17"></a><span id="l17"> */</span> </span>
+<a href="l18"></a><span id="l18"><span class="keyword">class</span> <a title="class Equiv[A] extends java.lang.Object with ScalaObject" id="9014">Equiv</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="9015">A</a> : Equal<span class="delimiter">]</span> <span class="delimiter">{</span></span>
+<a href="l19"></a><span id="l19">  <span class="keyword">def</span> <a title="[B, C](b: B, c: C)(implicit evidence$4: (B) =&gt; A, implicit evidence$5: (C) =&gt; A)Boolean" id="71244">apply</a><span class="delimiter">[</span> <a title="&gt;: Nothing &lt;: Any" id="71235">B</a> &lt;% A, <a title="&gt;: Nothing &lt;: Any" id="71236">C</a> &lt;% A<span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="71241">b</a> : <a href="#71235" title="B">B</a> , <a title="C" id="71242">c</a> : <a href="#71236" title="C">C</a><span class="delimiter">)</span> : <span title="Boolean">Boolean</span> = <span title="[T](implicit e: T)T">implicitly</span><a href="#71230" title="(implicit e: scalaz.Equal[A])scalaz.Equal[A]" class="delimiter">[</a><span title="scalaz.Equal[A]">Equal</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span>.<span title="(a1: A, a2: A)Boolean">equal</span><span class="delimiter">(</span><a href="#71244" title="(v1: B)A">b</a>:<a href="#9015" title="A">A</a>, <a href="#71244" title="(v1: C)A">c</a>:<a href="#9015" title="A">A</a><span class="delimiter">)</span></span>
+<a href="l20"></a><span id="l20"><span class="delimiter">}</span></span>
+<a href="l21"></a><span id="l21"></span>
+<a href="l22"></a><span id="l22"><span class="comment">/** </span>
+<a href="l23"></a><span id="l23"> *  Based on Scala ListSet, users provide the</span>
+<a href="l24"></a><span id="l24"> *  comparisom operator and comparisom type for lookups.</span>
+<a href="l25"></a><span id="l25"> *</span>
+<a href="l26"></a><span id="l26"> *  Because the equality is defined outside of the object + always acts as add/replace</span>
+<a href="l27"></a><span id="l27"> *  </span>
+<a href="l28"></a><span id="l28"> *  @tparam A    the type of the elements contained in this list set.</span>
+<a href="l29"></a><span id="l29"> *  </span>
+<a href="l30"></a><span id="l30"> *  @author Originally Matthias Zenger</span>
+<a href="l31"></a><span id="l31"> *  @author &lt;- corrupted by Chris Twiner with a number of PaulPs fixes</span>
+<a href="l32"></a><span id="l32"> *  @version 1.0, 30/12/2010</span>
+<a href="l33"></a><span id="l33"> */</span></span>
+<a href="l34"></a><span id="l34">@serializable</span>
+<a href="l35"></a><span id="l35"><span class="keyword">class</span> <a title="class ListSet[A] extends java.lang.Object with Iterable[A] with ScalaObject" id="9016">ListSet</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="9017">A</a> : Equal<span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">val</span> <a title="[A]=&gt; Boolean" id="70864">plusFast</a> : <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="Iterable[A]">Iterable</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">{</span> self =&gt;</span>
+<a href="l36"></a><span id="l36"></span>
+<a href="l37"></a><span id="l37">  <span class="keyword">val</span> <a title="scalaz.Equal[A]" id="70827">equal</a> = <span title="[T](implicit e: T)T">implicitly</span><a href="#70825" title="(implicit e: scalaz.Equal[A])scalaz.Equal[A]" class="delimiter">[</a><span title="scalaz.Equal[A]">Equal</span><span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span></span>
+<a href="l38"></a><span id="l38"></span>
+<a href="l39"></a><span id="l39">  <span class="keyword">def</span> <a title="(other: Traversable[A])scales.utils.ListSet[A]" id="70829">++</a><span class="delimiter">(</span> <a title="Traversable[A]" id="71093">other</a> : <span title="Traversable[A]">Traversable</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">)</span> = <a href="#71093" title="Traversable[A]">other</a>.<span title="(z: scales.utils.ListSet[A])(op: (scales.utils.ListSet[A], A) =&gt; scales.utils.ListSet[A])scales.utils.ListSet[A]">foldLeft</span><span class="delimiter">(</span><a href="#9016" title="scales.utils.ListSet[A]" class="keyword">this</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#71143" title="scales.utils.ListSet[A]">_</a> <a href="#70850" title="(elem: A)scales.utils.ListSet[A]">+</a> <a href="#71144" title="A">_</a><span class="delimiter">)</span></span>
+<a href="l40"></a><span id="l40"></span>
+<a href="l41"></a><span id="l41">  <span class="keyword">def</span> <a title="(other: Traversable[A])scales.utils.ListSet[A]" id="70830">--</a><span class="delimiter">(</span> <a title="Traversable[A]" id="71627">other</a> : <span title="Traversable[A]">Traversable</span><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">)</span> = <a href="#71627" title="Traversable[A]">other</a>.<span title="(z: scales.utils.ListSet[A])(op: (scales.utils.ListSet[A], A) =&gt; scales.utils.ListSet[A])scales.utils.ListSet[A]">foldLeft</span><span class="delimiter">(</span><a href="#9016" title="scales.utils.ListSet[A]" class="keyword">this</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#71643" title="scales.utils.ListSet[A]">_</a> <a href="#70852" title="(elem: A)scales.utils.ListSet[A]">-</a> <a href="#71644" title="A">_</a><span class="delimiter">)</span></span>
+<a href="l42"></a><span id="l42"></span>
+<a href="l43"></a><span id="l43">  <span class="keyword">def</span> <a title="[B, C](other: Traversable[B])(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)scales.utils.ListSet[A]" id="70831">--</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="70834">B</a>,<a title="&gt;: Nothing &lt;: Any" id="70835">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="Traversable[B]" id="71722">other</a> : <span title="Traversable[B]">Traversable</span><span class="delimiter">[</span>B<span class="delimiter">]</span> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="71723">equiv</a>: <a href="#9014" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="(A) =&gt; C" id="71724">viewA</a>: A =&gt; C, <a title="(B) =&gt; C" id="71725">viewB</a>: B =&gt; C<span class="delimiter">)</span> = <a href="#71722" title="Traversable[B]">other</a>.<span title="(z: scales.utils.ListSet[A])(op: (scales.utils.ListSet[A], B) =&gt; scales.utils.ListSet[A])scales.utils.ListSet[A]">foldLeft</span><span class="delimiter">(</span><a href="#9016" title="scales.utils.ListSet[A]" class="keyword">this</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#71741" title="scales.utils.ListSet[A]">_</a> <a href="#70853" title="(b: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)scales.utils.ListSet[A]">-</a> <a href="#71742" title="B">_</a><span class="delimiter">)</span></span>
+<a href="l44"></a><span id="l44"></span>
+<a href="l45"></a><span id="l45">  <span class="comment">/** Returns the number of elements in this set.</span>
+<a href="l46"></a><span id="l46">   *</span>
+<a href="l47"></a><span id="l47">   *  @return number of set elements.</span>
+<a href="l48"></a><span id="l48">   */</span></span>
+<a href="l49"></a><span id="l49">  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Int" id="70836">size</a>: <span title="Int">Int</span> = <span title="Int(0)" class="int">0</span></span>
+<a href="l50"></a><span id="l50">  <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="70837">isEmpty</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(true)" class="keyword">true</span>;</span>
+<a href="l51"></a><span id="l51"></span>
+<a href="l52"></a><span id="l52">  <span class="comment">/** Checks if this set contains element &lt;code&gt;elem&lt;/code&gt;.</span>
+<a href="l53"></a><span id="l53">   *</span>
+<a href="l54"></a><span id="l54">   *  @param  elem    the element to check for membership.</span>
+<a href="l55"></a><span id="l55">   *  @return true, iff &lt;code&gt;elem&lt;/code&gt; is contained in this set.</span>
+<a href="l56"></a><span id="l56">   */</span></span>
+<a href="l57"></a><span id="l57">  <span class="keyword">def</span> <a title="(elem: A)Boolean" id="70838">contains</a><span class="delimiter">(</span><a title="A" id="72107">elem</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l58"></a><span id="l58"></span>
+<a href="l59"></a><span id="l59">  <span class="comment">/**</span>
+<a href="l60"></a><span id="l60">   * The default empty doesn't really work for us as we can't hide away the equality, so doing it here</span>
+<a href="l61"></a><span id="l61">   */</span> </span>
+<a href="l62"></a><span id="l62">  <span class="keyword">def</span> <a title="=&gt; scales.utils.ListSet[A]" id="70839">empty</a> = <a href="#70864" title="scales.utils.ListSet[A]" class="keyword">new</a> <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span></span>
+<a href="l63"></a><span id="l63"></span>
+<a href="l64"></a><span id="l64">  <span class="comment">/**</span>
+<a href="l65"></a><span id="l65">   * With another level of indirection, the caller decides what Equal to use.</span>
+<a href="l66"></a><span id="l66">   */</span> </span>
+<a href="l67"></a><span id="l67">  <span class="keyword">def</span> <a title="[B, C](b: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)Boolean" id="70840">contains</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="70843">B</a>,<a title="&gt;: Nothing &lt;: Any" id="70844">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="72114">b</a> : <a href="#70843" title="B">B</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="72115">equiv</a>: <a href="#9014" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="(A) =&gt; C" id="72116">viewA</a>: A =&gt; C, <a title="(B) =&gt; C" id="72117">viewB</a>: B =&gt; C<span class="delimiter">)</span> = <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l68"></a><span id="l68"></span>
+<a href="l69"></a><span id="l69">  <span class="comment">/**</span>
+<a href="l70"></a><span id="l70">   * Access the set like a map with an alternate equals and conversion function</span>
+<a href="l71"></a><span id="l71">   */</span> </span>
+<a href="l72"></a><span id="l72">  <span class="keyword">def</span> <a title="[B, C](b: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)Option[A]" id="70845">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="70848">B</a>,<a title="&gt;: Nothing &lt;: Any" id="70849">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="72124">b</a> : <a href="#70848" title="B">B</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="72125">equiv</a>: <a href="#9014" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="(A) =&gt; C" id="72126">viewA</a>: A =&gt; C, <a title="(B) =&gt; C" id="72127">viewB</a>: B =&gt; C<span class="delimiter">)</span> : <span title="Option[A]">Option</span><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="object None">None</span></span>
+<a href="l73"></a><span id="l73"></span>
+<a href="l74"></a><span id="l74">  <span class="comment">/** This method creates a new set with an additional element.</span>
+<a href="l75"></a><span id="l75">   */</span></span>
+<a href="l76"></a><span id="l76">  <span class="keyword">def</span> <a title="(elem: A)scales.utils.ListSet[A]" id="70850">+</a> <span class="delimiter">(</span><a title="A" id="71145">elem</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="ListSet.this.Node" class="keyword">new</span> <a href="#70863" title="ListSet.this.Node">Node</a><span class="delimiter">(</span><a href="#71145" title="A">elem</a><span class="delimiter">)</span></span>
+<a href="l77"></a><span id="l77">  </span>
+<a href="l78"></a><span id="l78">  <span class="comment">/**</span>
+<a href="l79"></a><span id="l79">   * Does not remove any existing As first, hence not safe.</span>
+<a href="l80"></a><span id="l80">   */</span> </span>
+<a href="l81"></a><span id="l81">  <span class="keyword">def</span> <a title="(e: A)scales.utils.ListSet[A]" id="70851">unsafePlus</a><span class="delimiter">(</span><a title="A" id="72168">e</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="ListSet.this.Node" class="keyword">new</span> <a href="#70863" title="ListSet.this.Node">Node</a><span class="delimiter">(</span><a href="#72168" title="A">e</a><span class="delimiter">)</span></span>
+<a href="l82"></a><span id="l82"></span>
+<a href="l83"></a><span id="l83">  <span class="comment">/** &lt;code&gt;-&lt;/code&gt; can be used to remove a single element from</span>
+<a href="l84"></a><span id="l84">   *  a set.</span>
+<a href="l85"></a><span id="l85">   */</span></span>
+<a href="l86"></a><span id="l86">  <span class="keyword">def</span> <a title="(elem: A)scales.utils.ListSet[A]" id="70852">-</a> <span class="delimiter">(</span><a title="A" id="71671">elem</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#9016" title="scales.utils.ListSet[A]" class="keyword">this</a></span>
+<a href="l87"></a><span id="l87"></span>
+<a href="l88"></a><span id="l88">  <span class="keyword">def</span> <a title="[B, C](b: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)scales.utils.ListSet[A]" id="70853">-</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="70856">B</a>,<a title="&gt;: Nothing &lt;: Any" id="70857">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="71647">b</a> : <a href="#70856" title="B">B</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="71648">equiv</a>: <a href="#9014" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="(A) =&gt; C" id="71649">viewA</a>: A =&gt; C, <a title="(B) =&gt; C" id="71650">viewB</a>: B =&gt; C<span class="delimiter">)</span> : <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#9016" title="scales.utils.ListSet[A]" class="keyword">this</a></span>
+<a href="l89"></a><span id="l89">	  </span>
+<a href="l90"></a><span id="l90">  <span class="keyword">private</span><span class="delimiter">[</span>ListSet<span class="delimiter">]</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.ListSet[A]" id="70858">unchecked_outer</a>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> =</span>
+<a href="l91"></a><span id="l91">    <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.util.NoSuchElementException" class="keyword">new</span> <span title="java.util.NoSuchElementException">NoSuchElementException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Empty ListSet has no outer pointer&quot;)" class="string">&quot;Empty ListSet has no outer pointer&quot;</span><span class="delimiter">)</span></span>
+<a href="l92"></a><span id="l92"></span>
+<a href="l93"></a><span id="l93">  <span class="comment">/** Creates a new iterator over all elements contained in this set.</span>
+<a href="l94"></a><span id="l94">   *</span>
+<a href="l95"></a><span id="l95">   *  @throws Predef.NoSuchElementException</span>
+<a href="l96"></a><span id="l96">   *  @return the new iterator</span>
+<a href="l97"></a><span id="l97">   */</span></span>
+<a href="l98"></a><span id="l98">  <span class="keyword">def</span> <a title="=&gt; Iterator[A]" id="70859">iterator</a>: <span title="Iterator[A]">Iterator</span><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#72178" title="java.lang.Object with Iterator[A]{}" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with Iterator[A]" id="72178">Iterator</a><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span></span>
+<a href="l99"></a><span id="l99">    <span class="keyword">var</span> <a title="scales.utils.ListSet[A]" id="72350">that</a>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#9016" title="scales.utils.ListSet[A]">self</a>;</span>
+<a href="l100"></a><span id="l100">    <span class="keyword">def</span> <a title="=&gt; Boolean" id="72352">hasNext</a> = <span title="=&gt; Boolean">!</span><a href="#72350" title="=&gt; scales.utils.ListSet[A]">that</a>.<a href="#70837" title="=&gt; Boolean">isEmpty</a>;</span>
+<a href="l101"></a><span id="l101">    <span class="keyword">def</span> <a title="()A" id="72353">next</a>: <a href="#9017" title="A">A</a> =</span>
+<a href="l102"></a><span id="l102">      <span title="A" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#72352" title="=&gt; Boolean">hasNext</a><span class="delimiter">)</span> <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.util.NoSuchElementException" class="keyword">new</span> <span title="java.util.NoSuchElementException">NoSuchElementException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;next on empty iterator&quot;)" class="string">&quot;next on empty iterator&quot;</span><span class="delimiter">)</span></span>
+<a href="l103"></a><span id="l103">      <span class="keyword">else</span> <span class="delimiter">{</span> <span class="keyword">val</span> <a title="A" id="72375">res</a> = <a href="#72350" title="=&gt; scales.utils.ListSet[A]">that</a>.<a href="#70860" title="=&gt; A">elem</a>; <a href="#72350" title="(x$1: scales.utils.ListSet[A])Unit">that</a> = <a href="#72350" title="=&gt; scales.utils.ListSet[A]">that</a>.<a href="#70861" title="=&gt; scales.utils.ListSet[A]">next</a>; <a href="#72375" title="A">res</a> <span class="delimiter">}</span></span>
+<a href="l104"></a><span id="l104">  <span class="delimiter">}</span></span>
+<a href="l105"></a><span id="l105"></span>
+<a href="l106"></a><span id="l106">  <span class="comment">/**</span>
+<a href="l107"></a><span id="l107">   *  @throws Predef.NoSuchElementException</span>
+<a href="l108"></a><span id="l108">   */</span></span>
+<a href="l109"></a><span id="l109">  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; A" id="70860">elem</a>: <a href="#9017" title="A">A</a> = <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.util.NoSuchElementException" class="keyword">new</span> <span title="java.util.NoSuchElementException">NoSuchElementException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Set has no elements&quot;)" class="string">&quot;Set has no elements&quot;</span><span class="delimiter">)</span>;</span>
+<a href="l110"></a><span id="l110"></span>
+<a href="l111"></a><span id="l111">  <span class="comment">/**</span>
+<a href="l112"></a><span id="l112">   *  @throws Predef.NoSuchElementException</span>
+<a href="l113"></a><span id="l113">   */</span></span>
+<a href="l114"></a><span id="l114">  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.ListSet[A]" id="70861">next</a>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="Nothing" class="keyword">throw</span> <span title="(x$1: java.lang.String)java.util.NoSuchElementException" class="keyword">new</span> <span title="java.util.NoSuchElementException">NoSuchElementException</span><span class="delimiter">(</span><span title="java.lang.String(&quot;Next of an empty set&quot;)" class="string">&quot;Next of an empty set&quot;</span><span class="delimiter">)</span>;</span>
+<a href="l115"></a><span id="l115"></span>
+<a href="l116"></a><span id="l116">  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="(a: A)ListSet.this.Node" id="70862">newThis</a><span class="delimiter">(</span><a title="A" id="72388">a</a> : <a href="#9017" title="A">A</a><span class="delimiter">)</span> = <span title="ListSet.this.Node" class="keyword">new</span> <a href="#70863" title="ListSet.this.Node">Node</a><span class="delimiter">(</span><a href="#72388" title="A">a</a><span class="delimiter">)</span></span>
+<a href="l117"></a><span id="l117"></span>
+<a href="l118"></a><span id="l118">  <span class="comment">/** Represents an entry in the `ListSet`.</span>
+<a href="l119"></a><span id="l119">   */</span></span>
+<a href="l120"></a><span id="l120">  @serializable</span>
+<a href="l121"></a><span id="l121">  <span class="keyword">protected</span> <span class="keyword">class</span> <a title="class Node extends scales.utils.ListSet[A] with ScalaObject" id="70863">Node</a><a href="#70863" title="ScalaObject" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">protected</span> <span class="keyword">val</span> <a title="A" id="72161">elem</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> <span class="delimiter">{</span></span>
+<a href="l122"></a><span id="l122"></span>
+<a href="l123"></a><span id="l123">    <span class="keyword">override</span> <span class="keyword">private</span><span class="delimiter">[</span>ListSet<span class="delimiter">]</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.ListSet[A]" id="72137">unchecked_outer</a> = <a href="#9016" title="scales.utils.ListSet[A]">self</a></span>
+<a href="l124"></a><span id="l124"></span>
+<a href="l125"></a><span id="l125">    <span class="comment">/** Returns the number of elements in this set.</span>
+<a href="l126"></a><span id="l126">     *</span>
+<a href="l127"></a><span id="l127">     *  @return number of set elements.</span>
+<a href="l128"></a><span id="l128">     */</span></span>
+<a href="l129"></a><span id="l129">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Int" id="72138">size</a> = <span class="delimiter">{</span></span>
+<a href="l130"></a><span id="l130">      @tailrec <span class="keyword">def</span> <a title="(n: scales.utils.ListSet[A], acc: Int)Int" id="72404">sizeInternal</a><span class="delimiter">(</span><a title="scales.utils.ListSet[A]" id="72405">n</a>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span>, <a title="Int" id="72406">acc</a>: <span title="Int">Int</span><span class="delimiter">)</span>: <span title="Int">Int</span> =</span>
+<a href="l131"></a><span id="l131">	<span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#72405" title="scales.utils.ListSet[A]">n</a>.<a href="#70837" title="=&gt; Boolean">isEmpty</a><span class="delimiter">)</span> <a href="#72406" title="Int">acc</a></span>
+<a href="l132"></a><span id="l132">	<span class="keyword">else</span> <a href="#72404" title="(n: scales.utils.ListSet[A], acc: Int)Int">sizeInternal</a><span class="delimiter">(</span><a href="#72405" title="scales.utils.ListSet[A]">n</a>.<a href="#70858" title="=&gt; scales.utils.ListSet[A]">unchecked_outer</a>, <a href="#72406" title="Int">acc</a> <span title="(x: Int)Int">+</span> <span title="Int(1)" class="int">1</span><span class="delimiter">)</span></span>
+<a href="l133"></a><span id="l133">      </span>
+<a href="l134"></a><span id="l134">      <a href="#72404" title="(n: scales.utils.ListSet[A], acc: Int)Int">sizeInternal</a><span class="delimiter">(</span><a href="#70863" title="ListSet.this.Node" class="keyword">this</a>, <span title="Int(0)" class="int">0</span><span class="delimiter">)</span></span>
+<a href="l135"></a><span id="l135">    <span class="delimiter">}</span></span>
+<a href="l136"></a><span id="l136">    <span class="comment">/** Checks if this set is empty.</span>
+<a href="l137"></a><span id="l137">     *</span>
+<a href="l138"></a><span id="l138">     *  @return true, iff there is no element in the set.</span>
+<a href="l139"></a><span id="l139">     */</span></span>
+<a href="l140"></a><span id="l140">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Boolean" id="72139">isEmpty</a>: <span title="Boolean">Boolean</span> = <span title="Boolean(false)" class="keyword">false</span></span>
+<a href="l141"></a><span id="l141">  </span>
+<a href="l142"></a><span id="l142">    <span class="comment">/** Checks if this set contains element &lt;code&gt;elem&lt;/code&gt;.</span>
+<a href="l143"></a><span id="l143">     *</span>
+<a href="l144"></a><span id="l144">     *  @param  elem    the element to check for membership.</span>
+<a href="l145"></a><span id="l145">     *  @return true, iff &lt;code&gt;elem&lt;/code&gt; is contained in this set.</span>
+<a href="l146"></a><span id="l146">     */</span></span>
+<a href="l147"></a><span id="l147">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(e: A)Boolean" id="72140">contains</a><span class="delimiter">(</span><a title="A" id="72617">e</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span> = <span class="delimiter">{</span> </span>
+<a href="l148"></a><span id="l148">      @tailrec <span class="keyword">def</span> <a title="(n: scales.utils.ListSet[A], e: A)Boolean" id="72622">containsInternal</a><span class="delimiter">(</span><a title="scales.utils.ListSet[A]" id="72623">n</a>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span>, <a title="A" id="72624">e</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = </span>
+<a href="l149"></a><span id="l149">	<span title="=&gt; Boolean">!</span><a href="#72623" title="scales.utils.ListSet[A]">n</a>.<a href="#70837" title="=&gt; Boolean">isEmpty</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span><a href="#70827" title="=&gt; scalaz.Equal[A]">equal</a>.<span title="(a1: A, a2: A)Boolean">equal</span><span class="delimiter">(</span><a href="#72624" title="A">e</a>, <a href="#72623" title="scales.utils.ListSet[A]">n</a>.<a href="#70860" title="=&gt; A">elem</a><span class="delimiter">)</span> <span title="(x: Boolean)Boolean">||</span> <a href="#72622" title="(n: scales.utils.ListSet[A], e: A)Boolean">containsInternal</a><span class="delimiter">(</span><a href="#72623" title="scales.utils.ListSet[A]">n</a>.<a href="#70858" title="=&gt; scales.utils.ListSet[A]">unchecked_outer</a>, <a href="#72624" title="A">e</a><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l150"></a><span id="l150"></span>
+<a href="l151"></a><span id="l151">      <a href="#72622" title="(n: scales.utils.ListSet[A], e: A)Boolean">containsInternal</a><span class="delimiter">(</span><a href="#70863" title="ListSet.this.Node" class="keyword">this</a>, <a href="#72617" title="A">e</a><span class="delimiter">)</span></span>
+<a href="l152"></a><span id="l152">    <span class="delimiter">}</span></span>
+<a href="l153"></a><span id="l153"></span>
+<a href="l154"></a><span id="l154">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="[B, C](e: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)Boolean" id="72141">contains</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="72144">B</a>,<a title="&gt;: Nothing &lt;: Any" id="72145">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="72633">e</a> : <a href="#72144" title="B">B</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="72634">equiv</a>: <a href="#9014" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="(A) =&gt; C" id="72635">viewA</a>: A =&gt; C, <a title="(B) =&gt; C" id="72636">viewB</a>: B =&gt; C<span class="delimiter">)</span> = <span class="delimiter">{</span></span>
+<a href="l155"></a><span id="l155">      @tailrec <span class="keyword">def</span> <a title="(n: scales.utils.ListSet[A], e: B)Boolean" id="72669">containsInternal</a><span class="delimiter">(</span><a title="scales.utils.ListSet[A]" id="72670">n</a>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span>, <a title="B" id="72671">e</a>: <a href="#72144" title="B">B</a><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = </span>
+<a href="l156"></a><span id="l156">	<span title="=&gt; Boolean">!</span><a href="#72670" title="scales.utils.ListSet[A]">n</a>.<a href="#70837" title="=&gt; Boolean">isEmpty</a> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <span class="delimiter">(</span></span>
+<a href="l157"></a><span id="l157">	  <a href="#71244" title="(b: B, c: A)(implicit evidence$4: (B) =&gt; C, implicit evidence$5: (A) =&gt; C)Boolean">equiv</a><a href="#72636" title="(B) =&gt; C" class="delimiter">(</a><a href="#72671" title="B">e</a>, <a href="#72670" title="scales.utils.ListSet[A]">n</a>.<a href="#70860" title="=&gt; A">elem</a><span class="delimiter">)</span></span>
+<a href="l158"></a><span id="l158">	  <span title="(x: Boolean)Boolean">||</span> <a href="#72669" title="(n: scales.utils.ListSet[A], e: B)Boolean">containsInternal</a><span class="delimiter">(</span><a href="#72670" title="scales.utils.ListSet[A]">n</a>.<a href="#70858" title="=&gt; scales.utils.ListSet[A]">unchecked_outer</a>, <a href="#72671" title="B">e</a><span class="delimiter">)</span> <span class="delimiter">)</span></span>
+<a href="l159"></a><span id="l159"></span>
+<a href="l160"></a><span id="l160">      <a href="#72669" title="(n: scales.utils.ListSet[A], e: B)Boolean">containsInternal</a><span class="delimiter">(</span><a href="#70863" title="ListSet.this.Node" class="keyword">this</a>, <a href="#72633" title="B">e</a><span class="delimiter">)</span></span>
+<a href="l161"></a><span id="l161">    <span class="delimiter">}</span></span>
+<a href="l162"></a><span id="l162"></span>
+<a href="l163"></a><span id="l163">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="[B, C](e: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)Option[A]" id="72146">apply</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="72149">B</a>,<a title="&gt;: Nothing &lt;: Any" id="72150">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="72981">e</a> : <a href="#72149" title="B">B</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="72982">equiv</a>: <a href="#9014" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="(A) =&gt; C" id="72983">viewA</a>: A =&gt; C, <a title="(B) =&gt; C" id="72984">viewB</a>: B =&gt; C<span class="delimiter">)</span> : <span title="Option[A]">Option</span><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span class="delimiter">{</span></span>
+<a href="l164"></a><span id="l164">      @tailrec <span class="keyword">def</span> <a title="(n: scales.utils.ListSet[A], e: B)Option[A]" id="72998">applyInternal</a><span class="delimiter">(</span><a title="scales.utils.ListSet[A]" id="72999">n</a> : <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span>, <a title="B" id="73000">e</a> : <a href="#72149" title="B">B</a><span class="delimiter">)</span> : <span title="Option[A]">Option</span><span class="delimiter">[</span>A<span class="delimiter">]</span> =</span>
+<a href="l165"></a><span id="l165">	<span title="Option[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#72999" title="scales.utils.ListSet[A]">n</a>.<a href="#70837" title="=&gt; Boolean">isEmpty</a><span class="delimiter">)</span></span>
+<a href="l166"></a><span id="l166">	  <span title="object None">None</span></span>
+<a href="l167"></a><span id="l167">        <span class="keyword">else</span></span>
+<a href="l168"></a><span id="l168">	  <span title="Option[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#71244" title="(b: B, c: A)(implicit evidence$4: (B) =&gt; C, implicit evidence$5: (A) =&gt; C)Boolean">equiv</a><a href="#72984" title="(B) =&gt; C" class="delimiter">(</a><a href="#73000" title="B">e</a>, <a href="#72999" title="scales.utils.ListSet[A]">n</a>.<a href="#70860" title="=&gt; A">elem</a><span class="delimiter">)</span><span class="delimiter">)</span></span>
+<a href="l169"></a><span id="l169">	    <span title="(x: A)Some[A]">Some</span><span class="delimiter">(</span><a href="#72999" title="scales.utils.ListSet[A]">n</a>.<a href="#70860" title="=&gt; A">elem</a><span class="delimiter">)</span></span>
+<a href="l170"></a><span id="l170">	  <span class="keyword">else</span></span>
+<a href="l171"></a><span id="l171">	    <a href="#72998" title="(n: scales.utils.ListSet[A], e: B)Option[A]">applyInternal</a><span class="delimiter">(</span><a href="#72999" title="scales.utils.ListSet[A]">n</a>.<a href="#70858" title="=&gt; scales.utils.ListSet[A]">unchecked_outer</a>, <a href="#73000" title="B">e</a><span class="delimiter">)</span></span>
+<a href="l172"></a><span id="l172"></span>
+<a href="l173"></a><span id="l173">      <a href="#72998" title="(n: scales.utils.ListSet[A], e: B)Option[A]">applyInternal</a><span class="delimiter">(</span><a href="#70863" title="ListSet.this.Node" class="keyword">this</a>, <a href="#72981" title="B">e</a><span class="delimiter">)</span></span>
+<a href="l174"></a><span id="l174">    <span class="delimiter">}</span></span>
+<a href="l175"></a><span id="l175">  </span>
+<a href="l176"></a><span id="l176">    <span class="comment">/** This method creates a new set with an additional element.</span>
+<a href="l177"></a><span id="l177">     * Note if plusFast is true then the </span>
+<a href="l178"></a><span id="l178">     */</span></span>
+<a href="l179"></a><span id="l179">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(e: A)scales.utils.ListSet[A]" id="72151">+</a><span class="delimiter">(</span><a title="A" id="73308">e</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="scales.utils.ListSet[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#72140" title="(e: A)Boolean">contains</a><span class="delimiter">(</span><a href="#73308" title="A">e</a><span class="delimiter">)</span><span class="delimiter">)</span> <a href="#70863" title="Node.this.type" class="keyword">this</a>.<a href="#72153" title="(e: A)scales.utils.ListSet[A]">-</a><span class="delimiter">(</span><a href="#73308" title="A">e</a><span class="delimiter">)</span>.<a href="#70862" title="(a: A)scales.utils.ListSet[A]#Node">newThis</a><span class="delimiter">(</span><a href="#73308" title="A">e</a><span class="delimiter">)</span> <span class="keyword">else</span> <span title="Node.this.Node" class="keyword">new</span> <a href="#70863" title="Node.this.Node">Node</a><span class="delimiter">(</span><a href="#73308" title="A">e</a><span class="delimiter">)</span></span>
+<a href="l180"></a><span id="l180">        </span>
+<a href="l181"></a><span id="l181">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(e: A)scales.utils.ListSet[A]" id="72152">unsafePlus</a><span class="delimiter">(</span><a title="A" id="73479">e</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="Node.this.Node" class="keyword">new</span> <a href="#70863" title="Node.this.Node">Node</a><span class="delimiter">(</span><a href="#73479" title="A">e</a><span class="delimiter">)</span></span>
+<a href="l182"></a><span id="l182"></span>
+<a href="l183"></a><span id="l183">    <span class="comment">/** &lt;code&gt;-&lt;/code&gt; can be used to remove a single element from</span>
+<a href="l184"></a><span id="l184">     *  a set.</span>
+<a href="l185"></a><span id="l185">     */</span></span>
+<a href="l186"></a><span id="l186">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(e: A)scales.utils.ListSet[A]" id="72153">-</a><span class="delimiter">(</span><a title="A" id="73381">e</a>: <a href="#9017" title="A">A</a><span class="delimiter">)</span>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <span title="scales.utils.ListSet[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#70827" title="=&gt; scalaz.Equal[A]">equal</a>.<span title="(a1: A, a2: A)Boolean">equal</span><span class="delimiter">(</span><a href="#73381" title="A">e</a>, <a href="#72161" title="=&gt; A">elem</a><span class="delimiter">)</span><span class="delimiter">)</span> <a href="#9016" title="scales.utils.ListSet[A]">self</a> <span class="keyword">else</span> <span class="delimiter">{</span></span>
+<a href="l187"></a><span id="l187">      <span class="keyword">val</span> <a title="scales.utils.ListSet[A]" id="73483">tail</a> = <a href="#9016" title="ListSet.this.type">self</a> <a href="#70852" title="(elem: A)scales.utils.ListSet[A]">-</a> <a href="#73381" title="A">e</a>; <span title="tail.Node" class="keyword">new</span> <a href="#73483" title="scales.utils.ListSet[A]">tail</a>.<a href="#70863" title="tail.Node">Node</a><span class="delimiter">(</span><a href="#72161" title="=&gt; A">elem</a><span class="delimiter">)</span></span>
+<a href="l188"></a><span id="l188">    <span class="delimiter">}</span></span>
+<a href="l189"></a><span id="l189"></span>
+<a href="l190"></a><span id="l190">    <span class="keyword">override</span> <span class="keyword">def</span> <a title="[B, C](e: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)scales.utils.ListSet[A]" id="72154">-</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="72157">B</a>,<a title="&gt;: Nothing &lt;: Any" id="72158">C</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="B" id="73384">e</a> : <a href="#72157" title="B">B</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.Equiv[C]" id="73385">equiv</a>: <a href="#9014" title="scales.utils.Equiv[C]">Equiv</a><span class="delimiter">[</span>C<span class="delimiter">]</span>, <a title="(A) =&gt; C" id="73386">viewA</a>: A =&gt; C, <a title="(B) =&gt; C" id="73387">viewB</a>: B =&gt; C<span class="delimiter">)</span> : <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = </span>
+<a href="l191"></a><span id="l191">      <span title="scales.utils.ListSet[A]" class="keyword">if</span> <span class="delimiter">(</span><a href="#71244" title="(b: B, c: A)(implicit evidence$4: (B) =&gt; C, implicit evidence$5: (A) =&gt; C)Boolean">equiv</a><a href="#73387" title="(B) =&gt; C" class="delimiter">(</a><a href="#73384" title="B">e</a>, <a href="#72161" title="=&gt; A">elem</a><span class="delimiter">)</span><span class="delimiter">)</span> <a href="#9016" title="scales.utils.ListSet[A]">self</a> <span class="keyword">else</span> <span class="delimiter">{</span></span>
+<a href="l192"></a><span id="l192">	<span class="keyword">val</span> <a title="scales.utils.ListSet[A]" id="73850">tail</a> = <a href="#9016" title="ListSet.this.type">self</a> <a href="#70853" title="(b: B)(implicit equiv: scales.utils.Equiv[C], implicit viewA: (A) =&gt; C, implicit viewB: (B) =&gt; C)scales.utils.ListSet[A]">-</a> <a href="#73384" title="B">e</a>; <span title="tail.Node" class="keyword">new</span> <a href="#73850" title="scales.utils.ListSet[A]">tail</a>.<a href="#70863" title="tail.Node">Node</a><span class="delimiter">(</span><a href="#72161" title="=&gt; A">elem</a><span class="delimiter">)</span></span>
+<a href="l193"></a><span id="l193">      <span class="delimiter">}</span></span>
+<a href="l194"></a><span id="l194"></span>
+<a href="l195"></a><span id="l195">    <span class="keyword">override</span> <span class="keyword">protected</span> <span class="keyword">def</span> <a title="(a: A)Node.this.Node" id="72159">newThis</a><span class="delimiter">(</span><a title="A" id="74195">a</a> : <a href="#9017" title="A">A</a><span class="delimiter">)</span> = <span title="Node.this.Node" class="keyword">new</span> <a href="#70863" title="Node.this.Node">Node</a><span class="delimiter">(</span><a href="#74195" title="A">a</a><span class="delimiter">)</span></span>
+<a href="l196"></a><span id="l196"></span>
+<a href="l197"></a><span id="l197">    <span class="keyword">override</span> <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; scales.utils.ListSet[A]" id="72160">next</a>: <a href="#9016" title="scales.utils.ListSet[A]">ListSet</a><span class="delimiter">[</span>A<span class="delimiter">]</span> = <a href="#9016" title="scales.utils.ListSet[A]">self</a></span>
+<a href="l198"></a><span id="l198">    </span>
+<a href="l199"></a><span id="l199">  <span class="delimiter">}</span></span>
+<a href="l200"></a><span id="l200"><span class="delimiter">}</span></span>
+<a href="l201"></a><span id="l201"></span>
+<a href="l202"></a><span id="l202">        </span>
+</pre>
+    </body>
+</html>

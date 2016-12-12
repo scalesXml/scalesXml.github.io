@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\StackUtils.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="keyword">import</span> scala.collection.immutable.Stack
+
+<span class="keyword">trait</span> <a title="trait StackUtils extends java.lang.Object with ScalaObject" id="11295">StackUtils</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="comment">// it is expected that the top is the same, afterwards recurse (as available) until a difference is seen</span>
+  @scala.annotation.tailrec
+  <span class="keyword">final</span> <span class="keyword">def</span> <a title="(p1: scala.collection.immutable.Stack[Int], p2: scala.collection.immutable.Stack[Int])Int" id="15443">compareStack</a><span class="delimiter">(</span><a title="scala.collection.immutable.Stack[Int]" id="84739">p1</a>: <span title="scala.collection.immutable.Stack[Int]">Stack</span><span class="delimiter">[</span>Int<span class="delimiter">]</span>, <a title="scala.collection.immutable.Stack[Int]" id="84740">p2</a>: <span title="scala.collection.immutable.Stack[Int]">Stack</span><span class="delimiter">[</span>Int<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Int">Int</span> = <span class="delimiter">{</span>
+    <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#84739" title="scala.collection.immutable.Stack[Int]">p1</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#84740" title="scala.collection.immutable.Stack[Int]">p2</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">==</span> <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span title="Int(1)" class="int">1</span> <span class="comment">// the position could be parent of same item, parents first </span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#84739" title="scala.collection.immutable.Stack[Int]">p1</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">==</span> <span title="Boolean(false)" class="keyword">false</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#84740" title="scala.collection.immutable.Stack[Int]">p2</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      -<span title="Int(-1)" class="int">1</span> <span class="comment">// the position could be parent of same item, parents first </span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#84739" title="scala.collection.immutable.Stack[Int]">p1</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#84740" title="scala.collection.immutable.Stack[Int]">p2</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <span title="Int(0)" class="int">0</span> <span class="comment">// no idea what this should be other than == 0 from normal comparisom</span>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+      <span class="comment">// get the tops, compare, if same pop and recurse</span>
+      <span class="keyword">val</span> <a title="Int" id="89238">t1</a> = <a href="#84739" title="scala.collection.immutable.Stack[Int]">p1</a>.<span title="=&gt; Int">top</span>
+      <span class="keyword">val</span> <a title="Int" id="89239">t2</a> = <a href="#84740" title="scala.collection.immutable.Stack[Int]">p2</a>.<span title="=&gt; Int">top</span>
+      <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#89238" title="Int">t1</a> <span title="(x: Int)Boolean">==</span> <a href="#89239" title="Int">t2</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <a href="#15443" title="(p1: scala.collection.immutable.Stack[Int], p2: scala.collection.immutable.Stack[Int])Int">compareStack</a><span class="delimiter">(</span><a href="#84739" title="scala.collection.immutable.Stack[Int]">p1</a>.<span title="=&gt; scala.collection.immutable.Stack[Int]">pop</span>, <a href="#84740" title="scala.collection.immutable.Stack[Int]">p2</a>.<span title="=&gt; scala.collection.immutable.Stack[Int]">pop</span><span class="delimiter">)</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+        <span title="Int" class="keyword">if</span> <span class="delimiter">(</span><a href="#89238" title="Int">t1</a> <span title="(x: Int)Boolean">&lt;</span> <a href="#89239" title="Int">t2</a><span class="delimiter">)</span>
+          <span title="Int(1)" class="int">1</span>
+        <span class="keyword">else</span>
+          -<span title="Int(-1)" class="int">1</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(test: scala.collection.immutable.Stack[Int], against: scala.collection.immutable.Stack[Int])Boolean" id="15444">sameBase</a><span class="delimiter">(</span><a title="scala.collection.immutable.Stack[Int]" id="89248">test</a>: <span title="scala.collection.immutable.Stack[Int]">Stack</span><span class="delimiter">[</span>Int<span class="delimiter">]</span>, <a title="scala.collection.immutable.Stack[Int]" id="89249">against</a>: <span title="scala.collection.immutable.Stack[Int]">Stack</span><span class="delimiter">[</span>Int<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = <span class="delimiter">{</span>
+
+    <span class="comment">/**
+     * Should go into a seperate util class along with compare
+     */</span>
+    @scala.annotation.tailrec
+    <span class="keyword">def</span> <a title="(test: scala.collection.immutable.Stack[Int], against: scala.collection.immutable.Stack[Int])Boolean" id="89251">iSameBase</a><span class="delimiter">(</span><a title="scala.collection.immutable.Stack[Int]" id="89252">test</a>: <span title="scala.collection.immutable.Stack[Int]">Stack</span><span class="delimiter">[</span>Int<span class="delimiter">]</span>, <a title="scala.collection.immutable.Stack[Int]" id="89253">against</a>: <span title="scala.collection.immutable.Stack[Int]">Stack</span><span class="delimiter">[</span>Int<span class="delimiter">]</span><span class="delimiter">)</span>: <span title="Boolean">Boolean</span> = <span class="delimiter">{</span>
+      <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#89252" title="scala.collection.immutable.Stack[Int]">test</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#89253" title="scala.collection.immutable.Stack[Int]">against</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">==</span> <span title="Boolean(false)" class="keyword">false</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span title="Boolean(true)" class="keyword">true</span> <span class="comment">// if it was empty to start its still true, if not against is still below this stack</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#89252" title="scala.collection.immutable.Stack[Int]">test</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">==</span> <span title="Boolean(false)" class="keyword">false</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#89253" title="scala.collection.immutable.Stack[Int]">against</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span title="Boolean(false)" class="keyword">false</span> <span class="comment">// base has more nodes</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#89252" title="scala.collection.immutable.Stack[Int]">test</a>.<span title="=&gt; Boolean">isEmpty</span> <span title="(x: Boolean)Boolean">&amp;&amp;</span> <a href="#89253" title="scala.collection.immutable.Stack[Int]">against</a>.<span title="=&gt; Boolean">isEmpty</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <span title="Boolean(true)" class="keyword">true</span> <span class="comment">// the same depth, and in this function the same position</span>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+        <span class="comment">// get the tops, compare, if same pop and recurse</span>
+        <span class="keyword">val</span> <a title="Int" id="89264">t1</a> = <a href="#89252" title="scala.collection.immutable.Stack[Int]">test</a>.<span title="=&gt; Int">top</span>
+        <span class="keyword">val</span> <a title="Int" id="89265">t2</a> = <a href="#89253" title="scala.collection.immutable.Stack[Int]">against</a>.<span title="=&gt; Int">top</span>
+        <span title="Boolean" class="keyword">if</span> <span class="delimiter">(</span><a href="#89264" title="Int">t1</a> <span title="(x: Int)Boolean">==</span> <a href="#89265" title="Int">t2</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+          <a href="#89251" title="(test: scala.collection.immutable.Stack[Int], against: scala.collection.immutable.Stack[Int])Boolean">iSameBase</a><span class="delimiter">(</span><a href="#89252" title="scala.collection.immutable.Stack[Int]">test</a>.<span title="=&gt; scala.collection.immutable.Stack[Int]">pop</span>, <a href="#89253" title="scala.collection.immutable.Stack[Int]">against</a>.<span title="=&gt; scala.collection.immutable.Stack[Int]">pop</span><span class="delimiter">)</span>
+        <span class="delimiter">}</span> <span class="keyword">else</span> <span class="delimiter">{</span>
+          <span title="Boolean(false)" class="keyword">false</span> <span class="comment">// different</span>
+        <span class="delimiter">}</span>
+      <span class="delimiter">}</span>
+    <span class="delimiter">}</span>
+    <a href="#89251" title="(test: scala.collection.immutable.Stack[Int], against: scala.collection.immutable.Stack[Int])Boolean">iSameBase</a><span class="delimiter">(</span><a href="#89248" title="scala.collection.immutable.Stack[Int]">test</a>, <a href="#89249" title="scala.collection.immutable.Stack[Int]">against</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

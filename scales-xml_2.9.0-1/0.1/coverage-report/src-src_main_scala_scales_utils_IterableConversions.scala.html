@@ -1,0 +1,361 @@
+<table class="classes"><tbody><tr>
+      <td class="barContainerLeft"><a href="#">&#x200B;scales/&#x200B;utils/<span class="header">&#x200B;IterableConversions.scala</span></a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Object_scales_utils_IterableConversions"><img src="object.png"></img>IterableConversions</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Class_scales_utils_IterableConversions_JavaEnumerationIterable"><img src="class.png"></img>IterableConversions.JavaEnumerationIterable</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Class_scales_utils_IterableConversions_JavaEnumerationIterator"><img src="class.png"></img>IterableConversions.JavaEnumerationIterator</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Class_scales_utils_IterableConversions_JavaIteratableIterable"><img src="class.png"></img>IterableConversions.JavaIteratableIterable</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Class_scales_utils_IterableConversions_JavaIteratorIterator"><img src="class.png"></img>IterableConversions.JavaIteratorIterator</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Class_scales_utils_JavaEnumerationConversions"><img src="class.png"></img>JavaEnumerationConversions</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Object_scales_utils_JavaEnumerationConversions"><img src="object.png"></img>JavaEnumerationConversions</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Object_scales_utils_JavaIterableConversions"><img src="object.png"></img>JavaIterableConversions</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Class_scales_utils_JavaIterableConversions_JavaIterable"><img src="class.png"></img>JavaIterableConversions.JavaIterable</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr><tr>
+      <td class="barContainerLeft"><a href="src-src_main_scala_scales_utils_IterableConversions.scala.html#Class_scales_utils_JavaIterableConversions_JavaIterator"><img src="class.png"></img>JavaIterableConversions.JavaIterator</a></td>
+      <td class="barContainerRight"><div class="percentages">
+      <div class="bar">
+        <div class="percentage">0 %</div>
+        <div class="greenBar" style="width:0px;">&nbsp;</div>
+      </div>
+    </div></td>
+    </tr></tbody></table><table class="source"><tbody><tr>
+            <td class="black">1</td>
+            <td>package scales.utils
+</td>
+          </tr><tr>
+            <td class="black">2</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">3</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">4</td>
+            <td> * Alot of this has since been included in the Scala standard lib, as such its pretty much unused, included incase.
+</td>
+          </tr><tr>
+            <td class="black">5</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">6</td>
+            <td> * General Java Iterable converters, allowing for comprehensions.
+</td>
+          </tr><tr>
+            <td class="black">7</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">8</td>
+            <td> * Based on suggestions from Jamie Webb (http://scala.sygneca.com/)
+</td>
+          </tr><tr>
+            <td class="black">9</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">10</td>
+            <td><a id="Object_scales_utils_IterableConversions"></a>object IterableConversions {
+</td>
+          </tr><tr>
+            <td class="black">11</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">12</td>
+            <td><a id="Class_scales_utils_IterableConversions_JavaIteratorIterator"></a>  case class JavaIteratorIterator[A]<span class="non">(itr: java.util.Iterator[A]) extends Iterator[A] {
+</span></td>
+          </tr><tr>
+            <td class="red">13</td>
+            <td>    def hasNext = <span class="non">itr.hasNext
+</span></td>
+          </tr><tr>
+            <td class="red">14</td>
+            <td>    def next() = <span class="non">itr.next
+</span></td>
+          </tr><tr>
+            <td class="black">15</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">16</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">17</td>
+            <td><a id="Class_scales_utils_IterableConversions_JavaEnumerationIterable"></a><a id="Class_scales_utils_IterableConversions_JavaIteratableIterable"></a><a id="Class_scales_utils_IterableConversions_JavaEnumerationIterator"></a>  case class JavaIteratableIterable[A]<span class="non">(iterable: java.lang.Iterable[A]) extends Iterable[A] {
+</span></td>
+          </tr><tr>
+            <td class="red">18</td>
+            <td>    def iterator = <span class="non">JavaIteratorIterator(iterable.iterator)
+</span></td>
+          </tr><tr>
+            <td class="black">19</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">20</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">21</td>
+            <td>  implicit def implicitJavaIterableToScalaIterable[A](iterable: java.lang.Iterable[A]): Iterable[A] =
+</td>
+          </tr><tr>
+            <td class="red">22</td>
+            <td>    <span class="non">JavaIteratableIterable(iterable)
+</span></td>
+          </tr><tr>
+            <td class="black">23</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">24</td>
+            <td>  case class JavaEnumerationIterator[A]<span class="non">(itr: java.util.Enumeration[A]) extends Iterator[A] {
+</span></td>
+          </tr><tr>
+            <td class="red">25</td>
+            <td>    def hasNext = <span class="non">itr.hasMoreElements
+</span></td>
+          </tr><tr>
+            <td class="red">26</td>
+            <td>    def next() = <span class="non">itr.nextElement
+</span></td>
+          </tr><tr>
+            <td class="black">27</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">28</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">29</td>
+            <td>  case class JavaEnumerationIterable[A]<span class="non">(iterable: java.util.Enumeration[A]) extends Iterable[A] {
+</span></td>
+          </tr><tr>
+            <td class="red">30</td>
+            <td>    def iterator = <span class="non">JavaEnumerationIterator(iterable)
+</span></td>
+          </tr><tr>
+            <td class="black">31</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">32</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">33</td>
+            <td>  implicit def implicitJavaEnumerationToScalaIterable[A](iterable: java.util.Enumeration[A]): Iterable[A] =
+</td>
+          </tr><tr>
+            <td class="red">34</td>
+            <td>    <span class="non">JavaEnumerationIterable(iterable)
+</span></td>
+          </tr><tr>
+            <td class="black">35</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">36</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">37</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">38</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">39</td>
+            <td> * See normal Scala lib, its got alot more in nowadays...
+</td>
+          </tr><tr>
+            <td class="black">40</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">41</td>
+            <td><a id="Object_scales_utils_JavaEnumerationConversions"></a>object JavaEnumerationConversions {
+</td>
+          </tr><tr>
+            <td class="black">42</td>
+            <td>  implicit def toEnumeration[A](iterator: java.util.Iterator[A]): java.util.Enumeration[A] =
+</td>
+          </tr><tr>
+            <td class="red">43</td>
+            <td><a id="Class_scales_utils_JavaEnumerationConversions"></a>    <span class="non">new java.util.Enumeration[A] {
+</span></td>
+          </tr><tr>
+            <td class="black">44</td>
+            <td>      def hasMoreElements = iterator.hasNext
+</td>
+          </tr><tr>
+            <td class="black">45</td>
+            <td>      def nextElement = iterator.next
+</td>
+          </tr><tr>
+            <td class="black">46</td>
+            <td>    }
+</td>
+          </tr><tr>
+            <td class="black">47</td>
+            <td>}
+</td>
+          </tr><tr>
+            <td class="black">48</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">49</td>
+            <td>/**
+</td>
+          </tr><tr>
+            <td class="black">50</td>
+            <td> * General Scala to Iterable converters, allowing for java use.
+</td>
+          </tr><tr>
+            <td class="black">51</td>
+            <td> * 
+</td>
+          </tr><tr>
+            <td class="black">52</td>
+            <td> */
+</td>
+          </tr><tr>
+            <td class="black">53</td>
+            <td><a id="Object_scales_utils_JavaIterableConversions"></a>object JavaIterableConversions {
+</td>
+          </tr><tr>
+            <td class="black">54</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">55</td>
+            <td><a id="Class_scales_utils_JavaIterableConversions_JavaIterator"></a>  class JavaIterator[T]<span class="non">(itr: Iterator[T]) extends java.util.Iterator[T] {
+</span></td>
+          </tr><tr>
+            <td class="red">56</td>
+            <td>    def hasNext() = <span class="non">itr.hasNext
+</span></td>
+          </tr><tr>
+            <td class="red">57</td>
+            <td>    def next() = <span class="non">itr.next
+</span></td>
+          </tr><tr>
+            <td class="red">58</td>
+            <td>    def remove() = <span class="non">throw new java.lang.UnsupportedOperationException(&quot;Remove is not implemented in JavaIterableConversions:JavaIterator&quot;)
+</span></td>
+          </tr><tr>
+            <td class="black">59</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">60</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="red">61</td>
+            <td><a id="Class_scales_utils_JavaIterableConversions_JavaIterable"></a>  class JavaIterable[T]<span class="non">(iterable: Iterable[T]) extends java.lang.Iterable[T] {
+</span></td>
+          </tr><tr>
+            <td class="red">62</td>
+            <td>    def iterator() = <span class="non">new JavaIterator[T](iterable.iterator)
+</span></td>
+          </tr><tr>
+            <td class="black">63</td>
+            <td>  }
+</td>
+          </tr><tr>
+            <td class="black">64</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">65</td>
+            <td>  implicit def implicitScalaIterableToJavaIterable[T](iterable: Iterable[T]): java.lang.Iterable[T] =
+</td>
+          </tr><tr>
+            <td class="red">66</td>
+            <td>    <span class="non">new JavaIterable[T](iterable)
+</span></td>
+          </tr><tr>
+            <td class="black">67</td>
+            <td>
+</td>
+          </tr><tr>
+            <td class="black">68</td>
+            <td>}
+</td>
+          </tr></tbody></table>

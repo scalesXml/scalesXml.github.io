@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\impl\EqualsHelpers.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.impl
+
+<span class="keyword">import</span> scalaz._
+<span class="keyword">import</span> <span title="object scalaz.Scalaz">Scalaz</span>._
+
+<span class="comment">/**
+ * Needed to help with cyclic issues in multi threaded MODULE$ access, after startup no problem, but we can't gaurantee that.
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.xml.impl.EqualsHelpers" id="9978">EqualsHelpers</a> <span title="ScalaObject" class="keyword">extends</span> scales.xml.equals.<a href="../equals/XmlComparisons.scala.html#11054" title="scales.xml.equals.DefaultQNameEquals">DefaultQNameEquals</a> <span class="delimiter">{</span>
+  
+  <span class="keyword">import</span> scales.xml.<span class="delimiter">{</span>Attribute, QName, AttributeQName<span class="delimiter">}</span>
+  
+  <span class="comment">// only used for default attribute comparisoms in Attributes</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scalaz.Equal[scales.xml.Attribute]" id="42863">aqnameEqual</a> = <span title="(f: (scales.xml.Attribute, scales.xml.Attribute) =&gt; Boolean)scalaz.Equal[scales.xml.Attribute]">equal</span> <span class="delimiter">{</span> <span class="delimiter">(</span>a: <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a>, b: <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a><span class="delimiter">)</span> =&gt; <a href="#47986" title="scales.xml.Attribute">a</a>.<a href="#42867" title="implicit scales.xml.impl.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">name</a> <a href="../QName.scala.html#42837" title="(other: scales.xml.QName)Boolean">=:=</a> <a href="#47987" title="scales.xml.Attribute">b</a>.<a href="#42867" title="implicit scales.xml.impl.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">name</a> <span class="delimiter">}</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.utils.Equiv[scales.xml.QName]" id="42865">qnameEquiv</a> : <a href="../../utils/Equiv.scala.html#12561" title="scales.utils.Equiv[scales.xml.QName]">scales</a>.utils.Equiv<span class="delimiter">[</span>QName<span class="delimiter">]</span> = <a href="../equals/XmlComparisons.scala.html#42859" title="scales.utils.Equiv[scales.xml.QName]" class="keyword">new</a> <a href="../../utils/Equiv.scala.html#12561" title="scales.utils.Equiv[scales.xml.QName]">scales</a>.utils.Equiv<span class="delimiter">[</span>QName<span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="implicit scales.xml.impl.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName" id="42867">toQName</a><span class="delimiter">(</span><a title="scales.xml.package.AttributeQName" id="48009">attribQName</a>: <a href="../../utils/EitherLike.scala.html#12558" title="scales.xml.package.AttributeQName">AttributeQName</a><span class="delimiter">)</span>: <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a> = <a href="#48009" title="scales.xml.package.AttributeQName">attribQName</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.QName" class="delimiter">[</span><a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a><span class="delimiter">]</span> <span class="comment">// otherwise it blows the stack calling itself</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.Attribute =&gt; scales.xml.QName" id="42868">toQNameF</a> = <span class="delimiter">(</span>a: <a href="../XmlTypes.scala.html#9450" title="scales.xml.Attribute">Attribute</a><span class="delimiter">)</span> =&gt; <span class="delimiter">{</span> <a href="#57721" title="scales.xml.Attribute">a</a>.<a href="#42867" title="implicit scales.xml.impl.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">name</a> : <a href="../QName.scala.html#9657" title="scales.xml.QName">QName</a> <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

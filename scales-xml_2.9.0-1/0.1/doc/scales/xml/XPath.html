@@ -1,0 +1,748 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>scales.xml.XPath</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../lib/template.css" />
+      <script type="text/javascript" src="../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img src="../../lib/class_big.png" />
+        <p id="owner"><a name="scales" class="extype" href="../package.html">scales</a>.<a name="scales.xml" class="extype" href="package.html">xml</a></p>
+        <h1>XPath</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="kind">class</span>
+      <span class="symbol"> 
+        <span class="name">XPath</span>
+        <span class="tparams">[<span name="PT">PT</span>]</span>
+        <span class="result"> extends <a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a> with <a name="scales.xml.XmlPaths.OtherNodeTypes" class="extype" href="XmlPaths$OtherNodeTypes.html">OtherNodeTypes</a> with <a name="scales.xml.XmlPaths.AttributeAxis" class="extype" href="XmlPaths$AttributeAxis.html">AttributeAxis</a> with <a name="scales.xml.XmlPaths.SiblingsAxis" class="extype" href="XmlPaths$SiblingsAxis.html">SiblingsAxis</a></span>
+      </span>
+      </h4>
+      
+          <div class="fullcommenttop" id="comment"><div class="comment cmt"><p>In contrast to the specs reverse axis are not supported.  This puts
+an extra effort on the user for translating, but I don't agree with
+the design anyway.  It adds both ambiguity for an embedded dsl:</p><p>//a:ShouldRedeclare/../text()[5]/preceding-sibling::text()[1]</p><p>is in reverse order (above is previousSibling in Path), whereas</p><p>(//a:ShouldRedeclare/../text()[5]/preceding-sibling::text())[1]</p><p>is in doc order (the first text child of the parent).  Such an arbritary decision does nothing but irritate.  A simpler design as found in this implementation is that the user can simply use full scala data functions to reverse as needed.</p><p>(Temptation is to provide the base type as SeqLike instead of Iterable as it should be in a sequence with a defined order, also then providing .reverse and friends)
+</p></div><dl class="attributes block"> <dt>Source</dt><dd><a href="../../../classes.sxr/scales/xml/XmlPaths.scala.html">XmlPaths.scala</a></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><a name="scales.xml.XmlPaths.SiblingsAxis" class="extype" href="XmlPaths$SiblingsAxis.html">SiblingsAxis</a>, <a name="scales.xml.XmlPaths.AttributeAxis" class="extype" href="XmlPaths$AttributeAxis.html">AttributeAxis</a>, <a name="scales.xml.XmlPaths.OtherNodeTypes" class="extype" href="XmlPaths$OtherNodeTypes.html">OtherNodeTypes</a>, <a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a>, <a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a>, AnyRef, <span name="scala.Any" class="extype">Any</span></div>
+        </div></div>
+        
+
+      <div id="template">
+
+        <div id="mbrsel">
+          <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+          <div id="order">
+                <span class="filtertype">Ordering</span>
+                <ol><li class="alpha in"><span>Alphabetic</span></li><li class="inherit out"><span>By inheritance</span></li></ol>
+              </div>
+          <div id="ancestors">
+                <span class="filtertype">Inherited</span>
+                <ol><li class="hideall out"><span>Hide All</span></li>
+                <li class="showall in"><span>Show all</span></li></ol>
+                <ol id="linearization"><li name="scales.xml.XPath" class="in"><span>XPath</span></li><li name="scales.xml.XmlPaths.SiblingsAxis" class="in"><span>SiblingsAxis</span></li><li name="scales.xml.XmlPaths.AttributeAxis" class="in"><span>AttributeAxis</span></li><li name="scales.xml.XmlPaths.OtherNodeTypes" class="in"><span>OtherNodeTypes</span></li><li name="scales.xml.XmlPaths.ElementStep" class="in"><span>ElementStep</span></li><li name="scales.xml.XmlPaths.Axis" class="in"><span>Axis</span></li><li name="scala.AnyRef" class="in"><span>AnyRef</span></li><li name="scala.Any" class="in"><span>Any</span></li></ol>
+              </div>
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+
+        <div class="members" id="constructors">
+              <h3>Instance Constructors</h3>
+              <ol><li visbl="pub" name="scales.xml.XPath#this" data-isabs="false">
+      <a id="this:XPath[PT]"></a>
+      <h4 class="signature">
+      <span class="kind">new</span>
+      <span class="symbol"> 
+        <span class="name">XPath</span>
+        
+        <span class="params">(<span name="path">path: <a name="scales.xml.XPathInfo" class="extype" href="XPathInfo.html">XPathInfo</a></span>, <span name="cbf">cbf: <span name="scala.collection.generic.CanBuildFrom" class="extype">CanBuildFrom</span>[PT, XmlPath, PT]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (PT) ⇒ Iterable[XmlPath]</span>)</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="scales.xml.XPath#T" data-isabs="false">
+      <a id="T:T"></a>
+      <h4 class="signature">
+      <span class="kind">type</span>
+      <span class="symbol"> 
+        <span class="name">T</span>
+        
+        <span class="result"> = PT</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XPath" class="extype" href="">XPath</a> → <a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li></ol>
+            </div>
+        
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="scala.AnyRef#!=" data-isabs="false">
+      <a id="!=(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">!=</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#!=" data-isabs="false">
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">!=</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef###" data-isabs="false">
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">##</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.ElementStep#*" data-isabs="false">
+      <a id="*:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">*</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all child elements</p><div class="fullcomment"><div class="comment cmt"><p>all child elements</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.ElementStep#*" data-isabs="false">
+      <a id="*(Int):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">*</span>
+        
+        <span class="params">(<span name="pos">pos: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Immediate child with position pos, should only be an element.</p><div class="fullcomment"><div class="comment cmt"><p>Immediate child with position pos, should only be an element. NOTE this will always be evaluated in place and is 1 indexed</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.ElementStep#*" data-isabs="false">
+      <a id="*((XmlPath) ⇒ Boolean):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">*</span>
+        
+        <span class="params">(<span name="pred">pred: (XmlPath) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Search for all immediate child elements matching the predicate</p><div class="fullcomment"><div class="comment cmt"><p>Search for all immediate child elements matching the predicate</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.ElementStep#*" data-isabs="false">
+      <a id="*(QName):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">*</span>
+        
+        <span class="params">(<span name="qname">qname: <a name="scales.xml.QName" class="extype" href="QName.html">QName</a></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Search for all immediate child elements with a matching qname</p><div class="fullcomment"><div class="comment cmt"><p>Search for all immediate child elements with a matching qname</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.AttributeAxis#*@" data-isabs="false">
+      <a id="*@(UnprefixedQName):Iterable[AttributePath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">*@</span>
+        
+        <span class="params">(<span name="qname">qname: <a name="scales.xml.UnprefixedQName" class="extype" href="UnprefixedQName.html">UnprefixedQName</a></span>)</span><span class="result">: Iterable[<a name="scales.xml.AttributePath" class="extype" href="AttributePath.html">AttributePath</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Loose match for UnprefixedQNames only, only matches local and namespace</p><div class="fullcomment"><div class="comment cmt"><p>Loose match for UnprefixedQNames only, only matches local and namespace</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.AttributeAxis" class="extype" href="XmlPaths$AttributeAxis.html">AttributeAxis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.AttributeAxis#*@" data-isabs="false">
+      <a id="*@[T](T)((T) ⇒ AttributeQName):Iterable[AttributePath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">*@</span>
+        <span class="tparams">[<span name="T">T</span>]</span>
+        <span class="params">(<span name="attrQname">attrQname: T</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: (T) ⇒ AttributeQName</span>)</span><span class="result">: Iterable[<a name="scales.xml.AttributePath" class="extype" href="AttributePath.html">AttributePath</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Special case for AttributeQNames, only local and namespace match</p><div class="fullcomment"><div class="comment cmt"><p>Special case for AttributeQNames, only local and namespace match</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.AttributeAxis" class="extype" href="XmlPaths$AttributeAxis.html">AttributeAxis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.AttributeAxis#*@" data-isabs="false">
+      <a id="*@((AttributePath) ⇒ Boolean):Iterable[AttributePath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">*@</span>
+        
+        <span class="params">(<span name="pred">pred: (<a name="scales.xml.AttributePath" class="extype" href="AttributePath.html">AttributePath</a>) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: Iterable[<a name="scales.xml.AttributePath" class="extype" href="AttributePath.html">AttributePath</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Search for all immediate attributes with a matching predicate (allows localName only searches for example)</p><div class="fullcomment"><div class="comment cmt"><p>Search for all immediate attributes with a matching predicate (allows localName only searches for example)</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.AttributeAxis" class="extype" href="XmlPaths$AttributeAxis.html">AttributeAxis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.AttributeAxis#*@" data-isabs="false">
+      <a id="*@:Iterable[AttributePath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">*@</span>
+        
+        <span class="result">: Iterable[<a name="scales.xml.AttributePath" class="extype" href="AttributePath.html">AttributePath</a>]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">All immediate attributes</p><div class="fullcomment"><div class="comment cmt"><p>All immediate attributes</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.AttributeAxis" class="extype" href="XmlPaths$AttributeAxis.html">AttributeAxis</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#==" data-isabs="false">
+      <a id="==(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">==</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#==" data-isabs="false">
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">==</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.Axis#\" data-isabs="false">
+      <a id="\:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">\</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">simply forwards the current context, element\item specific versions exist that step downwards in document order</p><div class="fullcomment"><div class="comment cmt"><p>simply forwards the current context, element\item specific versions exist that step downwards in document order</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.ElementStep#\*" data-isabs="false">
+      <a id="\*:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">\*</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.ElementStep#\*" data-isabs="false">
+      <a id="\*(Int):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">\*</span>
+        
+        <span class="params">(<span name="pos">pos: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.ElementStep#\*" data-isabs="false">
+      <a id="\*((XmlPath) ⇒ Boolean):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">\*</span>
+        
+        <span class="params">(<span name="pred">pred: (XmlPath) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.ElementStep#\*" data-isabs="false">
+      <a id="\*(QName):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">\*</span>
+        
+        <span class="params">(<span name="qname">qname: <a name="scales.xml.QName" class="extype" href="QName.html">QName</a></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.Axis#\+" data-isabs="false">
+      <a id="\+:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">\+</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all children unpacked, normal xpath requires the context in E1/E2, which hugely complicates things, so \ is this, \+ is \ in the case where unpacking is needed
+which just leavres \* varieties for elements.</p><div class="fullcomment"><div class="comment cmt"><p>all children unpacked, normal xpath requires the context in E1/E2, which hugely complicates things, so \ is this, \+ is \ in the case where unpacking is needed
+which just leavres \* varieties for elements.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.Axis#\\" data-isabs="false">
+      <a id="\\:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">\\</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all descendants</p><div class="fullcomment"><div class="comment cmt"><p>all descendants</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.Axis#\^" data-isabs="false">
+      <a id="\^:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">\^</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Parents of these paths</p><div class="fullcomment"><div class="comment cmt"><p>Parents of these paths</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.Any#asInstanceOf" data-isabs="false">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">asInstanceOf</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XPath#cbf" data-isabs="false">
+      <a id="cbf:CanBuildFrom[PT, XmlPath, PT]"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">cbf</span>
+        
+        <span class="result">: <span name="scala.collection.generic.CanBuildFrom" class="extype">CanBuildFrom</span>[PT, XmlPath, PT]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.XmlPaths.OtherNodeTypes#cdata" data-isabs="false">
+      <a id="cdata:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">cdata</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all cdata child elements</p><div class="fullcomment"><div class="comment cmt"><p>all cdata child elements</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.OtherNodeTypes" class="extype" href="XmlPaths$OtherNodeTypes.html">OtherNodeTypes</a></dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#clone" data-isabs="false">
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">clone</span>
+        
+        <span class="params">()</span><span class="result">: AnyRef</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.OtherNodeTypes#comment" data-isabs="false">
+      <a id="comment:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">comment</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all commnent child elements</p><div class="fullcomment"><div class="comment cmt"><p>all commnent child elements</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.OtherNodeTypes" class="extype" href="XmlPaths$OtherNodeTypes.html">OtherNodeTypes</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XPath#empty" data-isabs="false">
+      <a id="empty:Iterable[XmlPath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">empty</span>
+        
+        <span class="result">: Iterable[XmlPath]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XPath" class="extype" href="">XPath</a> → <a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#eq" data-isabs="false">
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">eq</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#equals" data-isabs="false">
+      <a id="equals(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">equals</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Any" class="extype">Any</span></span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.Axis#filter" data-isabs="false">
+      <a id="filter((XmlPath) ⇒ Boolean):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">filter</span>
+        
+        <span class="params">(<span name="pred">pred: (XmlPath) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">filter through the current matches</p><div class="fullcomment"><div class="comment cmt"><p>filter through the current matches</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="prt" name="scala.AnyRef#finalize" data-isabs="false">
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">finalize</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a name="java.lang" class="extype" href="../../java/lang/package.html">lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#getClass" data-isabs="false">
+      <a id="getClass():java.lang.Class[_]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">getClass</span>
+        
+        <span class="params">()</span><span class="result">: java.lang.Class[_]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#hashCode" data-isabs="false">
+      <a id="hashCode():Int"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">hashCode</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Int" class="extype">Int</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XPath#in" data-isabs="false">
+      <a id="in((XPath[T]) ⇒ XPath[T]):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">in</span>
+        
+        <span class="params">(<span name="f">f: (<a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]) ⇒ <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Allow working within the XPath, easily extend and test
+</p>
+    </li><li visbl="pub" name="scala.Any#isInstanceOf" data-isabs="false">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">isInstanceOf</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XPath#just" data-isabs="false">
+      <a id="just(XmlPath):Iterable[XmlPath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">just</span>
+        
+        <span class="params">(<span name="only">only: XmlPath</span>)</span><span class="result">: Iterable[XmlPath]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XPath" class="extype" href="">XPath</a> → <a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#ne" data-isabs="false">
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">ne</span>
+        
+        <span class="params">(<span name="arg0">arg0: AnyRef</span>)</span><span class="result">: <span name="scala.Boolean" class="extype">Boolean</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XPath#newThis" data-isabs="false">
+      <a id="newThis(XPathInfo):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">newThis</span>
+        
+        <span class="params">(<span name="xpathInfo">xpathInfo: <a name="scales.xml.XPathInfo" class="extype" href="XPathInfo.html">XPathInfo</a></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XPath" class="extype" href="">XPath</a> → <a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.Axis#node" data-isabs="false">
+      <a id="node((XmlPath) ⇒ Boolean):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">node</span>
+        
+        <span class="params">(<span name="pred">pred: (XmlPath) ⇒ <span name="scala.Boolean" class="extype">Boolean</span></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all children with the given predicate</p><div class="fullcomment"><div class="comment cmt"><p>all children with the given predicate</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notify" data-isabs="false">
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">notify</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#notifyAll" data-isabs="false">
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">notifyAll</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XPath#one" data-isabs="false">
+      <a id="one:Iterable[XmlPath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">one</span>
+        
+        <span class="result">: Iterable[XmlPath]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Some when its only one in the result set
+</p>
+    </li><li visbl="pub" name="scales.xml.XPath#oneOr" data-isabs="false">
+      <a id="oneOr((XPath[T]) ⇒ Iterable[XmlPath]):Iterable[XmlPath]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">oneOr</span>
+        
+        <span class="params">(<span name="handler">handler: (<a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]) ⇒ Iterable[XmlPath]</span>)</span><span class="result">: Iterable[XmlPath]</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="scales.xml.XPath#path" data-isabs="false">
+      <a id="path:XPathInfo"></a>
+      <h4 class="signature">
+      <span class="kind">val</span>
+      <span class="symbol"> 
+        <span class="name">path</span>
+        
+        <span class="result">: <a name="scales.xml.XPathInfo" class="extype" href="XPathInfo.html">XPathInfo</a></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XPath" class="extype" href="">XPath</a> → <a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.OtherNodeTypes#pi" data-isabs="false">
+      <a id="pi:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">pi</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all pi child elements</p><div class="fullcomment"><div class="comment cmt"><p>all pi child elements</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.OtherNodeTypes" class="extype" href="XmlPaths$OtherNodeTypes.html">OtherNodeTypes</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.Axis#pos" data-isabs="false">
+      <a id="pos(⇒ Int):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">pos</span>
+        
+        <span class="params">(<span name="pos">pos: ⇒ <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">0 index based, not spec, but unsure if it should be
+</p><div class="fullcomment"><div class="comment cmt"><p>0 index based, not spec, but unsure if it should be
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.Axis#process" data-isabs="false">
+      <a id="process(Iterable[Iterable[XmlPath]],Boolean,Boolean):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">process</span>
+        
+        <span class="params">(<span name="nodes">nodes: Iterable[Iterable[XmlPath]]</span>, <span name="performSort">performSort: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol"><span class="name"><a href="XmlPaths$Axis.html#path:XPathInfo">path.mustBeSorted</a></span></span></span>, <span name="filterDuplicates">filterDuplicates: <span name="scala.Boolean" class="extype">Boolean</span> = <span class="symbol"><span class="name"><a href="XmlPaths$Axis.html#path:XPathInfo">path.filterDuplicates</a></span></span></span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#synchronized" data-isabs="false">
+      <a id="synchronized[T0](⇒ T0):T0"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">synchronized</span>
+        <span class="tparams">[<span name="T0">T0</span>]</span>
+        <span class="params">(<span name="arg0">arg0: ⇒ T0</span>)</span><span class="result">: T0</span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.OtherNodeTypes#text" data-isabs="false">
+      <a id="text:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">text</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all text child elements - xpath standard way, including cdata nodes, filtered to join adjacent text nodes</p><div class="fullcomment"><div class="comment cmt"><p>all text child elements - xpath standard way, including cdata nodes, filtered to join adjacent text nodes</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.OtherNodeTypes" class="extype" href="XmlPaths$OtherNodeTypes.html">OtherNodeTypes</a></dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XmlPaths.OtherNodeTypes#textOnly" data-isabs="false">
+      <a id="textOnly:XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">textOnly</span>
+        
+        <span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">all text child elements - not including cdata nodes, neither sorted nor dup filtered</p><div class="fullcomment"><div class="comment cmt"><p>all text child elements - not including cdata nodes, neither sorted nor dup filtered</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a name="scales.xml.XmlPaths.OtherNodeTypes" class="extype" href="XmlPaths$OtherNodeTypes.html">OtherNodeTypes</a></dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#toString" data-isabs="false">
+      <a id="toString():String"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">toString</span>
+        
+        <span class="params">()</span><span class="result">: <span name="java.lang.String" class="extype">String</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">()</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>, <span name="arg1">arg1: <span name="scala.Int" class="extype">Int</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scala.AnyRef#wait" data-isabs="false">
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">wait</span>
+        
+        <span class="params">(<span name="arg0">arg0: <span name="scala.Long" class="extype">Long</span></span>)</span><span class="result">: <span name="scala.Unit" class="extype">Unit</span></span>
+      </span>
+      </h4>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>final </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">()</span>
+              
+        </dd></dl></div>
+    </li><li visbl="pub" name="scales.xml.XPath#|&gt;" data-isabs="false">
+      <a id="|&gt;((XPath[T]) ⇒ XPath[T]):XPath[T]"></a>
+      <h4 class="signature">
+      <span class="kind">def</span>
+      <span class="symbol"> 
+        <span class="name">|&gt;</span>
+        
+        <span class="params">(<span name="f">f: (<a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]) ⇒ <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>)</span><span class="result">: <a name="scales.xml.XPath" class="extype" href="">XPath</a>[T]</span>
+      </span>
+      </h4>
+      <p class="shortcomment cmt">Allow working within the XPath, easily extend and test
+</p>
+    </li></ol>
+            </div>
+
+        <div name="scales.xml.XmlPaths.SiblingsAxis" class="parent">
+              <h3>Inherited from <a name="scales.xml.XmlPaths.SiblingsAxis" class="extype" href="XmlPaths$SiblingsAxis.html">SiblingsAxis</a></h3>
+            </div><div name="scales.xml.XmlPaths.AttributeAxis" class="parent">
+              <h3>Inherited from <a name="scales.xml.XmlPaths.AttributeAxis" class="extype" href="XmlPaths$AttributeAxis.html">AttributeAxis</a></h3>
+            </div><div name="scales.xml.XmlPaths.OtherNodeTypes" class="parent">
+              <h3>Inherited from <a name="scales.xml.XmlPaths.OtherNodeTypes" class="extype" href="XmlPaths$OtherNodeTypes.html">OtherNodeTypes</a></h3>
+            </div><div name="scales.xml.XmlPaths.ElementStep" class="parent">
+              <h3>Inherited from <a name="scales.xml.XmlPaths.ElementStep" class="extype" href="XmlPaths$ElementStep.html">ElementStep</a></h3>
+            </div><div name="scales.xml.XmlPaths.Axis" class="parent">
+              <h3>Inherited from <a name="scales.xml.XmlPaths.Axis" class="extype" href="XmlPaths$Axis.html">Axis</a></h3>
+            </div><div name="scala.AnyRef" class="parent">
+              <h3>Inherited from AnyRef</h3>
+            </div><div name="scala.Any" class="parent">
+              <h3>Inherited from <span name="scala.Any" class="extype">Any</span></h3>
+            </div>
+
+      </div>
+      
+      <div id="tooltip"></div>
+      
+    </body>
+      </html>

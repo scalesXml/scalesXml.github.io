@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\xpath\Functions.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.xpath
+
+<span class="keyword">import</span> scales.xml._
+<span class="keyword">import</span> scales.utils._
+
+<span class="comment">/**
+ * Type class representing Xml objects which provide qnames.  Most of the
+ * functions allow for implicit scope to ease use in xpaths.
+ */</span> 
+<span class="keyword">trait</span> <a title="trait Names[T] extends java.lang.Object" id="14479">Names</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14636">T</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+
+  <span class="comment">/**
+   * Returns the QName
+   */</span> 
+  <span class="keyword">def</span> <a title="(implicit t: T)scales.xml.QName" id="95338">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120213">t</a> : <a href="#14636" title="T">T</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a>
+
+<span class="delimiter">}</span>
+
+<span class="comment">// Note - 2.8.x doesn't allow multiple implicit lists so we must combine them and duplicate the interface</span>
+
+<span class="comment">/**
+ * Dummy implicit filler for easing interface issues
+ */</span> 
+<span class="keyword">class</span> <a title="class DIF extends java.lang.Object with ScalaObject" id="14311">DIF</a><a href="#14311" title="ScalaObject" class="delimiter">(</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * Represents an empty qname for those cases that should return empty string
+ */</span>
+<span class="keyword">protected</span><span class="delimiter">[</span>xml<span class="delimiter">]</span> <span class="keyword">object</span> <a title="object scales.xml.xpath.EmptyQName" id="14426">EmptyQName</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">/**
+   * Both namespace and localname are empty
+   */</span> 
+  <span class="keyword">protected</span><span class="delimiter">[</span>xml<span class="delimiter">]</span> <span class="keyword">val</span> <a title="apply extends java.lang.Object with scales.xml.NoNamespaceQName" id="120216">empty</a> = <a href="../QName.scala.html#92199" title="(locali: String)(implicit ver: scales.xml.XmlVersion, implicit fromParser: scales.xml.FromParser)java.lang.Object with scales.xml.NoNamespaceQName">NoNamespaceQName</a><span class="delimiter">(</span><span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span><span class="delimiter">)</span><span class="delimiter">(</span><a href="../Namespaces.scala.html#12865" title="object scales.xml.Xml10">Xml10</a>, <a href="../XmlTypesDefaults.scala.html#15197" title="object scales.xml.package.IsFromParser">IsFromParser</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Collects all type class based xpath functions, exposed via Functions in package
+ *
+ * Also adds aliases for the common functions
+ */</span> 
+<span class="keyword">object</span> <a title="object scales.xml.xpath.Functions" id="14444">Functions</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14476" title="scales.xml.xpath.NameFunctions">NameFunctions</a> <span class="keyword">with</span> <a href="#14560" title="scales.xml.xpath.TextFunctions">TextFunctions</a> <span class="delimiter">{</span>
+  <span class="comment">/**
+   * hasLocalName for XmlPaths
+   */</span> 
+  <span class="keyword">def</span> <a title="(local: String)scales.xml.package.XmlPath =&gt; Boolean" id="113104">hasLocalNameX</a><span class="delimiter">(</span> <a title="String" id="120245">local</a> : <span title="String">String</span> <span class="delimiter">)</span> : XmlPath =&gt; Boolean =
+    <span class="delimiter">(</span>x : <a href="../../utils/Paths.scala.html#11083" title="scales.xml.package.XmlPath">XmlPath</a><span class="delimiter">)</span> =&gt; <a href="#113042" title="[T](localName: String)(implicit name: scales.xml.xpath.Names[T])T =&gt; Boolean">hasLocalName</a><span title="(localName: String)(implicit name: scales.xml.xpath.Names[scales.xml.package.XmlPath])scales.xml.package.XmlPath =&gt; Boolean" class="delimiter">[</span><a href="../../utils/Paths.scala.html#11083" title="scales.xml.package.XmlPath">XmlPath</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#120245" title="String">local</a><span class="delimiter">)</span><span title="(v1: scales.xml.package.XmlPath)Boolean" class="delimiter">(</span><a href="#14582" title="object scales.xml.xpath.XmlPathNames">XmlPathNames</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#120248" title="scales.xml.package.XmlPath">x</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * hasLocalName for AttributePaths
+   */</span> 
+  <span class="keyword">def</span> <a title="(local: String)scales.xml.AttributePath =&gt; Boolean" id="113105">hasLocalNameA</a><span class="delimiter">(</span> <a title="String" id="120255">local</a> : <span title="String">String</span> <span class="delimiter">)</span> : AttributePath =&gt; Boolean =
+    <span class="delimiter">(</span>x : <a href="../XPathTypes.scala.html#12135" title="scales.xml.AttributePath">AttributePath</a><span class="delimiter">)</span> =&gt; <a href="#113042" title="[T](localName: String)(implicit name: scales.xml.xpath.Names[T])T =&gt; Boolean">hasLocalName</a><span title="(localName: String)(implicit name: scales.xml.xpath.Names[scales.xml.AttributePath])scales.xml.AttributePath =&gt; Boolean" class="delimiter">[</span><a href="../XPathTypes.scala.html#12135" title="scales.xml.AttributePath">AttributePath</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#120255" title="String">local</a><span class="delimiter">)</span><span title="(v1: scales.xml.AttributePath)Boolean" class="delimiter">(</span><a href="#14255" title="object scales.xml.xpath.AttributePathNames">AttributePathNames</a><span class="delimiter">)</span><span class="delimiter">(</span><a href="#120258" title="scales.xml.AttributePath">x</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Functions providing access to QNames
+ */</span> 
+<span class="keyword">trait</span> <a title="trait NameFunctions extends java.lang.Object with ScalaObject" id="14476">NameFunctions</a> <span title="ScalaObject" class="delimiter">{</span>
+
+  <span class="keyword">private</span> <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName" id="113033">toQName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113035">T</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="T" id="120263">t</a> : <a href="#113035" title="T">T</a> <span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120264">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> =
+    <a href="#120264" title="scales.xml.xpath.Names[T]">name</a>.<a href="#95338" title="(implicit t: T)scales.xml.QName">name</a><span class="delimiter">(</span><a href="#120263" title="T">t</a><span class="delimiter">)</span>
+  
+  <span class="comment">/**
+   * Returns the localName
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)String" id="113036">localName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113038">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120270">t</a> : <a href="#113038" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120271">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120272">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91870" title="=&gt; String">local</a>
+
+  <span class="comment">/**
+   * Returns the localName
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])String" id="113039">localName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113041">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120294">t</a> : <a href="#113041" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120295">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91870" title="=&gt; String">local</a>
+
+  <span class="comment">/**
+   * curried to allow direct drop in for predicates, if it is an item then it will return false
+   */</span>
+  <span class="keyword">def</span> <a title="[T](localName: String)(implicit name: scales.xml.xpath.Names[T])T =&gt; Boolean" id="113042">hasLocalName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113044">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="120249">localName</a> : <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120250">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span> : T =&gt; Boolean =
+    <span class="delimiter">(</span>t : <a href="#113044" title="T">T</a><span class="delimiter">)</span> =&gt; <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91870" title="=&gt; String">local</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#120249" title="String">localName</a>
+  
+  <span class="comment">/**
+   * Does the qname match exactly (prefix included if present)
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](qname: scales.xml.QName)(implicit name: scales.xml.xpath.Names[T])T =&gt; Boolean" id="113045">isExactly</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113047">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="scales.xml.QName" id="120336">qname</a> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120337">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span> :  T =&gt; Boolean =
+    <span class="delimiter">(</span>t : <a href="#113047" title="T">T</a><span class="delimiter">)</span> =&gt; <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a> <a href="../QName.scala.html#91879" title="(other: scales.xml.QName)Boolean">===</a> <a href="#120336" title="scales.xml.QName">qname</a>
+    
+  <span class="comment">/**
+   * Matches on prefix and namespace only
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](qname: scales.xml.QName)(implicit name: scales.xml.xpath.Names[T])T =&gt; Boolean" id="113048">isEquivalent</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113050">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="scales.xml.QName" id="120359">qname</a> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120360">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span> : T =&gt; Boolean =
+    <span class="delimiter">(</span>t : <a href="#113050" title="T">T</a><span class="delimiter">)</span> =&gt; <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a> <a href="../QName.scala.html#91880" title="(other: scales.xml.QName)Boolean">=:=</a> <a href="#120359" title="scales.xml.QName">qname</a>
+
+  <span class="comment">/**
+   * Returns the XPath QName - prefix:local or local
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)String" id="113051">qname</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113053">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120380">t</a> : <a href="#113053" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120381">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120382">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <span title="String">String</span> = 
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91875" title="=&gt; java.lang.String">qName</a>
+
+  <span class="comment">/**
+   * Returns the XPath QName - prefix:local or local
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])String" id="113054">qname</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113056">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120402">t</a> : <a href="#113056" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120403">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="String">String</span> = 
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91875" title="=&gt; java.lang.String">qName</a>
+
+  <span class="comment">/**
+   * Returns the XPath QName - prefix:local or local
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)String" id="113057">qName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113059">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120422">t</a> : <a href="#113059" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120423">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120424">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <span title="String">String</span> = 
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91875" title="=&gt; java.lang.String">qName</a>
+
+  <span class="comment">/**
+   * Returns the XPath QName - prefix:local or local
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])String" id="113060">qName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113062">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120444">t</a> : <a href="#113062" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120445">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="String">String</span> = 
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91875" title="=&gt; java.lang.String">qName</a>
+
+  <span class="comment">/**
+   * We cannot allow the QName to escape if its invalid.
+   */</span> 
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">def</span> <a title="(r: scales.xml.QName)scales.xml.QName" id="113063">testNonEmpty</a><span class="delimiter">(</span> <a title="scales.xml.QName" id="120464">r</a> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> <span class="delimiter">)</span> = 
+    <span title="scales.xml.QName" class="keyword">if</span> <span class="delimiter">(</span><a href="#120464" title="scales.xml.QName">r</a> <span title="(x$1: AnyRef)Boolean">eq</span> <a href="#14426" title="object scales.xml.xpath.EmptyQName">EmptyQName</a>.<a href="#120216" title="=&gt; java.lang.Object with scales.xml.NoNamespaceQName">empty</a><span class="delimiter">)</span> 
+      <a href="../../utils/package.scala.html#14825" title="(str: String)Nothing">error</a><span class="delimiter">(</span><span title="java.lang.String(&quot;A Names instance has returned the EmptyQName.  This is not directly accessable&quot;)" class="string">&quot;A Names instance has returned the EmptyQName.  This is not directly accessable&quot;</span><span class="delimiter">)</span>
+    <span class="keyword">else</span> 
+      <a href="#120464" title="scales.xml.QName">r</a>
+
+  <span class="comment">/**
+   * Returns the QName, will throw if the QName is &quot;empty&quot;
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)scales.xml.QName" id="113064">name</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113066">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120467">t</a> : <a href="#113066" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120468">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120469">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = 
+    <a href="#113063" title="(r: scales.xml.QName)scales.xml.QName">testNonEmpty</a><span class="delimiter">(</span><a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Returns the QName, will throw if the QName is &quot;empty&quot;
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName" id="113067">name</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113069">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120485">t</a> : <a href="#113069" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120486">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = 
+    <a href="#113063" title="(r: scales.xml.QName)scales.xml.QName">testNonEmpty</a><span class="delimiter">(</span><a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Will be true for all values of T except when the resulting QName is &quot;empty&quot;.
+   *
+   * If hasQName is false then calling name will throw
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)Boolean" id="113070">hasQName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113072">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120501">t</a> : <a href="#113072" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120502">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120503">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <span title="Boolean">Boolean</span> = 
+    <a href="#120502" title="scales.xml.xpath.Names[T]">name</a>.<a href="#95338" title="(implicit t: T)scales.xml.QName">name</a><span class="delimiter">(</span><a href="#120501" title="T">t</a><span class="delimiter">)</span> <span title="(x$1: AnyRef)Boolean">ne</span> <a href="#14426" title="object scales.xml.xpath.EmptyQName">EmptyQName</a>.<a href="#120216" title="=&gt; java.lang.Object with scales.xml.NoNamespaceQName">empty</a>
+
+  <span class="comment">/**
+   * Will be true for all values of T except when the resulting QName is &quot;empty&quot;.
+   *
+   * If hasQName is false then calling name will throw
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])Boolean" id="113073">hasQName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113075">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120509">t</a> : <a href="#113075" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120510">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="Boolean">Boolean</span> = 
+    <a href="#113070" title="(implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)Boolean">hasQName</a><span class="delimiter">(</span><a href="#120509" title="T">t</a>, <a href="#120510" title="scales.xml.xpath.Names[T]">name</a>, <a href="#14312" title="object scales.xml.xpath.DIF">DIF</a>.<a href="#95365" title="=&gt; scales.xml.xpath.DIF">dif</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * Returns the qualified name {namespace}local
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)String" id="113076">qualifiedName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113078">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120535">t</a> : <a href="#113078" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120536">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120537">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91877" title="=&gt; java.lang.String">qualifiedName</a>
+
+  <span class="comment">/**
+   * Returns the qualified name {namespace}local
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])String" id="113079">qualifiedName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113081">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120559">t</a> : <a href="#113081" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120560">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91877" title="=&gt; java.lang.String">qualifiedName</a>
+
+  <span class="comment">/**
+   * Returns either qualifiedName or prefix:{namespace}local when a prefix is present
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)String" id="113082">pqName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113084">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120579">t</a> : <a href="#113084" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120580">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120581">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91876" title="=&gt; java.lang.String">pqName</a>
+
+  <span class="comment">/**
+   * Returns either qualifiedName or prefix:{namespace}local when a prefix is present
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])String" id="113085">pqName</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113087">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120603">t</a> : <a href="#113087" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120604">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91876" title="=&gt; java.lang.String">pqName</a>
+
+  <span class="comment">/**
+   * Returns the underlying namespace object
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)scales.xml.UnderlyingNamespace" id="113088">namespace</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113090">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120623">t</a> : <a href="#113090" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120624">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120625">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <a href="../Namespaces.scala.html#12831" title="scales.xml.UnderlyingNamespace">UnderlyingNamespace</a> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91871" title="=&gt; scales.xml.UnderlyingNamespace">namespace</a>
+
+  <span class="comment">/**
+   * matches only the namespace
+   */</span>
+  <span class="keyword">def</span> <a title="[T](namespace: scales.xml.Namespace)(implicit name: scales.xml.xpath.Names[T])T =&gt; Boolean" id="113091">hasNamespace</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113093">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="scales.xml.Namespace" id="120645">namespace</a> : <a href="../Namespaces.scala.html#12507" title="scales.xml.Namespace">Namespace</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120646">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : T =&gt; Boolean =
+    <span class="delimiter">(</span>t : <a href="#113093" title="T">T</a><span class="delimiter">)</span> =&gt; <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91871" title="=&gt; scales.xml.UnderlyingNamespace">namespace</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#120645" title="scales.xml.Namespace">namespace</a>
+
+  <span class="comment">/**
+   * XPath namespace-uri function, returns the uri
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit name: scales.xml.xpath.Names[T], implicit d: scales.xml.xpath.DIF)String" id="113094">namespaceUri</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113096">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120671">t</a> : <a href="#113096" title="T">T</a>, <a title="scales.xml.xpath.Names[T]" id="120672">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120673">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91871" title="=&gt; scales.xml.UnderlyingNamespace">namespace</a>.<a href="../Namespaces.scala.html#91831" title="=&gt; String">uri</a>
+
+  <span class="comment">/**
+   * XPath namespace-uri function, returns the uri
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit name: scales.xml.xpath.Names[T])String" id="113097">namespaceUri</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113099">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120693">t</a> : <a href="#113099" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120694">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91871" title="=&gt; scales.xml.UnderlyingNamespace">namespace</a>.<a href="../Namespaces.scala.html#91831" title="=&gt; String">uri</a>
+
+  <span class="comment">/**
+   * matches only the namespace
+   */</span>
+  <span class="keyword">def</span> <a title="[T](namespaceUri: String)(implicit name: scales.xml.xpath.Names[T])T =&gt; Boolean" id="113100">hasNamespace</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="113102">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="String" id="120713">namespaceUri</a> : <span title="String">String</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.Names[T]" id="120714">name</a> : <a href="#14479" title="scales.xml.xpath.Names[T]">Names</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : T =&gt; Boolean =
+    <span class="delimiter">(</span>t : <a href="#113102" title="T">T</a><span class="delimiter">)</span> =&gt; <a href="#113033" title="(t: T)(implicit name: scales.xml.xpath.Names[T])scales.xml.QName">t</a>.<a href="../QName.scala.html#91871" title="=&gt; scales.xml.UnderlyingNamespace">namespace</a>.<a href="../Namespaces.scala.html#91831" title="=&gt; String">uri</a> <span title="(x$1: AnyRef)Boolean">==</span> <a href="#120713" title="String">namespaceUri</a>
+
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait FunctionImplicits extends java.lang.Object with scales.xml.xpath.TextImplicits with scales.xml.xpath.NamesImplicits" id="14431">FunctionImplicits</a> <span class="keyword">extends</span> <a href="#14566" title="scales.xml.xpath.TextImplicits">TextImplicits</a> <span class="keyword">with</span> <a href="#14485" title="scales.xml.xpath.NamesImplicits">NamesImplicits</a>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.DIF" id="14312">DIF</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">// only used to seperate the interfaces, fully implicit gets this as well</span>
+  <span class="keyword">val</span> <a title="scales.xml.xpath.DIF" id="95365">dif</a> = <span title="scales.xml.xpath.DIF" class="keyword">new</span> <a href="#14311" title="scales.xml.xpath.DIF">DIF</a><span class="delimiter">(</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Name type classes
+ */</span> 
+<span class="keyword">trait</span> <a title="trait NamesImplicits extends java.lang.Object with ScalaObject" id="14485">NamesImplicits</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">// only used to seperate the interfaces, fully implicit gets this as well</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.DIF" id="92406">dif</a> = <a href="#14312" title="object scales.xml.xpath.DIF">DIF</a>.<a href="#95365" title="=&gt; scales.xml.xpath.DIF">dif</a>
+
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.AttributeNames.type" id="92408">attribNames</a> = <a href="#14249" title="object scales.xml.xpath.AttributeNames">AttributeNames</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.AttributePathNames.type" id="92410">attributePathNames</a> = <a href="#14255" title="object scales.xml.xpath.AttributePathNames">AttributePathNames</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.XmlPathNames.type" id="92412">xpathNames</a> = <a href="#14582" title="object scales.xml.xpath.XmlPathNames">XmlPathNames</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.ElemNames.type" id="92414">elemNames</a> = <a href="#14420" title="object scales.xml.xpath.ElemNames">ElemNames</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.XmlTreeNames.type" id="92416">xtreeNames</a> = <a href="#14600" title="object scales.xml.xpath.XmlTreeNames">XmlTreeNames</a> 
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.QNameNames.type" id="92418">qnameNames</a> = <a href="#14531" title="object scales.xml.xpath.QNameNames">QNameNames</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.AQNameNames.type" id="92420">aqnameNames</a> = <a href="#14219" title="object scales.xml.xpath.AQNameNames">AQNameNames</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.DslNames.type" id="92422">dslNames</a> = <a href="#14357" title="object scales.xml.xpath.DslNames">DslNames</a>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T &lt;: Iterable[scales.xml.package.XmlPath]]=&gt; scales.xml.xpath.Names[scales.xml.AttributePaths[T]]" id="92424">attribPathsNames</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Iterable[scales.xml.package.XmlPath]" id="92426">T</a> &lt;: Iterable<span class="delimiter">[</span>XmlPath<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="#14261" title="object scales.xml.xpath.AttributePathsNames">AttributePathsNames</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.xpath.Names[scales.xml.AttributePaths[T]]" class="delimiter">[</span><a href="#14479" title="scales.xml.xpath.Names[scales.xml.AttributePaths[T]]">Names</a><span class="delimiter">[</span>AttributePaths<span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T &lt;: Iterable[scales.xml.package.XmlPath]]=&gt; scales.xml.xpath.Names[scales.xml.XPath[T]]" id="92427">xpathToNames</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Iterable[scales.xml.package.XmlPath]" id="92429">T</a> &lt;: Iterable<span class="delimiter">[</span>XmlPath<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="#14621" title="object scales.xml.xpath.XPathNames">XPathNames</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.xpath.Names[scales.xml.XPath[T]]" class="delimiter">[</span><a href="#14479" title="scales.xml.xpath.Names[scales.xml.XPath[T]]">Names</a><span class="delimiter">[</span>XPath<span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">]</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.AttributeNames" id="14249">AttributeNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.Attribute]">Names</a><span class="delimiter">[</span>Attribute<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.Attribute)scales.xml.QName" id="95363">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.Attribute" id="120769">t</a> : <a href="../XmlTypes.scala.html#12126" title="scales.xml.Attribute">Attribute</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="../XmlTypesDefaults.scala.html#12466" title="object scales.xml.EqualsHelpers">EqualsHelpers</a>.<a href="../XmlTypesDefaults.scala.html#91903" title="implicit scales.xml.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">toQName</a><span class="delimiter">(</span><a href="#120769" title="scales.xml.Attribute">t</a>.<a href="../XmlTypes.scala.html#92168" title="=&gt; scales.xml.package.AttributeQName">name</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.AttributePathsNames" id="14261">AttributePathsNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.AttributePaths[_]]">Names</a><span class="delimiter">[</span>AttributePaths<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit a: scales.xml.AttributePaths[_])scales.xml.QName" id="95347">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.AttributePaths[_]" id="120778">a</a> : <a href="../XPathTypes.scala.html#12159" title="scales.xml.AttributePaths[_]">AttributePaths</a><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Iterable[scales.xml.AttributePath]" id="120784">r</a> = <a href="#120778" title="scales.xml.AttributePaths[_]">a</a>.<a href="../XPathTypes.scala.html#96217" title="=&gt; Iterable[scales.xml.AttributePath]">attributes</a>
+    <span title="scales.xml.QName" class="keyword">if</span> <span class="delimiter">(</span><a href="#120784" title="Iterable[scales.xml.AttributePath]">r</a>.<span title="=&gt; Int">size</span> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <a href="#14426" title="object scales.xml.xpath.EmptyQName">EmptyQName</a>.<a href="#120216" title="=&gt; java.lang.Object with scales.xml.NoNamespaceQName">empty</a>
+    <span class="keyword">else</span> <a href="../XmlTypesDefaults.scala.html#12466" title="object scales.xml.EqualsHelpers">EqualsHelpers</a>.<a href="../XmlTypesDefaults.scala.html#91903" title="implicit scales.xml.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">toQName</a><span class="delimiter">(</span><a href="#120784" title="Iterable[scales.xml.AttributePath]">r</a>.<span title="=&gt; scales.xml.AttributePath">head</span>.<a href="../XPathTypes.scala.html#96840" title="=&gt; scales.xml.Attribute">attribute</a>.<a href="../XmlTypes.scala.html#92168" title="=&gt; scales.xml.package.AttributeQName">name</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.AttributePathNames" id="14255">AttributePathNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.AttributePath]">Names</a><span class="delimiter">[</span>AttributePath<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.AttributePath)scales.xml.QName" id="95361">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.AttributePath" id="120792">t</a> : <a href="../XPathTypes.scala.html#12135" title="scales.xml.AttributePath">AttributePath</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="../XmlTypesDefaults.scala.html#12466" title="object scales.xml.EqualsHelpers">EqualsHelpers</a>.<a href="../XmlTypesDefaults.scala.html#91903" title="implicit scales.xml.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">toQName</a><span class="delimiter">(</span><a href="#120792" title="scales.xml.AttributePath">t</a>.<a href="../XPathTypes.scala.html#96840" title="=&gt; scales.xml.Attribute">attribute</a>.<a href="../XmlTypes.scala.html#92168" title="=&gt; scales.xml.package.AttributeQName">name</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.ElemNames" id="14420">ElemNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.Elem]">Names</a><span class="delimiter">[</span>Elem<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.Elem)scales.xml.QName" id="95357">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.Elem" id="120796">t</a> : <a href="../XmlTypes.scala.html#12423" title="scales.xml.Elem">Elem</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="#120796" title="scales.xml.Elem">t</a>.<a href="../XmlTypes.scala.html#92250" title="=&gt; scales.xml.QName">name</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.XmlTreeNames" id="14600">XmlTreeNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.package.XmlTree]">Names</a><span class="delimiter">[</span>XmlTree<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.package.XmlTree)scales.xml.QName" id="95355">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.package.XmlTree" id="120800">t</a> : <a href="../../utils/Trees.scala.html#11329" title="scales.xml.package.XmlTree">XmlTree</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="#120800" title="scales.xml.package.XmlTree">t</a>.<a href="../../utils/Trees.scala.html#82999" title="=&gt; scales.xml.Elem">section</a>.<a href="../XmlTypes.scala.html#92250" title="=&gt; scales.xml.QName">name</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.DslNames" id="14357">DslNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.DslBuilder]">Names</a><span class="delimiter">[</span>DslBuilder<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.DslBuilder)scales.xml.QName" id="95349">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.DslBuilder" id="120804">t</a> : <a href="../XmlDSL.scala.html#12366" title="scales.xml.DslBuilder">DslBuilder</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="#120804" title="scales.xml.DslBuilder">t</a>.<a href="../XmlDSL.scala.html#95585" title="=&gt; scales.xml.package.XmlTree">toTree</a>.<a href="../../utils/Trees.scala.html#82999" title="=&gt; scales.xml.Elem">section</a>.<a href="../XmlTypes.scala.html#92250" title="=&gt; scales.xml.QName">name</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.XmlPathNames" id="14582">XmlPathNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.package.XmlPath]">Names</a><span class="delimiter">[</span>XmlPath<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.package.XmlPath)scales.xml.QName" id="95359">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.package.XmlPath" id="120808">t</a> : <a href="../../utils/Paths.scala.html#11083" title="scales.xml.package.XmlPath">XmlPath</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="#120808" title="scales.xml.package.XmlPath">t</a>.<a href="../../utils/Paths.scala.html#43436" title="()scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">tree</a>.<a href="../../utils/Trees.scala.html#82999" title="=&gt; scales.xml.Elem">section</a>.<a href="../XmlTypes.scala.html#92250" title="=&gt; scales.xml.QName">name</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.QNameNames" id="14531">QNameNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.QName]">Names</a><span class="delimiter">[</span>QName<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.QName)scales.xml.QName" id="95353">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.QName" id="120812">t</a> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="#120812" title="scales.xml.QName">t</a> 
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.AQNameNames" id="14219">AQNameNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.package.AttributeQName]">Names</a><span class="delimiter">[</span>AttributeQName<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.package.AttributeQName)scales.xml.QName" id="95351">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.package.AttributeQName" id="120816">t</a> : <a href="../../utils/EitherLike.scala.html#10426" title="scales.xml.package.AttributeQName">AttributeQName</a><span class="delimiter">)</span> : <a href="../QName.scala.html#12720" title="scales.xml.QName">QName</a> = <a href="../XmlTypesDefaults.scala.html#12466" title="object scales.xml.EqualsHelpers">EqualsHelpers</a>.<a href="../XmlTypesDefaults.scala.html#91903" title="implicit scales.xml.EqualsHelpers.toQName : (attribQName: scales.xml.package.AttributeQName)scales.xml.QName">toQName</a><span class="delimiter">(</span><a href="#120816" title="scales.xml.package.AttributeQName">t</a><span class="delimiter">)</span> 
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.XPathNames" id="14621">XPathNames</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14479" title="scales.xml.xpath.Names[scales.xml.XPath[_]]">Names</a><span class="delimiter">[</span>XPath<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit a: scales.xml.XPath[_])scales.xml.QName" id="95340">name</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XPath[_]" id="120825">a</a> : <a href="../XPathTypes.scala.html#13149" title="scales.xml.XPath[_]">XPath</a><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Iterable[scales.xml.package.XmlPath]" id="120831">r</a> = <a href="../ScalesXml.scala.html#12784" title="object scales.xml.ScalesXml">ScalesXml</a>.<a href="../XmlPaths.scala.html#92312" title="implicit scales.xml.XmlPathImplicits.fromXPathToIterable : (xpath: scales.xml.XPath[_])Iterable[scales.xml.package.XmlPath]">fromXPathToIterable</a><span class="delimiter">(</span><a href="#120825" title="scales.xml.XPath[_]">a</a><span class="delimiter">)</span> 
+    <span title="scales.xml.QName" class="keyword">if</span> <span class="delimiter">(</span><a href="#120831" title="Iterable[scales.xml.package.XmlPath]">r</a>.<span title="=&gt; Int">size</span> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <a href="#14426" title="object scales.xml.xpath.EmptyQName">EmptyQName</a>.<a href="#120216" title="=&gt; java.lang.Object with scales.xml.NoNamespaceQName">empty</a>
+    <span class="keyword">else</span> <a href="#120831" title="Iterable[scales.xml.package.XmlPath]">r</a>.<span title="=&gt; scales.xml.package.XmlPath">head</span>.<a href="../../utils/Paths.scala.html#43430" title="(i: scales.xml.XmlItem =&gt; scales.xml.QName, t: scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC] =&gt; scales.xml.QName)scales.xml.QName">focus</a><span class="delimiter">(</span><a title="scales.xml.XmlItem" id="120845">_</a> =&gt; <a href="#14426" title="object scales.xml.xpath.EmptyQName">EmptyQName</a>.<a href="#120216" title="=&gt; java.lang.Object with scales.xml.NoNamespaceQName">empty</a>, <a href="#14600" title="object scales.xml.xpath.XmlTreeNames">XmlTreeNames</a>.<a href="#95355" title="(implicit t: scales.xml.package.XmlTree)scales.xml.QName">name</a><span class="delimiter">(</span><a href="#120847" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">_</a><span class="delimiter">)</span><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Type class for text values
+ */</span> 
+<span class="keyword">trait</span> <a title="trait TextValue[T] extends java.lang.Object" id="14569">TextValue</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="14637">T</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="comment">/**
+   * The text value of a given object, .value for attributes &amp; items, the accumalated text if its an elem
+   */</span>
+  <span class="keyword">def</span> <a title="(implicit t: T)String" id="95373">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120855">t</a> : <a href="#14637" title="T">T</a><span class="delimiter">)</span> : <span title="String">String</span>
+<span class="delimiter">}</span> 
+
+<span class="keyword">trait</span> <a title="trait TextFunctions extends java.lang.Object with ScalaObject" id="14560">TextFunctions</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="comment">/**
+   * The text value of a given object, .value for attributes &amp; items, the accumalated text if its an elem
+   */</span>
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit value: scales.xml.xpath.TextValue[T], implicit d: scales.xml.xpath.DIF)String" id="120221">text</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="120223">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120858">t</a> : <a href="#120223" title="T">T</a>, <a title="scales.xml.xpath.TextValue[T]" id="120859">value</a> : <a href="#14569" title="scales.xml.xpath.TextValue[T]">TextValue</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120860">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a> <span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#120859" title="scales.xml.xpath.TextValue[T]">value</a>.<a href="#95373" title="(implicit t: T)String">text</a>
+
+  <span class="comment">/**
+   * XPath name for text
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit value: scales.xml.xpath.TextValue[T], implicit d: scales.xml.xpath.DIF)String" id="120224">string</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="120226">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120866">t</a> : <a href="#120226" title="T">T</a>, <a title="scales.xml.xpath.TextValue[T]" id="120867">value</a> : <a href="#14569" title="scales.xml.xpath.TextValue[T]">TextValue</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120868">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a> <span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#120867" title="scales.xml.xpath.TextValue[T]">value</a>.<a href="#95373" title="(implicit t: T)String">text</a>
+
+  <span class="comment">/**
+   * More readable version for XmlItems and Attributes, same as text
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit value: scales.xml.xpath.TextValue[T], implicit d: scales.xml.xpath.DIF)String" id="120227">value</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="120229">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120874">t</a> : <a href="#120229" title="T">T</a>, <a title="scales.xml.xpath.TextValue[T]" id="120875">value</a> : <a href="#14569" title="scales.xml.xpath.TextValue[T]">TextValue</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120876">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a> <span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#120875" title="scales.xml.xpath.TextValue[T]">value</a>.<a href="#95373" title="(implicit t: T)String">text</a>
+ 
+  <span class="comment">/**
+   * XPath normalize-space function, replaces all consecutive whitespace with &quot; &quot; and trims.
+   */</span>
+  <span class="keyword">def</span> <a title="[T](implicit t: T, implicit value: scales.xml.xpath.TextValue[T], implicit d: scales.xml.xpath.DIF)String" id="120230">normalizeSpace</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="120232">T</a><span class="delimiter">]</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="T" id="120882">t</a> : <a href="#120232" title="T">T</a>, <a title="scales.xml.xpath.TextValue[T]" id="120883">value</a> : <a href="#14569" title="scales.xml.xpath.TextValue[T]">TextValue</a><span class="delimiter">[</span>T<span class="delimiter">]</span>, <a title="scales.xml.xpath.DIF" id="120884">d</a> : <a href="#14311" title="scales.xml.xpath.DIF">DIF</a> <span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="../XmlUtils.scala.html#15311" title="(str: String)java.lang.String">normalizeSpaceS</a><span class="delimiter">(</span><a href="#120883" title="scales.xml.xpath.TextValue[T]">value</a>.<a href="#95373" title="(implicit t: T)String">text</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * The text value of a given object, .value for attributes &amp; items, the accumalated text if its an elem
+   */</span>
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit value: scales.xml.xpath.TextValue[T])String" id="120233">text</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="120235">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120890">t</a> : <a href="#120235" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.TextValue[T]" id="120891">value</a> : <a href="#14569" title="scales.xml.xpath.TextValue[T]">TextValue</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#120891" title="scales.xml.xpath.TextValue[T]">value</a>.<a href="#95373" title="(implicit t: T)String">text</a><span class="delimiter">(</span><a href="#120890" title="T">t</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * XPath name for text
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit value: scales.xml.xpath.TextValue[T])String" id="120236">string</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="120238">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120896">t</a> : <a href="#120238" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.TextValue[T]" id="120897">value</a> : <a href="#14569" title="scales.xml.xpath.TextValue[T]">TextValue</a><span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#120897" title="scales.xml.xpath.TextValue[T]">value</a>.<a href="#95373" title="(implicit t: T)String">text</a><span class="delimiter">(</span><a href="#120896" title="T">t</a><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * More readable version for XmlItems and Attributes, same as text
+   */</span> 
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit value: scales.xml.xpath.TextValue[T])String" id="120239">value</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="120241">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120902">t</a> : <a href="#120241" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.TextValue[T]" id="120903">value</a> : <a href="#14569" title="scales.xml.xpath.TextValue[T]">TextValue</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="#120903" title="scales.xml.xpath.TextValue[T]">value</a>.<a href="#95373" title="(implicit t: T)String">text</a><span class="delimiter">(</span><a href="#120902" title="T">t</a><span class="delimiter">)</span>
+ 
+  <span class="comment">/**
+   * XPath normalize-space function, replaces all consecutive whitespace with &quot; &quot; and trims.
+   */</span>
+  <span class="keyword">def</span> <a title="[T](t: T)(implicit value: scales.xml.xpath.TextValue[T])String" id="120242">normalizeSpace</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="120244">T</a><span class="delimiter">]</span><span class="delimiter">(</span><a title="T" id="120908">t</a> : <a href="#120244" title="T">T</a><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.xpath.TextValue[T]" id="120909">value</a> : <a href="#14569" title="scales.xml.xpath.TextValue[T]">TextValue</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">)</span> : <span title="String">String</span> =
+    <a href="../XmlUtils.scala.html#15311" title="(str: String)java.lang.String">normalizeSpaceS</a><span class="delimiter">(</span><a href="#120909" title="scales.xml.xpath.TextValue[T]">value</a>.<a href="#95373" title="(implicit t: T)String">text</a><span class="delimiter">(</span><a href="#120908" title="T">t</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait TextImplicits extends java.lang.Object with ScalaObject" id="14566">TextImplicits</a> <span title="ScalaObject" class="delimiter">{</span>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.XmlTreeText.type" id="92385">xtreeText</a> = <a href="#14609" title="object scales.xml.xpath.XmlTreeText">XmlTreeText</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.AttributeText.type" id="92387">attribText</a> = <a href="#14306" title="object scales.xml.xpath.AttributeText">AttributeText</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.AttributePathText.type" id="92389">attribPathText</a> = <a href="#14273" title="object scales.xml.xpath.AttributePathText">AttributePathText</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.XmlPathText.type" id="92391">xmlpathText</a> = <a href="#14594" title="object scales.xml.xpath.XmlPathText">XmlPathText</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.XmlItemText.type" id="92393">itemText</a> = <a href="#14576" title="object scales.xml.xpath.XmlItemText">XmlItemText</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.ItemOrElemText.type" id="92395">itemOrElemText</a> = <a href="#14456" title="object scales.xml.xpath.ItemOrElemText">ItemOrElemText</a>
+  <span class="keyword">implicit</span> <span class="keyword">val</span> <a title="scales.xml.xpath.DslText.type" id="92397">dslText</a> = <a href="#14363" title="object scales.xml.xpath.DslText">DslText</a>
+
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T &lt;: Iterable[scales.xml.package.XmlPath]]=&gt; scales.xml.xpath.TextValue[scales.xml.AttributePaths[T]]" id="92399">attribPathsText</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Iterable[scales.xml.package.XmlPath]" id="92401">T</a> &lt;: Iterable<span class="delimiter">[</span>XmlPath<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="#14267" title="object scales.xml.xpath.AttributePathsText">AttributePathsText</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.xpath.TextValue[scales.xml.AttributePaths[T]]" class="delimiter">[</span><a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.AttributePaths[T]]">TextValue</a><span class="delimiter">[</span>AttributePaths<span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">]</span>
+  <span class="keyword">implicit</span> <span class="keyword">def</span> <a title="[T &lt;: Iterable[scales.xml.package.XmlPath]]=&gt; scales.xml.xpath.TextValue[scales.xml.XPath[T]]" id="92402">xpathToTextValue</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Iterable[scales.xml.package.XmlPath]" id="92404">T</a> &lt;: Iterable<span class="delimiter">[</span>XmlPath<span class="delimiter">]</span><span class="delimiter">]</span> = <a href="#14627" title="object scales.xml.xpath.XPathText">XPathText</a>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="scales.xml.xpath.TextValue[scales.xml.XPath[T]]" class="delimiter">[</span><a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.XPath[T]]">TextValue</a><span class="delimiter">[</span>XPath<span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">]</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.XmlTreeText" id="14609">XmlTreeText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.package.XmlTree]">TextValue</a><span class="delimiter">[</span>XmlTree<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.package.XmlTree)String" id="95396">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.package.XmlTree" id="120929">t</a>: <a href="../../utils/Trees.scala.html#11329" title="scales.xml.package.XmlTree">XmlTree</a><span class="delimiter">)</span>: <span title="String">String</span> = <span class="delimiter">{</span>
+    <a href="#120929" title="scales.xml.package.XmlTree">t</a>.<a href="../../utils/Trees.scala.html#83004" title="(a: StringBuilder)(folder: (scales.utils.package.ItemOrSectionWalk[scales.xml.XmlItem,scales.xml.Elem], StringBuilder) =&gt; StringBuilder)StringBuilder">fold</a><span class="delimiter">(</span><span title="()StringBuilder" class="keyword">new</span> <span title="StringBuilder">StringBuilder</span><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">)</span> 
+    <span class="delimiter">{</span> <span class="delimiter">(</span><a title="scales.utils.package.ItemOrSectionWalk[scales.xml.XmlItem,scales.xml.Elem]" id="120963">walker</a>, <a title="StringBuilder" id="120964">sb</a><span title="StringBuilder" class="delimiter">)</span> =&gt;
+      <span title="Any" class="keyword">if</span> <span class="delimiter">(</span><a href="#120963" title="scales.utils.package.ItemOrSectionWalk[scales.xml.XmlItem,scales.xml.Elem]">walker</a>.<span title="=&gt; Boolean">isLeft</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+        <a href="#120963" title="scales.utils.package.ItemOrSectionWalk[scales.xml.XmlItem,scales.xml.Elem]">walker</a>.<span title="=&gt; Either.LeftProjection[scales.xml.XmlItem,scales.utils.SectionWalk[scales.xml.Elem]]">left</span>.<span title="=&gt; scales.xml.XmlItem">get</span> <span title="Any" class="keyword">match</span> <span class="delimiter">{</span>
+          <span class="keyword">case</span> <span title="StringBuilder">Text</span><span class="delimiter">(</span><a title="String" id="120965">text</a><span class="delimiter">)</span> =&gt; <a href="#120964" title="StringBuilder">sb</a>.<span title="(s: String)StringBuilder">append</span><span class="delimiter">(</span><a href="#120965" title="String">text</a><span class="delimiter">)</span>
+          <span class="keyword">case</span> <span title="Unit">_</span> =&gt; <span title="Unit" class="delimiter">(</span><span class="delimiter">)</span>
+        <span class="delimiter">}</span>
+      <span class="delimiter">}</span>
+     <a href="#120964" title="StringBuilder">sb</a>
+   <span class="delimiter">}</span>.<span title="()java.lang.String">toString</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.DslText" id="14363">DslText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.DslBuilder]">TextValue</a><span class="delimiter">[</span>DslBuilder<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.DslBuilder)String" id="95384">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.DslBuilder" id="120980">t</a> : <a href="../XmlDSL.scala.html#12366" title="scales.xml.DslBuilder">DslBuilder</a><span class="delimiter">)</span> = <a href="#14609" title="object scales.xml.xpath.XmlTreeText">XmlTreeText</a>.<a href="#95396" title="(implicit t: scales.xml.package.XmlTree)String">text</a><span class="delimiter">(</span><a href="#120980" title="scales.xml.DslBuilder">t</a>.<a href="../XmlDSL.scala.html#95585" title="=&gt; scales.xml.package.XmlTree">toTree</a><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.XmlPathText" id="14594">XmlPathText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.package.XmlPath]">TextValue</a><span class="delimiter">[</span>XmlPath<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.package.XmlPath)String" id="95390">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.package.XmlPath" id="120986">t</a> : <a href="../../utils/Paths.scala.html#11083" title="scales.xml.package.XmlPath">XmlPath</a><span class="delimiter">)</span> = 
+    <a href="#120986" title="scales.xml.package.XmlPath">t</a>.<a href="../../utils/Paths.scala.html#43430" title="(i: scales.xml.XmlItem =&gt; String, t: scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC] =&gt; String)String">focus</a><span class="delimiter">(</span><a href="#120996" title="scales.xml.XmlItem">_</a>.<a href="../XmlTypes.scala.html#93292" title="=&gt; String">value</a>, <a href="#14609" title="object scales.xml.xpath.XmlTreeText">XmlTreeText</a>.<a href="#95396" title="(implicit t: scales.xml.package.XmlTree)String">text</a><span class="delimiter">(</span><a href="#120998" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">_</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.ItemOrElemText" id="14456">ItemOrElemText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.package.ItemOrElem]">TextValue</a><span class="delimiter">[</span>ItemOrElem<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit t: scales.xml.package.ItemOrElem)String" id="95386">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.package.ItemOrElem" id="121003">t</a> : <a href="../../utils/EitherLike.scala.html#10426" title="scales.xml.package.ItemOrElem">ItemOrElem</a><span class="delimiter">)</span> =
+    <a href="#121003" title="scales.xml.package.ItemOrElem">t</a>.<a href="../../utils/EitherLike.scala.html#43463" title="(fl: scales.xml.XmlItem =&gt; String, fr: scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC] =&gt; String)String">fold</a><span class="delimiter">(</span><a href="#121013" title="scales.xml.XmlItem">_</a>.<a href="../XmlTypes.scala.html#93292" title="=&gt; String">value</a>, <a href="#14609" title="object scales.xml.xpath.XmlTreeText">XmlTreeText</a>.<a href="#95396" title="(implicit t: scales.xml.package.XmlTree)String">text</a><span class="delimiter">(</span><a href="#121015" title="scales.utils.Tree[scales.xml.XmlItem,scales.xml.Elem,scales.xml.package.XCC]">_</a><span class="delimiter">)</span><span class="delimiter">)</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.AttributeText" id="14306">AttributeText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.Attribute]">TextValue</a><span class="delimiter">[</span>Attribute<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit a: scales.xml.Attribute)String" id="95394">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.Attribute" id="121020">a</a> : <a href="../XmlTypes.scala.html#12126" title="scales.xml.Attribute">Attribute</a><span class="delimiter">)</span> = <a href="#121020" title="scales.xml.Attribute">a</a>.<a href="../XmlTypes.scala.html#92170" title="=&gt; String">value</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.AttributePathText" id="14273">AttributePathText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.AttributePath]">TextValue</a><span class="delimiter">[</span>AttributePath<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit a: scales.xml.AttributePath)String" id="95392">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.AttributePath" id="121025">a</a> : <a href="../XPathTypes.scala.html#12135" title="scales.xml.AttributePath">AttributePath</a><span class="delimiter">)</span> = <a href="#121025" title="scales.xml.AttributePath">a</a>.<a href="../XPathTypes.scala.html#96840" title="=&gt; scales.xml.Attribute">attribute</a>.<a href="../XmlTypes.scala.html#92170" title="=&gt; String">value</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.AttributePathsText" id="14267">AttributePathsText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.AttributePaths[_]]">TextValue</a><span class="delimiter">[</span>AttributePaths<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit a: scales.xml.AttributePaths[_])String" id="95382">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.AttributePaths[_]" id="121035">a</a> : <a href="../XPathTypes.scala.html#12159" title="scales.xml.AttributePaths[_]">AttributePaths</a><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> =
+    <span title="String" class="keyword">if</span> <span class="delimiter">(</span><a href="#121035" title="scales.xml.AttributePaths[_]">a</a>.<a href="../XPathTypes.scala.html#96217" title="=&gt; Iterable[scales.xml.AttributePath]">attributes</a>.<span title="=&gt; Int">size</span> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span>
+    <span class="keyword">else</span> <a href="#121035" title="scales.xml.AttributePaths[_]">a</a>.<a href="../XPathTypes.scala.html#96217" title="=&gt; Iterable[scales.xml.AttributePath]">attributes</a>.<span title="=&gt; scales.xml.AttributePath">head</span>.<a href="../XPathTypes.scala.html#96840" title="=&gt; scales.xml.Attribute">attribute</a>.<a href="../XmlTypes.scala.html#92170" title="=&gt; String">value</a>  
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.XmlItemText" id="14576">XmlItemText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.XmlItem]">TextValue</a><span class="delimiter">[</span>XmlItem<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit a: scales.xml.XmlItem)String" id="95388">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XmlItem" id="121048">a</a> : <a href="../XmlTypes.scala.html#12912" title="scales.xml.XmlItem">XmlItem</a><span class="delimiter">)</span> = <a href="#121048" title="scales.xml.XmlItem">a</a>.<a href="../XmlTypes.scala.html#93292" title="=&gt; String">value</a>
+<span class="delimiter">}</span>
+
+<span class="keyword">object</span> <a title="object scales.xml.xpath.XPathText" id="14627">XPathText</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#14569" title="scales.xml.xpath.TextValue[scales.xml.XPath[_]]">TextValue</a><span class="delimiter">[</span>XPath<span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(implicit a: scales.xml.XPath[_])String" id="95375">text</a><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.xml.XPath[_]" id="121058">a</a> : <a href="../XPathTypes.scala.html#13149" title="scales.xml.XPath[_]">XPath</a><span class="delimiter">[</span>_<span class="delimiter">]</span><span class="delimiter">)</span> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="Iterable[scales.xml.package.XmlPath]" id="121064">r</a> = <a href="../ScalesXml.scala.html#12784" title="object scales.xml.ScalesXml">ScalesXml</a>.<a href="../XmlPaths.scala.html#92312" title="implicit scales.xml.XmlPathImplicits.fromXPathToIterable : (xpath: scales.xml.XPath[_])Iterable[scales.xml.package.XmlPath]">fromXPathToIterable</a><span class="delimiter">(</span><a href="#121058" title="scales.xml.XPath[_]">a</a><span class="delimiter">)</span> 
+    <span title="String" class="keyword">if</span> <span class="delimiter">(</span><a href="#121064" title="Iterable[scales.xml.package.XmlPath]">r</a>.<span title="=&gt; Int">size</span> <span title="(x: Int)Boolean">==</span> <span title="Int(0)" class="int">0</span><span class="delimiter">)</span> <span title="java.lang.String(&quot;&quot;)" class="string">&quot;&quot;</span>
+    <span class="keyword">else</span> <a href="#14594" title="object scales.xml.xpath.XmlPathText">XmlPathText</a>.<a href="#95390" title="(implicit t: scales.xml.package.XmlPath)String">text</a><span class="delimiter">(</span> <a href="#121064" title="Iterable[scales.xml.package.XmlPath]">r</a>.<span title="=&gt; scales.xml.package.XmlPath">head</span> <span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

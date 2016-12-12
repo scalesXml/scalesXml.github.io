@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\package.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales
+
+<span class="keyword">package</span> <a title="object scales.utils.package" id="12574" class="keyword">object</a> utils <span title="ScalaObject" class="keyword">extends</span> collection.<a href="collection/IterableUtils.scala.html#12681" title="scales.utils.collection.IterableUtils">IterableUtils</a> 
+  <span class="keyword">with</span> <a href="AsBoolean.scala.html#12555" title="scales.utils.AsBooleanTrait">AsBooleanTrait</a>
+  <span class="keyword">with</span> collection.<a href="collection/StackUtils.scala.html#12726" title="scales.utils.collection.StackUtils">StackUtils</a>
+  <span class="keyword">with</span> iteratee.<a href="iteratee/Iteratees.scala.html#13264" title="scales.utils.iteratee.Iteratees">Iteratees</a>
+  <span class="keyword">with</span> <a href="Equiv.scala.html#12564" title="scales.utils.EquivFunctions">EquivFunctions</a>
+  <span class="keyword">with</span> collection.<a href="collection/Trees.scala.html#12747" title="scales.utils.collection.Trees">Trees</a>
+  <span class="keyword">with</span> collection.path.<a href="collection/path/PathFunctions.scala.html#13438" title="scales.utils.collection.path.Paths">Paths</a>
+  <span class="keyword">with</span> collection.<a href="collection/ConcurrentMapUtils.scala.html#12642" title="scales.utils.collection.ConcurrentMapUtils">ConcurrentMapUtils</a>
+<span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="(str: String)Nothing" id="15164">error</a><span class="delimiter">(</span><a title="String" id="32783">str</a> : <span title="String">String</span><span class="delimiter">)</span> = <span title="object Predef">Predef</span>.<span title="(message: String)Nothing">error</span><span class="delimiter">(</span><a href="#32783" title="String">str</a><span class="delimiter">)</span>
+
+<span class="comment">// https://issues.scala-lang.org/browse/SI-4767 forces them to be here if we want them inlining</span>
+
+  <span class="keyword">import</span> scala.collection.IndexedSeqLike
+  <span class="keyword">import</span> scala.collection.generic.CanBuildFrom
+  
+  <span class="keyword">import</span> collection.Tree
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="[Item &lt;: scales.utils.LeftLike[Item,scales.utils.collection.Tree[Item,Section,CC]], Section, CC[X] &lt;: scala.collection.IndexedSeqLike[X,CC[X]]](item: Item)scales.utils.package.ItemOrTree[Item,Section,CC]" id="15168">item</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.utils.LeftLike[Item,scales.utils.collection.Tree[Item,Section,CC]]" id="15172">Item</a> &lt;: LeftLike<span class="delimiter">[</span>Item, Tree<span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span><span class="delimiter">]</span>, <a title="&gt;: Nothing &lt;: Any" id="15173">Section</a>, <a title="[X]&gt;: Nothing &lt;: scala.collection.IndexedSeqLike[X,CC[X]]" id="15174">CC</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="90317">X</a><span class="delimiter">]</span> &lt;: IndexedSeqLike<span class="delimiter">[</span>X, CC<span class="delimiter">[</span>X<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">(</span><a title="Item" id="90316">item</a>: <a href="#15172" title="Item">Item</a><span class="delimiter">)</span>: <a href="EitherLike.scala.html#12558" title="scales.utils.package.ItemOrTree[Item,Section,CC]">ItemOrTree</a><span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span> = <a href="#90316" title="Item">item</a>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="[Item &lt;: scales.utils.LeftLike[Item,scales.utils.collection.Tree[Item,Section,CC]], Section, CC[A] &lt;: scala.collection.IndexedSeqLike[A,CC[A]]](section: Section, children: CC[scales.utils.package.ItemOrTree[Item,Section,CC]])(implicit cbf: scales.utils.package.TreeCBF[Item,Section,CC])scales.utils.package.ItemOrTree[Item,Section,CC]" id="15175">subtree</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: scales.utils.LeftLike[Item,scales.utils.collection.Tree[Item,Section,CC]]" id="15179">Item</a> &lt;: LeftLike<span class="delimiter">[</span>Item, Tree<span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span><span class="delimiter">]</span>, <a title="&gt;: Nothing &lt;: Any" id="15180">Section</a>, <a title="[A]&gt;: Nothing &lt;: scala.collection.IndexedSeqLike[A,CC[A]]" id="15181">CC</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="84928">A</a><span class="delimiter">]</span> &lt;: IndexedSeqLike<span class="delimiter">[</span>A, CC<span class="delimiter">[</span>A<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">(</span><a title="Section" id="84925">section</a>: <a href="#15180" title="Section">Section</a>, <a title="CC[scales.utils.package.ItemOrTree[Item,Section,CC]]" id="84926">children</a>: <a href="#15181" title="CC[scales.utils.package.ItemOrTree[Item,Section,CC]]">CC</a><span class="delimiter">[</span>ItemOrTree<span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span><span class="delimiter">]</span><span class="delimiter">)</span><span class="delimiter">(</span><span class="keyword">implicit</span> <a title="scales.utils.package.TreeCBF[Item,Section,CC]" id="84927">cbf</a> : <span title="scales.utils.package.TreeCBF[Item,Section,CC]">TreeCBF</span><span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span><span class="delimiter">)</span>: <a href="EitherLike.scala.html#12558" title="scales.utils.package.ItemOrTree[Item,Section,CC]">ItemOrTree</a><span class="delimiter">[</span>Item, Section, CC<span class="delimiter">]</span> = <a href="collection/Trees.scala.html#45603" title="[Item &lt;: scales.utils.LeftLike[Item,scales.utils.collection.Tree[Item,Section,CC]], Section, CC[C] &lt;: scala.collection.IndexedSeqLike[C,CC[C]]](isection: Section, ichildren: CC[scales.utils.package.ItemOrTree[Item,Section,CC]])scales.utils.collection.Tree[Item,Section,CC]">Tree</a><span title="(isection: Section, ichildren: CC[scales.utils.package.ItemOrTree[Item,Section,CC]])scales.utils.collection.Tree[Item,Section,CC]" class="delimiter">[</span><a href="#15179" title="Item">Item</a>, <a href="#15180" title="Section">Section</a>, <a href="#15181" title="CC">CC</a><span class="delimiter">]</span><span class="delimiter">(</span><a href="#84925" title="Section">section</a>, <a href="#84926" title="CC[scales.utils.package.ItemOrTree[Item,Section,CC]]">children</a><span class="delimiter">)</span>
+
+  @inline <span class="keyword">final</span> <span class="keyword">def</span> <a title="[T](i: T)List[T]" id="15182">one</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="15184">T</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="T" id="90323">i</a> : <a href="#15184" title="T">T</a> <span class="delimiter">)</span> : <span title="List[T]">List</span><span class="delimiter">[</span>T<span class="delimiter">]</span> =
+      <a href="#90323" title="T">i</a> <a href="#90326" title="(x: T)List[T]">::</a> <span title="object Nil">Nil</span>
+
+  <span class="comment">/**
+   * Simple grabber of resources
+   */</span> 
+  <span class="keyword">def</span> <a title="(a: AnyRef, path: String)java.net.URL" id="15185">resource</a><span class="delimiter">(</span><a title="AnyRef" id="90332">a</a> : <span title="AnyRef">AnyRef</span>, <a title="String" id="90333">path</a> : <span title="String">String</span><span class="delimiter">)</span> =
+    <a href="#90332" title="AnyRef">a</a>.<span title="()java.lang.Class[_]">getClass</span>.<span title="(x$1: java.lang.String)java.net.URL">getResource</span><span class="delimiter">(</span><a href="#90333" title="String">path</a><span class="delimiter">)</span>
+
+  <span class="keyword">import</span> java.nio.charset.Charset
+  <span class="keyword">val</span> <a title="java.nio.charset.Charset" id="15187">UTF_8</a> = <span title="object java.nio.charset.Charset">Charset</span>.<span title="(x$1: java.lang.String)java.nio.charset.Charset">forName</span><span class="delimiter">(</span><span title="java.lang.String(&quot;UTF-8&quot;)" class="string">&quot;UTF-8&quot;</span><span class="delimiter">)</span>
+  <span class="keyword">val</span> <a title="java.nio.charset.Charset" id="15189">US_ASCII</a> = <span title="object java.nio.charset.Charset">Charset</span>.<span title="(x$1: java.lang.String)java.nio.charset.Charset">forName</span><span class="delimiter">(</span><span title="java.lang.String(&quot;US-ASCII&quot;)" class="string">&quot;US-ASCII&quot;</span><span class="delimiter">)</span>
+
+  <span class="comment">/**
+   * A usable default of UTF8 NOT the vm's Charset.defaultCharset based on its locale, use vmDefaultCharset for that
+   */</span>
+  <span class="keyword">val</span> <a title="java.nio.charset.Charset" id="15191">defaultCharset</a> = <a href="#15187" title="=&gt; java.nio.charset.Charset">UTF_8</a>
+
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

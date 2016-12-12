@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\utils\Resources.scala</title>
+        <script type="text/javascript" src="../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.utils
+
+<span class="keyword">trait</span> <a title="trait IsClosed extends java.lang.Object" id="10546">IsClosed</a> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="89380">isClosed</a> : <span title="Boolean">Boolean</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Mostly exists for pulling but it is general
+ * 
+ * We want to enable bracketing and a more orderly shutdown of resources from the input streams.
+ * Whilst the resource is closed automatically its not very helpful if you don't want to close it.
+ * Due to Sun bug: 6539065 we have to wrap the actual close.  This allows us to decide IF we want to close.
+ *
+ * So we cover three use cases here:
+ * * Enumeratees can bracket, if so desired
+ * * Streams of xml can be continuously plied for more xml messages
+ * * Users who want to manually close early can do so too.
+ *
+ * As a note this fits very closely to the scala-arm stuff, which I happily use in another project.  But it has
+ * two specific seperate use cases:
+ * * XmlPulls should be joinable as iterators ++ should ensure that the resources are closed
+ * * Additionally, however, closing on the resulting XmlPull should close the lot.
+ * 
+ * So we either override the ++ to behave differently or we abstract away using of the stream from closing it.
+ *
+ */</span> 
+<span class="keyword">trait</span> <a title="trait CloseOnNeed extends java.lang.Object with scales.utils.IsClosed with ScalaObject" id="10375">CloseOnNeed</a> <span title="ScalaObject" class="keyword">extends</span> <a href="#10546" title="scales.utils.IsClosed">IsClosed</a> <span class="delimiter">{</span> 
+  parent =&gt;
+
+  <span class="keyword">protected</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="89384">doClose</a> : <span title="Unit">Unit</span> 
+
+  <span class="keyword">private</span><span class="delimiter">[</span>utils<span class="delimiter">]</span> <span class="keyword">var</span> <a title="Boolean" id="89386">closed</a> = <span title="Boolean(false)" class="keyword">false</span>
+
+  <span class="keyword">def</span> <a title="=&gt; Boolean" id="89388">isClosed</a> = <a href="#89386" title="=&gt; Boolean">closed</a>
+
+  <span class="comment">/**
+   * Close the underlying something, but only do it once.
+   *
+   * This allows closing of an xml input stream directly after the end doc, but without disturbing
+   * the normal model.
+   */</span> 
+  <span class="keyword">def</span> <a title="=&gt; Unit" id="89389">closeResource</a> =
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#89386" title="=&gt; Boolean">closed</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+      <a href="#89386" title="(x$1: Boolean)Unit">closed</a> = <span title="Boolean(true)" class="keyword">true</span>;
+      <a href="#89384" title="=&gt; Unit">doClose</a>
+    <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Unit" class="delimiter">(</span><span class="delimiter">)</span>
+  
+  <span class="keyword">def</span> <a title="(close2: scales.utils.CloseOnNeed)scales.utils.CloseOnNeed" id="89390">++</a><span class="delimiter">(</span> <a title="scales.utils.CloseOnNeed" id="89402">close2</a> : <a href="#10375" title="scales.utils.CloseOnNeed">CloseOnNeed</a> <span class="delimiter">)</span> : <a href="#10375" title="scales.utils.CloseOnNeed">CloseOnNeed</a> = <a href="#89404" title="java.lang.Object with scales.utils.CloseOnNeed" class="keyword">new</a> <a title="anonymous class $anon extends java.lang.Object with scales.utils.CloseOnNeed" id="89404">CloseOnNeed</a> <span class="delimiter">{</span>
+    added =&gt;
+  
+    <span class="keyword">def</span> <a title="=&gt; Unit" id="89409">doClose</a> = <span title="Unit" class="delimiter">(</span><span class="delimiter">)</span>
+     
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="=&gt; Unit" id="89410">closeResource</a> = 
+      <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><span title="=&gt; Boolean">!</span><a href="#89386" title="=&gt; Boolean">closed</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+	<a href="#89386" title="(x$1: Boolean)Unit">closed</a> = <span title="Boolean(true)" class="keyword">true</span>;
+	<a href="#10375" title="CloseOnNeed.this.type">parent</a>.<a href="#89389" title="=&gt; Unit">closeResource</a>
+	<a href="#89402" title="scales.utils.CloseOnNeed">close2</a>.<a href="#89389" title="=&gt; Unit">closeResource</a>
+      <span class="delimiter">}</span> <span class="keyword">else</span> <span title="Unit" class="delimiter">(</span><span class="delimiter">)</span>
+
+    <span class="comment">// flip it back to stop from endlessly repeating ourselves</span>
+    <span class="keyword">override</span> <span class="keyword">def</span> <a title="(close3: scales.utils.CloseOnNeed)scales.utils.CloseOnNeed" id="89411">++</a><span class="delimiter">(</span><a title="scales.utils.CloseOnNeed" id="89418">close3</a> : <a href="#10375" title="scales.utils.CloseOnNeed">CloseOnNeed</a><span class="delimiter">)</span> = <span class="delimiter">{</span>
+      <a href="#89418" title="scales.utils.CloseOnNeed">close3</a> <a href="#89390" title="(close2: scales.utils.CloseOnNeed)scales.utils.CloseOnNeed">++</a> <a href="#89404" title="java.lang.Object with scales.utils.CloseOnNeed" class="keyword">this</a>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Wrap the Reader to allow better bracketing etc.
+ */</span> 
+case <span class="keyword">class</span> <a title="class ProxiedCloseOnNeedReader extends java.io.Reader with scales.utils.CloseOnNeed with ScalaObject with Product with Serializable" id="90125">ProxiedCloseOnNeedReader</a><a href="#90125" title="ScalaObject" class="delimiter">(</a><a title="java.io.Reader" id="90122">orig</a> : java.io.<span title="java.io.Reader">Reader</span><span class="delimiter">)</span> <span class="keyword">extends</span> java.io.<span title="java.io.Reader">Reader</span> <span class="keyword">with</span> <a href="#10375" title="scales.utils.CloseOnNeed">CloseOnNeed</a> <span class="delimiter">{</span>
+  <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><a href="#90122" title="=&gt; java.io.Reader">orig</a> <span title="(x$1: AnyRef)Boolean">!=</span> <span title="Null(null)" class="keyword">null</span>, <span title="java.lang.String(&quot;original reader cannot be null&quot;)" class="string">&quot;original reader cannot be null&quot;</span><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="89450">close</a><span class="delimiter">(</span><span class="delimiter">)</span> <span title="Unit" class="delimiter">{</span><span class="delimiter">}</span><span class="comment">//NOOP</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(rah: Int)Unit" id="89451">mark</a><span class="delimiter">(</span><a title="Int" id="89479">rah</a> : <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="(x$1: Int)Unit">mark</span><span class="delimiter">(</span><a href="#89479" title="Int">rah</a><span class="delimiter">)</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Boolean" id="89452">markSupported</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="()Boolean">markSupported</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="89453">read</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="()Int">read</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(cbuf: Array[Char])Int" id="89454">read</a><span class="delimiter">(</span><a title="Array[Char]" id="89638">cbuf</a> : <span title="Array[Char]">Array</span><span class="delimiter">[</span>Char<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="(x$1: Array[Char])Int">read</span><span class="delimiter">(</span><a href="#89638" title="Array[Char]">cbuf</a><span class="delimiter">)</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(cbuf: Array[Char], off: Int, len: Int)Int" id="89455">read</a><span class="delimiter">(</span><a title="Array[Char]" id="89647">cbuf</a> : <span title="Array[Char]">Array</span><span class="delimiter">[</span>Char<span class="delimiter">]</span>, <a title="Int" id="89648">off</a> : <span title="Int">Int</span>, <a title="Int" id="89649">len</a> : <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="(x$1: Array[Char], x$2: Int, x$3: Int)Int">read</span><span class="delimiter">(</span><a href="#89647" title="Array[Char]">cbuf</a>,<a href="#89648" title="Int">off</a>,<a href="#89649" title="Int">len</a><span class="delimiter">)</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(target: java.nio.CharBuffer)Int" id="89456">read</a><span class="delimiter">(</span><a title="java.nio.CharBuffer" id="89656">target</a> : java.nio.<span title="java.nio.CharBuffer">CharBuffer</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="(x$1: java.nio.CharBuffer)Int">read</span><span class="delimiter">(</span><a href="#89656" title="java.nio.CharBuffer">target</a><span class="delimiter">)</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Boolean" id="89457">ready</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="()Boolean">ready</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="89458">reset</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="()Unit">reset</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(n: Long)Long" id="89459">skip</a><span class="delimiter">(</span><a title="Long" id="89669">n</a> : <span title="Long">Long</span><span class="delimiter">)</span> = <a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="(x$1: Long)Long">skip</span><span class="delimiter">(</span><a href="#89669" title="Long">n</a><span class="delimiter">)</span> 
+
+  <span class="keyword">def</span> <a title="()Unit" id="89460">doClose</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">{</span><a href="#90122" title="=&gt; java.io.Reader">orig</a>.<span title="()Unit">close</span><span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Wrap the InputStream to allow better bracketing etc.
+ */</span> 
+case <span class="keyword">class</span> <a title="class ProxiedCloseOnNeedInputStream extends java.io.InputStream with scales.utils.CloseOnNeed with ScalaObject with Product with Serializable" id="90132">ProxiedCloseOnNeedInputStream</a><a href="#90132" title="ScalaObject" class="delimiter">(</a><a title="java.io.InputStream" id="90129">orig</a> : java.io.<span title="java.io.InputStream">InputStream</span><span class="delimiter">)</span> <span class="keyword">extends</span> java.io.<span title="java.io.InputStream">InputStream</span> <span class="keyword">with</span> <a href="#10375" title="scales.utils.CloseOnNeed">CloseOnNeed</a> <span class="delimiter">{</span>
+  <span title="(requirement: Boolean, message: =&gt; Any)Unit">require</span><span class="delimiter">(</span><a href="#90129" title="=&gt; java.io.InputStream">orig</a> <span title="(x$1: AnyRef)Boolean">!=</span> <span title="Null(null)" class="keyword">null</span>, <span title="java.lang.String(&quot;original stream cannot be null&quot;)" class="string">&quot;original stream cannot be null&quot;</span><span class="delimiter">)</span>
+
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="89724">close</a><span class="delimiter">(</span><span class="delimiter">)</span> <span title="Unit" class="delimiter">{</span><span class="delimiter">}</span><span class="comment">//NOOP</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="89725">available</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="()Int">available</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(rah: Int)Unit" id="89726">mark</a><span class="delimiter">(</span><a title="Int" id="89747">rah</a> : <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="(x$1: Int)Unit">mark</span><span class="delimiter">(</span><a href="#89747" title="Int">rah</a><span class="delimiter">)</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Boolean" id="89727">markSupported</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="()Boolean">markSupported</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Int" id="89728">read</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="()Int">read</span><span class="delimiter">(</span><span class="delimiter">)</span>
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(cbuf: Array[Byte])Int" id="89729">read</a><span class="delimiter">(</span><a title="Array[Byte]" id="89758">cbuf</a> : <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span><span class="delimiter">)</span> = <a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="(x$1: Array[Byte])Int">read</span><span class="delimiter">(</span><a href="#89758" title="Array[Byte]">cbuf</a><span class="delimiter">)</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(cbuf: Array[Byte], off: Int, len: Int)Int" id="89730">read</a><span class="delimiter">(</span><a title="Array[Byte]" id="89765">cbuf</a> : <span title="Array[Byte]">Array</span><span class="delimiter">[</span>Byte<span class="delimiter">]</span>, <a title="Int" id="89766">off</a> : <span title="Int">Int</span>, <a title="Int" id="89767">len</a> : <span title="Int">Int</span><span class="delimiter">)</span> = <a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="(x$1: Array[Byte], x$2: Int, x$3: Int)Int">read</span><span class="delimiter">(</span><a href="#89765" title="Array[Byte]">cbuf</a>,<a href="#89766" title="Int">off</a>,<a href="#89767" title="Int">len</a><span class="delimiter">)</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="()Unit" id="89731">reset</a><span class="delimiter">(</span><span class="delimiter">)</span> = <a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="()Unit">reset</span> 
+  <span class="keyword">override</span> <span class="keyword">def</span> <a title="(n: Long)Long" id="89732">skip</a><span class="delimiter">(</span><a title="Long" id="89776">n</a> : <span title="Long">Long</span><span class="delimiter">)</span> = <a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="(x$1: Long)Long">skip</span><span class="delimiter">(</span><a href="#89776" title="Long">n</a><span class="delimiter">)</span> 
+
+  <span class="keyword">def</span> <a title="()Unit" id="89733">doClose</a><span class="delimiter">(</span><span class="delimiter">)</span><span class="delimiter">{</span><a href="#90129" title="=&gt; java.io.InputStream">orig</a>.<span title="()Unit">close</span><span class="delimiter">}</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * To provide a writer to LSSerializer (and anything else that wants it ^_^)
+ * we need to wrap appendables.
+ */</span> 
+case <span class="keyword">class</span> <a title="class AppendableWriter extends java.io.Writer with ScalaObject with Product with Serializable" id="90139">AppendableWriter</a><a href="#90139" title="ScalaObject" class="delimiter">(</a> <a title="java.lang.Appendable" id="90136">out</a> : <span title="java.lang.Appendable">Appendable</span> <span class="delimiter">)</span> <span class="keyword">extends</span> java.io.<span title="java.io.Writer">Writer</span> <span class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="()Unit" id="89866">close</a><span class="delimiter">(</span><span class="delimiter">)</span> <span title="Unit" class="delimiter">{</span><span class="delimiter">}</span>
+  <span class="keyword">def</span> <a title="()Unit" id="89867">flush</a><span class="delimiter">(</span><span class="delimiter">)</span> <span title="Unit" class="delimiter">{</span><span class="delimiter">}</span>
+  <span class="keyword">def</span> <a title="(cbuf: Array[Char], off: Int, len: Int)Unit" id="89868">write</a><span class="delimiter">(</span><a title="Array[Char]" id="89880">cbuf</a> : <span title="Array[Char]">Array</span><span class="delimiter">[</span>Char<span class="delimiter">]</span>, <a title="Int" id="89881">off</a> : <span title="Int">Int</span>, <a title="Int" id="89882">len</a> : <span title="Int">Int</span><span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="Int" id="89885">i</a> = <span title="Int(0)" class="int">0</span>
+    <span title="Unit" class="keyword">while</span><span class="delimiter">(</span><a href="#89885" title="Int">i</a> <span title="(x: Int)Boolean">&lt;</span> <a href="#89882" title="Int">len</a><span class="delimiter">)</span><span class="delimiter">{</span>
+      <a href="#90136" title="=&gt; java.lang.Appendable">out</a>.<span title="(x$1: Char)java.lang.Appendable">append</span><span class="delimiter">(</span><a href="#89880" title="(i: Int)Char">cbuf</a><span class="delimiter">(</span><a href="#89881" title="Int">off</a> <span title="(x: Int)Int">+</span> <a href="#89885" title="Int">i</a><span class="delimiter">)</span><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span> 
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Simple pool interface
+ */</span> 
+<span class="keyword">trait</span> <a title="trait Pool[T] extends java.lang.Object" id="11167">Pool</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="12076">T</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; T" id="89943">grab</a> : <a href="#12076" title="T">T</a> 
+
+  <span class="keyword">def</span> <a title="(t: T)Unit" id="89944">giveBack</a><span class="delimiter">(</span> <a title="T" id="89946">t</a> : <a href="#12076" title="T">T</a> <span class="delimiter">)</span> : <span title="Unit">Unit</span>
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Thread safe unbounded pool, if more objects are required it will simple create them.  The optional parameter reduceSize tries to help clean up a bit when an excessive amount is created but does not act as a semaphore
+ */</span> 
+<span class="keyword">trait</span> <a title="trait SimpleUnboundedPool[T] extends java.lang.Object with scales.utils.Pool[T] with scales.utils.Loaner[T] with scales.utils.Creator[T] with ScalaObject" id="11284">SimpleUnboundedPool</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="12077">T</a><span class="delimiter">]</span> <span title="ScalaObject" class="keyword">extends</span> <a href="#11167" title="scales.utils.Pool[T]">Pool</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#10951" title="scales.utils.Loaner[T]">Loaner</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="keyword">with</span> <a href="#10399" title="scales.utils.Creator[T]">Creator</a><span class="delimiter">[</span>T<span class="delimiter">]</span> <span class="delimiter">{</span>
+  <span class="keyword">val</span> <a title="Int" id="89948">reduceSize</a> : <span title="Int">Int</span> = <span title="Int(30)" class="int">30</span>
+  
+  <span class="keyword">val</span> <a title="java.util.concurrent.atomic.AtomicInteger" id="89950">size</a> = <span title="java.util.concurrent.atomic.AtomicInteger" class="keyword">new</span> java.util.concurrent.atomic.<span title="java.util.concurrent.atomic.AtomicInteger">AtomicInteger</span><span class="delimiter">(</span><span title="Int(0)" class="int">0</span><span class="delimiter">)</span>
+
+  <span class="keyword">private</span><span class="delimiter">[</span><span class="keyword">this</span><span class="delimiter">]</span> <span class="keyword">val</span> <a title="java.util.concurrent.ConcurrentLinkedQueue[T]" id="89952">cache</a> = <span title="java.util.concurrent.ConcurrentLinkedQueue[T]" class="keyword">new</span> <span title="java.util.concurrent.ConcurrentLinkedQueue[T]">java</span>.util.concurrent.ConcurrentLinkedQueue<span class="delimiter">[</span>T<span class="delimiter">]</span><span class="delimiter">(</span><span class="delimiter">)</span>;
+
+  <span class="keyword">def</span> <a title="=&gt; T" id="89953">grab</a> = <span class="delimiter">{</span>
+    <span class="keyword">val</span> <a title="T" id="90091">res</a> = <a href="#89952" title="java.util.concurrent.ConcurrentLinkedQueue[T]">cache</a>.<span title="()T">poll</span>
+    <span title="T" class="keyword">if</span> <span class="delimiter">(</span><a href="#90091" title="T">res</a> <span title="(x$1: Any)Boolean">!=</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="#90091" title="T">res</a>
+    <span class="keyword">else</span> <a href="#89955" title="=&gt; T">doCreate</a>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">def</span> <a title="(t: T)Unit" id="89954">giveBack</a><span class="delimiter">(</span> <a title="T" id="90095">t</a> : <a href="#12077" title="T">T</a> <span class="delimiter">)</span> <span class="delimiter">{</span>
+    <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#89950" title="=&gt; java.util.concurrent.atomic.AtomicInteger">size</a>.<span title="()Int">get</span> <span title="(x: Int)Boolean">&gt;</span> <a href="#89948" title="=&gt; Int">reduceSize</a><span class="delimiter">)</span> <a href="#89950" title="=&gt; java.util.concurrent.atomic.AtomicInteger">size</a>.<span title="()Int">decrementAndGet</span>
+    <span class="keyword">else</span> <a href="#89952" title="java.util.concurrent.ConcurrentLinkedQueue[T]">cache</a>.<span title="(x$1: T)Boolean">add</span><span title="Unit" class="delimiter">(</span><a href="#90095" title="T">t</a><span class="delimiter">)</span>
+  <span class="delimiter">}</span>
+
+  <span class="keyword">final</span> <span class="keyword">def</span> <a title="=&gt; T" id="89955">doCreate</a> = <span class="delimiter">{</span>
+    <a href="#89950" title="=&gt; java.util.concurrent.atomic.AtomicInteger">size</a>.<span title="()Int">getAndIncrement</span><span class="delimiter">(</span><span class="delimiter">)</span>
+    <a href="#89962" title="=&gt; T">create</a>
+  <span class="delimiter">}</span>
+
+  <span class="comment">/**
+   * Performs a loan for you
+   */</span> 
+  <span class="keyword">def</span> <a title="[X](tThunk: T =&gt; X)X" id="89956">loan</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="89958">X</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="T =&gt; X" id="90107">tThunk</a> : T =&gt; X <span class="delimiter">)</span> : <a href="#89958" title="X">X</a> = <span class="delimiter">{</span>
+    <span class="keyword">var</span> <a title="T" id="90115">t</a> = <span title="Null(null)" class="keyword">null</span>.<span title="[T0]=&gt; T0">asInstanceOf</span><span title="T" class="delimiter">[</span><a href="#12077" title="T">T</a><span class="delimiter">]</span>
+    <span class="keyword">try</span> <span class="delimiter">{</span>
+      <a href="#90115" title="T">t</a> = <a href="#89953" title="=&gt; T">grab</a> <span class="comment">// can throw</span>
+      <a href="#90107" title="(v1: T)X">tThunk</a><span class="delimiter">(</span><a href="#90115" title="T">t</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span> <span class="keyword">finally</span> <span class="delimiter">{</span>
+      <span title="Unit" class="keyword">if</span> <span class="delimiter">(</span><a href="#90115" title="T">t</a> <span title="(x$1: Any)Boolean">!=</span> <span title="Null(null)" class="keyword">null</span><span class="delimiter">)</span> <a href="#89954" title="(t: T)Unit">giveBack</a><span class="delimiter">(</span><a href="#90115" title="T">t</a><span class="delimiter">)</span>
+    <span class="delimiter">}</span>
+  <span class="delimiter">}</span>
+
+<span class="delimiter">}</span>
+
+<span class="keyword">trait</span> <a title="trait Loaner[T] extends java.lang.Object" id="10951">Loaner</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="12078">T</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+  
+  <span class="comment">/**
+   * Performs a loan for you
+   */</span> 
+  <span class="keyword">def</span> <a title="[X](tThunk: T =&gt; X)X" id="89959">loan</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="89961">X</a><span class="delimiter">]</span><span class="delimiter">(</span> <a title="T =&gt; X" id="90109">tThunk</a> : T =&gt; X <span class="delimiter">)</span> : <a href="#89961" title="X">X</a> 
+<span class="delimiter">}</span>
+
+<span class="comment">/**
+ * Simple factory interface
+ */</span> 
+<span class="keyword">trait</span> <a title="trait Creator[T] extends java.lang.Object" id="10399">Creator</a><span class="delimiter">[</span><a title="&gt;: Nothing &lt;: Any" id="12079">T</a><span class="delimiter">]</span> <span title="java.lang.Object" class="delimiter">{</span>
+  <span class="keyword">def</span> <a title="=&gt; T" id="89962">create</a> : <a href="#12079" title="T">T</a>
+<span class="delimiter">}</span>
+
+        </pre>
+    </body>
+</html>

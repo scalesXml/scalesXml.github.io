@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" ></meta>
+        <title>scales\xml\serializers\Exceptions.scala</title>
+        <script type="text/javascript" src="../../../jquery-all.js"></script>
+        <script type="text/javascript" src="../../../linked.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../style.css" title="Style"></link>
+    </head>
+    <body>
+        <pre>
+<span class="keyword">package</span> scales.xml.serializers
+
+<span class="comment">/**
+ * Base exception marker for serialization
+ */</span>
+<span class="keyword">class</span> <a title="class SerializationException extends RuntimeException" id="scales.xml.serializers;SerializationException">SerializationException</a><a href="#scales.xml.serializers;SerializationException" title="scales.xml.serializers.SerializationException" class="delimiter">(</a><span class="keyword">val</span> <a title="String" id="scales.xml.serializers;SerializationException.what">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <span title="RuntimeException">RuntimeException</span><span class="delimiter">(</span><a href="#scales.xml.serializers;SerializationException.what" title="String">what</a><span class="delimiter">)</span> <span class="delimiter">{</span>
+  <span class="comment">//  override def fillInStackTrace() = this</span>
+<span class="delimiter">}</span>
+
+<span class="keyword">class</span> <a title="class CannotBeEncoded extends scales.xml.serializers.SerializationException" id="scales.xml.serializers;CannotBeEncoded">CannotBeEncoded</a><a href="#scales.xml.serializers;CannotBeEncoded" title="scales.xml.serializers.CannotBeEncoded" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="scales.xml.serializers;CannotBeEncoded.what">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.xml.serializers;SerializationException" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><a href="#scales.xml.serializers;CannotBeEncoded.what" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * The serialization encoding cannot support the characters in a given markup (attribute name or element name. ächtung in UTF-8 works but not in US-ASCII.
+ */</span>
+<span class="keyword">case class</span> <a title="class InvalidCharacterInMarkup extends scales.xml.serializers.SerializationException with Product with Serializable" id="scales.xml.serializers.InvalidCharacterInMarkup.readResolve">InvalidCharacterInMarkup</a><a href="#scales.xml.serializers.InvalidCharacterInMarkup.readResolve" title="Product" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="scales.xml.serializers;InvalidCharacterInMarkup.what">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.xml.serializers;SerializationException" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><a href="#scales.xml.serializers;InvalidCharacterInMarkup.what" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * The CData content must be split due to encoding issues, which isn't supported (due to bad CData handling on Sun JRE and differences with Xalan.
+ *
+ * NOTE The Xalan behaviour follows the DOMConfiguration behaviour but will split on encoding issues, which breaks the point of using CData, so if you need that, don't use it, let your sax / pull parser handle proper serilization and escaping for you in a normal text field.
+ */</span>
+<span class="keyword">case class</span> <a title="class CDataCannotBeEncoded extends scales.xml.serializers.CannotBeEncoded with Product with Serializable" id="scales.xml.serializers.CDataCannotBeEncoded.readResolve">CDataCannotBeEncoded</a><a href="#scales.xml.serializers.CDataCannotBeEncoded.readResolve" title="Product" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="scales.xml.serializers;CDataCannotBeEncoded.what">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.xml.serializers;CannotBeEncoded" title="scales.xml.serializers.CannotBeEncoded">CannotBeEncoded</a><span class="delimiter">(</span><a href="#scales.xml.serializers;CDataCannotBeEncoded.what" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * Comments don't support &amp; recognition, which means you can't escape the encoding, either they encode or they do not
+ */</span>
+<span class="keyword">case class</span> <a title="class CommentCannotBeEncoded extends scales.xml.serializers.CannotBeEncoded with Product with Serializable" id="scales.xml.serializers.CommentCannotBeEncoded.readResolve">CommentCannotBeEncoded</a><a href="#scales.xml.serializers.CommentCannotBeEncoded.readResolve" title="Product" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="scales.xml.serializers;CommentCannotBeEncoded.what">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.xml.serializers;CannotBeEncoded" title="scales.xml.serializers.CannotBeEncoded">CannotBeEncoded</a><span class="delimiter">(</span><a href="#scales.xml.serializers;CommentCannotBeEncoded.what" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * PIs also suffer a bad specification
+ */</span>
+<span class="keyword">case class</span> <a title="class PICannotBeEncoded extends scales.xml.serializers.CannotBeEncoded with Product with Serializable" id="scales.xml.serializers.PICannotBeEncoded.readResolve">PICannotBeEncoded</a><a href="#scales.xml.serializers.PICannotBeEncoded.readResolve" title="Product" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="scales.xml.serializers;PICannotBeEncoded.what">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.xml.serializers;CannotBeEncoded" title="scales.xml.serializers.CannotBeEncoded">CannotBeEncoded</a><span class="delimiter">(</span><a href="#scales.xml.serializers;PICannotBeEncoded.what" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * For a given content it could not be serialized in the document.
+ */</span>
+<span class="keyword">case class</span> <a title="class CannotSerialize extends scales.xml.serializers.SerializationException with Product with Serializable" id="scales.xml.serializers.CannotSerialize.readResolve">CannotSerialize</a><a href="#scales.xml.serializers.CannotSerialize.readResolve" title="Product" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="scales.xml.serializers;CannotSerialize.what">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.xml.serializers;SerializationException" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><a href="#scales.xml.serializers;CannotSerialize.what" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * Result of trying to serialize a 1.1 ncname into a 1.0 document
+ */</span>
+<span class="keyword">case class</span> <a title="class IncompatibleQNameVersions extends scales.xml.serializers.SerializationException with Product with Serializable" id="scales.xml.serializers.IncompatibleQNameVersions.readResolve">IncompatibleQNameVersions</a><a href="#scales.xml.serializers.IncompatibleQNameVersions.readResolve" title="Product" class="delimiter">(</a><span class="keyword">override</span> <span class="keyword">val</span> <a title="String" id="scales.xml.serializers;IncompatibleQNameVersions.what">what</a>: <span title="String">String</span><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.xml.serializers;SerializationException" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><a href="#scales.xml.serializers;IncompatibleQNameVersions.what" title="String">what</a><span class="delimiter">)</span>
+
+<span class="comment">/**
+ * The stream of PullTypes was empty.
+ */</span> 
+<span class="keyword">case class</span> <a title="class NoDataInStream extends scales.xml.serializers.SerializationException with Product with Serializable" id="scales.xml.serializers.NoDataInStream.readResolve">NoDataInStream</a><a href="#scales.xml.serializers.NoDataInStream.readResolve" title="Product" class="delimiter">(</a><span class="delimiter">)</span> <span class="keyword">extends</span> <a href="#scales.xml.serializers;SerializationException" title="scales.xml.serializers.SerializationException">SerializationException</a><span class="delimiter">(</span><span title="String(&quot;No Data In Stream&quot;)" class="string">&quot;No Data In Stream&quot;</span><span class="delimiter">)</span>
+
+        </pre>
+    </body>
+</html>
